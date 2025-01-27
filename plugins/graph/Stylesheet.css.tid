@@ -1,0 +1,9 @@
+title: $:/plugins/flibbles/graph/Stylesheet.css
+tags: $:/tags/Stylesheet
+
+.graph-canvas {
+	border-style: solid;
+	border-width: 1px;
+	border-color: <<colour tiddler-editor-border>>;
+	width: 666px;
+}

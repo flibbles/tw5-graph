@@ -1,0 +1,35 @@
+{
+	"description": "Testing documentation, and demo framework for tw5-relink",
+	"plugins": [
+		"flibbles/orb",
+		"flibbles/vis-network",
+		"tiddlywiki/jasmine"
+	],
+	"themes": [
+		"tiddlywiki/vanilla",
+		"tiddlywiki/snowwhite"
+	],
+	"build": {
+		"test": [
+			"--output", "./docs/",
+			"--rendertiddler",
+				"$:/core/save/all",
+				"test.html",
+				"text/plain",
+				"",
+				"publishFilter",
+				"-$:/DefaultTiddlers",
+			"--test"
+		],
+		"index": [
+			"--output", "./docs/",
+			"--rendertiddler",
+				"$:/core/save/all",
+				"index.html",
+				"text/plain",
+				"",
+				"publishFilter",
+				"-[prefix[test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/UpgradeLibrary]]"
+		]
+	}
+}

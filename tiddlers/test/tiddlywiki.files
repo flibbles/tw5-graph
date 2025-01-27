@@ -1,0 +1,29 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"tags": "$:/tags/test-spec",
+				"title": {
+					"source": "filename",
+					"prefix": "$:/test/"
+				},
+				"type": "application/javascript"
+			}
+		},
+		{
+			"path": "./modules",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "filename",
+					"prefix": "$:/test/modules/"
+				},
+				"type": "application/javascript"
+			}
+		}
+	]
+}
