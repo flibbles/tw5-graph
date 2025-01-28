@@ -17,8 +17,16 @@ var NodeWidget = function(parseTreeNode, options) {
 
 NodeWidget.prototype = new Widget();
 
+NodeWidget.prototype.render = function(parent, nextSibling) {
+	this.parentDomNode = parent;
+	this.computeAttributes();
+	this.execute();
+	this.renderChildren();
+};
+
 NodeWidget.prototype.execute = function() {
 	this.id = this.getVariable("currentTiddler");
+	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 };
@@ -26,11 +34,20 @@ NodeWidget.prototype.execute = function() {
 NodeWidget.prototype.getNodeData = function(objects) {
 	if (this.changed) {
 		this.changed = false;
-		return { label: this.id };
+		var data = {}
+		if (this.label) {
+			data.label = this.label;
+		}
+		return data;
 	}
 };
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {
+	var changedAttributes = this.computeAttributes();
+	if (changedAttributes.label) {
+		this.refreshSelf();
+		return true;
+	}
 	return this.refreshChildren(changedTiddlers);
 };
 

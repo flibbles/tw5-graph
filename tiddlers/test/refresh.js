@@ -14,7 +14,7 @@ function flushChanges() {
 	});
 };
 
-it('handles addition of node', async function() {
+it('handles updates to nodes', async function() {
 	var modify = spyOn(TestEngine.prototype, "modify").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addEventListener("change", function(changes) {
@@ -24,22 +24,22 @@ it('handles addition of node', async function() {
 		{title: "A", tags: "node"},
 		{title: "B", tags: "node"},
 		{title: "C", tags: "node"},
-		{title: "Test", text: "<$graph><$list filter='[tag[node]]'><$node/>"}]);
+		{title: "D", tags: "node"},
+		{title: "Test", text: "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />"}]);
 	var parser = wiki.parseTiddler("Test");
 	var widgetNode = wiki.makeWidget(parser);
 	var container = $tw.fakeDocument.createElement("div");
 	widgetNode.render(container, null);
 	await flushChanges();
-	expect(wiki.latestEngine.nodes).toEqual({
-		A: {label: "A"},
-		B: {label: "B"},
-		C: {label: "C"}});
+	expect(wiki.latestEngine.nodes).toEqual({ A: {}, B: {}, C: {}, D: {}});
 	// Now we add and remove a node to the graph
-	wiki.addTiddler({title: "B2", tags: "node"});
-	wiki.addTiddler({title: "B"});
+	wiki.addTiddlers([
+		{title: "B2", tags: "node"},
+		{title: "B"},
+		{title: "C", tags: "node", caption: "Ccaption"}]);
 	await flushChanges();
 	expect(modify).toHaveBeenCalledTimes(1);
-	expect(modify).toHaveBeenCalledWith({B: null, B2: {label: "B2"}}, {});
+	expect(modify).toHaveBeenCalledWith({B: null, B2: {}, C: {label: "Ccaption"}}, {});
 });
 
 });
