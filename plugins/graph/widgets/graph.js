@@ -120,7 +120,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	} else if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		var objects = this.findGraphObjects();
-		this.engine.modify(objects.nodes, objects.edges);
+		this.engine.update(objects.nodes, objects.edges);
 		return true;
 	}
 	return hasChangedAttributes;

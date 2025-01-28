@@ -17,8 +17,12 @@ TestAdapter.prototype.initialize = function(element, nodes, edges) {
 	this.edges = edges;
 };
 
+TestAdapter.prototype.update = function(nodes, edges) {
+	$tw.utils.extend(this.nodes, nodes);
+	$tw.utils.extend(this.edges, edges);
+};
+
 TestAdapter.prototype.setPhysics = function(value) {};
 TestAdapter.prototype.render = function(value) {};
-TestAdapter.prototype.modify = function(nodes, edges) {};
 
 exports.Test = TestAdapter;

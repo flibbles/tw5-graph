@@ -14,22 +14,26 @@ function flushChanges() {
 	});
 };
 
-it('handles updates to nodes', async function() {
-	var modify = spyOn(TestEngine.prototype, "modify").and.callThrough();
-	var wiki = new $tw.Wiki();
+function renderText(wiki, text) {
+	var parser = wiki.parseText("text/vnd.tiddlywiki", text);
+	var widgetNode = wiki.makeWidget(parser);
+	var container = $tw.fakeDocument.createElement("div");
 	wiki.addEventListener("change", function(changes) {
 		widgetNode.refreshChildren(changes);
 	});
+	widgetNode.render(container, null);
+	return widgetNode;
+};
+
+it('handles updates to nodes', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
 		{title: "B", tags: "node"},
 		{title: "C", tags: "node"},
-		{title: "D", tags: "node"},
-		{title: "Test", text: "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />"}]);
-	var parser = wiki.parseTiddler("Test");
-	var widgetNode = wiki.makeWidget(parser);
-	var container = $tw.fakeDocument.createElement("div");
-	widgetNode.render(container, null);
+		{title: "D", tags: "node"}]);
+	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />");
 	await flushChanges();
 	expect(wiki.latestEngine.nodes).toEqual({ A: {}, B: {}, C: {}, D: {}});
 	// Now we add and remove a node to the graph
@@ -38,8 +42,38 @@ it('handles updates to nodes', async function() {
 		{title: "B"},
 		{title: "C", tags: "node", caption: "Ccaption"}]);
 	await flushChanges();
-	expect(modify).toHaveBeenCalledTimes(1);
-	expect(modify).toHaveBeenCalledWith({B: null, B2: {}, C: {label: "Ccaption"}}, {});
+	expect(update).toHaveBeenCalledTimes(1);
+	expect(update).toHaveBeenCalledWith({B: null, B2: {}, C: {label: "Ccaption"}}, {});
+});
+
+it('handles updates to edges', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddlers([
+		{title: "A", tags: "node"},
+		{title: "B", tags: "node", list: "A"},
+		{title: "C", tags: "node"},
+		{title: "D", tags: "node", list: "A B"}]);
+	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /><$list variable=to filter='[list[]]'><$edge to=<<to>> label={{!!toLabel}} />");
+	await flushChanges();
+	expect(Object.values(wiki.latestEngine.edges)).toEqual([
+		{from: "B", to: "A"}, {from: "D", to: "A"}, {from: "D", to: "B"}]);
+	// Now we add and remove a node to the graph
+	wiki.addTiddlers([
+		{title: "B", tags: "node", list: "A", toLabel: "newLabel"},
+		{title: "D", tags: "node", list: "A C"}]);
+	await flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	expect(update.calls.first().args[0]).toEqual({});
+	expect(Object.values(update.calls.first().args[1])).toEqual([
+		{from: "B", to: "A", label: "newLabel"},
+		null,
+		{from: "D", to: "C"}]);
+	expect(Object.values(wiki.latestEngine.edges)).toEqual([
+		{from: "B", to: "A", label: "newLabel"},
+		{from: "D", to: "A"},
+		null,
+		{from: "D", to: "C"}]);
 });
 
 });
