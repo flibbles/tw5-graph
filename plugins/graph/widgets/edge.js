@@ -10,6 +10,7 @@ Widget for creating edges within graphs.
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
+var nextId = 1;
 
 var EdgeWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
@@ -23,6 +24,8 @@ EdgeWidget.prototype.render = function() {
 };
 
 EdgeWidget.prototype.execute = function() {
+	this.id = nextId;
+	nextId++;
 	this.toTiddler = this.getAttribute("to");
 	this.fromTiddler = this.getVariable("currentTiddler");
 	this.label = this.getAttribute("label");
@@ -33,17 +36,15 @@ EdgeWidget.prototype.execute = function() {
 
 EdgeWidget.prototype.refresh = function() { return false; };
 
-EdgeWidget.prototype.getGraphData = function() {
+EdgeWidget.prototype.getEdgeData = function() {
 	if (this.changed) {
 		this.changed = false;
 		return {
-			type: 'edge',
 			from: this.fromTiddler,
 			to: this.toTiddler,
 			label: this.label
 		};
 	}
-	return null;
 };
 
 exports.edge = EdgeWidget;

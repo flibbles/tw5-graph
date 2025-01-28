@@ -41,9 +41,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.engine) {
 		var objects = this.findGraphObjects();
-		this.nodes = objects.nodes;
-		this.edges = objects.edges;
-		this.engine.initialize(this.graphElement, this.nodes, this.edges);
+		this.engine.initialize(this.graphElement, objects.nodes, objects.edges);
 		this.engine.setPhysics(true);
 		this.engine.render();
 	}
@@ -54,6 +52,8 @@ Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.engine = this.getAttribute('engine');
+	this.knownNodes = new Set();
+	this.knownEdges = new Set();
 	var Engine = Engines[this.engine] || defaultEngine();
 	if (!Engine) {
 		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
@@ -64,21 +64,27 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
-	var nodes = [];
-	var edges = [];
+	var nodeStillExists = Object.create(null);
+	var edgeStillExists = Object.create(null);
+	var objects = {nodes: Object.create(null), edges: Object.create(null)};
+	var self = this;
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
-			if (widget.getGraphData) {
-				var object = widget.getGraphData()
-				if (object) {
-					if (object.type !== "edge") {
-						nodes.push(object);
-					} else {
-						// Give it a temporary id for now. We'll do something more sophisticated later.
-						edges.push(object);
-						object.id = edges.length;
-					}
+			if (widget.getNodeData) {
+				var id = widget.id;
+				nodeStillExists[id] = true;
+				self.knownNodes.add(id);
+				if (widget.changed) {
+					objects.nodes[id] = widget.getNodeData();
+				}
+			}
+			if (widget.getEdgeData) {
+				var id = widget.id;
+				edgeStillExists[id] = true;
+				self.knownEdges.add(id);
+				if (widget.changed) {
+					objects.edges[id] = widget.getEdgeData();
 				}
 			}
 			if (widget.children) {
@@ -87,7 +93,19 @@ GraphWidget.prototype.findGraphObjects = function() {
 		}
 	};
 	searchChildren(this.children);
-	return {nodes, edges};
+	for (var id of this.knownNodes) {
+		if (!nodeStillExists[id]) {
+			this.knownNodes.delete(id);
+			objects.nodes[id] = null;
+		}
+	}
+	for (var id of this.knownEdges) {
+		if (!edgeStillExists[id]) {
+			this.knownEdges.delete(id);
+			objects.edges[id] = null;
+		}
+	}
+	return objects;
 };
 
 /*

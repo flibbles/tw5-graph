@@ -1,8 +1,6 @@
 {
 	"description": "Testing documentation, and demo framework for tw5-relink",
 	"plugins": [
-		"flibbles/orb",
-		"flibbles/vis-network",
 		"tiddlywiki/jasmine"
 	],
 	"themes": [
@@ -29,7 +27,7 @@
 				"text/plain",
 				"",
 				"publishFilter",
-				"-[prefix[test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/UpgradeLibrary]]"
+				"-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/UpgradeLibrary]]"
 		]
 	}
 }

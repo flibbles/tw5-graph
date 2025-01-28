@@ -18,17 +18,16 @@ var NodeWidget = function(parseTreeNode, options) {
 NodeWidget.prototype = new Widget();
 
 NodeWidget.prototype.execute = function() {
-	this.title = this.getVariable("currentTiddler");
+	this.id = this.getVariable("currentTiddler");
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 };
 
-NodeWidget.prototype.getGraphData = function() {
+NodeWidget.prototype.getNodeData = function(objects) {
 	if (this.changed) {
 		this.changed = false;
-		return { id: this.title, label: this.title };
+		return { label: this.id };
 	}
-	return null;
 };
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {

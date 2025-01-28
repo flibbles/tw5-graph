@@ -15,7 +15,7 @@ function flushChanges() {
 };
 
 it('handles addition of node', async function() {
-	spyOn(TestEngine.prototype, "modify").and.callThrough();
+	var modify = spyOn(TestEngine.prototype, "modify").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addEventListener("change", function(changes) {
 		widgetNode.refreshChildren(changes);
@@ -30,15 +30,16 @@ it('handles addition of node', async function() {
 	var container = $tw.fakeDocument.createElement("div");
 	widgetNode.render(container, null);
 	await flushChanges();
-	expect(wiki.latestEngine.nodes).toEqual([
-		{id: "A", label: "A"},
-		{id: "B", label: "B"},
-		{id: "C", label: "C"}]);
+	expect(wiki.latestEngine.nodes).toEqual({
+		A: {label: "A"},
+		B: {label: "B"},
+		C: {label: "C"}});
+	// Now we add and remove a node to the graph
 	wiki.addTiddler({title: "B2", tags: "node"});
+	wiki.addTiddler({title: "B"});
 	await flushChanges();
-	//widgetNode.refresh({});
-	expect(TestEngine.prototype.modify).toHaveBeenCalledTimes(1);
-	expect(TestEngine.prototype.modify).toHaveBeenCalledWith([{id: "B2", label: "B2"}], []);
+	expect(modify).toHaveBeenCalledTimes(1);
+	expect(modify).toHaveBeenCalledWith({B: null, B2: {label: "B2"}}, {});
 });
 
 });
