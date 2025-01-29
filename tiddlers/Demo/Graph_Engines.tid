@@ -1,0 +1,24 @@
+title: Graph Engines
+tags: Demo
+
+\widget $graph.demo()
+<$list variable=engine filter="Orb Vis">
+
+<$graph engine=<<engine>> >
+
+<$list filter="[tag[Deity]!is[system]!is[draft]]">
+
+<$node label={{!!title}} >
+
+<$action-navigate />
+
+</$node>
+
+<$list variable=toTiddler filter="[list[!!children]]">
+
+<$edge to=<<toTiddler>> />
+
+</$list></$list></$graph>
+\end
+
+TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.
