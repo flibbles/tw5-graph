@@ -33,6 +33,7 @@ EdgeWidget.prototype.execute = function() {
 	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
+	this.makeChildWidgets();
 };
 
 EdgeWidget.prototype.refresh = function(changedTiddlers) {

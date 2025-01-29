@@ -42,6 +42,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if(this.engine) {
 		var objects = this.findGraphObjects();
 		this.engine.initialize(this.graphElement, objects.nodes, objects.edges);
+		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		this.engine.setPhysics(true);
 		this.engine.render();
 	}
@@ -52,8 +53,8 @@ Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.engine = this.getAttribute('engine');
-	this.knownNodes = new Set();
-	this.knownEdges = new Set();
+	this.knownNodes = new Map();
+	this.knownEdges = new Map();
 	var Engine = Engines[this.engine] || defaultEngine();
 	if (!Engine) {
 		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
@@ -74,7 +75,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 			if (widget.getNodeData) {
 				var id = widget.id;
 				nodeStillExists[id] = true;
-				self.knownNodes.add(id);
+				self.knownNodes.set(id, widget);
 				if (widget.changed) {
 					objects.nodes[id] = widget.getNodeData();
 				}
@@ -82,7 +83,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 			if (widget.getEdgeData) {
 				var id = widget.id;
 				edgeStillExists[id] = true;
-				self.knownEdges.add(id);
+				self.knownEdges.set(id, widget);
 				if (widget.changed) {
 					objects.edges[id] = widget.getEdgeData();
 				}
@@ -93,13 +94,13 @@ GraphWidget.prototype.findGraphObjects = function() {
 		}
 	};
 	searchChildren(this.children);
-	for (var id of this.knownNodes) {
+	for (var id of this.knownNodes.keys()) {
 		if (!nodeStillExists[id]) {
 			this.knownNodes.delete(id);
 			objects.nodes[id] = null;
 		}
 	}
-	for (var id of this.knownEdges) {
+	for (var id of this.knownEdges.keys()) {
 		if (!edgeStillExists[id]) {
 			this.knownEdges.delete(id);
 			objects.edges[id] = null;
@@ -124,6 +125,13 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		return true;
 	}
 	return hasChangedAttributes;
+};
+
+GraphWidget.prototype.handleEvent = function(event) {
+	if (event.target === "node") {
+		var node = this.knownNodes.get(event.id);
+		node.invokeActions(node, event);
+	}
 };
 
 function defaultEngine() {
