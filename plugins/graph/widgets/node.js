@@ -21,7 +21,7 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
 	this.execute();
-	this.renderChildren();
+	this.renderChildren(parent, nextSibling);
 };
 
 NodeWidget.prototype.execute = function() {

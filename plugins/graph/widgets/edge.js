@@ -24,7 +24,7 @@ EdgeWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
 	this.execute();
-	this.renderChildren();
+	this.renderChildren(parent, nextSibling);
 };
 
 EdgeWidget.prototype.execute = function() {

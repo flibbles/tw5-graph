@@ -1,0 +1,11 @@
+title: Templates/example
+
+\import [<currentTab>]
+
+!! <$link to=<<currentTab>> ><$view tiddler=<<currentTab>> field=title/></$link>
+
+<$graph.example />
+
+<$transclude $tiddler=<<currentTab>> />
+
+<$codeblock code=<<$graph.example>> />

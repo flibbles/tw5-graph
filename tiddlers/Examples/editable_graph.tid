@@ -1,0 +1,29 @@
+title: Editable Graphs
+tags: Examples
+
+\widget $graph.example()
+<$graph>
+
+<$node label="(Click)">
+
+	<$action-selecttiddler>
+
+		<% if [<selectTiddler>!is[tiddler]] %>
+
+			<$action-createtiddler $basetitle=<<selectTiddler>> />
+
+		<% endif %>
+		<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selectTiddler>]" />
+	</$action-selecttiddler>
+</$node>
+
+<$list filter="[list[Editable Graphs/nodes]]" >
+
+	<$node label={{!!title}} />
+
+</$list>
+
+</$graph>
+\end
+
+This graph is capable of being edited. By double-clicking, you can create/add more tiddlers to your graph.
