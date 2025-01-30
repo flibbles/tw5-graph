@@ -127,10 +127,14 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	return hasChangedAttributes;
 };
 
-GraphWidget.prototype.handleEvent = function(event) {
-	if (event.target === "node") {
-		var node = this.knownNodes.get(event.id);
-		node.invokeActions(node, event);
+GraphWidget.prototype.handleEvent = function(params) {
+	this.setVariable("pointX", params.point.x.toString());
+	this.setVariable("pointY", params.point.y.toString());
+	if (params.target === "node") {
+		var node = this.knownNodes.get(params.id);
+		node.invokeActions(this, params);
+	} else if (params.target === "graph") {
+		this.invokeActions(this, params);
 	}
 };
 

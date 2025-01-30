@@ -25,7 +25,7 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 NodeWidget.prototype.execute = function() {
-	this.id = this.getVariable("currentTiddler");
+	this.id = this.getAttribute("tiddler", this.getVariable("currentTiddler"));
 	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
@@ -45,11 +45,15 @@ NodeWidget.prototype.getNodeData = function(objects) {
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes.label) {
+	if (changedAttributes.label || changedAttributes.tiddler) {
 		this.refreshSelf();
 		return true;
 	}
 	return this.refreshChildren(changedTiddlers);
+};
+
+NodeWidget.prototype.allowActionPropagation = function() {
+	return false;
 };
 
 exports.node = NodeWidget;

@@ -60,4 +60,8 @@ EdgeWidget.prototype.getEdgeData = function() {
 	}
 };
 
+EdgeWidget.prototype.allowActionPropagation = function() {
+	return false;
+};
+
 exports.edge = EdgeWidget;
