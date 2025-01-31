@@ -43,7 +43,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		var objects = this.findGraphObjects();
 		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
-		this.engine.setPhysics(true);
+		//this.engine.setPhysics(true);
 		this.engine.render();
 	}
 };
@@ -128,8 +128,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.handleEvent = function(params) {
-	this.setVariable("pointX", params.point.x.toString());
-	this.setVariable("pointY", params.point.y.toString());
+	this.setVariable("point", params.point.x + " " + params.point.y);
 	if (params.target === "node") {
 		var node = this.knownNodes.get(params.id);
 		node.invokeActions(this, params);

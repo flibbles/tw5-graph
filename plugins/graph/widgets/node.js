@@ -25,6 +25,7 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 NodeWidget.prototype.execute = function() {
+	this.pos = this.getAttribute("pos");
 	this.id = this.getAttribute("tiddler", this.getVariable("currentTiddler"));
 	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
@@ -39,13 +40,21 @@ NodeWidget.prototype.getNodeData = function(objects) {
 		if (this.label) {
 			data.label = this.label;
 		}
+		if (this.pos) {
+			var pos = this.wiki.getTextReference(this.pos, null, this.id);
+			if (pos) {
+				var points = pos.split(" ");
+				data.x = parseFloat(points[0]);
+				data.y = parseFloat(points[1]);
+			}
+		}
 		return data;
 	}
 };
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes.label || changedAttributes.tiddler) {
+	if (changedAttributes.pos || changedAttributes.label || changedAttributes.tiddler) {
 		this.refreshSelf();
 		return true;
 	}
