@@ -1,6 +1,6 @@
 title: $:/plugins/flibbles/graph/Modals/SelectTiddler
 subtitle: Select tiddler
-first-search-filter: [!is[system]!is[draft]search:title{$:/temp/graph/select}sort[title]limit[250]]
+first-search-filter: [!is[system]!is[draft]search:title{$:/temp/graph/select}sort[title]limit[10]]
 footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button message="tm-close-tiddler">Close</$button>
 mask-closable: yes
 
@@ -54,22 +54,17 @@ mask-closable: yes
 	$mode=inline
 />
 
-<$reveal state="$:/temp/graph/select" type="nomatch" text="">
-
-<%if [subfilter{!!first-search-filter}first[]] %>
-
-//<small>Matches:</small>//
+<p>
 
 <$list filter="[subfilter{!!first-search-filter}]">
+
+<$list-empty>
+
+<$text text="New result" />
+
+</$list-empty>
+<$list-template>
 
 <span class={{{[{$:/temp/graph/select/tiddler}match<currentTiddler>then[tc-list-item-selected]] }}}>
 
 <$transclude tiddler="$:/core/ui/ListItemTemplate" mode=inline/>
-
-</span></$list>
-
-<% else %>
-
-No results
-
-<% endif %>
