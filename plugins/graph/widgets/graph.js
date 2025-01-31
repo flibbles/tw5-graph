@@ -41,7 +41,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.engine) {
 		var objects = this.findGraphObjects();
-		this.engine.initialize(this.graphElement, objects.nodes, objects.edges);
+		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		this.engine.setPhysics(true);
 		this.engine.render();
@@ -121,7 +121,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	} else if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		var objects = this.findGraphObjects();
-		this.engine.update(objects.nodes, objects.edges);
+		this.engine.update(objects);
 		return true;
 	}
 	return hasChangedAttributes;

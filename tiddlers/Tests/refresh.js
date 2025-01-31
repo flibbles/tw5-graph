@@ -35,7 +35,7 @@ it('handles updates to nodes', async function() {
 		{title: "D", tags: "node"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />");
 	await flushChanges();
-	expect(wiki.latestEngine.nodes).toEqual({ A: {}, B: {}, C: {}, D: {}});
+	expect(wiki.latestEngine.objects.nodes).toEqual({ A: {}, B: {}, C: {}, D: {}});
 	// Now we add and remove a node to the graph
 	wiki.addTiddlers([
 		{title: "B2", tags: "node"},
@@ -43,7 +43,7 @@ it('handles updates to nodes', async function() {
 		{title: "C", tags: "node", caption: "Ccaption"}]);
 	await flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update).toHaveBeenCalledWith({B: null, B2: {}, C: {label: "Ccaption"}}, {});
+	expect(update).toHaveBeenCalledWith({nodes: {B: null, B2: {}, C: {label: "Ccaption"}}, edges: {}});
 });
 
 it('handles updates to edges', async function() {
@@ -56,7 +56,7 @@ it('handles updates to edges', async function() {
 		{title: "D", tags: "node", list: "A B"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /><$list variable=to filter='[list[]]'><$edge to=<<to>> label={{!!toLabel}} />");
 	await flushChanges();
-	expect(Object.values(wiki.latestEngine.edges)).toEqual([
+	expect(Object.values(wiki.latestEngine.objects.edges)).toEqual([
 		{from: "B", to: "A"}, {from: "D", to: "A"}, {from: "D", to: "B"}]);
 	// Now we add and remove a node to the graph
 	wiki.addTiddlers([
@@ -64,12 +64,12 @@ it('handles updates to edges', async function() {
 		{title: "D", tags: "node", list: "A C"}]);
 	await flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update.calls.first().args[0]).toEqual({});
-	expect(Object.values(update.calls.first().args[1])).toEqual([
+	expect(update.calls.first().args[0].nodes).toEqual({});
+	expect(Object.values(update.calls.first().args[0].edges)).toEqual([
 		{from: "B", to: "A", label: "newLabel"},
 		null,
 		{from: "D", to: "C"}]);
-	expect(Object.values(wiki.latestEngine.edges)).toEqual([
+	expect(Object.values(wiki.latestEngine.objects.edges)).toEqual([
 		{from: "B", to: "A", label: "newLabel"},
 		{from: "D", to: "A"},
 		null,

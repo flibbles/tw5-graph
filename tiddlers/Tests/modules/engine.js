@@ -11,15 +11,15 @@ function TestAdapter(wiki) {
 	wiki.latestEngine = this;
 };
 
-TestAdapter.prototype.initialize = function(element, nodes, edges) {
+TestAdapter.prototype.initialize = function(element, objects) {
 	this.element = element;
-	this.nodes = nodes;
-	this.edges = edges;
+	this.objects = objects;
 };
 
-TestAdapter.prototype.update = function(nodes, edges) {
-	$tw.utils.extend(this.nodes, nodes);
-	$tw.utils.extend(this.edges, edges);
+TestAdapter.prototype.update = function(objects) {
+	for (var category in objects) {
+		$tw.utils.extend(this.objects[category], objects[category]);
+	}
 };
 
 TestAdapter.prototype.setPhysics = function(value) {};
