@@ -4,18 +4,16 @@ tags: Examples
 \widget $graph.example()
 <$graph>
 
-<$node label="(Click)">
+<$action-selecttiddler>
 
-	<$action-selecttiddler>
+	<% if [<selectTiddler>!is[tiddler]] %>
 
-		<% if [<selectTiddler>!is[tiddler]] %>
+		<$action-createtiddler $basetitle=<<selectTiddler>> />
 
-			<$action-createtiddler $basetitle=<<selectTiddler>> />
+	<% endif %>
+	<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selectTiddler>]" />
 
-		<% endif %>
-		<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selectTiddler>]" />
-	</$action-selecttiddler>
-</$node>
+</$action-selecttiddler>
 
 <$list filter="[list[Editable Graphs/nodes]]" >
 

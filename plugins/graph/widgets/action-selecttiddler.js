@@ -24,6 +24,7 @@ SelectTiddlerWidget.prototype.invokeAction = function(triggeringWidget, event) {
 			if (primedWidget) {
 				var value = finishEvent.param;
 				primedWidget.setVariable("selectTiddler", value);
+				primedWidget.refreshChildren();
 				primedWidget.invokeActions(primedWidget, event);
 				primedWidget = undefined;
 			}
@@ -36,7 +37,10 @@ SelectTiddlerWidget.prototype.invokeAction = function(triggeringWidget, event) {
 		param: "input.graph-select",
 		event: event
 	});
-	// Modeled after DeleteFieldWidget
+};
+
+SelectTiddlerWidget.prototype.allowActionPropagation = function() {
+	return false;
 };
 
 exports["action-selecttiddler"] = SelectTiddlerWidget;

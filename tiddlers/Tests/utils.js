@@ -7,6 +7,20 @@ Sets up some utilities for testing.
 var test = $tw.test = {};
 
 /*
+ * Renders text into a widget tree.
+ */
+test.renderText = function(wiki, text) {
+	var parser = wiki.parseText("text/vnd.tiddlywiki", text);
+	var widgetNode = wiki.makeWidget(parser);
+	var container = $tw.fakeDocument.createElement("div");
+	wiki.addEventListener("change", function(changes) {
+		widgetNode.refreshChildren(changes);
+	});
+	widgetNode.render(container, null);
+	return widgetNode;
+};
+
+/*
  * options can include the following:
  *   point: {x: Number, y: Number}
  */
