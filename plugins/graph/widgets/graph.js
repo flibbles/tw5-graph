@@ -128,12 +128,18 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.handleEvent = function(params) {
-	this.setVariable("point", params.point.x + " " + params.point.y);
-	if (params.target === "node") {
+	console.log("Event:", params);
+	if (params.type === "doubleclick") {
+		this.setVariable("point", params.point.x + " " + params.point.y);
+		if (params.target === "node") {
+			var node = this.knownNodes.get(params.id);
+			node.invokeActions(this, params);
+		} else if (params.target === "graph") {
+			this.invokeActions(this, params);
+		}
+	} else {
 		var node = this.knownNodes.get(params.id);
-		node.invokeActions(this, params);
-	} else if (params.target === "graph") {
-		this.invokeActions(this, params);
+		node.invokeDragAction(this, params);
 	}
 };
 

@@ -52,6 +52,15 @@ NodeWidget.prototype.getNodeData = function(objects) {
 	}
 };
 
+NodeWidget.prototype.invokeDragAction = function(triggeringWidget, event) {
+	var pos = event.point;
+	if (this.pos) {
+		var newLoc = pos.x + " " + pos.y;
+		this.wiki.setTextReference(this.pos, newLoc, this.id);
+	}
+	return true;
+};
+
 NodeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	if (changedAttributes.pos || changedAttributes.label || changedAttributes.tiddler) {
