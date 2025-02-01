@@ -11,6 +11,11 @@ mask-closable: yes
 <$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]]" />
 \end
 
+\procedure select-click-actions()
+<$action-setfield $tiddler="$:/temp/graph/select/tiddler" text=<<navigateTo>> />
+<<select-accept-actions>>
+\end
+
 \procedure select-cancel-actions()
 \whitespace trim
 <% if [{$:/temp/graph/select}match[]] %>
@@ -55,6 +60,8 @@ mask-closable: yes
 />
 
 <p>
+
+<$linkcatcher actions=<<select-click-actions>> >
 
 <$list filter="[subfilter{!!first-search-filter}]">
 
