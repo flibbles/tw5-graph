@@ -128,7 +128,6 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.handleEvent = function(params) {
-	console.log("Event:", params);
 	if (params.type === "doubleclick") {
 		this.setVariable("point", params.point.x + " " + params.point.y);
 		if (params.target === "node") {
@@ -137,7 +136,7 @@ GraphWidget.prototype.handleEvent = function(params) {
 		} else if (params.target === "graph") {
 			this.invokeActions(this, params);
 		}
-	} else {
+	} else if (params.type === "drag") {
 		var node = this.knownNodes.get(params.id);
 		node.invokeDragAction(this, params);
 	}
