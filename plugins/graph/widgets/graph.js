@@ -139,7 +139,22 @@ GraphWidget.prototype.handleEvent = function(params) {
 	} else if (params.type === "drag") {
 		var node = this.knownNodes.get(params.id);
 		node.invokeDragAction(this, params);
+	} else if (params.type === "hover") {
+		if (params.target === "node") {
+			var node = this.knownNodes.get(params.id);
+			this.dispatchEvent(node, params);
+		}
 	}
+};
+
+GraphWidget.prototype.dispatchEvent = function(object, params) {
+	do {
+		if (object.catchGraphEvent && object.catchGraphEvent(params)) {
+			return true;
+		}
+		object = object.parentWidget;
+	} while (object !== this);
+	return false;
 };
 
 function defaultEngine() {

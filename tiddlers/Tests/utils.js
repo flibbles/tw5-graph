@@ -20,6 +20,26 @@ test.renderText = function(wiki, text) {
 	return widgetNode;
 };
 
+test.flushChanges = function() {
+	return new Promise(function(resolve, reject) {
+		$tw.utils.nextTick(resolve);
+	});
+};
+
+test.actionMethod = function(attributes) {
+	fail("action-test called without $tw.test.actionMethod being spied upon.");
+};
+
+test.dispatchEvent = function(wiki, params, callback) {
+	var event = createEvent(params.type);
+	var spy = spyOn(test, "actionMethod");
+	if (callback) {
+		spy.and.callFake(callback);
+	}
+	params.event = event;
+	wiki.latestEngine.onevent(params);
+};
+
 /*
  * options can include the following:
  *   point: {x: Number, y: Number}
