@@ -45,7 +45,6 @@ EdgeWidget.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers);
 };
 
-
 EdgeWidget.prototype.getEdgeData = function() {
 	this.changed = false;
 	var data = {

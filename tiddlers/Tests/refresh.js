@@ -84,13 +84,37 @@ it('handles incomplete edges completed later', async function() {
 		{title: "B"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
 	await flushChanges();
-	expect(wiki.latestEngine.objects.edges).toEqual({});
+	expect(clean(wiki.latestEngine.objects)).toEqual({nodes: {A:{}}, edges:[]});
 	wiki.addTiddler({title: "B", tags: "node"});
 	await flushChanges();
-	expect(update).toHaveBeenCalledTimes(1);
-	expect(update.calls.first().args[0].nodes).toEqual({B: {}});
-	expect(Object.values(update.calls.first().args[0].edges)).toEqual([{from: "A", to: "B"}]);
+	var cleanedArgs = clean(onlyCallOf(update));
+	expect(cleanedArgs).toEqual({nodes: {B: {}}, edges: [{from: "A", to:"B"}]});
 });
+
+it('handles edge getting incompleted later', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddlers([
+		{title: "A", tags: "node"},
+		{title: "B", tags: "node"}]);
+	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
+	await flushChanges();
+	expect(clean(wiki.latestEngine.objects)).toEqual({nodes: {A:{}, B:{}}, edges:[{from: "A", to: "B"}]});
+	wiki.addTiddler({title: "B"});
+	await flushChanges();
+	var cleanedArgs = clean(onlyCallOf(update));
+	expect(cleanedArgs).toEqual({nodes: {B: null}, edges: [null]});
+});
+
+function clean(objects) {
+	objects.edges = Object.values(objects.edges);
+	return objects;
+};
+
+function onlyCallOf(spy) {
+	expect(spy).toHaveBeenCalledTimes(1);
+	return spy.calls.first().args[0];
+};
 
 // Also if an edge gets incompleted later
 // Only edges
