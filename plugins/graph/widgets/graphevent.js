@@ -32,7 +32,8 @@ EventWidget.prototype.catchGraphEvent = function(graphEvent) {
 	if (actions) {
 		var variables = {
 			targetTiddler: graphEvent.id,
-			point: graphEvent.point.x + " " + graphEvent.point.y
+			point: graphEvent.point.x + "," + graphEvent.point.y,
+			viewPoint: graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
 		};
 		this.invokeActionString(actions, this, graphEvent.event, variables);
 		return true;

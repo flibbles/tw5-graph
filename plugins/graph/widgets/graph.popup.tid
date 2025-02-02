@@ -1,0 +1,24 @@
+title: $:/plugins/flibbles/graph/widgets/graph.popup
+tags: $:/tags/Global
+
+\widget $graph.popup(state)
+\whitespace trim
+<$parameters state=<<qualify "$:/state/graph/tooltip">> >
+
+<$graphevent
+	$hover="""<$action-popup $state=<<state>> $coords=`($(viewPoint)$,100,0)` /><$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />"""
+	$blur="""<$action-popup $state=<<state>> />""" >
+
+<$slot $name="ts-raw" />
+
+</$graphevent>
+<$reveal type=popup state=<<state>> >
+
+<$slot $name=tooltip>
+
+<div class="tc-drop-down">
+
+<$transclude $tiddler={{{ [<state>get[target]] }}} />
+
+</div></$slot></$reveal></$parameters>
+\end

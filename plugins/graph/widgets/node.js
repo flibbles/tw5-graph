@@ -42,7 +42,7 @@ NodeWidget.prototype.getGraphObject = function() {
 		data.label = this.label;
 	}
 	if (this.pos) {
-		var points = this.pos.split(" ");
+		var points = this.pos.split(",");
 		data.x = parseFloat(points[0]);
 		data.y = parseFloat(points[1]);
 	}

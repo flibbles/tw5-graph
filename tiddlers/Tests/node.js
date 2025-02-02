@@ -31,7 +31,7 @@ it("gets coordinates from pos attribute", function() {
 	widget = $tw.test.renderText(wiki, "<$node tiddler=N pos={{Store!!pos}} />\n");
 	expect(fetchGraphObjects(widget)).toEqual({nodes: {N: {}}});
 	// Now we try it again, but the reference actually exists now
-	wiki.addTiddler({title: "Store", pos: "13 17"});
+	wiki.addTiddler({title: "Store", pos: "13,17"});
 	widget = $tw.test.renderText(wiki, "<$node tiddler=N pos={{Store!!pos}} />\n");
 	expect(fetchGraphObjects(widget)).toEqual({nodes: {N: {x: 13, y: 17}}});
 });

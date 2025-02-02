@@ -6,6 +6,8 @@ tags: Demo
 
 <$graph engine=<<engine>> >
 
+<$graph.popup state=`$:/state/$(engine)$`>
+
 <$list filter="[tag[Deity]!is[system]!is[draft]]">
 
 <$node label={{!!title}} >
@@ -16,7 +18,7 @@ tags: Demo
 
 <$edge to={{!!father}} />
 
-</$list></$graph>
+</$list></$graph.popup></$graph>
 \end
 
 TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.

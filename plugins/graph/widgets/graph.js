@@ -140,7 +140,8 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 GraphWidget.prototype.handleEvent = function(params) {
 	var object = params.id? this.knownObjects[params.objectType][params.id]: this;
 	if (params.type === "doubleclick") {
-		this.setVariable("point", params.point.x + " " + params.point.y);
+		this.setVariable("point", params.point.x + "," + params.point.y);
+		this.setVariable("viewPoint", params.viewPoint.x + "," + params.viewPoint.y);
 		object.invokeActions(this, params);
 	} else {
 		// Start at the object. Go up, finding any $graphevents to handle this
