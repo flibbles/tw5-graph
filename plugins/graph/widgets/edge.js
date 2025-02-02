@@ -14,7 +14,7 @@ var nextId = 1;
 
 var EdgeWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
-	this.id = nextId;
+	this.id = nextId.toString();
 	nextId++;
 };
 
@@ -28,7 +28,7 @@ EdgeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 EdgeWidget.prototype.execute = function() {
-	this.fromTiddler = this.getVariable("currentTiddler");
+	this.fromTiddler = this.getAttribute("from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("to");
 	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
@@ -38,7 +38,7 @@ EdgeWidget.prototype.execute = function() {
 
 EdgeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes.label || changedAttributes.to) {
+	if (changedAttributes.label || changedAttributes.from || changedAttributes.to) {
 		this.refreshSelf();
 		return true;
 	}
@@ -47,17 +47,15 @@ EdgeWidget.prototype.refresh = function(changedTiddlers) {
 
 
 EdgeWidget.prototype.getEdgeData = function() {
-	if (this.changed) {
-		this.changed = false;
-		var data = {
-			from: this.fromTiddler,
-			to: this.toTiddler
-		};
-		if (this.label) {
-			data.label = this.label;
-		}
-		return data;
+	this.changed = false;
+	var data = {
+		from: this.fromTiddler,
+		to: this.toTiddler
+	};
+	if (this.label) {
+		data.label = this.label;
 	}
+	return data;
 };
 
 EdgeWidget.prototype.allowActionPropagation = function() {

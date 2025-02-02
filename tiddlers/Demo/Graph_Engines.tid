@@ -14,11 +14,9 @@ tags: Demo
 
 </$node>
 
-<$list variable=toTiddler filter="[list[!!children]]">
+<$edge to={{!!father}} />
 
-<$edge to=<<toTiddler>> />
-
-</$list></$list></$graph>
+</$list></$graph>
 \end
 
 TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.

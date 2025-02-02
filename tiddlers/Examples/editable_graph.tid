@@ -23,6 +23,9 @@ tags: Examples
 		<$action-navigate />
 
 	</$node>
+	<$edge to={{!!father}} />
+
+	<$edge to={{!!mother}} />
 
 </$list>
 

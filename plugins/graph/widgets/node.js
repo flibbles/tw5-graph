@@ -34,22 +34,20 @@ NodeWidget.prototype.execute = function() {
 };
 
 NodeWidget.prototype.getNodeData = function(objects) {
-	if (this.changed) {
-		this.changed = false;
-		var data = {}
-		if (this.label) {
-			data.label = this.label;
-		}
-		if (this.pos) {
-			var pos = this.wiki.getTextReference(this.pos, null, this.id);
-			if (pos) {
-				var points = pos.split(" ");
-				data.x = parseFloat(points[0]);
-				data.y = parseFloat(points[1]);
-			}
-		}
-		return data;
+	this.changed = false;
+	var data = {}
+	if (this.label) {
+		data.label = this.label;
 	}
+	if (this.pos) {
+		var pos = this.wiki.getTextReference(this.pos, null, this.id);
+		if (pos) {
+			var points = pos.split(" ");
+			data.x = parseFloat(points[0]);
+			data.y = parseFloat(points[1]);
+		}
+	}
+	return data;
 };
 
 NodeWidget.prototype.invokeDragAction = function(triggeringWidget, event) {

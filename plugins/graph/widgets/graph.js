@@ -75,18 +75,18 @@ GraphWidget.prototype.findGraphObjects = function() {
 			if (widget.getNodeData) {
 				var id = widget.id;
 				nodeStillExists[id] = true;
-				self.knownNodes.set(id, widget);
-				if (widget.changed) {
+				if (!self.knownNodes.has(id) || widget.changed) {
 					objects.nodes[id] = widget.getNodeData();
 				}
+				self.knownNodes.set(id, widget);
 			}
 			if (widget.getEdgeData) {
 				var id = widget.id;
 				edgeStillExists[id] = true;
-				self.knownEdges.set(id, widget);
-				if (widget.changed) {
+				if (!self.knownEdges.has(id) || widget.changed) {
 					objects.edges[id] = widget.getEdgeData();
 				}
+				self.knownEdges.set(id, widget);
 			}
 			if (widget.children) {
 				searchChildren(widget.children);
@@ -106,6 +106,21 @@ GraphWidget.prototype.findGraphObjects = function() {
 			objects.edges[id] = null;
 		}
 	}
+	var curratedEdges = Object.create(null);
+	for (var id in objects.edges) {
+		var edge = objects.edges[id];
+		// This could probably be done above when deleting nulls
+		if (edge !== null) {
+			if (!this.knownNodes.has(edge.from) || !this.knownNodes.has(edge.to)) {
+				// else we are trimming it away. It's incomplete
+				this.knownEdges.delete(id);
+				continue;
+			}
+		}
+		curratedEdges[id] = edge;
+	}
+	objects.edges = curratedEdges;
+
 	return objects;
 };
 
@@ -142,12 +157,12 @@ GraphWidget.prototype.handleEvent = function(params) {
 	} else if (params.type === "hover") {
 		if (params.target === "node") {
 			var node = this.knownNodes.get(params.id);
-			this.dispatchEvent(node, params);
+			this.dispatchGraphEvent(node, params);
 		}
 	}
 };
 
-GraphWidget.prototype.dispatchEvent = function(object, params) {
+GraphWidget.prototype.dispatchGraphEvent = function(object, params) {
 	do {
 		if (object.catchGraphEvent && object.catchGraphEvent(params)) {
 			return true;
