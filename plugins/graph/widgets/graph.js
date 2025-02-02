@@ -90,7 +90,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 	searchChildren(this.children);
 	for (var type in this.knownObjects) {
 		for (var id in this.knownObjects[type]) {
-			if (!nowExists[type] || !nowExists[type][id]) {
+			if (this.knownObjects[type][id] && (!nowExists[type] || !nowExists[type][id])) {
 				objects[type] = objects[type] || Object.create(null);
 				objects[type][id] = null;
 			}
@@ -105,7 +105,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 			|| !nowExists.nodes[edge.fromTiddler]
 			|| !nowExists.nodes[edge.toTiddler]) {
 				// else we are trimming it away. It's incomplete
-				delete nowExists.edges[id];
+				nowExists.edges[id] = undefined;
 				if (this.knownObjects.edges && this.knownObjects.edges[id]) {
 					objects.edges = objects.edges || Object.create(null);
 					objects.edges[id] = null;
@@ -138,33 +138,21 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.handleEvent = function(params) {
+	var object = params.id? this.knownObjects[params.objectType][params.id]: this;
 	if (params.type === "doubleclick") {
 		this.setVariable("point", params.point.x + " " + params.point.y);
-		if (params.target === "node") {
-			var node = this.knownObjects.nodes[params.id];
-			node.invokeActions(this, params);
-		} else if (params.target === "graph") {
-			this.invokeActions(this, params);
-		}
-	} else if (params.type === "drag") {
-		var node = this.knownObjects.nodes[params.id];
-		node.invokeDragAction(this, params);
-	} else if (params.type === "hover") {
-		if (params.target === "node") {
-			var node = this.knownObjects.nodes[params.id];
-			this.dispatchGraphEvent(node, params);
+		object.invokeActions(this, params);
+	} else {
+		// Start at the object. Go up, finding any $graphevents to handle this
+		while (!object.catchGraphEvent || !object.catchGraphEvent(params)) {
+			object = object.parentWidget;
 		}
 	}
 };
 
-GraphWidget.prototype.dispatchGraphEvent = function(object, params) {
-	do {
-		if (object.catchGraphEvent && object.catchGraphEvent(params)) {
-			return true;
-		}
-		object = object.parentWidget;
-	} while (object !== this);
-	return false;
+GraphWidget.prototype.catchGraphEvent = function(params) {
+	// This catches all uncaught events
+	return true;
 };
 
 function defaultEngine() {

@@ -40,9 +40,9 @@ EventWidget.prototype.catchGraphEvent = function(graphEvent) {
 	return false;
 };
 
-EventWidget.prototype.refresh = function() {
+EventWidget.prototype.refresh = function(changedTiddlers) {
 	this.computeAttributes();
-	this.makeChildWidgets();
+	return this.refreshChildren(changedTiddlers);
 };
 
 exports.graphevent = EventWidget;

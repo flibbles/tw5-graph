@@ -32,7 +32,13 @@ test.actionMethod = function(attributes) {
 
 test.dispatchEvent = function(wiki, params, callback) {
 	var event = createEvent(params.type);
-	var spy = spyOn(test, "actionMethod");
+	var spy;
+	if (test.actionMethod.calls) {
+		spy = test.actionMethod;
+		spy.calls.reset();
+	} else {
+		spy = spyOn(test, "actionMethod");
+	}
 	if (callback) {
 		spy.and.callFake(callback);
 	}
@@ -47,13 +53,13 @@ test.dispatchEvent = function(wiki, params, callback) {
 test.dispatchGraphEvent = function(wiki, options) {
 	options = options || {};
 	var event = createEvent("doubletap");
-	wiki.latestEngine.onevent({target: "graph", event: event, point: options.point});
+	wiki.latestEngine.onevent({event: event, point: options.point});
 };
 
 test.dispatchNodeEvent = function(wiki, target, options) {
 	options = options || {};
 	var event = createEvent("doubletap");
-	wiki.latestEngine.onevent({target: "node", id: target, event: event, point: options.point});
+	wiki.latestEngine.onevent({objectType: "nodes", id: target, event: event, point: options.point});
 };
 
 function createEvent(type) {

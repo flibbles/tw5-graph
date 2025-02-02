@@ -42,12 +42,9 @@ NodeWidget.prototype.getGraphObject = function() {
 		data.label = this.label;
 	}
 	if (this.pos) {
-		var pos = this.wiki.getTextReference(this.pos, null, this.id);
-		if (pos) {
-			var points = pos.split(" ");
-			data.x = parseFloat(points[0]);
-			data.y = parseFloat(points[1]);
-		}
+		var points = this.pos.split(" ");
+		data.x = parseFloat(points[0]);
+		data.y = parseFloat(points[1]);
 	}
 	return data;
 };
