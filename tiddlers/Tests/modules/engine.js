@@ -18,6 +18,7 @@ TestAdapter.prototype.initialize = function(element, objects) {
 
 TestAdapter.prototype.update = function(objects) {
 	for (var category in objects) {
+		this.objects[category] = this.objects[category] || Object.create(null);
 		$tw.utils.extend(this.objects[category], objects[category]);
 	}
 };

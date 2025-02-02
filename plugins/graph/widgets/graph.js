@@ -41,6 +41,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.engine) {
 		var objects = this.findGraphObjects();
+		// TODO: Should it be initialise? Is that some british spelling?
 		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		//this.engine.setPhysics(true);
@@ -64,23 +65,23 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
-	var nowExists = {};
-	var objects = {};
+	var newObjects = {};
 	var self = this;
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
-			if (widget.getGraphObject) {
+			if (widget.graphObjectType) {
 				var type = widget.graphObjectType;
 				var id = widget.id;
-				nowExists[type] = nowExists[type] || Object.create(null);
-				nowExists[type][id] = widget;
-				if (!self.knownObjects[type]
-				|| !self.knownObjects[type][id]
-				|| widget.changed) {
-					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = widget.getGraphObject();
-				}
+				// Instantiate in case this is a prev-unknown graph object
+				newObjects[type] = newObjects[type] || Object.create(null);
+				self.knownObjects[type] = self.knownObjects[type] || Object.create(null);
+				newObjects[type][id] = widget;
+				// known objects should know it has a hole.
+				self.knownObjects[type][id] = self.knownObjects[type][id] || undefined;
+				//if (!self.knownObjects[type][id] || widget.changed) {
+					//objects[type][id] = widget.getGraphObject();
+				//}
 			}
 			if (widget.children) {
 				searchChildren(widget.children);
@@ -88,34 +89,40 @@ GraphWidget.prototype.findGraphObjects = function() {
 		}
 	};
 	searchChildren(this.children);
-	for (var type in this.knownObjects) {
-		for (var id in this.knownObjects[type]) {
-			if (this.knownObjects[type][id] && (!nowExists[type] || !nowExists[type][id])) {
-				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = null;
+	// Special handling for edge trimming
+	if (newObjects.edges) {
+		for (var id in newObjects.edges) {
+			var edge = newObjects.edges[id];
+			// This could probably be done above when deleting nulls
+			if (!newObjects.nodes
+			|| !newObjects.nodes[edge.fromTiddler]
+			|| !newObjects.nodes[edge.toTiddler]) {
+				// It must be trimmed
+				newObjects.edges[id] = undefined;
 			}
 		}
 	}
-	// Special handling for edge trimming
-	if (nowExists.edges) {
-		for (var id in nowExists.edges) {
-			var edge = nowExists.edges[id];
-			// This could probably be done above when deleting nulls
-			if (!nowExists.nodes
-			|| !nowExists.nodes[edge.fromTiddler]
-			|| !nowExists.nodes[edge.toTiddler]) {
-				// else we are trimming it away. It's incomplete
-				nowExists.edges[id] = undefined;
-				if (this.knownObjects.edges && this.knownObjects.edges[id]) {
-					objects.edges = objects.edges || Object.create(null);
-					objects.edges[id] = null;
-				} else {
-					delete objects.edges[id];
+	var objects = {};
+	for (var type in this.knownObjects) {
+		var was = this.knownObjects[type];
+		var is = newObjects[type];
+		for (var id in was) {
+			if (is[id]) {
+				if (!was[id] || is[id].changed) {
+					// It Is, and either Wasn't, or it changed. updated it.
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = is[id].getGraphObject();
+				}
+			} else {
+				if (was[id]) {
+					// It Was, and no longer Is. Flag for deletion
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = null;
 				}
 			}
 		}
 	}
-	this.knownObjects = nowExists;
+	this.knownObjects = newObjects;
 	return objects;
 };
 

@@ -83,7 +83,7 @@ it('handles incomplete edges completed later', async function() {
 		{title: "B"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
 	await flushChanges();
-	expect(clean(wiki.latestEngine.objects)).toEqual({nodes: {A:{}}, edges:[]});
+	expect(wiki.latestEngine.objects).toEqual({nodes: {A:{}}});
 	wiki.addTiddler({title: "B", tags: "node"});
 	await flushChanges();
 	var cleanedArgs = clean(onlyCallOf(update));
@@ -103,6 +103,17 @@ it('handles edge getting incompleted later', async function() {
 	await flushChanges();
 	var cleanedArgs = clean(onlyCallOf(update));
 	expect(cleanedArgs).toEqual({nodes: {B: null}, edges: [null]});
+});
+
+it('does not hand over empty edge lists', function() {
+	var initialize = spyOn(TestEngine.prototype, "initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "A"});
+	var widgetNode = renderText(wiki, "<$graph><$node tiddler=A/><$edge from=A to=B />");
+	expect(initialize).toHaveBeenCalledTimes(1);
+	// Might expect to have an edge object because one was added,
+	// and then trimmed. But we should be better than that.
+	expect(initialize.calls.first().args[1]).toEqual({nodes: {A: {}}});
 });
 
 function clean(objects) {
