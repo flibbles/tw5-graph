@@ -43,7 +43,7 @@ it('handles updates to nodes', async function() {
 		{title: "C", tags: "node", caption: "Ccaption"}]);
 	await flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update).toHaveBeenCalledWith({nodes: {B: null, B2: {}, C: {label: "Ccaption"}}, edges: {}});
+	expect(update).toHaveBeenCalledWith({nodes: {B: null, B2: {}, C: {label: "Ccaption"}}});
 });
 
 it('handles updates to edges', async function() {
@@ -64,11 +64,10 @@ it('handles updates to edges', async function() {
 		{title: "D", tags: "node", list: "A C"}]);
 	await flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update.calls.first().args[0].nodes).toEqual({});
-	expect(Object.values(update.calls.first().args[0].edges)).toEqual([
+	expect(clean(update.calls.first().args[0])).toEqual({edges: [
 		{from: "B", to: "A", label: "newLabel"},
 		null,
-		{from: "D", to: "C"}]);
+		{from: "D", to: "C"}]});
 	expect(Object.values(wiki.latestEngine.objects.edges)).toEqual([
 		{from: "B", to: "A", label: "newLabel"},
 		{from: "D", to: "A"},
@@ -116,7 +115,6 @@ function onlyCallOf(spy) {
 	return spy.calls.first().args[0];
 };
 
-// Also if an edge gets incompleted later
 // Only edges
 // No edges
 

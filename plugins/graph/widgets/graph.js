@@ -53,8 +53,7 @@ Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.engine = this.getAttribute('engine');
-	this.knownNodes = Object.create(null);
-	this.knownEdges = Object.create(null);
+	this.knownObjects = {};
 	var Engine = Engines[this.engine] || defaultEngine();
 	if (!Engine) {
 		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
@@ -65,25 +64,22 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
-	var nodeNowExists = Object.create(null);
-	var edgeNowExists = Object.create(null);
-	var objects = {nodes: Object.create(null), edges: Object.create(null)};
+	var nowExists = {};
+	var objects = {};
 	var self = this;
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
-			if (widget.getNodeData) {
+			if (widget.getGraphObject) {
+				var type = widget.graphObjectType;
 				var id = widget.id;
-				nodeNowExists[id] = widget;
-				if (!self.knownNodes[id] || widget.changed) {
-					objects.nodes[id] = widget.getNodeData();
-				}
-			}
-			if (widget.getEdgeData) {
-				var id = widget.id;
-				edgeNowExists[id] = widget;
-				if (!self.knownEdges[id] || widget.changed) {
-					objects.edges[id] = widget.getEdgeData();
+				nowExists[type] = nowExists[type] || Object.create(null);
+				nowExists[type][id] = widget;
+				if (!self.knownObjects[type]
+				|| !self.knownObjects[type][id]
+				|| widget.changed) {
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = widget.getGraphObject();
 				}
 			}
 			if (widget.children) {
@@ -92,31 +88,34 @@ GraphWidget.prototype.findGraphObjects = function() {
 		}
 	};
 	searchChildren(this.children);
-	for (var id in this.knownNodes) {
-		if (!nodeNowExists[id]) {
-			objects.nodes[id] = null;
-		}
-	}
-	for (var id in this.knownEdges) {
-		if (!edgeNowExists[id]) {
-			objects.edges[id] = null;
-		}
-	}
-	for (var id in edgeNowExists) {
-		var edge = edgeNowExists[id];
-		// This could probably be done above when deleting nulls
-		if (!nodeNowExists[edge.fromTiddler] || !nodeNowExists[edge.toTiddler]) {
-			// else we are trimming it away. It's incomplete
-			delete edgeNowExists[id];
-			if (this.knownEdges[id]) {
-				objects.edges[id] = null;
-			} else {
-				delete objects.edges[id];
+	for (var type in this.knownObjects) {
+		for (var id in this.knownObjects[type]) {
+			if (!nowExists[type] || !nowExists[type][id]) {
+				objects[type] = objects[type] || Object.create(null);
+				objects[type][id] = null;
 			}
 		}
 	}
-	this.knownNodes = nodeNowExists;
-	this.knownEdges = edgeNowExists;
+	// Special handling for edge trimming
+	if (nowExists.edges) {
+		for (var id in nowExists.edges) {
+			var edge = nowExists.edges[id];
+			// This could probably be done above when deleting nulls
+			if (!nowExists.nodes
+			|| !nowExists.nodes[edge.fromTiddler]
+			|| !nowExists.nodes[edge.toTiddler]) {
+				// else we are trimming it away. It's incomplete
+				delete nowExists.edges[id];
+				if (this.knownObjects.edges && this.knownObjects.edges[id]) {
+					objects.edges = objects.edges || Object.create(null);
+					objects.edges[id] = null;
+				} else {
+					delete objects.edges[id];
+				}
+			}
+		}
+	}
+	this.knownObjects = nowExists;
 	return objects;
 };
 
@@ -142,17 +141,17 @@ GraphWidget.prototype.handleEvent = function(params) {
 	if (params.type === "doubleclick") {
 		this.setVariable("point", params.point.x + " " + params.point.y);
 		if (params.target === "node") {
-			var node = this.knownNodes.get(params.id);
+			var node = this.knownObjects.nodes[params.id];
 			node.invokeActions(this, params);
 		} else if (params.target === "graph") {
 			this.invokeActions(this, params);
 		}
 	} else if (params.type === "drag") {
-		var node = this.knownNodes.get(params.id);
+		var node = this.knownObjects.nodes[params.id];
 		node.invokeDragAction(this, params);
 	} else if (params.type === "hover") {
 		if (params.target === "node") {
-			var node = this.knownNodes[params.id];
+			var node = this.knownObjects.nodes[params.id];
 			this.dispatchGraphEvent(node, params);
 		}
 	}

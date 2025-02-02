@@ -17,6 +17,8 @@ var NodeWidget = function(parseTreeNode, options) {
 
 NodeWidget.prototype = new Widget();
 
+NodeWidget.prototype.graphObjectType = "nodes";
+
 NodeWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
@@ -33,7 +35,7 @@ NodeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.prototype.getNodeData = function(objects) {
+NodeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
 	var data = {}
 	if (this.label) {

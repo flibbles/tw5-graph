@@ -20,6 +20,8 @@ var EdgeWidget = function(parseTreeNode, options) {
 
 EdgeWidget.prototype = new Widget();
 
+EdgeWidget.prototype.graphObjectType = "edges";
+
 EdgeWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
@@ -45,7 +47,7 @@ EdgeWidget.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers);
 };
 
-EdgeWidget.prototype.getEdgeData = function() {
+EdgeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
 	var data = {
 		from: this.fromTiddler,

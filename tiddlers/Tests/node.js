@@ -11,14 +11,10 @@ function fetchGraphObjects(widget) {
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
-			var id = widget.id;
-			if (widget.getNodeData && widget.changed) {
-				objects.nodes = objects.nodes || Object.create(null);
-				objects.nodes[id] = widget.getNodeData();
-			}
-			if (widget.getEdgeData && widget.changed) {
-				objects.edges = objects.edges || Object.create(null);
-				objects.edges[id] = widget.getEdgeData();
+			var type = widget.graphObjectType;
+			if (type && widget.changed) {
+				objects[type] = objects[type] || Object.create(null);
+				objects[type][widget.id] = widget.getGraphObject();
 			}
 			if (widget.children) {
 				searchChildren(widget.children);
