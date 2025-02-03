@@ -1,0 +1,8 @@
+title: $:/config/DefaultColourMappings/
+
+graph-background: <<colour background>>
+graph-border: <<colour tiddler-border>>
+graph-edge-stroke: <<colour code-border>>
+graph-node-background: <<colour primary>>
+graph-node-border: <<colour message-border>>
+graph-node-foreground: <<colour foreground>>

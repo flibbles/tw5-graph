@@ -1,10 +1,17 @@
 title: $:/plugins/flibbles/graph/Stylesheet.css
 tags: $:/tags/Stylesheet
 
+\rules only macrocallinline
 .graph-canvas {
 	position: relative;
 	border-style: solid;
 	border-width: 1px;
-	border-color: <<colour tiddler-editor-border>>;
+	border-color: <<colour graph-border>>;
+	background-color: <<colour graph-background>>;
 	width: 666px;
+}
+
+:root {
+	--color-graph-node-background: <<colour graph-node-background>>;
+	--color-graph-node-foreground: <<colour graph-node-foreground>>;
 }
