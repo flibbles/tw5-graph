@@ -40,7 +40,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 
 	// Render and recenter the view
 	if(this.engine) {
-		var objects = this.findGraphObjects();
+		var objects = this.findGraphObjects() || {};
 		// TODO: Should it be initialise? Is that some british spelling?
 		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
@@ -102,7 +102,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 			}
 		}
 	}
-	var objects = {};
+	var objects = null
 	for (var type in this.knownObjects) {
 		var was = this.knownObjects[type];
 		var is = newObjects[type];
@@ -110,12 +110,14 @@ GraphWidget.prototype.findGraphObjects = function() {
 			if (is[id]) {
 				if (!was[id] || is[id].changed) {
 					// It Is, and either Wasn't, or it changed. updated it.
+					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = is[id].getGraphObject();
 				}
 			} else {
 				if (was[id]) {
 					// It Was, and no longer Is. Flag for deletion
+					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = null;
 				}
@@ -138,7 +140,9 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	} else if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		var objects = this.findGraphObjects();
-		this.engine.update(objects);
+		if (objects) {
+			this.engine.update(objects);
+		}
 		return true;
 	}
 	return hasChangedAttributes;

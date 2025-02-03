@@ -116,6 +116,16 @@ it('does not hand over empty edge lists', function() {
 	expect(initialize.calls.first().args[1]).toEqual({nodes: {A: {}}});
 });
 
+it('does not send update if no graph objects changed', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddlers([{title: "A"},{title: "Other"}]);
+	var widgetNode = renderText(wiki, "<$graph>{{Other}}");
+	wiki.addTiddler({title: "Other", text: "New content"});
+	await flushChanges();
+	expect(update).not.toHaveBeenCalled();
+});
+
 function clean(objects) {
 	objects.edges = Object.values(objects.edges);
 	return objects;
