@@ -13,6 +13,11 @@ var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
 var Engines = $tw.modules.applyMethods("graphengineadapter");
 
+var graphColors = {
+	nodeBackground: "graph-node-background",
+	nodeForeground: "graph-node-foreground"
+};
+
 var GraphWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
@@ -50,19 +55,16 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	}
 };
 
-GraphWidget.prototype.getColor = function(name) {
-	var colourMacro = this.getVariableInfo("colour", {params: [{value: name}]});
-	return this.wiki.renderText("text/plain", "text/vnd.tiddlywiki", colourMacro.text, {parentWidget: this});
-};
-
 /*
 Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.engine = this.getAttribute('engine');
 	// TODO: Not quite the correct call here. It should only executeColors
-	this.refreshColors();
 	this.knownObjects = {};
+	this.colorWidgets = {};
+	this.colors = {};
+	this.refreshColors();
 	var Engine = Engines[this.engine] || defaultEngine();
 	if (!Engine) {
 		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
@@ -101,23 +103,31 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	return changed || hasChangedAttributes;
 };
 
-GraphWidget.prototype.refreshColors = function(changedTiddler) {
-	var nodeBackground = this.getColor("graph-node-background"),
-		nodeForeground = this.getColor("graph-node-foreground");
-	if (this.nodeBackground !== nodeBackground
-	|| this.nodeForeground !== nodeForeground) {
-		this.nodeBackground = nodeBackground;
-		this.nodeForeground = nodeForeground;
-		return true;
+GraphWidget.prototype.refreshColors = function(changedTiddlers) {
+	var changed = false;
+	for (var color in graphColors) {
+		var widget = this.colorWidgets[color];
+		if (!widget) {
+			widget = this.colorWidgets[color] = this.wiki.makeWidget({
+				tree: [{
+					type: "transclude",
+					attributes: {
+						"$variable": {type: "string", value: "colour"},
+						0: {type: "string", value: graphColors[color]}}
+				}]}, {parentWidget: this});
+		} else if (!widget.refresh(changedTiddlers)) {
+			continue;
+		}
+		var container = $tw.fakeDocument.createElement("div");
+		widget.render(container, null);
+		this.colors[color] = container.textContent;
+		changed = true;
 	}
-	return false;
+	return changed;
 };
 
 GraphWidget.prototype.getStyleObject = function() {
-	return {
-		nodeBackground: this.nodeBackground,
-		nodeForeground: this.nodeForeground
-	};
+	return $tw.utils.extend({}, this.colors);
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
