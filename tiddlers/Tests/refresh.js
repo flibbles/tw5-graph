@@ -14,6 +14,16 @@ function flushChanges() {
 	});
 };
 
+function clean(objects) {
+	objects.edges = Object.values(objects.edges);
+	return objects;
+};
+
+function onlyCallOf(spy) {
+	expect(spy).toHaveBeenCalledTimes(1);
+	return spy.calls.first().args;
+};
+
 function renderText(wiki, text) {
 	var parser = wiki.parseText("text/vnd.tiddlywiki", text);
 	var widgetNode = wiki.makeWidget(parser);
@@ -83,10 +93,12 @@ it('handles incomplete edges completed later', async function() {
 		{title: "B"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
 	await flushChanges();
-	expect(wiki.latestEngine.objects).toEqual({nodes: {A:{}}});
+	var objects = wiki.latestEngine.objects;
+	expect(objects.nodes).toEqual({A:{}});
+	expect(objects.edges).toBeUndefined();
 	wiki.addTiddler({title: "B", tags: "node"});
 	await flushChanges();
-	var cleanedArgs = clean(onlyCallOf(update));
+	var cleanedArgs = clean(onlyCallOf(update)[0]);
 	expect(cleanedArgs).toEqual({nodes: {B: {}}, edges: [{from: "A", to:"B"}]});
 });
 
@@ -98,10 +110,12 @@ it('handles edge getting incompleted later', async function() {
 		{title: "B", tags: "node"}]);
 	var widgetNode = renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
 	await flushChanges();
-	expect(clean(wiki.latestEngine.objects)).toEqual({nodes: {A:{}, B:{}}, edges:[{from: "A", to: "B"}]});
+	var objects = clean(wiki.latestEngine.objects);
+	expect(objects.nodes).toEqual({A:{}, B:{}});
+	expect(objects.edges).toEqual([{from: "A", to: "B"}]);
 	wiki.addTiddler({title: "B"});
 	await flushChanges();
-	var cleanedArgs = clean(onlyCallOf(update));
+	var cleanedArgs = clean(onlyCallOf(update)[0]);
 	expect(cleanedArgs).toEqual({nodes: {B: null}, edges: [null]});
 });
 
@@ -113,7 +127,9 @@ it('does not hand over empty edge lists', function() {
 	expect(initialize).toHaveBeenCalledTimes(1);
 	// Might expect to have an edge object because one was added,
 	// and then trimmed. But we should be better than that.
-	expect(initialize.calls.first().args[1]).toEqual({nodes: {A: {}}});
+	var objects = initialize.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {}});
+	expect(objects.edges).toBeUndefined();
 });
 
 it('does not send update if no graph objects changed', async function() {
@@ -126,15 +142,42 @@ it('does not send update if no graph objects changed', async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
-function clean(objects) {
-	objects.edges = Object.values(objects.edges);
-	return objects;
-};
+it('sends style update if palette changes', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var initialize = spyOn(TestEngine.prototype, "initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
+	var widgetNode = renderText(wiki, '\\define colour(name) <$transclude tiddler="$name$">#000000</$transclude>\n<$graph/>')
+	await flushChanges();
+	var initialObjects = onlyCallOf(initialize)[1];
+	expect(Object.keys(initialObjects)).toEqual(["style"]);
+	expect(initialObjects.style.nodeBackground).toBe("#ff0000");
+	// Now we make a change
+	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
+	await flushChanges();
+	var newObjects = onlyCallOf(update)[0];
+	expect(Object.keys(newObjects)).toEqual(["style"]);
+	expect(newObjects.style.nodeBackground).toBe("#0000ff");
+});
 
-function onlyCallOf(spy) {
-	expect(spy).toHaveBeenCalledTimes(1);
-	return spy.calls.first().args[0];
-};
+it('sends style and node updates together', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var initialize = spyOn(TestEngine.prototype, "initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
+	var widgetNode = renderText(wiki, '\\define colour(name) <$transclude tiddler="$name$">#000000</$transclude>\n<$graph><$node tiddler=N label={{graph-node-background}} />')
+	await flushChanges();
+	var initialObjects = onlyCallOf(initialize)[1];
+	expect(Object.keys(initialObjects)).toEqual(["nodes", "style"]);
+	expect(initialObjects.style.nodeBackground).toBe("#ff0000");
+	// Now we make a change
+	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
+	await flushChanges();
+	var newObjects = onlyCallOf(update)[0];
+	expect(Object.keys(newObjects)).toEqual(["nodes", "style"]);
+	expect(newObjects.style.nodeBackground).toBe("#0000ff");
+	expect(newObjects.nodes.N).toEqual({label: "#0000ff"});
+});
 
 // Only edges
 // No edges

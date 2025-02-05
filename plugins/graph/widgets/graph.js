@@ -41,21 +41,18 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.engine) {
 		var objects = this.findGraphObjects() || {};
-		var style = {node: {
-			background: this.nodeBackground,
-			foreground: this.nodeForeground}
-		};
+		objects.style = this.getStyleObject();
 		// TODO: Should it be initialise? Is that some british spelling?
-		this.engine.initialize(this.graphElement, objects, style);
+		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		//this.engine.setPhysics(true);
 		this.engine.render();
 	}
 };
 
-function getColor(widget, name) {
-	var style = window.getComputedStyle(window.document.documentElement);
-	return style.getPropertyValue("--color-" + name);
+GraphWidget.prototype.getColor = function(name) {
+	var colourMacro = this.getVariableInfo("colour", {params: [{value: name}]});
+	return this.wiki.renderText("text/plain", "text/vnd.tiddlywiki", colourMacro.text, {parentWidget: this});
 };
 
 /*
@@ -63,8 +60,8 @@ Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.engine = this.getAttribute('engine');
-	this.nodeBackground = getColor(this, "graph-node-background");
-	this.nodeForeground = getColor(this, "graph-node-foreground");
+	// TODO: Not quite the correct call here. It should only executeColors
+	this.refreshColors();
 	this.knownObjects = {};
 	var Engine = Engines[this.engine] || defaultEngine();
 	if (!Engine) {
@@ -80,23 +77,47 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0,
-		nodeBackground = getColor(this, "graph-node-background"),
-		nodeForeground = getColor(this, "graph-node-foreground");
-	if(changedAttributes.engine
-	|| this.nodeBackground !== nodeBackground
-	|| this.nodeForeground !== nodeForeground) {
+		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0;
+	if(changedAttributes.engine) {
 		this.refreshSelf();
 		return true;
-	} else if (this.refreshChildren(changedTiddlers)) {
+	}
+	var changed = false;
+	var objects;
+	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
-		var objects = this.findGraphObjects();
-		if (objects) {
-			this.engine.update(objects);
-		}
+		objects = this.findGraphObjects();
+		changed = true;
+	}
+	if (this.refreshColors(changedTiddlers)) {
+		// TODO: If there was also a graph change, it'll be missed.
+		objects = objects || {};
+		objects.style = this.getStyleObject();
+		changed = true;
+	}
+	if (objects) {
+		this.engine.update(objects);
+	}
+	return changed || hasChangedAttributes;
+};
+
+GraphWidget.prototype.refreshColors = function(changedTiddler) {
+	var nodeBackground = this.getColor("graph-node-background"),
+		nodeForeground = this.getColor("graph-node-foreground");
+	if (this.nodeBackground !== nodeBackground
+	|| this.nodeForeground !== nodeForeground) {
+		this.nodeBackground = nodeBackground;
+		this.nodeForeground = nodeForeground;
 		return true;
 	}
-	return hasChangedAttributes;
+	return false;
+};
+
+GraphWidget.prototype.getStyleObject = function() {
+	return {
+		nodeBackground: this.nodeBackground,
+		nodeForeground: this.nodeForeground
+	};
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
