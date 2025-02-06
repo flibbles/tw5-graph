@@ -1,4 +1,8 @@
 title: $:/
 
 DefaultTiddlers: Examples Demo
+themes/tiddlywiki/vanilla/metrics/storyright: 970px
+themes/tiddlywiki/vanilla/metrics/storywidth: 970px
+themes/tiddlywiki/vanilla/metrics/tiddlerwidth: 886px
+themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint: 1160px
 

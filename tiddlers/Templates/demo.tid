@@ -4,8 +4,4 @@ title: Templates/demo
 
 !! <$link to=<<currentTab>> ><$view tiddler=<<currentTab>> field=title/></$link>
 
-<$graph.demo />
-
-<$codeblock code=<<$graph.demo>> />
-
 <$transclude $tiddler=<<currentTab>> />

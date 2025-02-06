@@ -1,0 +1,27 @@
+title: Palette
+tags: Demo
+
+<$graph>
+
+<$graph.popup state=`$:/state/$(engine)$`>
+
+<$list filter="[tag[Deity]!is[system]!is[draft]]">
+
+<$node label={{!!title}} >
+
+<$action-navigate />
+
+</$node>
+
+<$edge to={{!!father}} />
+
+</$list></$graph.popup></$graph>
+
+TW-Graph fully respects your TiddlyWiki color palette, so even if you throw together a quick data visualization, you can trust it will match with your wiki's theme.
+
+<div class="tc-drop-down graph-demo-palette" style="font-size:0.7em;">
+
+{{$:/snippets/paletteswitcher}}
+</div>
+
+Of course, you're still able to fully customize your graph's coloring to whatever exacting specifications you'd like.

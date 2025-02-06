@@ -1,0 +1,8 @@
+title: Stylesheet
+tags: $:/tags/Stylesheet
+
+\rules only macrocallinline
+
+.graph-demo-palette {
+	width: 50%;
+}

@@ -1,7 +1,6 @@
 title: Graph Engines
 tags: Demo
 
-\widget $graph.demo()
 <$list variable=engine filter="Orb Vis">
 
 <$graph engine=<<engine>> >
@@ -19,6 +18,5 @@ tags: Demo
 <$edge to={{!!father}} />
 
 </$list></$graph.popup></$graph>
-\end
 
 TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.
