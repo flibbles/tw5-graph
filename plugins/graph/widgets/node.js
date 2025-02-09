@@ -37,7 +37,12 @@ NodeWidget.prototype.execute = function() {
 
 NodeWidget.prototype.getGraphObject = function(style) {
 	this.changed = false;
-	var data = Object.assign({}, style);
+	var data = {};
+	if (style) {
+		for (var setting in style) {
+			data[setting] = style[setting];
+		}
+	}
 	if (this.label) {
 		data.label = this.label;
 	}
