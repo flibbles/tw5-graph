@@ -133,7 +133,7 @@ GraphWidget.prototype.getStyleObject = function() {
 GraphWidget.prototype.findGraphObjects = function() {
 	var newObjects = {};
 	var self = this;
-	var searchChildren = function(children) {
+	var searchChildren = function(children, baseStyle) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.graphObjectType) {
@@ -143,6 +143,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 				newObjects[type] = newObjects[type] || Object.create(null);
 				self.knownObjects[type] = self.knownObjects[type] || Object.create(null);
 				newObjects[type][id] = widget;
+				widget.currentStyle = baseStyle;
 				// known objects should know it has a hole.
 				self.knownObjects[type][id] = self.knownObjects[type][id] || undefined;
 				//if (!self.knownObjects[type][id] || widget.changed) {
@@ -150,11 +151,15 @@ GraphWidget.prototype.findGraphObjects = function() {
 				//}
 			}
 			if (widget.children) {
-				searchChildren(widget.children);
+				var inheritedStyle = baseStyle;
+				if (widget.getStyleObject) {
+					inheritedStyle = widget.getStyleObject(baseStyle);
+				}
+				searchChildren(widget.children, inheritedStyle);
 			}
 		}
 	};
-	searchChildren(this.children);
+	searchChildren(this.children, null);
 	// Special handling for edge trimming
 	if (newObjects.edges) {
 		for (var id in newObjects.edges) {
@@ -178,7 +183,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 					// It Is, and either Wasn't, or it changed. updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = is[id].getGraphObject();
+					objects[type][id] = is[id].getGraphObject(is[id].currentStyle);
 				}
 			} else {
 				if (was[id]) {

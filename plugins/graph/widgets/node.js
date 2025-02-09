@@ -35,9 +35,9 @@ NodeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.prototype.getGraphObject = function() {
+NodeWidget.prototype.getGraphObject = function(style) {
 	this.changed = false;
-	var data = {}
+	var data = Object.assign({}, style);
 	if (this.label) {
 		data.label = this.label;
 	}
