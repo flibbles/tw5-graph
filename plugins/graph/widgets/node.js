@@ -35,14 +35,9 @@ NodeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.prototype.getGraphObject = function(style) {
+NodeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
-	var data = {};
-	if (style) {
-		for (var setting in style) {
-			data[setting] = style[setting];
-		}
-	}
+	var data = this.styleMethod? this.styleMethod(this.id): {};
 	if (this.label) {
 		data.label = this.label;
 	}

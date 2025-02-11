@@ -9,7 +9,7 @@ Widget for creating graphs.
 
 "use strict";
 
-var Widget = require("$:/core/modules/widgets/widget.js").widget;
+var ContainerWidget = require("./graphcontainer.js").graphcontainer;
 
 var Engines = $tw.modules.applyMethods("graphengineadapter");
 
@@ -25,7 +25,7 @@ var GraphWidget = function(parseTreeNode, options) {
 /*
 Inherit from the base widget class
 */
-GraphWidget.prototype = new Widget();
+GraphWidget.prototype = new ContainerWidget();
 
 /*
 Render this widget into the DOM
@@ -92,7 +92,6 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		changed = true;
 	}
 	if (this.refreshColors(changedTiddlers)) {
-		// TODO: If there was also a graph change, it'll be missed.
 		objects = objects || {};
 		objects.style = this.getStyleObject();
 		changed = true;
@@ -132,34 +131,7 @@ GraphWidget.prototype.getStyleObject = function() {
 
 GraphWidget.prototype.findGraphObjects = function() {
 	var newObjects = {};
-	var self = this;
-	var searchChildren = function(children, baseStyle) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.graphObjectType) {
-				var type = widget.graphObjectType;
-				var id = widget.id;
-				// Instantiate in case this is a prev-unknown graph object
-				newObjects[type] = newObjects[type] || Object.create(null);
-				self.knownObjects[type] = self.knownObjects[type] || Object.create(null);
-				newObjects[type][id] = widget;
-				widget.currentStyle = baseStyle;
-				// known objects should know it has a hole.
-				self.knownObjects[type][id] = self.knownObjects[type][id] || undefined;
-				//if (!self.knownObjects[type][id] || widget.changed) {
-					//objects[type][id] = widget.getGraphObject();
-				//}
-			}
-			if (widget.children) {
-				var inheritedStyle = baseStyle;
-				if (widget.getStyleObject) {
-					inheritedStyle = widget.getStyleObject(baseStyle);
-				}
-				searchChildren(widget.children, inheritedStyle);
-			}
-		}
-	};
-	searchChildren(this.children, null);
+	this.getGraphWidgets(newObjects, function() { return {}; });
 	// Special handling for edge trimming
 	if (newObjects.edges) {
 		for (var id in newObjects.edges) {
@@ -178,20 +150,30 @@ GraphWidget.prototype.findGraphObjects = function() {
 		var was = this.knownObjects[type];
 		var is = newObjects[type];
 		for (var id in was) {
-			if (is[id]) {
-				if (!was[id] || is[id].changed) {
-					// It Is, and either Wasn't, or it changed. updated it.
-					objects = objects || {};
-					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = is[id].getGraphObject(is[id].currentStyle);
-				}
-			} else {
-				if (was[id]) {
+			if (was[id]) {
+				if (!is || !is[id]) {
 					// It Was, and no longer Is. Flag for deletion
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = null;
+				} else if (is[id].changed) {
+					// It changed. updated it.
+					objects = objects || {};
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = is[id].getGraphObject();
 				}
+			}
+		}
+	}
+	for (var type in newObjects) {
+		var was = this.knownObjects[type];
+		var is = newObjects[type];
+		for (var id in is) {
+			if (is[id] && (!was || !was[id])) {
+				// It has been added. Add it.
+				objects = objects || {};
+				objects[type] = objects[type] || Object.create(null);
+				objects[type][id] = is[id].getGraphObject();
 			}
 		}
 	}
