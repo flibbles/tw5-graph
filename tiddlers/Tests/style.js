@@ -45,4 +45,49 @@ it('can hierarchically apply styles to filtered nested', function() {
 		F: {}});
 });
 
+it('can handle changes to style properties', async function() {
+	var initialize = spyOn(TestEngine.prototype,"initialize").and.callThrough();
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "Special", text: "from"});
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$style $for=nodes layer=1>
+				<$style $for=nodes $filter="[match[A]] [match[C]]" special={{Special}} layer=2>
+					<$style layer=3>
+						<$node tiddler=A/>
+						<$node tiddler=B/>
+					</$style>
+					<$node tiddler=C/>
+				</$style>
+				<$node tiddler=D/>
+			</$style>
+		</$graph>`);
+	var objects = initialize.calls.first().args[1];
+	await $tw.test.flushChanges();
+	expect(objects.nodes).toEqual({
+		A: {layer: "3", special: "from"},
+		B: {layer: "3"},
+		C: {layer: "2", special: "from"},
+		D: {layer: "1"}});
+	wiki.addTiddler({title: "Special", text: "to"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	expect(update).toHaveBeenCalledWith({nodes: {A: {layer: "3", special: "to"}, C: {layer: "2", special: "to"}}});
+});
+
+it('updates when $filter output would be only change', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "List", tags: "A B"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$style value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node tiddler=A/><$node tiddler=B/><$node tiddler=C/>");
+	await $tw.test.flushChanges();
+	// The fun thing about this update is it will not flag any widgets as
+	// changed from the usual methods. We must realize that A and C are swapped
+	// out by running the $style filter during refresh.
+	wiki.addTiddler({title: "List", tags: "B C"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledWith({nodes: {A: {}, C: {value: "X"}}});
+});
+
 });
