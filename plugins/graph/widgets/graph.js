@@ -9,7 +9,7 @@ Widget for creating graphs.
 
 "use strict";
 
-var ContainerWidget = require("./graphcontainer.js").graphcontainer;
+var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
 var Engines = $tw.modules.applyMethods("graphengineadapter");
 
@@ -25,7 +25,7 @@ var GraphWidget = function(parseTreeNode, options) {
 /*
 Inherit from the base widget class
 */
-GraphWidget.prototype = new ContainerWidget();
+GraphWidget.prototype = new Widget();
 
 /*
 Render this widget into the DOM
