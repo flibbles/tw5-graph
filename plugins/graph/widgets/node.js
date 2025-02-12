@@ -35,9 +35,12 @@ NodeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.prototype.getGraphObject = function() {
+NodeWidget.prototype.getGraphObject = function(style) {
 	this.changed = false;
-	var data = this.styleMethod? this.styleMethod(this.id): {};
+	return this.object;
+};
+
+NodeWidget.prototype.setStyle = function(data) {
 	if (this.label) {
 		data.label = this.label;
 	}
@@ -46,7 +49,7 @@ NodeWidget.prototype.getGraphObject = function() {
 		data.x = parseFloat(points[0]);
 		data.y = parseFloat(points[1]);
 	}
-	return data;
+	this.object = data
 };
 
 NodeWidget.prototype.invokeDragAction = function(triggeringWidget, event) {

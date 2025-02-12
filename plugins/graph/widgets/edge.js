@@ -49,14 +49,16 @@ EdgeWidget.prototype.refresh = function(changedTiddlers) {
 
 EdgeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
-	var data = {
-		from: this.fromTiddler,
-		to: this.toTiddler
-	};
+	return this.object;
+};
+
+EdgeWidget.prototype.setStyle = function(data) {
+	data.from = this.fromTiddler;
+	data.to = this.toTiddler;
 	if (this.label) {
 		data.label = this.label;
 	}
-	return data;
+	this.object = data;
 };
 
 EdgeWidget.prototype.allowActionPropagation = function() {

@@ -49,7 +49,7 @@ it('can handle changes to style properties', async function() {
 	var initialize = spyOn(TestEngine.prototype,"initialize").and.callThrough();
 	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
-	wiki.addTiddler({title: "Special", text: "from"});
+	wiki.addTiddler({title: "Special", text: "then"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
 			<$style $for=nodes layer=1>
@@ -66,14 +66,14 @@ it('can handle changes to style properties', async function() {
 	var objects = initialize.calls.first().args[1];
 	await $tw.test.flushChanges();
 	expect(objects.nodes).toEqual({
-		A: {layer: "3", special: "from"},
+		A: {layer: "3", special: "then"},
 		B: {layer: "3"},
-		C: {layer: "2", special: "from"},
+		C: {layer: "2", special: "then"},
 		D: {layer: "1"}});
-	wiki.addTiddler({title: "Special", text: "to"});
+	wiki.addTiddler({title: "Special", text: "now"});
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update).toHaveBeenCalledWith({nodes: {A: {layer: "3", special: "to"}, C: {layer: "2", special: "to"}}});
+	expect(update).toHaveBeenCalledWith({nodes: {A: {layer: "3", special: "now"}, C: {layer: "2", special: "now"}}});
 });
 
 it('updates when $filter output would be only change', async function() {

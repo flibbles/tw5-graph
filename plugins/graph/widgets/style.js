@@ -9,13 +9,13 @@ Widget for setting styles on graph objects.
 
 "use strict";
 
-var ContainerWidget = require("./graphcontainer.js").graphcontainer;
+var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
 var StyleWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
-StyleWidget.prototype = new ContainerWidget();
+StyleWidget.prototype = new Widget();
 
 StyleWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
@@ -26,23 +26,94 @@ StyleWidget.prototype.render = function(parent, nextSibling) {
 
 StyleWidget.prototype.execute = function() {
 	this.filter = this.getAttribute("$filter");
-	this.filterFnc = this.wiki.compileFilter(this.filter || "[all[]]");
-	this.styleObject = Object.create(null);
-	for (var name in this.attributes) {
-		if (name.charAt(0) !== '$') {
-			this.styleObject[name] = this.attributes[name];
-		}
-	}
+	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
+	this.styleObject = this.createStyleFromAttributes(this.attributes);
+	this.affectedObjects = Object.create(null);
+	this.knownObjects = {};
+	this.type = "nodes";
 	this.makeChildWidgets();
 };
 
 StyleWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
+	var changed = false;
 	if ($tw.utils.count(changedAttributes) > 0) {
-		this.refreshSelf();
-		return true;
+		// Our styling attributes have changed, so everything this $style
+		// affects needs to refresh.
+		this.styleObject = this.createStyleFromAttributes(this.attributes);
+		for (var id in this.affectedObjects || this.knownObjects[this.type]) {
+			this.knownObjects[this.type][id].changed = true;
+		}
+		changed = true;
 	}
-	return this.refreshChildren(changedTiddlers);
+	// If we have a filterFunc, we need to worry about whether this style
+	// applies to a different subset of its children objects or not.
+	if (this.filter) {
+		var known = this.knownObjects[this.type];
+		for (var id in known) {
+			var shouldStyle = this.filterFunc([id]).length > 0;
+			if (shouldStyle !== !!this.affectedObjects[id]) {
+				// We're changing whether we style it or not. And also that
+				// object will need to resubmit its info to the graph.
+				this.affectedObjects[id] = shouldStyle;
+				var widget = known[id];
+				widget.changed = true;
+				changed = true;
+			}
+		}
+	}
+	return this.refreshChildren(changedTiddlers) || changed;
+};
+
+StyleWidget.prototype.createStyleFromAttributes = function(attributes) {
+	var styleObject = Object.create(null);
+	for (var name in attributes) {
+		if (name.charAt(0) !== '$') {
+			styleObject[name] = attributes[name];
+		}
+	}
+	return styleObject;
+};
+
+StyleWidget.prototype.updateGraphWidgets = function(parentCallback) {
+	var self = this;
+	var newObjects = {};
+	var callback = function(widget) {
+		var type = widget.graphObjectType;
+		var id = widget.id;
+		newObjects[type] = newObjects[type] || Object.create(null);
+		newObjects[type][id] = widget;
+		var object = parentCallback(widget);
+		if (type === self.type) {
+			if (self.filter) {
+				if (self.filterFunc([id]).length > 0) {
+					self.affectedObjects[id] = true;
+				} else {
+					return object;
+				}
+			}
+			for (var style in self.styleObject) {
+				object[style] = self.styleObject[style];
+			}
+		}
+		return object;
+	};
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			if (widget.graphObjectType) {
+				widget.setStyle(callback(widget));
+			}
+			if (widget.updateGraphWidgets) {
+				widget.updateGraphWidgets(callback);
+			} else if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren(this.children, null);
+	this.knownObjects = newObjects;
+	return newObjects;
 };
 
 exports.style = StyleWidget;

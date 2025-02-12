@@ -59,9 +59,9 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
+	
 	this.engine = this.getAttribute('engine');
 	// TODO: Not quite the correct call here. It should only executeColors
-	this.knownObjects = {};
 	this.colorWidgets = {};
 	this.colors = {};
 	this.refreshColors();
@@ -69,7 +69,11 @@ GraphWidget.prototype.execute = function() {
 	if (!Engine) {
 		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
 	} else {
-		this.makeChildWidgets();
+		var coreStyleNode = {
+			type: "style",
+			children: this.parseTreeNode.children
+		};
+		this.children = [this.makeChildWidget(coreStyleNode)];
 		this.engine = new Engine(this.wiki);
 	}
 };
@@ -130,24 +134,34 @@ GraphWidget.prototype.getStyleObject = function() {
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
-	var newObjects = {};
-	this.getGraphWidgets(newObjects, function() { return {}; });
+	var newObjects = this.children[0].updateGraphWidgets(function() {return {};});
 	// Special handling for edge trimming
-	if (newObjects.edges) {
-		for (var id in newObjects.edges) {
-			var edge = newObjects.edges[id];
+	withholdObjects(newObjects);
+	var prevObjects = this.knownObjects;
+	this.knownObjects = newObjects;
+	return getDifferences(prevObjects, newObjects);
+};
+
+function withholdObjects(objects) {
+	// Special handling for edge trimming
+	if (objects.edges) {
+		for (var id in objects.edges) {
+			var edge = objects.edges[id];
 			// This could probably be done above when deleting nulls
-			if (!newObjects.nodes
-			|| !newObjects.nodes[edge.fromTiddler]
-			|| !newObjects.nodes[edge.toTiddler]) {
+			if (!objects.nodes
+			|| !objects.nodes[edge.fromTiddler]
+			|| !objects.nodes[edge.toTiddler]) {
 				// It must be trimmed
-				newObjects.edges[id] = undefined;
+				objects.edges[id] = undefined;
 			}
 		}
 	}
+};
+
+function getDifferences(prevObjects, newObjects) {
 	var objects = null
-	for (var type in this.knownObjects) {
-		var was = this.knownObjects[type];
+	for (var type in prevObjects) {
+		var was = prevObjects[type];
 		var is = newObjects[type];
 		for (var id in was) {
 			if (was[id]) {
@@ -166,7 +180,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 		}
 	}
 	for (var type in newObjects) {
-		var was = this.knownObjects[type];
+		var was = prevObjects? prevObjects[type]: undefined;
 		var is = newObjects[type];
 		for (var id in is) {
 			if (is[id] && (!was || !was[id])) {
@@ -177,7 +191,6 @@ GraphWidget.prototype.findGraphObjects = function() {
 			}
 		}
 	}
-	this.knownObjects = newObjects;
 	return objects;
 };
 
