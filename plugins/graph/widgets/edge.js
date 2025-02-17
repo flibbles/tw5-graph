@@ -47,9 +47,20 @@ EdgeWidget.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers);
 };
 
+EdgeWidget.prototype.allowActionPropagation = function() {
+	return false;
+};
+
 EdgeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
 	return this.object;
+};
+
+/* When testing applicability in a $style filter, use the from and to tiddlers
+ * as input sources.
+ */
+EdgeWidget.prototype.getGraphFilterSource = function() {
+	return [this.fromTiddler, this.toTiddler];
 };
 
 EdgeWidget.prototype.setStyle = function(data) {
@@ -59,10 +70,6 @@ EdgeWidget.prototype.setStyle = function(data) {
 		data.label = this.label;
 	}
 	this.object = data;
-};
-
-EdgeWidget.prototype.allowActionPropagation = function() {
-	return false;
 };
 
 exports.edge = EdgeWidget;

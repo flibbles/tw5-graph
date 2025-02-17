@@ -9,11 +9,13 @@ tags: Demo
 
 <$list filter="[tag[Deity]!is[system]!is[draft]]">
 
+<$style shape={{!!shape}}>
+
 <$node label={{!!title}} >
 
 <$action-navigate />
 
-</$node>
+</$node></$style>
 
 <$edge to={{!!father}} />
 

@@ -25,12 +25,14 @@ StyleWidget.prototype.render = function(parent, nextSibling) {
 };
 
 StyleWidget.prototype.execute = function() {
+	this.type = this.getAttribute("$for", "nodes");
 	this.filter = this.getAttribute("$filter");
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.styleObject = this.createStyleFromAttributes(this.attributes);
-	this.affectedObjects = Object.create(null);
+	if (this.filter) {
+		this.affectedObjects = Object.create(null);
+	}
 	this.knownObjects = {};
-	this.type = "nodes";
 	this.makeChildWidgets();
 };
 
@@ -46,17 +48,30 @@ StyleWidget.prototype.refresh = function(changedTiddlers) {
 		}
 		changed = true;
 	}
+	// If the $for changed, we need to refocus to the different object type.
+	if (changedAttributes["$for"]) {
+		this.type = this.getAttribute("$for", "nodes");
+		if (this.filter) {
+			this.affectedObjects = Object.create(null);
+		} else {
+			// We need to notify all objects of the new category to refresh.
+			for (var id in this.knownObjects[this.type]) {
+				this.knownObjects[this.type][id].changed = true;
+			}
+		}
+	}
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.
 	if (this.filter) {
 		var known = this.knownObjects[this.type];
 		for (var id in known) {
-			var shouldStyle = this.filterFunc([id]).length > 0;
+			var widget = known[id];
+			var source = widget.getGraphFilterSource();
+			var shouldStyle = this.filterFunc(source).length > 0;
 			if (shouldStyle !== !!this.affectedObjects[id]) {
 				// We're changing whether we style it or not. And also that
 				// object will need to resubmit its info to the graph.
 				this.affectedObjects[id] = shouldStyle;
-				var widget = known[id];
 				widget.changed = true;
 				changed = true;
 			}
@@ -68,7 +83,7 @@ StyleWidget.prototype.refresh = function(changedTiddlers) {
 StyleWidget.prototype.createStyleFromAttributes = function(attributes) {
 	var styleObject = Object.create(null);
 	for (var name in attributes) {
-		if (name.charAt(0) !== '$') {
+		if (name.charAt(0) !== '$' && attributes[name]) {
 			styleObject[name] = attributes[name];
 		}
 	}
@@ -86,7 +101,8 @@ StyleWidget.prototype.updateGraphWidgets = function(parentCallback) {
 		var object = parentCallback(widget);
 		if (type === self.type) {
 			if (self.filter) {
-				if (self.filterFunc([id]).length > 0) {
+				var source = widget.getGraphFilterSource();
+				if (self.filterFunc(source).length > 0) {
 					self.affectedObjects[id] = true;
 				} else {
 					return object;

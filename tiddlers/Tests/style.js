@@ -45,6 +45,101 @@ it('can hierarchically apply styles to filtered nested', function() {
 		F: {}});
 });
 
+it('can apply styles to non-node objects, like edges', function() {
+	var initialize = spyOn(TestEngine.prototype, "initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$edge from=A to=C />
+			<$style $for=edges color=blue>
+				<$node tiddler=A/>
+				<$node tiddler=B/>
+				<$node tiddler=C/>
+				<$edge from=A to=B />
+			</$style>
+		</$graph>`);
+	expect(initialize).toHaveBeenCalledTimes(1);
+	var objects = initialize.calls.first().args[1];
+	expect(objects.nodes).toEqual({
+		A: {},
+		B: {},
+		C: {}});
+	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "C"}, {from: "A", to: "B", color: "blue"}]);
+});
+
+it('can selectively apply styles to non-node objects, like edges', function() {
+	var initialize = spyOn(TestEngine.prototype, "initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$style $for=edges $filter="[last[]match[C]]" color=blue>
+				<$node tiddler=A/>
+				<$node tiddler=B/>
+				<$node tiddler=C/>
+				<$edge from=A to=B />
+				<$edge from=A to=C />
+				<$edge from=B to=C />
+			</$style>
+		</$graph>`);
+	expect(initialize).toHaveBeenCalledTimes(1);
+	var objects = initialize.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {}, B: {}, C: {}});
+	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "A", to: "C", color: "blue"}, {from: "B", to: "C", color: "blue"}]);
+});
+
+it('refreshes properly if $for changes when filtering', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "for", text: "edges"});
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$style $for={{for}} $filter="[first[]match[A]]" color=blue>
+				<$node tiddler=A/>
+				<$node tiddler=B/>
+				<$edge from=A to=B />
+				<$edge from=B to=A />
+			</$style>
+		</$graph>`);
+	await $tw.test.flushChanges();
+	wiki.addTiddler({title: "for", text: "nodes"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	var objects = update.calls.first().args[0];
+	expect(objects.nodes).toEqual({A: {color: "blue"}});
+	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
+});
+
+it('refreshes properly if $for changes when not filtering', async function() {
+	var update = spyOn(TestEngine.prototype, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "for", text: "edges"});
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$style $for={{for}} color=blue>
+				<$node tiddler=A/>
+				<$node tiddler=B/>
+				<$edge from=A to=B />
+				<$edge from=B to=A />
+			</$style>
+		</$graph>`);
+	await $tw.test.flushChanges();
+	wiki.addTiddler({title: "for", text: "nodes"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	var objects = update.calls.first().args[0];
+	expect(objects.nodes).toEqual({A: {color: "blue"}, B: {color: "blue"}});
+	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "B", to: "A"}]);
+});
+
+it('treats empty attributes as non-existent', function() {
+	var initialize = spyOn(TestEngine.prototype,"initialize").and.callThrough();
+	var wiki = new $tw.Wiki();
+	var widget = $tw.test.renderText(wiki, "<$graph><$style yes=value no={{!!nofield}}><$node tiddler=target />");
+	var objects = initialize.calls.first().args[1];
+	expect(objects.nodes).toEqual({target: {yes: "value"}});
+});
+
+//TODO: If $filter changes, it should only change what filter results change.
 it('can handle changes to style properties', async function() {
 	var initialize = spyOn(TestEngine.prototype,"initialize").and.callThrough();
 	var update = spyOn(TestEngine.prototype, "update").and.callThrough();

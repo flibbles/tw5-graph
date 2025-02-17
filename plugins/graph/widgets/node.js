@@ -35,22 +35,6 @@ NodeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.prototype.getGraphObject = function(style) {
-	return this.object;
-};
-
-NodeWidget.prototype.setStyle = function(data) {
-	if (this.label) {
-		data.label = this.label;
-	}
-	if (this.pos) {
-		var points = this.pos.split(",");
-		data.x = parseFloat(points[0]);
-		data.y = parseFloat(points[1]);
-	}
-	this.object = data
-};
-
 NodeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	if (changedAttributes.pos || changedAttributes.label || changedAttributes.tiddler) {
@@ -62,6 +46,29 @@ NodeWidget.prototype.refresh = function(changedTiddlers) {
 
 NodeWidget.prototype.allowActionPropagation = function() {
 	return false;
+};
+
+NodeWidget.prototype.getGraphObject = function(style) {
+	return this.object;
+};
+
+/* When testing applicability in a $style filter, use the tiddler title
+ * as the input source.
+ */
+NodeWidget.prototype.getGraphFilterSource = function() {
+	return [this.id];
+}
+
+NodeWidget.prototype.setStyle = function(data) {
+	if (this.label) {
+		data.label = this.label;
+	}
+	if (this.pos) {
+		var points = this.pos.split(",");
+		data.x = parseFloat(points[0]);
+		data.y = parseFloat(points[1]);
+	}
+	this.object = data
 };
 
 exports.node = NodeWidget;
