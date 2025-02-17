@@ -36,7 +36,6 @@ NodeWidget.prototype.execute = function() {
 };
 
 NodeWidget.prototype.getGraphObject = function(style) {
-	this.changed = false;
 	return this.object;
 };
 
@@ -50,15 +49,6 @@ NodeWidget.prototype.setStyle = function(data) {
 		data.y = parseFloat(points[1]);
 	}
 	this.object = data
-};
-
-NodeWidget.prototype.invokeDragAction = function(triggeringWidget, event) {
-	var pos = event.point;
-	if (this.pos) {
-		var newLoc = pos.x + " " + pos.y;
-		this.wiki.setTextReference(this.pos, newLoc, this.id);
-	}
-	return true;
 };
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {

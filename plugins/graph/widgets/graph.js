@@ -175,6 +175,7 @@ function getDifferences(prevObjects, newObjects) {
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = is[id].getGraphObject();
+					is[id].changed = false;
 				}
 			}
 		}
@@ -188,6 +189,7 @@ function getDifferences(prevObjects, newObjects) {
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
 				objects[type][id] = is[id].getGraphObject();
+				is[id].changed = false;
 			}
 		}
 	}
