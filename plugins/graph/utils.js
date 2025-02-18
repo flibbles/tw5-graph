@@ -15,25 +15,14 @@ exports.getEngineMap = function() {
 	return Engines;
 };
 
-exports.getEngine = function(wiki, name) {
-	var engineMap = exports.getEngineMap(),
-		engine,
-		choice = name || wiki.getTiddlerText("$:/config/flibbles/graph/engine");
+exports.getEngine = function(name) {
+	var engineMap = exports.getEngineMap();
+	if (name) {
+		return engineMap[name] || null;
+	}
 	for (var entry in engineMap) {
-		engine = engineMap[entry];
-		break;
+		// take the first one
+		return engineMap[entry];
 	}
-	if (!engine) {
-		throw new Error("No graphing libraries installed.");
-	}
-	if (choice) {
-		var engine = engineMap[choice];
-		if (!engine) {
-			throw new Error(name?
-				"'" + name + "' graphing library not found.":
-				"Graph plugin configured to use missing '" + choice + "' engine. Fix this in plugin settings.");
-		}
-	}
-	return engine;
+	return null;
 };
-

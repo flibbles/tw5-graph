@@ -60,22 +60,30 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
-	this.engineValue = this.getAttribute('$engine');
-	// TODO: Not quite the correct call here. It should only executeColors
 	this.colorWidgets = {};
 	this.colors = {};
-	this.refreshColors();
-	try {
-		var Engine = utils.getEngine(this.wiki, this.engineValue);
+	this.engineValue = this.getAttribute("$engine", this.wiki.getTiddlerText("$:/config/flibbles/graph/engine"));
+	var Engine = utils.getEngine(this.engineValue);
+	if (!Engine) {
+		var message;
+		if (!this.engineValue) {
+			message = "No graphing libraries installed.";
+		} else if (this.getAttribute("$engine")) {
+			message = "'" + this.engineValue + "' graphing library not found.";
+		} else {
+			message = "Graph plugin configured to use missing '" + this.engineValue + "' engine. Fix this in plugin settings.";
+		}
+		this.makeChildWidgets([{type: "text", text: message}]);
+		this.engine = undefined;
+	} else {
+		// TODO: Not quite the correct call here. It should only executeColors
+		this.refreshColors();
 		var coreStyleNode = {
 			type: "style",
 			children: this.parseTreeNode.children
 		};
 		this.children = [this.makeChildWidget(coreStyleNode)];
 		this.engine = new Engine(this.wiki);
-	} catch (e) {
-		this.makeChildWidgets([{type: "text", text: e.toString()}]);
-		this.engine = undefined;
 	}
 };
 
@@ -84,8 +92,9 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0;
-	if(changedAttributes["$engine"]) {
+		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0,
+		newEngineValue = this.getAttribute("$engine", this.wiki.getTiddlerText("$:/config/flibbles/graph/engine"));
+	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
 		return true;
 	}

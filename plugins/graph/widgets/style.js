@@ -62,6 +62,7 @@ StyleWidget.prototype.refresh = function(changedTiddlers) {
 	}
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.
+	// TODO: A full refresh is not required, even if the filter changes
 	if (this.filter) {
 		var known = this.knownObjects[this.type];
 		for (var id in known) {

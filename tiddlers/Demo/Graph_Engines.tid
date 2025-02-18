@@ -3,7 +3,7 @@ tags: Demo
 
 <$list variable=engine filter="Orb Vis">
 
-<$graph engine=<<engine>> >
+<$graph $engine=<<engine>> >
 
 <$graph.popup state=`$:/state/$(engine)$`>
 

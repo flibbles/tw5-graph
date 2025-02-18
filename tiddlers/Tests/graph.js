@@ -168,10 +168,35 @@ it('sends style and node updates together', async function() {
 
 /*** $engine attribute ***/
 
-it("handles engine-resolving errors gracefully", function() {
+it("uses first available engine if none specified", function() {
+	var wiki = new $tw.Wiki();
+	var utils = require("$:/plugins/flibbles/graph/utils.js");
+	var engineMap = utils.getEngineMap();
+	spyOn(utils, "getEngineMap").and.returnValue({anything: engineMap.Also});
+	var alsoInit = spyOn(AlsoEngine.prototype, "initialize");
+	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>")
+	expect(alsoInit).toHaveBeenCalled();
+});
+
+it("handles missing engine gracefully", function() {
 	var wiki = new $tw.Wiki();
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine=Missing/>\n");
-	expect(text).toContain(">Error: 'Missing' graphing library not found.</div>");
+	expect(text).toContain(">'Missing' graphing library not found.</div>");
+});
+
+it("handles no engines installed gracefully", function() {
+	var utils = require("$:/plugins/flibbles/graph/utils.js");
+	spyOn(utils, "getEngineMap").and.returnValue({});
+	var wiki = new $tw.Wiki();
+	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>\n");
+	expect(text).toContain(">No graphing libraries installed.</div>");
+});
+
+it("handles bad global setting gracefully", function() {
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Missing"});
+	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>\n");
+	expect(text).toContain(">Graph plugin configured to use missing 'Missing' engine. Fix this in plugin settings.</div>");
 });
 
 it("performs complete refresh if engine changes", async function() {
@@ -196,7 +221,34 @@ it("handles switching to a bad engine", async function() {
 	wiki.addTiddler({title: "target", text: "Missing"});
 	await $tw.test.flushChanges();
 	expect(testUpdate).not.toHaveBeenCalled();
+	// There should only be the error widget. No canvas
+	expect(widget.parentDomNode.innerHTML).toContain("not found");
+	expect(widget.parentDomNode.innerHTML).not.toContain("<canvas");
 	// If $graph doesn't properly execute, and holds old data, a crash happens.
+});
+
+it("detects change of global engine configuration", async function() {
+	var alsoInit = spyOn(AlsoEngine.prototype, "initialize");
+	var testUpdate = spyOn(TestEngine.prototype, "update");
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
+	var widget = $tw.test.renderText(wiki, "<$graph/>\n");
+	await $tw.test.flushChanges();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
+	await $tw.test.flushChanges();
+	expect(testUpdate).not.toHaveBeenCalled();
+	expect(alsoInit).toHaveBeenCalled();
+});
+
+it("does not refresh explicit engine if global changes", async function() {
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Test/>\n");
+	await $tw.test.flushChanges();
+	var testInit = spyOn(TestEngine.prototype, "initialize");
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
+	await $tw.test.flushChanges();
+	expect(testInit).not.toHaveBeenCalled();
 });
 
 // TODO: If the configTiddler changes engines. It should refresh.
