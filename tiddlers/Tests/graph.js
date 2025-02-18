@@ -178,6 +178,14 @@ it("uses first available engine if none specified", function() {
 	expect(alsoInit).toHaveBeenCalled();
 });
 
+it("does not let blank $engine value override settings", function() {
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
+	var testInit = spyOn(TestEngine.prototype, "initialize");
+	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine={{missing}} />")
+	expect(testInit).toHaveBeenCalled();
+});
+
 it("handles missing engine gracefully", function() {
 	var wiki = new $tw.Wiki();
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine=Missing/>\n");

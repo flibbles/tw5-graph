@@ -62,7 +62,7 @@ Compute the internal state of the widget
 GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
 	this.colors = {};
-	this.engineValue = this.getAttribute("$engine", this.wiki.getTiddlerText("$:/config/flibbles/graph/engine"));
+	this.engineValue = this.getEngineName();
 	var Engine = utils.getEngine(this.engineValue);
 	if (!Engine) {
 		var message;
@@ -93,7 +93,7 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
 		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0,
-		newEngineValue = this.getAttribute("$engine", this.wiki.getTiddlerText("$:/config/flibbles/graph/engine"));
+		newEngineValue = this.getEngineName();
 	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
 		return true;
@@ -137,6 +137,11 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 		changed = true;
 	}
 	return changed;
+};
+
+GraphWidget.prototype.getEngineName = function() {
+	return this.getAttribute("$engine")
+		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine");
 };
 
 GraphWidget.prototype.getStyleObject = function() {
