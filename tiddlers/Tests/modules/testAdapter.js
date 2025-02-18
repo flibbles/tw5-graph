@@ -1,7 +1,7 @@
 /*\
 module-type: graphengineadapter
 
-Mock engine for running tests.
+Mock adapter for running tests.
 
 \*/
 
@@ -23,7 +23,6 @@ TestAdapter.prototype.update = function(objects) {
 	}
 };
 
-TestAdapter.prototype.setPhysics = function(value) {};
-TestAdapter.prototype.render = function(value) {};
+TestAdapter.prototype.render = function() {};
 
 exports.Test = TestAdapter;

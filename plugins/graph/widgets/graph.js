@@ -10,6 +10,7 @@ Widget for creating graphs.
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
+var utils = require("../utils.js");
 
 var Engines = $tw.modules.applyMethods("graphengineadapter");
 
@@ -59,22 +60,22 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
-	
-	this.engine = this.getAttribute('engine');
+	this.engineValue = this.getAttribute('$engine');
 	// TODO: Not quite the correct call here. It should only executeColors
 	this.colorWidgets = {};
 	this.colors = {};
 	this.refreshColors();
-	var Engine = Engines[this.engine] || defaultEngine();
-	if (!Engine) {
-		this.makeChildWidgets([{type: "text", text: "No graphing library found"}]);
-	} else {
+	try {
+		var Engine = utils.getEngine(this.wiki, this.engineValue);
 		var coreStyleNode = {
 			type: "style",
 			children: this.parseTreeNode.children
 		};
 		this.children = [this.makeChildWidget(coreStyleNode)];
 		this.engine = new Engine(this.wiki);
+	} catch (e) {
+		this.makeChildWidgets([{type: "text", text: e.toString()}]);
+		this.engine = undefined;
 	}
 };
 
@@ -84,7 +85,7 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
 		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0;
-	if(changedAttributes.engine) {
+	if(changedAttributes["$engine"]) {
 		this.refreshSelf();
 		return true;
 	}
@@ -213,10 +214,6 @@ GraphWidget.prototype.handleEvent = function(params) {
 GraphWidget.prototype.catchGraphEvent = function(params) {
 	// This catches all uncaught events
 	return true;
-};
-
-function defaultEngine() {
-	return Engines['Test'] || Engines['Orb'] || Engines[Object.keys(Engines)[0]];
 };
 
 exports.graph = GraphWidget;

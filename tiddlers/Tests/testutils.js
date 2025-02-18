@@ -5,11 +5,15 @@ Sets up some utilities for testing.
 \*/
 
 var test = $tw.test = {};
+var engineConfig = "$:/config/flibbles/graph/engine";
 
 /*
  * Renders text into a widget tree.
  */
 test.renderText = function(wiki, text) {
+	if (!wiki.tiddlerExists(engineConfig)) {
+		wiki.addTiddler({title: engineConfig, text: "Test"});
+	}
 	var parser = wiki.parseText("text/vnd.tiddlywiki", text);
 	var widgetNode = wiki.makeWidget(parser);
 	var container = $tw.fakeDocument.createElement("div");
