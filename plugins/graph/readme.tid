@@ -10,8 +10,12 @@ For more documentation, see the [[project page|https://flibbles.github.io/tw5-gr
 
 Select a default from the multiple installed engines:
 
-<$list variable=name filter="[[graphengineadapter]modules[]moduleproperty[name]]">
+<$list filter="[[graphengineadapter]modules[]]" join=" ">
 
-<$button set="$:/config/flibbles/graph/engine" setTo=<<name>> >
+<$let name={{{ [all[current]moduleproperty[name]] }}} >
+
+<$button class=graph-engine-button selectedClass=selected set="$:/config/flibbles/graph/engine" setTo=<<name>> >
+
+<$transclude $tiddler={{{ [all[current]shadowsource[]addsuffix[/icon]is[shadow]] }}} />
 
 <$text text=<<name>> />
