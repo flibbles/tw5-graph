@@ -7,22 +7,19 @@ Mock adapter for running tests.
 
 "use strict";
 
-function TestAdapter(wiki) {
-	wiki.latestEngine = this;
-};
+exports.name = "Test";
 
-TestAdapter.prototype.initialize = function(element, objects) {
+exports.initialize = function(element, objects) {
+	$tw.test.latestEngine = this;
 	this.element = element;
 	this.objects = objects;
 };
 
-TestAdapter.prototype.update = function(objects) {
+exports.render = function() {};
+
+exports.update = function(objects) {
 	for (var category in objects) {
 		this.objects[category] = this.objects[category] || Object.create(null);
 		$tw.utils.extend(this.objects[category], objects[category]);
 	}
 };
-
-TestAdapter.prototype.render = function() {};
-
-exports.Test = TestAdapter;

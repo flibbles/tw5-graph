@@ -9,7 +9,9 @@ Utility methods used by the graphing widgets.
 
 "use strict";
 
-var Engines = $tw.modules.applyMethods("graphengineadapter");
+var AdapterBase = function() {};
+
+var Engines = $tw.modules.createClassesFromModules("graphengineadapter", null, AdapterBase);
 
 exports.getEngineMap = function() {
 	return Engines;

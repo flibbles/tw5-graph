@@ -7,9 +7,8 @@ Mock adapter to test switching adapters.
 
 "use strict";
 
-function AlsoAdapter(wiki) {};
-AlsoAdapter.prototype.initialize = function() {};
-AlsoAdapter.prototype.update = function() {};
-AlsoAdapter.prototype.render = function() {};
+exports.name = "Also";
 
-exports.Also = AlsoAdapter;
+exports.initialize = function() {};
+exports.update = function() {};
+exports.render = function() {};

@@ -51,7 +51,6 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		// TODO: Should it be initialise? Is that some british spelling?
 		this.engine.initialize(this.graphElement, objects);
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
-		//this.engine.setPhysics(true);
 		this.engine.render();
 	}
 };
