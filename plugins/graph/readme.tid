@@ -1,0 +1,17 @@
+title: $:/plugins/flibbles/graph/readme
+
+//tw5-graph// is a plugin which provides a toolkit of widgets to interact with graph visualization software. This plugin does not include any visualization libraries itself. It must be coupled with a library plugin that acts as an engine, such as [[Memgraph's Orb library, or another|https://flibbles.io/tw5-graph#Graphing Engines]].
+
+For more documentation, see the [[project page|https://flibbles.github.io/tw5-graph]].
+
+!! Configuration
+
+<% if [[graphengineadapter]modules[]count[]compare:number:gt[1]] %>
+
+Select a default from the multiple installed engines:
+
+<$list variable=name filter="[[graphengineadapter]modules[]moduleproperty[name]]">
+
+<$button set="$:/config/flibbles/graph/engine" setTo=<<name>> >
+
+<$text text=<<name>> />

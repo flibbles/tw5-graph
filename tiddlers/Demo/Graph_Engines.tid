@@ -1,9 +1,7 @@
 title: Graph Engines
 tags: Demo
 
-<$list variable=engine filter="Orb Vis">
-
-<$graph $engine=<<engine>> >
+<$graph>
 
 <$graph.popup state=`$:/state/$(engine)$`>
 

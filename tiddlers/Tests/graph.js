@@ -261,9 +261,6 @@ it("does not refresh explicit engine if global changes", async function() {
 	expect(testInit).not.toHaveBeenCalled();
 });
 
-// TODO: If the configTiddler changes engines. It should refresh.
-// TODO: If the configTiddler changes engines, but engine specified. It should not refresh.
-
 // TODO: Only edges
 // TODO: No edges
 
