@@ -210,12 +210,16 @@ it("performs complete refresh if engine changes", async function() {
 	var alsoInit = spyOn($tw.test.adapterAlso, "initialize");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "target", text: "Test"});
-	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}} />\n");
+	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}}><$node tiddler=A/><$node tiddler=B/><$edge from=A to=B/>");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
 	expect(testUpdate).not.toHaveBeenCalled();
-	expect(alsoInit).toHaveBeenCalled();
+	expect(alsoInit).toHaveBeenCalledTimes(1);
+	// Let's make sure it didn't hold onto old objects from the old engine.
+	var objects = alsoInit.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {}, B: {}});
+	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
 });
 
 it("handles switching to a bad engine", async function() {

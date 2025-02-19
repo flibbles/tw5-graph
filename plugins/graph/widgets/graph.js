@@ -81,6 +81,7 @@ GraphWidget.prototype.execute = function() {
 			type: "style",
 			children: this.parseTreeNode.children
 		};
+		this.knownObjects = {};
 		this.children = [this.makeChildWidget(coreStyleNode)];
 		this.engine = new Engine(this.wiki);
 	}
