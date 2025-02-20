@@ -27,9 +27,17 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 NodeWidget.prototype.execute = function() {
-	this.pos = this.getAttribute("pos");
 	this.id = this.getAttribute("$tiddler", this.getVariable("currentTiddler"));
-	this.label = this.getAttribute("label");
+	this.pos = this.getAttribute("$pos");
+	this.settings = Object.create(null);
+	for (var key in this.attributes) {
+		if (key.charAt(0) !== "$") {
+			var value = this.attributes[key];
+			if (value) {
+				this.settings[key] = this.attributes[key];
+			}
+		}
+	}
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 	this.makeChildWidgets();
@@ -37,7 +45,8 @@ NodeWidget.prototype.execute = function() {
 
 NodeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes.pos || changedAttributes.label || changedAttributes.tiddler) {
+	// TODO: This could be tightened if this.settings and this.object were combined, and we only detect actual differences.
+	for (var attribute in changedAttributes) {
 		this.refreshSelf();
 		return true;
 	}
@@ -60,14 +69,12 @@ NodeWidget.prototype.getGraphFilterSource = function() {
 }
 
 NodeWidget.prototype.setStyle = function(data) {
-	if (this.label) {
-		data.label = this.label;
-	}
 	if (this.pos) {
 		var points = this.pos.split(",");
 		data.x = parseFloat(points[0]);
 		data.y = parseFloat(points[1]);
 	}
+	$tw.utils.extend(data, this.settings);
 	this.object = data
 };
 
