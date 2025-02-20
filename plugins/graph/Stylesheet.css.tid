@@ -13,9 +13,20 @@ tags: $:/tags/Stylesheet
 
 .graph-engine-button {
 	margin: 1em;
-	width: 6em;
-	height: 7em;
+	width: 7em;
+	height: 8em;
+	border-radius: 1em;
 	vertical-align: top;
 	font-weight: bold;
 	text-align: center;
+	background-color: <<colour background>>;
+}
+
+.graph-engine-button .graph-icon {
+	height: 6em;
+	align-content: center;
+}
+
+.graph-engine-button.active {
+	background-color: #8884;
 }

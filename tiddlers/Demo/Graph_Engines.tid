@@ -3,7 +3,7 @@ tags: Demo
 
 <$graph>
 
-<$graph.popup state=`$:/state/$(engine)$`>
+<$graph.popup>
 
 <$list filter="[tag[Deity]!is[system]!is[draft]]">
 
@@ -19,4 +19,20 @@ tags: Demo
 
 </$list></$graph.popup></$graph>
 
+<$list filter="[[graphengineadapter]modules[]]">
+
+<$let name={{{ [all[current]moduleproperty[name]] }}} >
+
+<$button class=graph-engine-button selectedClass=active set="$:/config/flibbles/graph/engine" setTo=<<name>> >
+
+<div class=graph-icon>
+
+<$transclude $tiddler={{{ [all[current]shadowsource[]addsuffix[/icon]is[shadow]] }}} />
+
+</div>
+<$text text=<<name>> />
+
+</$button></$let></$list>
+
+<$text text=<<name>> />
 TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.
