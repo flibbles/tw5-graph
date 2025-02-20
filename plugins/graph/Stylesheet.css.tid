@@ -28,5 +28,5 @@ tags: $:/tags/Stylesheet
 }
 
 .graph-engine-button.active {
-	background-color: #8884;
+	background-color: <<colour table-header-background>>;
 }

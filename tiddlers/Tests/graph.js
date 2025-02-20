@@ -123,6 +123,25 @@ it('does not send update if no graph objects changed', async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
+/*** dimensions ***/
+
+it("does not bother refreshing for dimension changes", async function() {
+	var init = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var update = spyOn($tw.test.adapter, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "dimensions", text: "247"});
+	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node tiddler=A/>\n");
+	await $tw.test.flushChanges();
+	expect(init).toHaveBeenCalled();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
+	wiki.addTiddler({title: "dimensions", text: "300"});
+	await $tw.test.flushChanges();
+	expect(update).not.toHaveBeenCalled();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("height:300");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:300");
+});
+
 /*** color palette ***/
 
 it('sends style update if palette changes', async function() {
@@ -164,6 +183,7 @@ it('sends style and node updates together', async function() {
 
 /*** $engine attribute ***/
 
+// TODO: Also make it not refresh if global setting gets set, but doesn't change outcome? Maybe too much?
 it("uses first available engine if none specified", function() {
 	var wiki = new $tw.Wiki();
 	var utils = require("$:/plugins/flibbles/graph/utils.js");

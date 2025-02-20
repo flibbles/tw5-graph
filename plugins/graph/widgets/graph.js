@@ -37,8 +37,8 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	this.execute();
 	this.graphElement = this.document.createElement("div");
 	this.graphElement.className = "graph-canvas";
-	this.graphElement.style.width = "100%";
-	this.graphElement.style.height = "300px";
+	this.graphElement.style.width = this.width;
+	this.graphElement.style.height = this.height;
 	this.domNodes.push(this.graphElement);
 
 	parent.insertBefore(this.graphElement, nextSibling);
@@ -62,6 +62,7 @@ GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
 	this.colors = {};
 	this.engineValue = this.getEngineName();
+	this.executeDimensions();
 	var Engine = utils.getEngine(this.engineValue);
 	if (!Engine) {
 		var message;
@@ -87,12 +88,16 @@ GraphWidget.prototype.execute = function() {
 	}
 };
 
+GraphWidget.prototype.executeDimensions = function() {
+	this.width = this.getAttribute("$width", "100%");
+	this.height = this.getAttribute("$height", "400px");
+};
+
 /*
 Selectively refreshes the widget if needed. Returns true if the widget or any of its children needed re-rendering
 */
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		hasChangedAttributes = $tw.utils.count(changedAttributes) > 0,
 		newEngineValue = this.getEngineName();
 	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
@@ -100,6 +105,14 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	}
 	var changed = false;
 	var objects;
+	for (var attribute in changedAttributes) {
+		if (attribute === "$width" || attribute === "$height") {
+			changed = true;
+			this.executeDimensions();
+			this.graphElement.style.width = this.width;
+			this.graphElement.style.height = this.height;
+		}
+	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		objects = this.findGraphObjects();
@@ -113,7 +126,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	if (objects) {
 		this.engine.update(objects);
 	}
-	return changed || hasChangedAttributes;
+	return changed;
 };
 
 GraphWidget.prototype.refreshColors = function(changedTiddlers) {
