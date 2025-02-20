@@ -30,9 +30,18 @@ EdgeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 EdgeWidget.prototype.execute = function() {
+	// TODO: Maybe this should be $from
 	this.fromTiddler = this.getAttribute("from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("to");
-	this.label = this.getAttribute("label");
+	this.settings = Object.create(null);
+	for (var key in this.attributes) {
+		if (key.charAt(0) !== "$" && key !== "from") {
+			var value = this.attributes[key];
+			if (value) {
+				this.settings[key] = this.attributes[key];
+			}
+		}
+	}
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 	this.makeChildWidgets();
@@ -40,7 +49,8 @@ EdgeWidget.prototype.execute = function() {
 
 EdgeWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes.label || changedAttributes.from || changedAttributes.to) {
+	// TODO: This could be tightened if this.settings and this.object were combined, and we only detect actual differences.
+	for (var attribute in changedAttributes) {
 		this.refreshSelf();
 		return true;
 	}
@@ -64,12 +74,8 @@ EdgeWidget.prototype.getGraphFilterSource = function() {
 };
 
 EdgeWidget.prototype.setStyle = function(data) {
-	data.from = this.fromTiddler;
-	data.to = this.toTiddler;
-	if (this.label) {
-		data.label = this.label;
-	}
-	this.object = data;
+	this.object = $tw.utils.extend(data, this.settings);
+	this.object.from = this.fromTiddler;
 };
 
 exports.edge = EdgeWidget;

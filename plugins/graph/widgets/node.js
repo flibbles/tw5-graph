@@ -74,8 +74,7 @@ NodeWidget.prototype.setStyle = function(data) {
 		data.x = parseFloat(points[0]);
 		data.y = parseFloat(points[1]);
 	}
-	$tw.utils.extend(data, this.settings);
-	this.object = data
+	this.object = $tw.utils.extend(data, this.settings);
 };
 
 exports.node = NodeWidget;

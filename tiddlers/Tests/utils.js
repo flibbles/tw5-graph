@@ -63,6 +63,26 @@ test.dispatchEvent = function(wiki, params, callback) {
 	test.latestEngine.onevent(params);
 };
 
+test.fetchGraphObjects = function(widget) {
+	var objects = {};
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			var type = widget.graphObjectType;
+			if (type && widget.changed) {
+				objects[type] = objects[type] || Object.create(null);
+				widget.setStyle({});
+				objects[type][widget.id] = widget.getGraphObject();
+			}
+			if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren([widget]);
+	return objects;
+};
+
 /*
  * options can include the following:
  *   point: {x: Number, y: Number}
