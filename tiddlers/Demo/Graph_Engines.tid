@@ -1,23 +1,23 @@
 title: Graph Engines
 tags: Demo
 
+\whitespace trim
+
 <$graph>
-
-<$graph.popup>
-
-<$list filter="[tag[Deity]!is[system]!is[draft]]">
-
-<$style shape={{!!shape}}>
-
-<$node label={{!!title}} >
-
-<$action-navigate />
-
-</$node></$style>
-
-<$edge to={{!!father}} />
-
-</$list></$graph.popup></$graph>
+ <$graph.popup>
+  <$style $filter="[tag[Norse]]" color="#8b0000" >
+  <$style $filter="[tag[Ruler]]" shape=star >
+   <$list filter="[tag[Deity]!is[system]!is[draft]]">
+    <$node shape={{!!shape}} label={{!!title}} >
+     <$action-navigate />
+    </$node>
+    <$edge to={{!!father}} />
+    <$edge to={{!!mother}} color="#3565AE" label=mother />
+   </$list>
+  </$style>
+  </$style>
+ </$graph.popup>
+</$graph>
 
 <$list filter="[[graphengineadapter]modules[]]">
 
