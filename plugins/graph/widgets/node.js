@@ -28,7 +28,7 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 
 NodeWidget.prototype.execute = function() {
 	this.pos = this.getAttribute("pos");
-	this.id = this.getAttribute("tiddler", this.getVariable("currentTiddler"));
+	this.id = this.getAttribute("$tiddler", this.getVariable("currentTiddler"));
 	this.label = this.getAttribute("label");
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;

@@ -104,7 +104,7 @@ it('does not hand over empty edge lists', function() {
 	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "A"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node tiddler=A/><$edge from=A to=B />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$edge from=A to=B />");
 	expect(initialize).toHaveBeenCalledTimes(1);
 	// Might expect to have an edge object because one was added,
 	// and then trimmed. But we should be better than that.
@@ -130,7 +130,7 @@ it("does not bother refreshing for dimension changes", async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "dimensions", text: "247"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node tiddler=A/>\n");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node $tiddler=A/>\n");
 	await $tw.test.flushChanges();
 	expect(init).toHaveBeenCalled();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
@@ -149,7 +149,7 @@ it('sends style update if palette changes', async function() {
 	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude tiddler="$name$">#000000</$transclude>\n<$graph/>')
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph/>')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(initialize)[1];
 	expect(Object.keys(initialObjects)).toEqual(["style"]);
@@ -167,7 +167,7 @@ it('sends style and node updates together', async function() {
 	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude tiddler="$name$">#000000</$transclude>\n<$graph><$node tiddler=N label={{graph-node-background}} />')
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-background}} />')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(initialize)[1];
 	expect(Object.keys(initialObjects)).toEqual(["nodes", "style"]);
@@ -230,7 +230,7 @@ it("performs complete refresh if engine changes", async function() {
 	var alsoInit = spyOn($tw.test.adapterAlso, "initialize");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "target", text: "Test"});
-	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}}><$node tiddler=A/><$node tiddler=B/><$edge from=A to=B/>");
+	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge from=A to=B/>");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
