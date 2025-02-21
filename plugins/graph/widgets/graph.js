@@ -46,12 +46,10 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 
 	// Render and recenter the view
 	if(this.engine) {
+		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		objects.style = this.getStyleObject();
-		// TODO: Should it be initialise? Is that some british spelling?
-		this.engine.initialize(this.graphElement, objects);
-		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
-		this.engine.render();
+		this.engine.init(this.graphElement, objects);
 	}
 };
 

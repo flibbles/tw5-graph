@@ -7,17 +7,17 @@ Tests the $style widget.
 describe("StyleWidget", function() {
 
 it('can hierarchically apply style to all nested', function() {
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$style $for=nodes custom=val dynamic=1><$style $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge from=A to=B/></$style><$node $tiddler=C/></$style><$node $tiddler=D/>");
-	expect(initialize).toHaveBeenCalledTimes(1);
-	var objects = initialize.calls.first().args[1];
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {custom: "val", dynamic: "2", label: "label"}, B: {custom: "val", dynamic: "2"}, C: {custom: "val", dynamic: "1"}, D: {}});
 	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
 });
 
 it('can hierarchically apply styles to filtered nested', function() {
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -32,8 +32,8 @@ it('can hierarchically apply styles to filtered nested', function() {
 			</$style>
 			<$node $tiddler=F/>
 		</$graph>`);
-	expect(initialize).toHaveBeenCalledTimes(1);
-	var objects = initialize.calls.first().args[1];
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({
 		A: {custom: "val", dynamic: "1"},
 		B: {custom: "val", dynamic: "2"},
@@ -44,7 +44,7 @@ it('can hierarchically apply styles to filtered nested', function() {
 });
 
 it('can apply styles to non-node objects, like edges', function() {
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -56,8 +56,8 @@ it('can apply styles to non-node objects, like edges', function() {
 				<$edge from=A to=B />
 			</$style>
 		</$graph>`);
-	expect(initialize).toHaveBeenCalledTimes(1);
-	var objects = initialize.calls.first().args[1];
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({
 		A: {},
 		B: {},
@@ -66,7 +66,7 @@ it('can apply styles to non-node objects, like edges', function() {
 });
 
 it('can selectively apply styles to non-node objects, like edges', function() {
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -79,8 +79,8 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 				<$edge from=B to=C />
 			</$style>
 		</$graph>`);
-	expect(initialize).toHaveBeenCalledTimes(1);
-	var objects = initialize.calls.first().args[1];
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {}, B: {}, C: {}});
 	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "A", to: "C", color: "blue"}, {from: "B", to: "C", color: "blue"}]);
 });
@@ -130,16 +130,16 @@ it('refreshes properly if $for changes when not filtering', async function() {
 });
 
 it('treats empty attributes as non-existent', function() {
-	var initialize = spyOn($tw.test.adapter,"initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter,"init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$style yes=value no={{!!nofield}}><$node $tiddler=target />");
-	var objects = initialize.calls.first().args[1];
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({target: {yes: "value"}});
 });
 
 //TODO: If $filter changes, it should only change what filter results change.
 it('can handle changes to style properties', async function() {
-	var initialize = spyOn($tw.test.adapter,"initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter,"init").and.callThrough();
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "Special", text: "then"});
@@ -156,7 +156,7 @@ it('can handle changes to style properties', async function() {
 				<$node $tiddler=D/>
 			</$style>
 		</$graph>`);
-	var objects = initialize.calls.first().args[1];
+	var objects = init.calls.first().args[1];
 	await $tw.test.flushChanges();
 	expect(objects.nodes).toEqual({
 		A: {layer: "3", special: "then"},

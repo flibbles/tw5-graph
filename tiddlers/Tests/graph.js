@@ -101,14 +101,14 @@ it('handles edge getting incompleted later', async function() {
 });
 
 it('does not hand over empty edge lists', function() {
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "A"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$edge from=A to=B />");
-	expect(initialize).toHaveBeenCalledTimes(1);
+	expect(init).toHaveBeenCalledTimes(1);
 	// Might expect to have an edge object because one was added,
 	// and then trimmed. But we should be better than that.
-	var objects = initialize.calls.first().args[1];
+	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {}});
 	expect(objects.edges).toBeUndefined();
 });
@@ -126,7 +126,7 @@ it('does not send update if no graph objects changed', async function() {
 /*** dimensions ***/
 
 it("does not bother refreshing for dimension changes", async function() {
-	var init = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "dimensions", text: "247"});
@@ -146,12 +146,12 @@ it("does not bother refreshing for dimension changes", async function() {
 
 it('sends style update if palette changes', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph/>')
 	await $tw.test.flushChanges();
-	var initialObjects = onlyCallOf(initialize)[1];
+	var initialObjects = onlyCallOf(init)[1];
 	expect(Object.keys(initialObjects)).toEqual(["style"]);
 	expect(initialObjects.style.nodeBackground).toBe("#ff0000");
 	// Now we make a change
@@ -164,12 +164,12 @@ it('sends style update if palette changes', async function() {
 
 it('sends style and node updates together', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
-	var initialize = spyOn($tw.test.adapter, "initialize").and.callThrough();
+	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-background}} />')
 	await $tw.test.flushChanges();
-	var initialObjects = onlyCallOf(initialize)[1];
+	var initialObjects = onlyCallOf(init)[1];
 	expect(Object.keys(initialObjects)).toEqual(["nodes", "style"]);
 	expect(initialObjects.style.nodeBackground).toBe("#ff0000");
 	// Now we make a change
@@ -188,10 +188,10 @@ it("uses first available engine if none specified", function() {
 	var wiki = new $tw.Wiki();
 	var utils = require("$:/plugins/flibbles/graph/utils.js");
 	var First = function() {};
-	First.prototype.initialize = function(){};
+	First.prototype.init = function(){};
 	First.prototype.render = function(){};
 	spyOn(utils, "getEngineMap").and.returnValue({anything: First});
-	var alsoInit = spyOn(First.prototype, "initialize");
+	var alsoInit = spyOn(First.prototype, "init");
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>")
 	expect(alsoInit).toHaveBeenCalled();
 });
@@ -199,7 +199,7 @@ it("uses first available engine if none specified", function() {
 it("does not let blank $engine value override settings", function() {
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
-	var testInit = spyOn($tw.test.adapter, "initialize");
+	var testInit = spyOn($tw.test.adapter, "init");
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine={{missing}} />")
 	expect(testInit).toHaveBeenCalled();
 });
@@ -227,7 +227,7 @@ it("handles bad global setting gracefully", function() {
 
 it("performs complete refresh if engine changes", async function() {
 	var testUpdate = spyOn($tw.test.adapter, "update");
-	var alsoInit = spyOn($tw.test.adapterAlso, "initialize");
+	var alsoInit = spyOn($tw.test.adapterAlso, "init");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "target", text: "Test"});
 	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge from=A to=B/>");
@@ -258,7 +258,7 @@ it("handles switching to a bad engine", async function() {
 });
 
 it("detects change of global engine configuration", async function() {
-	var alsoInit = spyOn($tw.test.adapterAlso, "initialize");
+	var alsoInit = spyOn($tw.test.adapterAlso, "init");
 	var testUpdate = spyOn($tw.test.adapter, "update");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
@@ -275,7 +275,7 @@ it("does not refresh explicit engine if global changes", async function() {
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
 	var widget = $tw.test.renderText(wiki, "<$graph $engine=Test/>\n");
 	await $tw.test.flushChanges();
-	var testInit = spyOn($tw.test.adapter, "initialize");
+	var testInit = spyOn($tw.test.adapter, "init");
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
 	await $tw.test.flushChanges();
 	expect(testInit).not.toHaveBeenCalled();

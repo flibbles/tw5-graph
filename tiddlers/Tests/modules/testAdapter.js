@@ -9,13 +9,11 @@ Mock adapter for running tests.
 
 exports.name = "Test";
 
-exports.initialize = function(element, objects) {
+exports.init = function(element, objects) {
 	$tw.test.latestEngine = this;
 	this.element = element;
 	this.objects = objects;
 };
-
-exports.render = function() {};
 
 exports.update = function(objects) {
 	for (var category in objects) {

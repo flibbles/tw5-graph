@@ -9,6 +9,5 @@ Mock adapter to test switching adapters.
 
 exports.name = "Also";
 
-exports.initialize = function() {};
+exports.init = function() {};
 exports.update = function() {};
-exports.render = function() {};
