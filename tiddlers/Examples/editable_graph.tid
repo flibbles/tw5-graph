@@ -4,7 +4,7 @@ tags: Examples
 \widget $graph.example()
 <$graph>
 
-<$action-selecttiddler>
+<$action.selecttiddler>
 
 	<% if [<selectTiddler>!is[tiddler]] %>
 
@@ -14,13 +14,13 @@ tags: Examples
 	<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selectTiddler>]" />
 	<$action-setfield $tiddler=<<selectTiddler>> pos=<<point>> />
 
-</$action-selecttiddler>
+</$action.selecttiddler>
 
 <$list filter="[list[Editable Graphs/nodes]]" >
 
 	<$graphevent $drag="""<$action-setfield pos=<<point>> />""">
 
-		<$node label={{!!title}} pos={{!!pos}} >
+		<$node label={{!!title}} $pos={{!!pos}} >
 
 			<$action-navigate />
 

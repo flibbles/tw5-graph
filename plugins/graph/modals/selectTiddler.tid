@@ -6,7 +6,7 @@ mask-closable: yes
 
 \procedure select-accept-actions()
 \whitespace trim
-<$action-sendmessage $message="tm-select-finish" $param={{$:/temp/graph/select/tiddler}} />
+<$action-sendmessage $message="tm-modal-finish" $param={{$:/temp/graph/select/tiddler}} />
 <$action-sendmessage $message="tm-close-tiddler" />
 <$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]]" />
 \end

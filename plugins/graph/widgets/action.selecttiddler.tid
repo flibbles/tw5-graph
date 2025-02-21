@@ -1,0 +1,13 @@
+title: $:/plugins/flibbles/graph/widgets/action.selecttiddler
+tags: $:/tags/Global
+
+\widget $action.selecttiddler()
+\whitespace trim
+<$action-modal $tiddler="$:/plugins/flibbles/graph/Modals/SelectTiddler">
+
+<$slot $name="ts-raw" />
+
+</$action-modal>
+<$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+
+\end
