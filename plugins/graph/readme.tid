@@ -6,11 +6,11 @@ For more documentation, see the [[project page|https://flibbles.github.io/tw5-gr
 
 !! Configuration
 
-<% if [[graphengineadapter]modules[]count[]compare:number:gt[1]] %>
+<% if [[graphengine]modules[]count[]compare:number:gt[1]] %>
 
 Select a default from the multiple installed engines:
 
-<$list filter="[[graphengineadapter]modules[]]">
+<$list filter="[[graphengine]modules[]]">
 
 <$let name={{{ [all[current]moduleproperty[name]] }}} >
 

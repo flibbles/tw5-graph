@@ -6,7 +6,7 @@ Tests that graphs properly refresh.
 
 describe('Events', function() {
 
-var TestEngine = $tw.modules.applyMethods("graphengineadapter").Test;
+var TestEngine = $tw.modules.applyMethods("graphengine").Test;
 
 it('handles double click events to canvas', function() {
 	var wiki = new $tw.Wiki();

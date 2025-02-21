@@ -1,5 +1,5 @@
 /*\
-module-type: graphengineadapter
+module-type: graphengine
 
 Mock adapter to test switching adapters.
 

@@ -11,7 +11,7 @@ Utility methods used by the graphing widgets.
 
 var AdapterBase = function() {};
 
-var Engines = $tw.modules.createClassesFromModules("graphengineadapter", null, AdapterBase);
+var Engines = $tw.modules.createClassesFromModules("graphengine", null, AdapterBase);
 
 exports.getEngineMap = function() {
 	return Engines;

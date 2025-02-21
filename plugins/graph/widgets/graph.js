@@ -12,7 +12,7 @@ Widget for creating graphs.
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
 var utils = require("../utils.js");
 
-var Engines = $tw.modules.applyMethods("graphengineadapter");
+var Engines = $tw.modules.applyMethods("graphengine");
 
 var graphColors = {
 	nodeBackground: "graph-node-background",

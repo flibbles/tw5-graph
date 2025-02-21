@@ -19,7 +19,7 @@ tags: Demo
  </$graph.popup>
 </$graph>
 
-<$list filter="[[graphengineadapter]modules[]]">
+<$list filter="[[graphengine]modules[]]">
 
 <$let name={{{ [all[current]moduleproperty[name]] }}} >
 
