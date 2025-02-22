@@ -6,13 +6,13 @@ tags: Examples
 
 <$action.selecttiddler>
 
-	<% if [<selectTiddler>!is[tiddler]] %>
+	<% if [<selection>!is[tiddler]] %>
 
-		<$action-createtiddler $basetitle=<<selectTiddler>> />
+		<$action-createtiddler $basetitle=<<selection>> />
 
 	<% endif %>
-	<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selectTiddler>]" />
-	<$action-setfield $tiddler=<<selectTiddler>> pos=<<point>> />
+	<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selection>]" />
+	<$action-setfield $tiddler=<<selection>> pos=<<point>> />
 
 </$action.selecttiddler>
 

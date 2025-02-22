@@ -21,6 +21,7 @@ var ModalWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
+// TODO: Make sure all the \widgets aren't introducing whitespace
 ModalWidget.prototype = new Widget();
 
 ModalWidget.prototype.render = function(parent, nextSibling) {
@@ -49,7 +50,7 @@ ModalWidget.prototype.invokeAction = function(triggeringWidget, event) {
 		$tw.rootWidget.addEventListener("tm-modal-finish", function(finishEvent) {
 			if (primedWidget) {
 				var value = finishEvent.param;
-				primedWidget.setVariable("selectTiddler", value);
+				primedWidget.setVariable("selection", value);
 				primedWidget.refreshChildren();
 				primedWidget.invokeActions(primedWidget, event);
 				primedWidget = undefined;
@@ -57,7 +58,9 @@ ModalWidget.prototype.invokeAction = function(triggeringWidget, event) {
 		});
 	}
 	primedWidget = this;
-	$tw.modal.display(this.modal, {variables: event.paramObject, event: event});
+	if (this.modal) {
+		$tw.modal.display(this.modal, {variables: event.paramObject, event: event});
+	}
 };
 
 ModalWidget.prototype.allowActionPropagation = function() {

@@ -17,37 +17,41 @@ function whileSpyingOnModal(method) {
 	}
 };
 
+it('does nothing if $tiddler is not set', function() {
+	var wiki = new $tw.Wiki();
+	var widgetNode = $tw.test.renderText(wiki,"<$action-modal><$action-test/>");
+	spyOn($tw.test, "actionMethod");
+	whileSpyingOnModal(() => {
+		widgetNode.invokeActions(widgetNode, {});
+		expect($tw.modal.display).not.toHaveBeenCalled();
+		expect($tw.test.actionMethod).not.toHaveBeenCalled();
+	});
+});
+
 it('invokes children only after modal', function() {
 	var wiki = new $tw.Wiki();
-	wiki.addTiddlers([
-		{title: "Exists"},
-		{title: "Results", list: "0"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><$action-listops $tiddler=Results $subfilter='+[add[1]]' />");
+	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><$action-test/>");
+	spyOn($tw.test, "actionMethod");
 	whileSpyingOnModal(() => {
 		widgetNode.invokeActions(widgetNode, {});
 		expect($tw.modal.display).toHaveBeenCalled();
-		var results = wiki.getTiddler("Results");
-		expect(wiki.getTiddler("Results").fields.list).toEqual(["0"]);
-		$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "Exists"});
-		expect(wiki.getTiddler("Results").fields.list).toEqual(["1"]);
+		expect($tw.test.actionMethod).not.toHaveBeenCalled();
+		$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param:"Exists"});
+		expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	});
 });
 
 it('refreshes children before invoking them', function() {
 	var wiki = new $tw.Wiki();
-	wiki.addTiddlers([
-		{title: "Exists"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><% if [<selectTiddler>is[tiddler]] %><$action-setfield $tiddler=results exists=exists /><% else %><$action-setfield $tiddler=results noexist=noexist>");
+	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><% if [<selection>match[Exists]] %><$action-test exists=yes /><% else %><$action-test exists=no>");
+	spyOn($tw.test, "actionMethod");
 	whileSpyingOnModal(() => {
 		widgetNode.invokeActions(widgetNode, {});
 		expect($tw.modal.display).toHaveBeenCalled();
 	});
 	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "Exists"});
-	var results = wiki.getTiddler("results");
-	expect(results).not.toBeUndefined();
-	expect(results.fields.exists).toBe("exists");
-	expect(results.fields.noexist).toBeUndefined();
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({exists: "yes"});
 });
 
 });
-
