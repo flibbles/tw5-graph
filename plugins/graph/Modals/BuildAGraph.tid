@@ -13,4 +13,4 @@ footer: <$importvariables filter="[all[current]]"><$button actions=<<accept-acti
 <$action-sendmessage $message="tm-close-tiddler" />
 \end
 
-{{$:/plugins/flibbles/graph/wizard}}
+{{$:/plugins/flibbles/graph/ui/Wizard}}

@@ -1,0 +1,63 @@
+\define state() $:/temp/graph/wizard
+\whitespace trim
+
+<$let
+	defaultEngine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}}
+	chosenEngine={{{ [<state>get[engine]] ~[<defaultEngine>] }}}
+>
+
+<<chosenEngine>>
+
+<$codeblock code={{{ [<state>get[text]] }}} />
+
+<%if [[graphengine]modules[]count[]] %>
+
+<$list filter="[[graphengine]modules[]moduleproperty[name]]">
+<br>
+<$radio
+	tiddler=<<state>>
+	field=engine
+	default=<<defaultEngine>>
+	value={{!!title}}>
+&#32;<$text text={{!!title}} />
+</$radio>
+
+</$list>
+
+<%endif%>
+
+<$vars
+	jsonOptions={{{ [[graphengine]modules[]moduleproperty[options]] }}}
+>
+
+<$set name=properties filter="[<jsonOptions>jsonindexes[]]">
+
+<<properties>>
+
+<$list variable=type filter="[<jsonOptions>jsonindexes[]] ">
+
+<$let
+	jsonCategory={{{ [<jsonOptions>jsonextract<type>] }}} >
+
+<$graph>
+<$genesis $type=$style $$for=nodes $names="">
+	<$node $tiddler=Root />
+	<$node $tiddler=Branch />
+	<$node $tiddler=Leaf1 />
+	<$node $tiddler=Leaf2 />
+	<$node $tiddler=Leaf3 />
+	<$node $tiddler=Leaf4 />
+</$genesis>
+<$edge from=Root to=Branch />
+<$edge from=Root to=Leaf1 />
+<$edge from=Root to=Leaf2 />
+<$edge from=Branch to=Leaf3 />
+<$edge from=Branch to=Leaf4 />
+</$graph>
+
+<$macrocall $name=tabs
+	tabsList="[<jsonOptions>jsonindexes[]]"
+	default=nodes
+	state=<<state>>
+	template="$:/plugins/flibbles/graph/ui/Wizard/Table"
+/>
