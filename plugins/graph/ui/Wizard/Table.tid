@@ -2,10 +2,11 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 
 \whitespace trim
 
-<$let stateTiddler=`$(state)$/$(currentTab)$`>
+<$let stateTiddler=`$(state)$/$(currentTab)$`
+	json={{{ [<jsonOptions>jsonextract<currentTab>] }}}
 <table>
- <$list variable=property filter="[<jsonCategory>jsonindexes[]]">
-  <$let jsonData={{{ [<jsonCategory>jsonextract<property>] }}} >
+ <$list variable=property filter="[<json>jsonindexes[]]">
+  <$let jsonData={{{ [<json>jsonextract<property>] }}} >
    <tr>
     <td><$text text=<<property>> /></td>
     <td><$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> /></td>

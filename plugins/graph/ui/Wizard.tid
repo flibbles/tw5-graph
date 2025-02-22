@@ -1,3 +1,5 @@
+title: $:/plugins/flibbles/graph/ui/Wizard
+
 \define state() $:/temp/graph/wizard
 \whitespace trim
 
@@ -34,13 +36,14 @@
 
 <<properties>>
 
-<$list variable=type filter="[<jsonOptions>jsonindexes[]] ">
-
 <$let
-	jsonCategory={{{ [<jsonOptions>jsonextract<type>] }}} >
-
+	nodesState=`$(state)$/nodes`
+	edgesState=`$(state)$/edges`
+>
 <$graph>
-<$genesis $type=$style $$for=nodes $names="">
+<$genesis $type=$style $$for=nodes
+	$names="[<nodesState>indexes[]]"
+	$values="[<nodesState>indexes[]] :map[<nodesState>getindex<currentTiddler>]">
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
 	<$node $tiddler=Leaf1 />
@@ -48,11 +51,15 @@
 	<$node $tiddler=Leaf3 />
 	<$node $tiddler=Leaf4 />
 </$genesis>
-<$edge from=Root to=Branch />
-<$edge from=Root to=Leaf1 />
-<$edge from=Root to=Leaf2 />
-<$edge from=Branch to=Leaf3 />
-<$edge from=Branch to=Leaf4 />
+<$genesis $type=$style $$for=edges
+	$names="[<edgesState>indexes[]]"
+	$values="[<edgesState>indexes[]] :map[<edgesState>getindex<currentTiddler>]">
+	<$edge from=Root to=Branch />
+	<$edge from=Root to=Leaf1 />
+	<$edge from=Root to=Leaf2 />
+	<$edge from=Branch to=Leaf3 />
+	<$edge from=Branch to=Leaf4 />
+</$genesis>
 </$graph>
 
 <$macrocall $name=tabs
