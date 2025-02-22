@@ -1,0 +1,18 @@
+caption: graph
+condition: [<targetTiddler>!has[type]] [<targetTiddler>get[type]prefix[text/vnd.tiddlywiki]]
+description: Open graph builder wizard
+icon: $:/core/images/new-journal-button
+shortcuts: ((graph))
+tags: $:/tags/EditorToolbar
+title: $:/plugins/flibbles/graph/ui/EditorToolbar/wizard
+
+<$action-modal $tiddler="$:/plugins/flibbles/graph/Modals/BuildAGraph">
+
+<$action-sendmessage
+	$message=tm-edit-text-operation
+	$param=insert-text
+	text=<<selection>>
+/>
+
+</$action-modal>
+
