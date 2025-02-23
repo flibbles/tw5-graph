@@ -1,3 +1,5 @@
 title: $:/plugins/flibbles/graph/wizard
 
+\define state() $:/temp/graph/config/wizard
+
 {{$:/plugins/flibbles/graph/ui/Wizard}}

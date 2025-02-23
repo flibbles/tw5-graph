@@ -2,14 +2,14 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 
 \whitespace trim
 
-<$let stateTiddler=`$(state)$/$(currentTab)$`
+<$let stateTiddler=`$(state)$/type/$(currentTab)$`
       jsonType={{{ [<json>jsonextract<currentTab>] }}}>
 <table>
  <$list variable=property filter="[<jsonType>jsonindexes[]]">
   <$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
         type={{{ [<jsonEntry>jsonget[type]] }}} >
    <tr>
-    <td><$text text=<<property>> /></td>
+    <td class=graph-table-label><$text text=<<property>> /></td>
     <td class=`graph-property-$(type)$`>
      <%if [<type>match[color]] %>
       <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />

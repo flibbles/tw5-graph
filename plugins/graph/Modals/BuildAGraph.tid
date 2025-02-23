@@ -1,16 +1,18 @@
 title: $:/plugins/flibbles/graph/Modals/BuildAGraph
 subtitle: Build-a-Graph
-footer: <$importvariables filter="[all[current]]"><$button actions=<<accept-actions>> >Insert</$button> <$button message="tm-close-tiddler">Close</$button>
+footer: <$importvariables filter="[all[current]] $:/plugins/flibbles/graph/ui/Wizard/Output"><$button actions=<<accept-actions>> >Insert</$button> <$button message="tm-close-tiddler">Close</$button>
 
 \procedure accept-actions()
 \whitespace trim
-<$action-sendmessage $message="tm-modal-finish" $param={{$:/temp/graph/wizard}} />
+<$action-sendmessage $message="tm-modal-finish" $param=<<graph-output>> />
 <$action-sendmessage $message="tm-close-tiddler" />
-<$action-deletetiddler $filter="[[$:/temp/graph/wizard]]" />
+<$action-deletetiddler $filter="[prefix<state>]" />
 \end
 
 \procedure cancel-actions()
 <$action-sendmessage $message="tm-close-tiddler" />
 \end
+
+\define state() $:/state/graph/modal/wizard
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard" $mode=inline />

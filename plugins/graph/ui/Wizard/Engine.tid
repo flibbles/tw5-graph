@@ -2,15 +2,14 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Engine
 
 <$vars json={{{ [[graphengine]modules[]] :filter[moduleproperty[name]match<currentTab>] +[moduleproperty[properties]] }}} >
 
-<$codeblock code={{{ [<state>get[text]] }}} />
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard/Output" $mode=inline/>
 
-<div class=graph-wizard>
+<div class=graph-sampler>
 
 <$transclude $variable=tabs $mode=inline
-	class=graph-wizard-table
 	tabsList="[<json>jsonindexes[]]"
 	default=nodes
-	state=<<state>>
+	explicitState=`$(state)$/type`
 	template="$:/plugins/flibbles/graph/ui/Wizard/Table"
 />
 

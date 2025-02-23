@@ -3,8 +3,8 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 \whitespace trim
 
 <$let
-	nodesState=`$(state)$/nodes`
-	edgesState=`$(state)$/edges`
+	nodesState=`$(state)$/type/nodes`
+	edgesState=`$(state)$/type/edges`
 	engineState=`$(state)$/engine`
 >
 <$graph $engine={{{ [<engineState>get[text]] }}} >

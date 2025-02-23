@@ -31,14 +31,27 @@ tags: $:/tags/Stylesheet
 	background-color: <<colour table-header-background>>;
 }
 
-.graph-wizard {
+.graph-wizard .graph-clipping code {
+	height: 6em;
+}
+
+.graph-wizard .graph-sampler {
 	display: flex;
 }
 
-.graph-wizard .graph-wizard-table {
-	width: 25em;
+.graph-wizard .graph-sampler .tc-reveal {
+	height: 30em;
+	overflow: scroll;
 }
 
-.graph-wizard .graph-canvas {
+.graph-wizard .graph-sampler table {
+	width: 25em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.graph-wizard .graph-sampler .graph-canvas {
 	width: 50%;
+	height: 30em;
+	margin: 1em;
 }

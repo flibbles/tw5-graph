@@ -1,9 +1,10 @@
 title: $:/plugins/flibbles/graph/ui/Wizard
 
-\define state() $:/temp/graph/wizard
 \whitespace trim
 
 <$vars defaultEngine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} >
+
+<div class=graph-wizard>
 
 <%if [[graphengine]modules[]count[]compare:number:gt[1]] %>
 

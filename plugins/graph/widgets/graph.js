@@ -87,8 +87,8 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.executeDimensions = function() {
-	this.width = this.getAttribute("$width", "100%");
-	this.height = this.getAttribute("$height", "400px");
+	this.width = this.getAttribute("$width", "");
+	this.height = this.getAttribute("$height", "");
 };
 
 /*
