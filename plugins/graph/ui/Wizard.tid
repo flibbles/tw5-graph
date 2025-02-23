@@ -3,37 +3,19 @@ title: $:/plugins/flibbles/graph/ui/Wizard
 \define state() $:/temp/graph/wizard
 \whitespace trim
 
-<$let
-	defaultEngine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}}
-	chosenEngine={{{ [<state>addsuffix[/engine]get[text]] ~[<defaultEngine>] }}}
->
+<$vars defaultEngine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} >
 
-<$codeblock code={{{ [<state>get[text]] }}} />
+<%if [[graphengine]modules[]count[]compare:number:gt[1]] %>
 
-<%if [[graphengine]modules[]count[]] %>
-
-<$list filter="[[graphengine]modules[]moduleproperty[name]]">
-<br>
-<$radio
-	tiddler=`$(state)$/engine`
+<$transclude $variable=tabs $mode=inline
+	tabsList="[[graphengine]modules[]moduleproperty[name]]"
 	default=<<defaultEngine>>
-	value={{!!title}}>
-&#32;<$text text={{!!title}} />
-</$radio>
-
-</$list>
-
-<%endif%>
-
-<$vars
-	json={{{ [[graphengine]modules[]] :filter[moduleproperty[name]match<chosenEngine>] +[moduleproperty[properties]] }}}
->
-
-{{$:/plugins/flibbles/graph/ui/Wizard/Graph}}
-
-<$macrocall $name=tabs
-	tabsList="[<json>jsonindexes[]]"
-	default=nodes
-	state=<<state>>
-	template="$:/plugins/flibbles/graph/ui/Wizard/Table"
+	explicitState=`$(state)$/engine`
+	template="$:/plugins/flibbles/graph/ui/Wizard/Engine"
 />
+
+<%else%>
+
+<$vars currentTab=<<defaultEngine>> >
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard/Engine" $mode=inline />

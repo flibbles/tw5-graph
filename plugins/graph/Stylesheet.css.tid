@@ -30,3 +30,7 @@ tags: $:/tags/Stylesheet
 .graph-engine-button.active {
 	background-color: <<colour table-header-background>>;
 }
+
+.graph-wizard {
+	display: flex;
+}
