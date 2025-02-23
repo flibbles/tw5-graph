@@ -91,7 +91,7 @@ StyleWidget.prototype.createStyleFromAttributes = function(attributes) {
 	return styleObject;
 };
 
-StyleWidget.prototype.updateGraphWidgets = function(parentCallback) {
+StyleWidget.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	var self = this;
 	var newObjects = {};
 	var callback = function(widget) {
@@ -110,7 +110,7 @@ StyleWidget.prototype.updateGraphWidgets = function(parentCallback) {
 				}
 			}
 			for (var style in self.styleObject) {
-				object[style] = self.styleObject[style];
+				object[style] = convert(self.type, style, self.styleObject[style]);
 			}
 		}
 		return object;
@@ -119,10 +119,10 @@ StyleWidget.prototype.updateGraphWidgets = function(parentCallback) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.graphObjectType) {
-				widget.setStyle(callback(widget));
+				widget.setStyle(callback(widget), convert);
 			}
 			if (widget.updateGraphWidgets) {
-				widget.updateGraphWidgets(callback);
+				widget.updateGraphWidgets(callback, convert);
 			} else if (widget.children) {
 				searchChildren(widget.children);
 			}

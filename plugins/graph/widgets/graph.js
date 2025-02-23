@@ -160,7 +160,18 @@ GraphWidget.prototype.getStyleObject = function() {
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
-	var newObjects = this.children[0].updateGraphWidgets(function() {return {};});
+	var self = this;
+	var newObjects = this.children[0].updateGraphWidgets(
+		function() {return {};},
+		function(type, key, value) {
+			var category = self.engine.properties[type];
+			var info = category && category[key];
+			if (info && info.type === "number") {
+				return parseFloat(value);
+			}
+			return value;
+		}
+	);
 	// Special handling for edge trimming
 	withholdObjects(newObjects);
 	var prevObjects = this.knownObjects;

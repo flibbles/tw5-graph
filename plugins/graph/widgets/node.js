@@ -68,13 +68,16 @@ NodeWidget.prototype.getGraphFilterSource = function() {
 	return [this.id];
 }
 
-NodeWidget.prototype.setStyle = function(data) {
+NodeWidget.prototype.setStyle = function(data, convert) {
 	if (this.pos) {
 		var points = this.pos.split(",");
 		data.x = parseFloat(points[0]);
 		data.y = parseFloat(points[1]);
 	}
-	this.object = $tw.utils.extend(data, this.settings);
+	for (var property in this.settings) {
+		data[property] = convert("nodes", property, this.settings[property]);
+	}
+	this.object = data;
 };
 
 exports.node = NodeWidget;

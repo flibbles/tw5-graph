@@ -9,6 +9,16 @@ Mock adapter for running tests.
 
 exports.name = "Test";
 
+exports.properties = {
+	nodes: {
+		color: {type: "color"},
+		size: {type: "number"},
+		label: {type: "string"}
+	},
+	edges: {
+	}
+};
+
 exports.init = function(element, objects) {
 	$tw.test.latestEngine = this;
 	this.element = element;

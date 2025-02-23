@@ -29,7 +29,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard
 <%endif%>
 
 <$vars
-	jsonOptions={{{ [[graphengine]modules[]moduleproperty[options]] }}}
+	jsonOptions={{{ [[graphengine]modules[]moduleproperty[properties]] }}}
 >
 
 <$set name=properties filter="[<jsonOptions>jsonindexes[]]">

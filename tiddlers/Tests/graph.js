@@ -281,6 +281,17 @@ it("does not refresh explicit engine if global changes", async function() {
 	expect(testInit).not.toHaveBeenCalled();
 });
 
+/*** Typesetting ***/
+
+it("converts numbers into numbers before passing them", function() {
+	var testInit = spyOn($tw.test.adapter, "init");
+	var wiki = new $tw.Wiki();
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string size=5/><$node $tiddler=B size=0/>");
+	var objects = testInit.calls.first().args[1];
+	// B ensure that 0, which is falsy, still passes through fine.
+	expect(objects.nodes).toEqual({A: {label: "string", size: 5}, B: {size: 0}});
+});
+
 // TODO: Only edges
 // TODO: No edges
 
