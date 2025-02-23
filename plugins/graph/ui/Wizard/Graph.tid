@@ -7,7 +7,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	edgesState=`$(state)$/type/edges`
 	engineState=`$(state)$/engine`
 >
-<$graph $engine={{{ [<engineState>get[text]] }}} >
+<$graph $engine={{{ [<engineState>get[text]] }}} $height=450px >
 <$genesis $type=$style $$for=nodes
 	$names="[<nodesState>indexes[]]"
 	$values="[<nodesState>indexes[]] :map[<nodesState>getindex<currentTiddler>]">

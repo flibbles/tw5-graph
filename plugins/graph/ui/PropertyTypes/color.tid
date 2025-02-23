@@ -1,0 +1,6 @@
+title: $:/plugins/flibbles/graph/ui/PropertyTypes/color
+
+\whitespace trim
+
+<$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
+<$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="color"/>

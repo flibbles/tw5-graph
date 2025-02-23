@@ -1,0 +1,11 @@
+title: $:/plugins/flibbles/graph/ui/PropertyTypes/enum
+
+\whitespace trim
+
+<$select tiddler=<<stateTiddler>> index=<<property>> >
+  <$list variable=enum filter="[<jsonEntry>jsonget[values]]">
+    <option>
+      <$text text=<<enum>> />
+    </option>
+  </$list>
+</$select>

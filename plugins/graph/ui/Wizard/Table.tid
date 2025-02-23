@@ -4,24 +4,25 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 
 <$let stateTiddler=`$(state)$/type/$(currentTab)$`
       jsonType={{{ [<json>jsonextract<currentTab>] }}}>
+
 <table>
- <$list variable=property filter="[<jsonType>jsonindexes[]]">
-  <$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
-        type={{{ [<jsonEntry>jsonget[type]] }}} >
-   <tr>
-    <td class=graph-table-label><$text text=<<property>> /></td>
-    <td class=`graph-property-$(type)$`>
-     <%if [<type>match[color]] %>
-      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
-      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="color" />
-     <% elseif [<type>match[number]] %>
-      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="number" />
-     <% elseif [<type>match[enum]] %>
-      <$select tiddler=<<stateTiddler>> index=<<property>> >
-       <$list variable=enum filter="[<jsonEntry>jsonget[values]]">
-        <option><$text text=<<enum>> /></option>
-       </$list>
-      </$select>
-     <% else %>
-      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
-     <% endif %>
+
+<$list variable=property filter="[<jsonType>jsonindexes[]]">
+
+<$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
+      type={{{ [<jsonEntry>jsonget[type]] }}} >
+
+<tr>
+
+<td class=graph-property-label>
+
+<$text text=<<property>> />
+
+</td>
+<td class=`graph-property-value-$(type)$`>
+
+<$transclude
+  $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(type)$`
+  $mode=inline>
+
+<$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />

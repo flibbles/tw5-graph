@@ -8,7 +8,8 @@ tags: $:/tags/Stylesheet
 	border-width: 1px;
 	border-color: <<colour graph-border>>;
 	background-color: <<colour graph-background>>;
-	width: 666px;
+	width: 100%;
+	height: 400px;
 }
 
 .graph-engine-button {
@@ -31,27 +32,32 @@ tags: $:/tags/Stylesheet
 	background-color: <<colour table-header-background>>;
 }
 
+/*
+Build-a-Graph Wizard
+======
+*/
+
 .graph-wizard .graph-clipping code {
 	height: 6em;
 }
 
 .graph-wizard .graph-sampler {
 	display: flex;
+	height: 450px;
 }
 
 .graph-wizard .graph-sampler .tc-reveal {
-	height: 30em;
+	height: 400px;
 	overflow: scroll;
 }
 
 .graph-wizard .graph-sampler table {
-	width: 25em;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
 
 .graph-wizard .graph-sampler .graph-canvas {
 	width: 50%;
-	height: 30em;
-	margin: 1em;
+	height: 450px;
+	margin-left: 1em;
 }
