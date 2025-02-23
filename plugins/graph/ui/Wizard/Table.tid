@@ -3,10 +3,25 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 \whitespace trim
 
 <$let stateTiddler=`$(state)$/$(currentTab)$`
-	json={{{ [<jsonOptions>jsonextract<currentTab>] }}}
+      jsonType={{{ [<json>jsonextract<currentTab>] }}}
 <table>
- <$list variable=property filter="[<json>jsonindexes[]]">
-  <$let jsonData={{{ [<json>jsonextract<property>] }}} >
+ <$list variable=property filter="[<jsonType>jsonindexes[]]">
+  <$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
+        type={{{ [<jsonEntry>jsonget[type]] }}} >
    <tr>
     <td><$text text=<<property>> /></td>
-    <td><$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> /></td>
+    <td>
+     <%if [<type>match[color]] %>
+      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="color" />
+      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
+     <% elseif [<type>match[number]] %>
+      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="number" />
+     <% elseif [<type>match[enum]] %>
+      <$select tiddler=<<stateTiddler>> index=<<property>> >
+       <$list variable=enum filter="[<jsonEntry>jsonget[values]]">
+        <option><$text text=<<enum>> /></option>
+       </$list>
+      </$select>
+     <% else %>
+      <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
+     <% endif %>

@@ -167,7 +167,13 @@ GraphWidget.prototype.findGraphObjects = function() {
 			var category = self.engine.properties[type];
 			var info = category && category[key];
 			if (info && info.type === "number") {
-				return parseFloat(value);
+				value = parseFloat(value);
+				if (info.min !== undefined && value < info.min) {
+					value = info.min;
+				}
+				if (info.max !== undefined && value > info.max) {
+					value = info.max;
+				}
 			}
 			return value;
 		}

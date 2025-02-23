@@ -12,7 +12,7 @@ exports.name = "Test";
 exports.properties = {
 	nodes: {
 		color: {type: "color"},
-		size: {type: "number"},
+		size: {type: "number", min: 0},
 		label: {type: "string"}
 	},
 	edges: {

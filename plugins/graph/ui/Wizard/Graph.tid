@@ -1,0 +1,30 @@
+title: $:/plugins/flibbles/graph/ui/Wizard/Graph
+
+\whitespace trim
+
+<$let
+	nodesState=`$(state)$/nodes`
+	edgesState=`$(state)$/edges`
+	engineState=`$(state)$/engine`
+>
+<$graph $engine={{{ [<engineState>get[text]] }}} >
+<$genesis $type=$style $$for=nodes
+	$names="[<nodesState>indexes[]]"
+	$values="[<nodesState>indexes[]] :map[<nodesState>getindex<currentTiddler>]">
+	<$node $tiddler=Root />
+	<$node $tiddler=Branch />
+	<$node $tiddler=Leaf1 />
+	<$node $tiddler=Leaf2 />
+	<$node $tiddler=Leaf3 />
+	<$node $tiddler=Leaf4 />
+</$genesis>
+<$genesis $type=$style $$for=edges
+	$names="[<edgesState>indexes[]]"
+	$values="[<edgesState>indexes[]] :map[<edgesState>getindex<currentTiddler>]">
+	<$edge from=Root to=Branch />
+	<$edge from=Root to=Leaf1 />
+	<$edge from=Root to=Leaf2 />
+	<$edge from=Branch to=Leaf3 />
+	<$edge from=Branch to=Leaf4 />
+</$genesis>
+</$graph>

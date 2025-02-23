@@ -5,10 +5,8 @@ title: $:/plugins/flibbles/graph/ui/Wizard
 
 <$let
 	defaultEngine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}}
-	chosenEngine={{{ [<state>get[engine]] ~[<defaultEngine>] }}}
+	chosenEngine={{{ [<state>addsuffix[/engine]get[text]] ~[<defaultEngine>] }}}
 >
-
-<<chosenEngine>>
 
 <$codeblock code={{{ [<state>get[text]] }}} />
 
@@ -17,8 +15,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard
 <$list filter="[[graphengine]modules[]moduleproperty[name]]">
 <br>
 <$radio
-	tiddler=<<state>>
-	field=engine
+	tiddler=`$(state)$/engine`
 	default=<<defaultEngine>>
 	value={{!!title}}>
 &#32;<$text text={{!!title}} />
@@ -29,41 +26,13 @@ title: $:/plugins/flibbles/graph/ui/Wizard
 <%endif%>
 
 <$vars
-	jsonOptions={{{ [[graphengine]modules[]moduleproperty[properties]] }}}
+	json={{{ [[graphengine]modules[]] :filter[moduleproperty[name]match<chosenEngine>] +[moduleproperty[properties]] }}}
 >
 
-<$set name=properties filter="[<jsonOptions>jsonindexes[]]">
-
-<<properties>>
-
-<$let
-	nodesState=`$(state)$/nodes`
-	edgesState=`$(state)$/edges`
->
-<$graph>
-<$genesis $type=$style $$for=nodes
-	$names="[<nodesState>indexes[]]"
-	$values="[<nodesState>indexes[]] :map[<nodesState>getindex<currentTiddler>]">
-	<$node $tiddler=Root />
-	<$node $tiddler=Branch />
-	<$node $tiddler=Leaf1 />
-	<$node $tiddler=Leaf2 />
-	<$node $tiddler=Leaf3 />
-	<$node $tiddler=Leaf4 />
-</$genesis>
-<$genesis $type=$style $$for=edges
-	$names="[<edgesState>indexes[]]"
-	$values="[<edgesState>indexes[]] :map[<edgesState>getindex<currentTiddler>]">
-	<$edge from=Root to=Branch />
-	<$edge from=Root to=Leaf1 />
-	<$edge from=Root to=Leaf2 />
-	<$edge from=Branch to=Leaf3 />
-	<$edge from=Branch to=Leaf4 />
-</$genesis>
-</$graph>
+{{$:/plugins/flibbles/graph/ui/Wizard/Graph}}
 
 <$macrocall $name=tabs
-	tabsList="[<jsonOptions>jsonindexes[]]"
+	tabsList="[<json>jsonindexes[]]"
 	default=nodes
 	state=<<state>>
 	template="$:/plugins/flibbles/graph/ui/Wizard/Table"
