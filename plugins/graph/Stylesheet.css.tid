@@ -34,3 +34,11 @@ tags: $:/tags/Stylesheet
 .graph-wizard {
 	display: flex;
 }
+
+.graph-wizard .graph-wizard-table {
+	width: 25em;
+}
+
+.graph-wizard .graph-canvas {
+	width: 50%;
+}
