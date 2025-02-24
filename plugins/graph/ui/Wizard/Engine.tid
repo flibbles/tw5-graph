@@ -6,11 +6,11 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Engine
 
 <div class=graph-sampler>
 
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard/Graph" $mode=inline/>
+
 <$transclude $variable=tabs $mode=inline
 	tabsList="[<json>jsonindexes[]]"
 	default=nodes
 	explicitState=`$(state)$/type`
 	template="$:/plugins/flibbles/graph/ui/Wizard/Table"
 />
-
-<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard/Graph" $mode=inline/>

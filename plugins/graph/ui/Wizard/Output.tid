@@ -2,7 +2,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Output
 
 <$set name=graph-type value={{{ [<state>addsuffix[/type]get[text]else[nodes]addprefix[/type/]addprefix<state>] }}}>
 
-<$set name=graph-output value={{{ [<graph-type>indexes[]] :map[<graph-type>getindex<currentTiddler>addsuffix["]addprefix[="]addprefix<currentTiddler>] +[join[ ]] }}}>
+<$set name=graph-output value={{{ [<graph-type>indexes[]] :map[<graph-type>getindex<currentTiddler>addsuffix["]addprefix[="]addprefix<currentTiddler>] +[!match[]join[ ]] }}}>
 
 <div class=graph-clipping>
 

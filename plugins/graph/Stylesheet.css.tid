@@ -34,7 +34,6 @@ tags: $:/tags/Stylesheet
 
 /*
 Build-a-Graph Wizard
-======
 */
 
 .graph-wizard .graph-clipping code {
@@ -43,7 +42,9 @@ Build-a-Graph Wizard
 
 .graph-wizard .graph-sampler {
 	display: flex;
-	height: 450px;
+	flex-wrap: wrap;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
 }
 
 .graph-wizard .graph-sampler .tc-reveal {
@@ -54,10 +55,46 @@ Build-a-Graph Wizard
 .graph-wizard .graph-sampler table {
 	margin-top: 0px;
 	margin-bottom: 0px;
+	width: 100%;
+}
+
+.graph-wizard .graph-sampler .tc-tab-set {
+	width: 400px;
 }
 
 .graph-wizard .graph-sampler .graph-canvas {
-	width: 50%;
+	width: 300px;
 	height: 450px;
-	margin-left: 1em;
+	flex-grow: 1;
+}
+
+/*
+Build-a-Graph Property Types
+*/
+
+table.graph-property input {
+	width: 12em;
+}
+
+table.graph-property td {
+	padding: 4px;
+}
+
+.graph-property-input-color input[type='color'] {
+	height: 24px;
+	width: 6em;
+}
+
+.graph-property-input-color input[type='text'] {
+	width: 6em;
+}
+
+table.graph-property .graph-property-input-number input {
+	width: 9em;
+}
+
+table.graph-property .graph-property-input-number span {
+	margin-left: 5px;
+	vertical-align: top;
+	font-weight: lighter;
 }

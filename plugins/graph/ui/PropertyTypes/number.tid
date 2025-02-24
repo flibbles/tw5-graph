@@ -1,3 +1,17 @@
 title: $:/plugins/flibbles/graph/ui/PropertyTypes/number
 
-<$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> type="number" />
+\whitespace trim
+
+<$let
+	increment={{{ [<jsonEntry>jsonget[increment]else[1]] }}}
+	default={{{ [<jsonEntry>jsonget[default]else[0]] }}}
+	min={{{ [<jsonEntry>jsonget[min]] ~[<increment>multiply[-25]add<default>] }}}
+	max={{{ [<jsonEntry>jsonget[max]] ~[<increment>multiply[50]add<min>] }}}
+>
+<$range tiddler=<<stateTiddler>> index=<<property>>
+	min=<<min>>
+	max=<<max>>
+	increment=<<increment>>
+	default=<<default>>
+/>
+<span><$text text={{{ [<stateTiddler>getindex<property>else<default>] }}} />
