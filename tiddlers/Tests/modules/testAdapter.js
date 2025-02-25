@@ -13,7 +13,8 @@ exports.properties = {
 	nodes: {
 		color: {type: "color"},
 		size: {type: "number", min: 0},
-		label: {type: "string"}
+		label: {type: "string"},
+		hidden: {type: "boolean"},
 	},
 	edges: {
 	}

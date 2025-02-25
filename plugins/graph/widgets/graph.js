@@ -13,6 +13,7 @@ var Widget = require("$:/core/modules/widgets/widget.js").widget;
 var utils = require("../utils.js");
 
 var Engines = $tw.modules.applyMethods("graphengine");
+var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 var graphColors = {
 	nodeBackground: "graph-node-background",
@@ -166,14 +167,8 @@ GraphWidget.prototype.findGraphObjects = function() {
 		function(type, key, value) {
 			var category = self.engine.properties[type];
 			var info = category && category[key];
-			if (info && info.type === "number") {
-				value = parseFloat(value);
-				if (info.min !== undefined && value < info.min) {
-					value = info.min;
-				}
-				if (info.max !== undefined && value > info.max) {
-					value = info.max;
-				}
+			if (info && PropertyTypes[info.type]) {
+				return PropertyTypes[info.type].toProperty(info, value);
 			}
 			return value;
 		}

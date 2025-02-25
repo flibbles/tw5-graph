@@ -283,7 +283,7 @@ it("does not refresh explicit engine if global changes", async function() {
 
 /*** Typesetting ***/
 
-it("converts numbers into numbers before passing them", function() {
+it("converts numbers", function() {
 	var testInit = spyOn($tw.test.adapter, "init");
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string size=5/><$node $tiddler=B size=0/><$node $tiddler=C size='-5' />");
@@ -291,6 +291,16 @@ it("converts numbers into numbers before passing them", function() {
 	// B ensures that 0, which is falsy, still passes through fine.
 	// C ensures that we respect minimum allowed values.
 	expect(objects.nodes).toEqual({A: {label: "string", size: 5}, B: {size: 0}, C: {size: 0}});
+});
+
+it("converts booleans", function() {
+	var testInit = spyOn($tw.test.adapter, "init");
+	var wiki = new $tw.Wiki();
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string hidden=no/><$node $tiddler=B hidden=yes/><$node $tiddler=C hidden=true />");
+	var objects = testInit.calls.first().args[1];
+	// B ensures that 0, which is falsy, still passes through fine.
+	// C ensures that we respect minimum allowed values.
+	expect(objects.nodes).toEqual({A: {label: "string", hidden: false}, B: {hidden: true}, C: {hidden: true}});
 });
 
 // TODO: Only edges
