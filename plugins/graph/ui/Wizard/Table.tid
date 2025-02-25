@@ -19,7 +19,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 <$text text=<<property>> />
 
 </td>
-<td class=`graph-property-input-$(type)$`>
+<td class=`graph-property-input graph-property-input-$(type)$`>
 
 <$transclude
   $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(type)$`

@@ -59,7 +59,7 @@ Build-a-Graph Wizard
 }
 
 .graph-wizard .graph-sampler .tc-tab-set {
-	width: 400px;
+	width: 300px;
 }
 
 .graph-wizard .graph-sampler .graph-canvas {
@@ -72,8 +72,12 @@ Build-a-Graph Wizard
 Build-a-Graph Property Types
 */
 
+table .graph-property-input {
+	width: 8em;
+}
+
 table.graph-property input {
-	width: 12em;
+	width: 100%;
 }
 
 table.graph-property td {
@@ -82,15 +86,15 @@ table.graph-property td {
 
 .graph-property-input-color input[type='color'] {
 	height: 24px;
-	width: 6em;
+	width: 50%;
 }
 
 .graph-property-input-color input[type='text'] {
-	width: 6em;
+	width: 50%;
 }
 
 table.graph-property .graph-property-input-number input {
-	width: 9em;
+	width: 6em;
 }
 
 table.graph-property .graph-property-input-number span {
