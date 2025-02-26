@@ -2,29 +2,35 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 
 \whitespace trim
 
-<$let
-	nodesState=`$(state)$/type/nodes`
-	edgesState=`$(state)$/type/edges`
-	engineState=`$(state)$/engine`
->
+\define makeGraph()
+\whitespace trim
 <$graph $engine={{{ [<engineState>get[text]] }}}>
-<$genesis $type=$style $$for=nodes
-	$names="[<nodesState>indexes[]]"
-	$values="[<nodesState>indexes[]] :map[<nodesState>getindex<currentTiddler>]">
+<$style $for=nodes $(nodeAttributes)$>
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
 	<$node $tiddler=Leaf1 />
 	<$node $tiddler=Leaf2 />
 	<$node $tiddler=Leaf3 />
 	<$node $tiddler=Leaf4 />
-</$genesis>
-<$genesis $type=$style $$for=edges
-	$names="[<edgesState>indexes[]]"
-	$values="[<edgesState>indexes[]] :map[<edgesState>getindex<currentTiddler>]">
+</$style>
+<$style $for=edges $(edgeAttributes)$>
 	<$edge from=Root to=Branch />
 	<$edge from=Root to=Leaf1 />
 	<$edge from=Root to=Leaf2 />
 	<$edge from=Branch to=Leaf3 />
+	<$edge from=Leaf3 to=Branch />
 	<$edge from=Branch to=Leaf4 />
-</$genesis>
+	<$edge from=Leaf4 to=Leaf4 />
+</$style>
 </$graph>
+\end
+
+
+<$let
+	nodesState=`$(state)$/type/nodes`
+	edgesState=`$(state)$/type/edges`
+	engineState=`$(state)$/engine`
+	nodeAttributes={{{ [<json>jsonindexes[nodes]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<nodesState>] +[join[ ]] }}}
+	edgeAttributes={{{ [<json>jsonindexes[edges]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<edgesState>] +[join[ ]] }}}>
+
+<$transclude $variable=makeGraph $mode=inline />
