@@ -137,6 +137,40 @@ it('treats empty attributes as non-existent', function() {
 	expect(objects.nodes).toEqual({target: {yes: "value"}});
 });
 
+it("can handle local variables in $filter", async function() {
+	var init = spyOn($tw.test.adapter,"init").and.callThrough();
+	var update = spyOn($tw.test.adapter, "update").and.callThrough();
+	var wiki = new $tw.Wiki();
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+		<$graph>
+			<$let test=B>
+			<$style $filter="[match<test>]" dynamic=1>
+				<$let test=C>
+				<$style $filter="[match<test>]" dynamic=2>
+					<$node $tiddler=A/>
+					<$node $tiddler=B/>
+					<$node $tiddler=C/>
+				</$style>
+				</$let>
+			</$style>
+			</$let>
+		</$graph>`);
+	expect(init).toHaveBeenCalledTimes(1);
+	expect(update).not.toHaveBeenCalled();
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({
+		A: {},
+		B: {dynamic: "1"},
+		C: {dynamic: "2"}});
+	// We need to add anything and force any kind of refresh.
+	// The $style refresh mechanism will mess up despite no relevant change
+	// if its filterCall isn't passing $style as the widget.
+	wiki.addTiddler({title: "anything"});
+	await $tw.test.flushChanges();
+	expect(update).not.toHaveBeenCalled();
+});
+
 //TODO: If $filter changes, it should only change what filter results change.
 it('can handle changes to style properties', async function() {
 	var init = spyOn($tw.test.adapter,"init").and.callThrough();
