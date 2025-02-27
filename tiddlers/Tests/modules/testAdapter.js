@@ -10,6 +10,9 @@ Mock adapter for running tests.
 exports.name = "Test";
 
 exports.properties = {
+	graph: {
+		physics: {type: "boolean", default: true}
+	},
 	nodes: {
 		color: {type: "color"},
 		size: {type: "number", min: 0},
@@ -17,9 +20,6 @@ exports.properties = {
 		hidden: {type: "boolean"},
 	},
 	edges: {
-	},
-	view: {
-		physics: {type: "boolean", default: true}
 	}
 };
 

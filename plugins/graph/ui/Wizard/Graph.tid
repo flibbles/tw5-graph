@@ -4,7 +4,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 
 \define makeGraph()
 \whitespace trim
-<$graph $engine={{{ [<engineState>get[text]] }}}>
+<$graph $engine={{{ [<engineState>get[text]] }}} $(graphAttributes)$>
 <$style $for=nodes $(nodeAttributes)$>
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
@@ -27,9 +27,11 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 
 
 <$let
+	graphState=`$(state)$/type/graph`
 	nodesState=`$(state)$/type/nodes`
 	edgesState=`$(state)$/type/edges`
 	engineState=`$(state)$/engine`
+	graphAttributes={{{ [<json>jsonindexes[graph]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<graphState>] +[join[ ]] }}}
 	nodeAttributes={{{ [<json>jsonindexes[nodes]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<nodesState>] +[join[ ]] }}}
 	edgeAttributes={{{ [<json>jsonindexes[edges]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<edgesState>] +[join[ ]] }}}>
 

@@ -49,7 +49,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if(this.engine) {
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		objects.view = this.getViewSettings();
+		objects.graph = this.getViewSettings();
 		this.engine.init(this.graphElement, objects);
 	}
 };
@@ -122,7 +122,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	}
 	if (viewChanged || this.refreshColors(changedTiddlers)) {
 		objects = objects || {};
-		objects.view = this.getViewSettings();
+		objects.graph = this.getViewSettings();
 		changed = true;
 	}
 	if (objects) {
@@ -169,7 +169,7 @@ GraphWidget.prototype.getViewSettings = function() {
 	}
 	for (var name in this.attributes) {
 		if (name.charAt(0) !== '$' && this.attributes[name]) {
-			settings[name] = this.transformProperty("view", name, this.attributes[name]);
+			settings[name] = this.transformProperty("graph", name, this.attributes[name]);
 		}
 	}
 	return settings;

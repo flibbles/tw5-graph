@@ -155,12 +155,12 @@ it('sends style update if palette changes', async function() {
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph/>')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(init)[1];
-	expect(initialObjects).toEqual({view: {nodeBackground: "#ff0000"}});
+	expect(initialObjects).toEqual({graph: {nodeBackground: "#ff0000"}});
 	// Now we make a change
 	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
-	expect(newObjects).toEqual({view: {nodeBackground: "#0000ff"}});
+	expect(newObjects).toEqual({graph: {nodeBackground: "#0000ff"}});
 });
 
 it('sends style and node updates together', async function() {
@@ -171,20 +171,20 @@ it('sends style and node updates together', async function() {
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-background}} />')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(init)[1];
-	expect(Object.keys(initialObjects)).toEqual(["nodes", "view"]);
-	expect(initialObjects.view.nodeBackground).toBe("#ff0000");
+	expect(Object.keys(initialObjects)).toEqual(["nodes", "graph"]);
+	expect(initialObjects.graph.nodeBackground).toBe("#ff0000");
 	// Now we make a change
 	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
 	// We test this way instead of toEqualing the whole thing because more
 	// colors may be added later.
-	expect(Object.keys(newObjects)).toEqual(["nodes", "view"]);
-	expect(newObjects.view.nodeBackground).toBe("#0000ff");
+	expect(Object.keys(newObjects)).toEqual(["nodes", "graph"]);
+	expect(newObjects.graph.nodeBackground).toBe("#0000ff");
 	expect(newObjects.nodes.N).toEqual({label: "#0000ff"});
 });
 
-it('can update colors and other view settings together', async function() {
+it('can update colors and other graph settings together', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
@@ -195,7 +195,7 @@ it('can update colors and other view settings together', async function() {
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
 	// colors may be added later.
-	expect(newObjects).toEqual({view: {nodeBackground: "#0000ff", value: "#0000ff"}});
+	expect(newObjects).toEqual({graph: {nodeBackground: "#0000ff", value: "#0000ff"}});
 });
 
 /*** $engine attribute ***/
@@ -322,29 +322,29 @@ it("converts booleans", function() {
 
 /*** View attributes ***/
 
-it("converts view attributes", async function() {
+it("converts graph attributes", async function() {
 	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "Physics", text: "yes"});
 	var widget = $tw.test.renderText(wiki, "<$graph physics={{Physics}} />");
 	var objects = onlyCallOf(init)[1];
-	expect(objects).toEqual({view: {physics: true}});
+	expect(objects).toEqual({graph: {physics: true}});
 	wiki.addTiddler({title: "Physics", text: "no"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
-	expect(newObjects).toEqual({view: {physics: false}});
+	expect(newObjects).toEqual({graph: {physics: false}});
 });
 
-it("passes along only non-$ attributes as view settings", function() {
+it("passes along only non-$ attributes as graph settings", function() {
 	var testInit = spyOn($tw.test.adapter, "init");
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph $width=5 $height=10 $else=ignore something=here and=this empty={{noexist}} />");
 	var object = testInit.calls.first().args[1];
-	expect(object).toEqual({view: {something: "here", and: "this"}});
+	expect(object).toEqual({graph: {something: "here", and: "this"}});
 });
 
-it("refreshes only view when graph attributes change", async function() {
+it("refreshes graph only when graph attributes change", async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
@@ -353,18 +353,18 @@ it("refreshes only view when graph attributes change", async function() {
 	var widgetNode = $tw.test.renderText(wiki, '<$graph value={{Target}} shared={{Shared}} ><$node $tiddler=A value={{Shared}} />')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(init)[1];
-	expect(initialObjects).toEqual({view: {value: "this", shared: "Shared_this"}, nodes: {A: {value: "Shared_this"}}});
+	expect(initialObjects).toEqual({graph: {value: "this", shared: "Shared_this"}, nodes: {A: {value: "Shared_this"}}});
 	// Now we make a change
 	wiki.addTiddler({title: "Target", text: "that"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
 	update.calls.reset();
-	expect(newObjects).toEqual({view: {value: "that", shared: "Shared_this"}});
-	// Now we make sure we can change the view and objects at the same time
+	expect(newObjects).toEqual({graph: {value: "that", shared: "Shared_this"}});
+	// Now we make sure we can change the graph and objects at the same time
 	wiki.addTiddler({title: "Shared", text: "Shared_that"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
-	expect(newObjects).toEqual({view: {value: "that", shared: "Shared_that"}, nodes: {A: {value: "Shared_that"}}});
+	expect(newObjects).toEqual({graph: {value: "that", shared: "Shared_that"}, nodes: {A: {value: "Shared_that"}}});
 });
 
 });
