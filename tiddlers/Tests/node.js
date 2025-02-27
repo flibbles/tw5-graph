@@ -23,4 +23,5 @@ it("empty-string graph attributes do not count", function() {
 	expect($tw.test.fetchGraphObjects(widget)).toEqual({nodes: {N: {yes: "5"}}});
 });
 
+// TODO: Partial pos attributes
 });

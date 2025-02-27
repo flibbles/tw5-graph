@@ -17,6 +17,9 @@ exports.properties = {
 		hidden: {type: "boolean"},
 	},
 	edges: {
+	},
+	view: {
+		physics: {type: "boolean", default: true}
 	}
 };
 

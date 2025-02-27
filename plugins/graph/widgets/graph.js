@@ -49,7 +49,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if(this.engine) {
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		objects.style = this.getStyleObject();
+		objects.view = this.getViewSettings();
 		this.engine.init(this.graphElement, objects);
 	}
 };
@@ -59,7 +59,6 @@ Compute the internal state of the widget
 */
 GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
-	this.colors = {};
 	this.engineValue = this.getEngineName();
 	this.executeDimensions();
 	var Engine = utils.getEngine(this.engineValue);
@@ -97,7 +96,8 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		newEngineValue = this.getEngineName();
+		newEngineValue = this.getEngineName(),
+		viewChanged = false;
 	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
 		return true;
@@ -111,15 +111,18 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 			this.graphElement.style.width = this.width;
 			this.graphElement.style.height = this.height;
 		}
+		if (attribute.charAt(0) !== "$") {
+			viewChanged = true;
+		}
 	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		objects = this.findGraphObjects();
 		changed = true;
 	}
-	if (this.refreshColors(changedTiddlers)) {
+	if (viewChanged || this.refreshColors(changedTiddlers)) {
 		objects = objects || {};
-		objects.style = this.getStyleObject();
+		objects.view = this.getViewSettings();
 		changed = true;
 	}
 	if (objects) {
@@ -143,9 +146,6 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 		} else if (!widget.refresh(changedTiddlers)) {
 			continue;
 		}
-		var container = $tw.fakeDocument.createElement("div");
-		widget.render(container, null);
-		this.colors[color] = container.textContent;
 		changed = true;
 	}
 	return changed;
@@ -156,8 +156,32 @@ GraphWidget.prototype.getEngineName = function() {
 		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine");
 };
 
-GraphWidget.prototype.getStyleObject = function() {
-	return $tw.utils.extend({}, this.colors);
+GraphWidget.prototype.getViewSettings = function() {
+	var settings = Object.create(null);
+	for (var color in graphColors) {
+		var widget = this.colorWidgets[color];
+		var container = $tw.fakeDocument.createElement("div");
+		widget.render(container, null);
+		var content = container.textContent;
+		if (content) {
+			settings[color] = content;
+		}
+	}
+	for (var name in this.attributes) {
+		if (name.charAt(0) !== '$' && this.attributes[name]) {
+			settings[name] = this.transformProperty("view", name, this.attributes[name]);
+		}
+	}
+	return settings;
+};
+
+GraphWidget.prototype.transformProperty = function(type, key, value) {
+	var category = this.engine.properties[type];
+	var info = category && category[key];
+	if (info && PropertyTypes[info.type]) {
+		return PropertyTypes[info.type].toProperty(info, value);
+	}
+	return value;
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
@@ -165,12 +189,7 @@ GraphWidget.prototype.findGraphObjects = function() {
 	var newObjects = this.children[0].updateGraphWidgets(
 		function() {return {};},
 		function(type, key, value) {
-			var category = self.engine.properties[type];
-			var info = category && category[key];
-			if (info && PropertyTypes[info.type]) {
-				return PropertyTypes[info.type].toProperty(info, value);
-			}
-			return value;
+			return self.transformProperty(type, key, value);
 		}
 	);
 	// Special handling for edge trimming
