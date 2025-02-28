@@ -13,6 +13,10 @@ exports.name = "number";
 
 exports.toProperty = function(info, value) {
 	value = parseFloat(value);
+	if (isNaN(value)) {
+		// Ignore it. It's a bad number.
+		return null;
+	}
 	if (info.min !== undefined && value < info.min) {
 		value = info.min;
 	}

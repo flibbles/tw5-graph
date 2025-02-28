@@ -9,6 +9,8 @@ Widget for creating nodes within graphs.
 
 "use strict";
 
+var axes = ['x', 'y', 'z', 'w'];
+
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
 var NodeWidget = function(parseTreeNode, options) {
@@ -71,11 +73,19 @@ NodeWidget.prototype.getGraphFilterSource = function() {
 NodeWidget.prototype.setStyle = function(data, convert) {
 	if (this.pos) {
 		var points = this.pos.split(",");
-		data.x = parseFloat(points[0]);
-		data.y = parseFloat(points[1]);
+		var count = Math.min(points.length, axes.length);
+		for (var i = 0; i < count; i++) {
+			var value = convert("nodes", axes[i], points[i]);
+			if (value !== null) {
+				data[axes[i]] = value;
+			}
+		}
 	}
 	for (var property in this.settings) {
-		data[property] = convert("nodes", property, this.settings[property]);
+		var value = convert("nodes", property, this.settings[property]);
+		if (value !== null) {
+			data[property] = value;
+		}
 	}
 	this.object = data;
 };

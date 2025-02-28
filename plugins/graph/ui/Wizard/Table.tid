@@ -12,6 +12,8 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 <$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
       type={{{ [<jsonEntry>jsonget[type]] }}} >
 
+<%if [<jsonEntry>jsonget[hidden]else[false]!match[true]] %>
+
 <tr>
 
 <td class=graph-property-label>

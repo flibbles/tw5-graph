@@ -73,9 +73,12 @@ EdgeWidget.prototype.getGraphFilterSource = function() {
 	return [this.fromTiddler, this.toTiddler];
 };
 
-EdgeWidget.prototype.setStyle = function(data) {
-	this.object = $tw.utils.extend(data, this.settings);
-	this.object.from = this.fromTiddler;
+EdgeWidget.prototype.setStyle = function(data, convert) {
+	data.from = this.fromTiddler;
+	for (var property in this.settings) {
+		data[property] = convert("edges", property, this.settings[property]);
+	}
+	this.object = data;
 };
 
 exports.edge = EdgeWidget;
