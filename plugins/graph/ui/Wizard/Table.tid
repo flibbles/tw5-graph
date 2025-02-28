@@ -28,3 +28,14 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
   $mode=inline>
 
 <$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
+
+</$transclude></td>
+<td class=graph-property-remove>
+
+<%if [<stateTiddler>getindex<property>] %>
+
+<$button class=tc-btn-invisible tooltip="Unset this property">
+
+<$action-setfield $tiddler=<<stateTiddler>> $index=<<property>> $value=""/>
+
+<$transclude $tiddler="$:/core/images/delete-button" $mode=inline />

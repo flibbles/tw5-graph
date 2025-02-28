@@ -68,6 +68,10 @@ Build-a-Graph Wizard
 	flex-grow: 1;
 }
 
+.graph-wizard .graph-property-remove {
+	width: 2em;
+}
+
 /*
 Build-a-Graph Property Types
 */
