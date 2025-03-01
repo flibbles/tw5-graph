@@ -1,0 +1,25 @@
+title: GraphWidget
+tags: Widgets
+caption: graph
+
+! Introduction
+
+The graph widget is the central widget of //TW5-Graph//. It defines a graph canvas using an installed graphing engine, and then renders any graphing objects that are defined inside of it.
+
+! Content and Attributes
+
+The graph widget will discover any graph object widgets within its contents and render them using the graph engine. Any standard wikitext widgets will have their generated DOM nodes overlayed on top of the graph canvas. These DOM nodes must have the style `display: fixed` to render correctly, or they will displace the canvas.
+
+|!Attribute |!Description |
+|$engine |Optional property-name of the graphing engine to use. (<$list filter="[[graphengine]modules[]moduleproperty[name]]" join=", " counter=is><%if [<is-last>match[yes]] %>or <%endif%><code>{{!!title}}</code></$list>) |
+|$width |Optional style directive for width of the canvas (e.g. `400px`, `100%`) |
+|$height |Optional style directive for height of the canvas (e.g. `400px`, `100%`) |
+|//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as graph properties |
+
+! Engine
+
+The graph widget requires a [[Graph Visualization plugin]] to be installed. If one is installed, the widget will automatically use that to render itself. If multiple engines are installed, you can specify which one to use with the $engine attribute. If that's not set, the widget will use the default specified by [[$:/config/flibbles/graph/engine]], which you can set from the plugin configuration. If //that// isn't set, the graph engine uses the first one available.
+
+! Graph Properties
+
+The available graph properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.

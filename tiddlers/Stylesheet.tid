@@ -6,3 +6,55 @@ tags: $:/tags/Stylesheet
 .graph-demo-palette {
 	width: 50%;
 }
+
+.graph-dragger,
+.graph-dragger *,
+.graph-dragger :after,
+.graph-dragger :before,
+.graph-dragger:after,
+.graph-dragger:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+
+.graph-dragger {
+  -webkit-appearance: button;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+.graph-dragger:disabled {
+  cursor: default;
+}
+
+a.graph-dragger.tc-tiddlylink {
+  background: <<colour message-background>>;
+  color: <<colour message-foreground>>;
+  border-radius: 999px;
+  box-shadow: inset 4.3px 4.3px 7px #fff;
+  box-sizing: border-box;
+  display: inline-block;
+  filter: drop-shadow(3.4px 3.4px 3.4px rgb(183, 177, 181))
+    drop-shadow(-3.4px -3.4px 3.4px white);
+  font-weight: 900;
+  -webkit-mask-image: none;
+  overflow: hidden;
+  padding: 1.2rem 3rem;
+  position: relative;
+  text-transform: uppercase;
+}
+
+a.graph-dragger.tc-tiddlylink:hover {
+	text-decoration: none;
+}
+
+.graph-dragger:active {
+  box-shadow: inset 4.3px 4.3px 7px #b7b1b5;
+  filter: drop-shadow(0 0 0 rgb(183, 177, 181));
+}

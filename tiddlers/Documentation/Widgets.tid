@@ -1,0 +1,6 @@
+title: Widgets
+tags: Documentation
+
+The //TW5-Graph// plugin consists of a collection of widgets, which act as building blocks to create more sophisticated graph rendering tools. These are the javascript widgets which all the more elaborate globals and functionality build upon.
+
+<<list-links filter: "[tag[Widgets]]" >>

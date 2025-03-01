@@ -1,0 +1,25 @@
+title: Graph
+
+\define plugin() $:/plugins/flibbles/graph
+
+<$tiddler tiddler=<<plugin>> >
+
+|!Version |{{!!version}} } |
+|!Build date |<$view field=created format=date template="MMM DDth, YYYY" /> |
+|!TW5 compatibility |{{!!core-version}} |
+
+The TW5-Graph plugin is a TiddlyWiki plugin which provides an API for creating sophistocated graphs with a wide range of costumizable functionality.
+
+<<list-links filter: "[tag[Documentation]]" >>
+
+To report and issue, please visit <a href={{!!source}} class=tc-tiddlylink-external>the github page</a>.
+
+!! To Install
+
+Currently, this plugin is in an experimental stage, and its API is still subject to change. But if you're willing to experiment with it and provide feedback, drag the following onto your Tiddlywiki project page and say "yes" to import.
+
+@@text-align:center;
+<$link to=<<plugin>> class=graph-dragger>Drag n' Drop me!</$link>
+@@
+
+</$tiddler>
