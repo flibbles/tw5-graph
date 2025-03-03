@@ -39,17 +39,37 @@ DelayWidget.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers);
 };
 
+var counter = 0;
+
 DelayWidget.prototype.invokeAction = function(triggeringWidget, event) {
-	return setTimeout(execute, this.ms, this, triggeringWidget, event);
+	// The id is used to make sure the later timed invocation corresponds
+	// to this method call here.
+	var id = (counter++).toString();
+	if (this.state) {
+		this.wiki.addTiddler({title: this.state, text: id});
+	}
+	return setTimeout(execute, this.ms, this, triggeringWidget, event, id);
 };
 
 DelayWidget.prototype.allowActionPropagation = function() {
 	return false;
 };
 
-function execute(delayWidget, triggeringWidget, event) {
+function execute(delayWidget, triggeringWidget, event, id) {
+	var state = delayWidget.state;
+	if (state) {
+		var text = delayWidget.wiki.getTiddlerText(state);
+		if (text !== id) {
+			// The state tiddler was touched by another action.
+			// So we should not act. We're stale.
+			return;
+		}
+	}
 	delayWidget.refreshChildren();
 	delayWidget.invokeActions(triggeringWidget, event);
+	if (state) {
+		delayWidget.wiki.deleteTiddler(state);
+	}
 };
 
 exports["action-delay"] = DelayWidget;

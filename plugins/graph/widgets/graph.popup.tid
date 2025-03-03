@@ -3,11 +3,22 @@ tags: $:/tags/Global
 
 \widget $graph.popup(state)
 \whitespace trim
+
+\procedure hover()
+<$action-delay $state=`$(state)$-delay` $ms=600>
+<$action-popup $state=<<state>> $coords=`($(viewPoint)$,100,0)` />
+<$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />
+</$action-delay>
+\end hover
+
+\procedure blur()
+<$action-deletetiddler $tiddler=`$(state)$-delay` />
+<$action-popup $state=<<state>> />
+\end blur
+
 <$parameters state=<<qualify "$:/state/graph/tooltip">> >
 
-<$graphevent
-	$hover="""<$action-popup $state=<<state>> $coords=`($(viewPoint)$,100,0)` /><$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />"""
-	$blur="""<$action-popup $state=<<state>> />""" >
+<$graphevent $hover=<<hover>> $blur=<<blur>> >
 
 <$slot $name="ts-raw" />
 
