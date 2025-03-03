@@ -1,6 +1,6 @@
 /*\
 
-Tests that graphs properly refresh.
+Tests the action-modal widget.
 
 \*/
 

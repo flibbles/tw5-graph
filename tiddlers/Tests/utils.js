@@ -37,14 +37,33 @@ test.renderText = function(wiki, text) {
 	return widgetNode;
 };
 
-test.flushChanges = function() {
+test.flushChanges = function(ms) {
 	return new Promise(function(resolve, reject) {
-		$tw.utils.nextTick(resolve);
+		// I'm using this instead of $tw.utils.nextTick(resolve) because
+		// they use different queues or something? Putting events sequentually
+		// on the two result in different run orders, which doesn't work for
+		// testing action-delay.
+		//$tw.utils.nextTick(resolve);
+		setTimeout(resolve, ms || 0);
 	});
 };
 
+var testResolve;
+
 test.actionMethod = function(attributes) {
-	fail("action-test called without $tw.test.actionMethod being spied upon.");
+	if (testResolve) {
+		var resolve = testResolve;
+		testResolve = null;
+		resolve(attributes);
+	} else {
+		fail("action-test called without $tw.test.actionMethod being spied upon or promised anything.");
+	}
+};
+
+test.actionToBeCalled = function() {
+	return new Promise((resolve, reject) => {
+		testResolve = resolve;
+	});
 };
 
 test.dispatchEvent = function(wiki, params, callback) {
