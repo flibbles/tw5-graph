@@ -12,6 +12,29 @@ tags: $:/tags/Stylesheet
 	height: 400px;
 }
 
+/*
+Error-state graphs
+*/
+
+.graph-canvas.graph-error {
+	align-content: center;
+	text-align: center;
+	font-weight: bold;
+	color: <<colour alert-highlight>>;
+}
+
+.graph-canvas.graph-error span {
+	background: <<colour alert-background>>;
+	padding: 1em;
+	border: medium solid <<colour alert-border>>;
+	border-radius: 1em;
+
+}
+
+/*
+Engine toggle buttons
+*/
+
 .graph-engine-button {
 	margin: 1em;
 	width: 7em;

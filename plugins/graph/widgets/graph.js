@@ -37,7 +37,11 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	this.computeAttributes();
 	this.execute();
 	this.graphElement = this.document.createElement("div");
-	this.graphElement.className = "graph-canvas";
+	var className = "graph-canvas";
+	if (!this.engine) {
+		className += " graph-error";
+	}
+	this.graphElement.className = className;
 	this.graphElement.style.width = this.width;
 	this.graphElement.style.height = this.height;
 	this.domNodes.push(this.graphElement);
@@ -82,7 +86,7 @@ GraphWidget.prototype.execute = function() {
 		} else {
 			message = "Graph plugin configured to use missing '" + this.engineValue + "' engine. Fix this in plugin settings.";
 		}
-		this.makeChildWidgets([{type: "text", text: message}]);
+		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
 		this.engine = undefined;
 	} else {
 		var coreStyleNode = {

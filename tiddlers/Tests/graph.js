@@ -224,7 +224,7 @@ it("does not let blank $engine value override settings", function() {
 it("handles missing engine gracefully", function() {
 	var wiki = new $tw.Wiki();
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine=Missing/>\n");
-	expect(text).toContain(">'Missing' graphing library not found.</div>");
+	expect(text).toContain("><span>'Missing' graphing library not found.</span></div>");
 });
 
 it("handles no engines installed gracefully", function() {
@@ -232,14 +232,14 @@ it("handles no engines installed gracefully", function() {
 	spyOn(utils, "getEngineMap").and.returnValue({});
 	var wiki = new $tw.Wiki();
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>\n");
-	expect(text).toContain(">No graphing libraries installed.</div>");
+	expect(text).toContain("><span>No graphing libraries installed.</span></div>");
 });
 
 it("handles bad global setting gracefully", function() {
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Missing"});
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph/>\n");
-	expect(text).toContain(">Graph plugin configured to use missing 'Missing' engine. Fix this in plugin settings.</div>");
+	expect(text).toContain("><span>Graph plugin configured to use missing 'Missing' engine. Fix this in plugin settings.</span></div>");
 });
 
 it("performs complete refresh if engine changes", async function() {
@@ -376,10 +376,12 @@ it("handles init errors", async function() {
 		init = spyOn($tw.test.adapter, "init").and.callFake(()=>{throw error}),
 		log = spyOn(console, "error"),
 		wiki = new $tw.Wiki(),
-		widgetNode = $tw.test.renderText(wiki, "<$graph>Content");
+		widgetNode = $tw.test.renderText(wiki, "<$graph>\n\nContent");
 	// We ask the error for its message, because it's different between
 	// Node.js and the browser
-	expect(widgetNode.parentDomNode.innerHTML).toContain(">"+message+"</div>");
+	var graphNode = widgetNode.parentDomNode.childNodes[0];
+	expect(graphNode.innerHTML).toBe("<span>"+message+"</span>");
+	expect(graphNode.className).toBe("graph-canvas graph-error");
 	expect(log).toHaveBeenCalled();
 	// Make sure it doesn't crash when refreshing
 	await $tw.test.flushChanges();
@@ -390,13 +392,15 @@ it("handles update errors", async function() {
 		message = error.message || error.toString(),
 		log = spyOn(console, "error"),
 		wiki = new $tw.Wiki(),
-		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}>Content</$graph>\n");
+		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}>\n\nContent</$graph>\n");
 	// Make sure it doesn't crash when refreshing
 	await $tw.test.flushChanges();
 	var update = spyOn($tw.test.adapter, "update").and.callFake(()=>{ throw error; });
 	wiki.addTiddler({title: "Value", text: "newValue"});
 	await $tw.test.flushChanges();
-	expect(widgetNode.parentDomNode.innerHTML).toContain(">"+message+"</div>");
+	var graphNode = widgetNode.parentDomNode.childNodes[0];
+	expect(graphNode.innerHTML).toContain("<span>"+message+"</span>");
+	expect(graphNode.className).toBe("graph-canvas graph-error");
 	expect(log).toHaveBeenCalled();
 });
 
@@ -414,6 +418,7 @@ it("can recover from error state", async function() {
 	await $tw.test.flushChanges();
 	var objects = $tw.test.latestEngine.objects;
 	expect(objects).toEqual({ graph: {value: "newValue"}, nodes: {A: {}}});
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain("graph-error");
 });
 
 });
