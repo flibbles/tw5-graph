@@ -368,4 +368,52 @@ it("refreshes graph only when graph attributes change", async function() {
 	expect(newObjects).toEqual({graph: {value: "that", shared: "Shared_that"}, nodes: {A: {value: "Shared_that"}}});
 });
 
+/*** Error handling ***/
+
+it("handles init errors", async function() {
+	var error = new Error("Init Error"),
+		message = error.message || error.toString(),
+		init = spyOn($tw.test.adapter, "init").and.callFake(()=>{throw error}),
+		log = spyOn(console, "error"),
+		wiki = new $tw.Wiki(),
+		widgetNode = $tw.test.renderText(wiki, "<$graph>Content");
+	// We ask the error for its message, because it's different between
+	// Node.js and the browser
+	expect(widgetNode.parentDomNode.innerHTML).toContain(">"+message+"</div>");
+	expect(log).toHaveBeenCalled();
+	// Make sure it doesn't crash when refreshing
+	await $tw.test.flushChanges();
+});
+
+it("handles update errors", async function() {
+	var error = new Error("Update Error"),
+		message = error.message || error.toString(),
+		log = spyOn(console, "error"),
+		wiki = new $tw.Wiki(),
+		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}>Content</$graph>\n");
+	// Make sure it doesn't crash when refreshing
+	await $tw.test.flushChanges();
+	var update = spyOn($tw.test.adapter, "update").and.callFake(()=>{ throw error; });
+	wiki.addTiddler({title: "Value", text: "newValue"});
+	await $tw.test.flushChanges();
+	expect(widgetNode.parentDomNode.innerHTML).toContain(">"+message+"</div>");
+	expect(log).toHaveBeenCalled();
+});
+
+it("can recover from error state", async function() {
+	var error = new Error("Init Error"),
+		init = spyOn($tw.test.adapter, "init").and.throwError(error);
+		log = spyOn(console, "error"),
+		wiki = new $tw.Wiki(),
+		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}><$node $tiddler=A/>");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("Init Error");
+	expect(log).toHaveBeenCalled();
+	await $tw.test.flushChanges();
+	init.and.callThrough();
+	wiki.addTiddler({title: "Value", text: "newValue"});
+	await $tw.test.flushChanges();
+	var objects = $tw.test.latestEngine.objects;
+	expect(objects).toEqual({ graph: {value: "newValue"}, nodes: {A: {}}});
+});
+
 });

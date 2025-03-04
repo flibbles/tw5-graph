@@ -50,7 +50,14 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		objects.graph = this.getViewSettings();
-		this.engine.init(this.graphElement, objects);
+		try {
+			this.engine.init(this.graphElement, objects);
+		} catch(e) {
+			// Something went wrong. Rebuild this widget as an error displayer
+			console.error(e);
+			this.errorState = e.message || e.toString();
+			this.refreshSelf();
+		}
 	}
 };
 
@@ -61,10 +68,14 @@ GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
 	this.engineValue = this.getEngineName();
 	this.executeDimensions();
+	this.executeColors();
 	var Engine = utils.getEngine(this.engineValue);
-	if (!Engine) {
+	if (!Engine || this.errorState) {
 		var message;
-		if (!this.engineValue) {
+		if (this.errorState) {
+			message = this.errorState;
+			this.errorState = null;
+		} else if (!this.engineValue) {
 			message = "No graphing libraries installed.";
 		} else if (this.getAttribute("$engine")) {
 			message = "'" + this.engineValue + "' graphing library not found.";
@@ -74,8 +85,6 @@ GraphWidget.prototype.execute = function() {
 		this.makeChildWidgets([{type: "text", text: message}]);
 		this.engine = undefined;
 	} else {
-		// TODO: Not quite the correct call here. It should only executeColors
-		this.refreshColors();
 		var coreStyleNode = {
 			type: "style",
 			children: this.parseTreeNode.children
@@ -125,8 +134,20 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		objects.graph = this.getViewSettings();
 		changed = true;
 	}
-	if (objects) {
-		this.engine.update(objects);
+	if (changed) {
+		if (!this.engine) {
+			// We were in an error state. Maybe we won't be after refreshing.
+			this.refreshSelf();
+		} else if (objects) {
+			try {
+				this.engine.update(objects);
+			} catch (e) {
+				// Something went wrong. Rebuild this widget as an error displayer
+				console.error(e);
+				this.errorState = e.message || e.toString();
+				this.refreshSelf();
+			}
+		}
 	}
 	return changed;
 };
@@ -134,21 +155,24 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 	var changed = false;
 	for (var color in graphColors) {
-		var widget = this.colorWidgets[color];
-		if (!widget) {
-			widget = this.colorWidgets[color] = this.wiki.makeWidget({
-				tree: [{
-					type: "transclude",
-					attributes: {
-						"$variable": {type: "string", value: "colour"},
-						0: {type: "string", value: graphColors[color]}}
-				}]}, {parentWidget: this});
-		} else if (!widget.refresh(changedTiddlers)) {
+		if (!this.colorWidgets[color].refresh(changedTiddlers)) {
 			continue;
 		}
 		changed = true;
 	}
 	return changed;
+};
+
+GraphWidget.prototype.executeColors = function() {
+	for (var color in graphColors) {
+		this.colorWidgets[color] = this.wiki.makeWidget({
+			tree: [{
+				type: "transclude",
+				attributes: {
+					"$variable": {type: "string", value: "colour"},
+					0: {type: "string", value: graphColors[color]}}
+			}]}, {parentWidget: this});
+	}
 };
 
 GraphWidget.prototype.getEngineName = function() {
@@ -158,18 +182,20 @@ GraphWidget.prototype.getEngineName = function() {
 
 GraphWidget.prototype.getViewSettings = function() {
 	var settings = Object.create(null);
-	for (var color in graphColors) {
-		var widget = this.colorWidgets[color];
-		var container = $tw.fakeDocument.createElement("div");
-		widget.render(container, null);
-		var content = container.textContent;
-		if (content) {
-			settings[color] = content;
+	if (this.engine) {
+		for (var color in graphColors) {
+			var widget = this.colorWidgets[color];
+			var container = $tw.fakeDocument.createElement("div");
+			widget.render(container, null);
+			var content = container.textContent;
+			if (content) {
+				settings[color] = content;
+			}
 		}
-	}
-	for (var name in this.attributes) {
-		if (name.charAt(0) !== '$' && this.attributes[name]) {
-			settings[name] = this.transformProperty("graph", name, this.attributes[name]);
+		for (var name in this.attributes) {
+			if (name.charAt(0) !== '$' && this.attributes[name]) {
+				settings[name] = this.transformProperty("graph", name, this.attributes[name]);
+			}
 		}
 	}
 	return settings;
