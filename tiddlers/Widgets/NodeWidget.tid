@@ -1,0 +1,31 @@
+title: NodeWidget
+tags: Widgets
+caption: node
+
+! Introduction
+
+Use a node widget inside of a <<.wlink GraphWidget>> to define a node. Like all graph objects, nodes can have a variety of properties depending on the engine you're using, which can be set within the widget, or by a containing <<.wlink PropertiesWidget>>.
+
+The node widget does not create any DOM nodes.
+
+! Content and Attributes
+
+All node widgets correspond to a tiddler. This tiddler does not have to exist.
+
+|!Attribute |!Description |
+|$tiddler |The tiddler this node corresponds to (defaults to the [[current tiddler|Current Tiddler]]) |
+|$pos |A [[Coordinate]] which indicates a starting location |
+|//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as properties of this node |
+|!Below are commonly-used properties used by all engines. |<|
+|color |Sets the color of the node. If not set, takes color from current palette. |
+|label |Sets a label that appears with the node. |
+|x |Sets the starting X coordinate of the node. Gets preferred over <<.attr $pos>> |
+|y |Sets the starting Y coordinate of the node. Gets preferred over <<.attr $pos>> |
+
+! Starting Position
+
+If no X, Y, or $pos is specified, a node's initial placement is decided by the engine. Explicit number coordinates, such as X or Y, get prefered over $pos for that coordinate. For instance, if $pos is set to `3,4`, and Y is set to `11`, then the initial coordinates will be `3,11`.
+
+! Node Properties
+
+The available node properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.

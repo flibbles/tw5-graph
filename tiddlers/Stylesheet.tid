@@ -58,3 +58,24 @@ a.graph-dragger.tc-tiddlylink:hover {
   box-shadow: inset 4.3px 4.3px 7px #b7b1b5;
   filter: drop-shadow(0 0 0 rgb(183, 177, 181));
 }
+
+/*** doc-style ***/
+
+
+.doc-button,
+.doc-tab,
+.doc-tag,
+.doc-tiddler,
+.doc-field,
+.doc-value,
+.doc-operator,
+.doc-var,
+.doc-widget,
+.doc-attr,
+.doc-param {
+	background-color: <<color background>>;
+	border: none;
+	color: <<color very-muted-foreground>>;
+	font-weight: bold;
+	padding: 0;
+}

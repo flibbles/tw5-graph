@@ -5,4 +5,6 @@ themes/tiddlywiki/vanilla/metrics/storyright: 970px
 themes/tiddlywiki/vanilla/metrics/storywidth: 970px
 themes/tiddlywiki/vanilla/metrics/tiddlerwidth: 886px
 themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint: 1160px
-
+# If we have this to true, it causes annoying scrolling when experimentally
+# switching the palette.
+config/Search/AutoFocus: false

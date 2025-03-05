@@ -1,0 +1,29 @@
+title: EdgeWidget
+tags: Widgets
+caption: edge
+
+! Introduction
+
+Use the edge widget inside of a <<.wlink GraphWidget>> to define an edge connecting two nodes together. Like all graph objects, edges can have a variety of properties depending on the engine you're using, which can be set within the widget, or by a containing <<.wlink PropertiesWidget>>.
+
+The node widget does not create any DOM nodes.
+
+! Content and Attributes
+
+All node widgets correspond to a tiddler. This tiddler does not have to exist.
+
+|!Attribute |!Description |
+|$from |The tiddler whose node this edge stems from (defaults to the [[current tiddler|Current Tiddler]]) |
+|$to |The tiddler whose node this edge goes to. This must be set. |
+|//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as properties of this edge |
+|!Below are commonly-used properties used by all engines. |<|
+|color |Sets the color of the edge. |
+|label |Sets a label that appears with the edge. |
+
+! Omission
+
+If <<attr $to>> is not set, or either node that the edge connects to is missing from the graph, then the edge will be ignored.
+
+! Edge Properties
+
+The available edge properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.

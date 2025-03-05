@@ -44,6 +44,7 @@ Engine toggle buttons
 	font-weight: bold;
 	text-align: center;
 	background-color: <<colour background>>;
+	border-color: <<colour table-footer-background>>;
 }
 
 .graph-engine-button .graph-icon {
@@ -52,6 +53,10 @@ Engine toggle buttons
 }
 
 .graph-engine-button.active {
+	background-color: <<colour table-header-background>>;
+}
+
+.graph-engine-button:hover {
 	background-color: <<colour table-header-background>>;
 }
 

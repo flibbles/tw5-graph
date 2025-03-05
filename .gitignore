@@ -2,3 +2,4 @@ docs
 output
 plugins/orb
 plugins/vis-network
+plugins/cytoscape
