@@ -16,8 +16,8 @@ var Engines = $tw.modules.applyMethods("graphengine");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 var graphColors = {
-	nodeBackground: "graph-node-background",
-	nodeForeground: "graph-node-foreground"
+	nodeColor: "graph-node-color",
+	fontColor: "graph-font-color"
 };
 
 var GraphWidget = function(parseTreeNode, options) {

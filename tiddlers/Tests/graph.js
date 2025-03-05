@@ -151,51 +151,51 @@ it('sends style update if palette changes', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
-	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
+	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph/>')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(init)[1];
-	expect(initialObjects).toEqual({graph: {nodeBackground: "#ff0000"}});
+	expect(initialObjects).toEqual({graph: {nodeColor: "#ff0000"}});
 	// Now we make a change
-	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
-	expect(newObjects).toEqual({graph: {nodeBackground: "#0000ff"}});
+	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff"}});
 });
 
 it('sends style and node updates together', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
-	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-background}} />')
+	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-color}} />')
 	await $tw.test.flushChanges();
 	var initialObjects = onlyCallOf(init)[1];
 	expect(Object.keys(initialObjects)).toEqual(["nodes", "graph"]);
-	expect(initialObjects.graph.nodeBackground).toBe("#ff0000");
+	expect(initialObjects.graph.nodeColor).toBe("#ff0000");
 	// Now we make a change
-	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
 	// We test this way instead of toEqualing the whole thing because more
 	// colors may be added later.
 	expect(Object.keys(newObjects)).toEqual(["nodes", "graph"]);
-	expect(newObjects.graph.nodeBackground).toBe("#0000ff");
+	expect(newObjects.graph.nodeColor).toBe("#0000ff");
 	expect(newObjects.nodes.N).toEqual({label: "#0000ff"});
 });
 
 it('can update colors and other graph settings together', async function() {
 	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
-	wiki.addTiddler({title: "graph-node-background", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph value={{graph-node-background}} />')
+	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph value={{graph-node-color}} />')
 	await $tw.test.flushChanges();
 	// Now we make a change
-	wiki.addTiddler({title: "graph-node-background", text: "#0000ff"});
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
 	var newObjects = onlyCallOf(update)[0];
 	// colors may be added later.
-	expect(newObjects).toEqual({graph: {nodeBackground: "#0000ff", value: "#0000ff"}});
+	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff", value: "#0000ff"}});
 });
 
 /*** $engine attribute ***/
