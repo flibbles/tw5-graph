@@ -24,3 +24,4 @@ exports.init = function(element, objects) {
 };
 
 exports.update = function() {};
+exports.destroy = function() {};

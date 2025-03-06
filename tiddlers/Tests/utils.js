@@ -8,6 +8,26 @@ var test = $tw.test = {};
 var engineConfig = "$:/config/flibbles/graph/engine";
 test.utils = require("$:/plugins/flibbles/graph/utils.js");
 
+test.setSpies = function() {
+	return {
+		update: spyOn($tw.test.adapter, "update").and.callThrough(),
+		init: spyOn($tw.test.adapter, "init").and.callThrough(),
+		destroy: spyOn($tw.test.adapter, "destroy").and.callThrough(),
+		register: spyOn($tw.test.utils, "registerForDestruction"),
+		window: spyOn($tw.test.utils, "window").and.returnValue({
+			set: new Set(),
+			addEventListener: function(type, method) {
+				method.type = type;
+				this.set.add(method);
+			},
+			removeEventListener: function(type, method) {
+				expect(method.type).toBe(type);
+				this.set.delete(method);
+			}
+		})
+	};
+};
+
 Object.defineProperty(test, 'adapter', {
 	get: function() {
 		return test.utils.getEngineMap().Test.prototype;

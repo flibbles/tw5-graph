@@ -6,8 +6,13 @@ Tests the $style widget.
 
 describe("StyleWidget", function() {
 
+var init, update, window;
+
+beforeEach(function() {
+	({init, update, window} = $tw.test.setSpies());
+});
+
 it('can hierarchically apply style to all nested', function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$style $for=nodes custom=val dynamic=1><$style $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge from=A to=B/></$style><$node $tiddler=C/></$style><$node $tiddler=D/>");
 	expect(init).toHaveBeenCalledTimes(1);
@@ -17,7 +22,6 @@ it('can hierarchically apply style to all nested', function() {
 });
 
 it('can hierarchically apply styles to filtered nested', function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -44,7 +48,6 @@ it('can hierarchically apply styles to filtered nested', function() {
 });
 
 it('can apply styles to non-node objects, like edges', function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -66,7 +69,6 @@ it('can apply styles to non-node objects, like edges', function() {
 });
 
 it('can selectively apply styles to non-node objects, like edges', function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
@@ -86,7 +88,6 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 });
 
 it('refreshes properly if $for changes when filtering', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -108,7 +109,6 @@ it('refreshes properly if $for changes when filtering', async function() {
 });
 
 it('refreshes properly if $for changes when not filtering', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -130,7 +130,6 @@ it('refreshes properly if $for changes when not filtering', async function() {
 });
 
 it('treats empty attributes as non-existent', function() {
-	var init = spyOn($tw.test.adapter,"init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$style yes=value no={{!!nofield}}><$node $tiddler=target />");
 	var objects = init.calls.first().args[1];
@@ -138,8 +137,6 @@ it('treats empty attributes as non-existent', function() {
 });
 
 it("can handle local variables in $filter", async function() {
-	var init = spyOn($tw.test.adapter,"init").and.callThrough();
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -173,8 +170,6 @@ it("can handle local variables in $filter", async function() {
 
 //TODO: If $filter changes, it should only change what filter results change.
 it('can handle changes to style properties', async function() {
-	var init = spyOn($tw.test.adapter,"init").and.callThrough();
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "Special", text: "then"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -204,7 +199,6 @@ it('can handle changes to style properties', async function() {
 });
 
 it('updates when $filter output would be only change', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "List", tags: "A B"});
 	var widget = $tw.test.renderText(wiki, "<$graph><$style value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/>");

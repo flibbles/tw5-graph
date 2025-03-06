@@ -38,3 +38,9 @@ exports.update = function(objects) {
 		$tw.utils.extend(this.objects[category], objects[category]);
 	}
 };
+
+exports.destroy = function() {
+	if ($tw.test.latestEngine === this) {
+		$tw.test.latestEngine = null;
+	}
+};

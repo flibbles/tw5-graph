@@ -6,12 +6,11 @@ Tests that graphs properly refresh.
 
 describe('GraphWidget', function() {
 
-var wiki, init, update;
+var wiki, init, update, register, window;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
-	update = spyOn($tw.test.adapter, "update").and.callThrough();
-	init = spyOn($tw.test.adapter, "init").and.callThrough();
+	({update, init, destroy, register, window} = $tw.test.setSpies());
 });
 
 
@@ -122,6 +121,41 @@ it('does not send update if no graph objects changed', async function() {
 
 // TODO: Only edges
 // TODO: No edges
+
+/*** garbage handling ***/
+
+it("detects when to destroy itself", async function() {
+	register.and.callThrough();
+	wiki.addTiddler({title: "View", text: "yes"});
+	wiki.addTiddler({title: "Engine", text: "Test"});
+	var widgetNode = $tw.test.renderText(wiki, "<%if [{View}!match[no]] %><$graph $engine={{Engine}} />");
+	widgetNode.document.body = {
+		contains: function(node) {
+			while (node) {
+				if (node === widgetNode.parentDomNode) {
+					return true;
+				}
+				// Now check and make sure the parent has this as a child.
+				if (!node.parentNode
+				|| node.parentNode.childNodes.indexOf(node) < 0) {
+					return false;
+				}
+				node = node.parentNode;
+			}
+		}
+	};
+	await $tw.test.flushChanges();
+	$tw.test.utils.upkeep();
+	expect(register).toHaveBeenCalled();
+	register.calls.reset();
+	expect(destroy).not.toHaveBeenCalled();
+	// Now we put in a change that will
+	wiki.addTiddler({title: "View", text: "no"});
+	await $tw.test.flushChanges();
+	$tw.test.utils.upkeep();
+	expect(destroy).toHaveBeenCalled();
+	expect(window().set.size).toBe(0);
+});
 
 /*** dimensions ***/
 
@@ -252,6 +286,7 @@ it("performs complete refresh if engine changes", async function() {
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
+	expect(destroy).toHaveBeenCalled();
 	expect(alsoInit).toHaveBeenCalledTimes(1);
 	// Let's make sure it didn't hold onto old objects from the old engine.
 	var objects = alsoInit.calls.first().args[1];
@@ -266,6 +301,7 @@ it("handles switching to a bad engine", async function() {
 	wiki.addTiddler({title: "target", text: "Missing"});
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
+	expect(destroy).toHaveBeenCalled();
 	// There should only be the error widget. No canvas
 	expect(widget.parentDomNode.innerHTML).toContain("not found");
 	expect(widget.parentDomNode.innerHTML).not.toContain("<canvas");
@@ -280,6 +316,7 @@ it("detects change of global engine configuration", async function() {
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
+	expect(destroy).toHaveBeenCalled();
 	expect(alsoInit).toHaveBeenCalled();
 });
 
@@ -290,6 +327,7 @@ it("does not refresh explicit engine if global changes", async function() {
 	init.calls.reset();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
 	await $tw.test.flushChanges();
+	expect(destroy).not.toHaveBeenCalled();
 	expect(init).not.toHaveBeenCalled();
 });
 

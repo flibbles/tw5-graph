@@ -45,12 +45,12 @@ isGarbage method returns true;
 */
 exports.registerForDestruction = function(object) {
 	if (!upkeepId) {
-		upkeepId = setInterval(upkeep, 5000);
+		upkeepId = setInterval(exports.upkeep, 5000);
 	}
 	eventualGarbage.push(object);
 };
 
-function upkeep() {
+exports.upkeep = function() {
 	var i = eventualGarbage.length;
 	while (i > 0) {
 		i--;
@@ -59,5 +59,10 @@ function upkeep() {
 			eventualGarbage.splice(i, 1);
 			object.destroy();
 		}
+	}
+	// No managed objects. Let's shut down for now.
+	if (eventualGarbage.length == 0) {
+		clearInterval(upkeepId);
+		upkeepId = null;
 	}
 };

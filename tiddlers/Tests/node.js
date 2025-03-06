@@ -6,6 +6,12 @@ Tests node widgets.
 
 describe('NodeWidget', function() {
 
+var window;
+
+beforeEach(function() {
+	({window} = $tw.test.setSpies());
+});
+
 it("gets coordinates from $pos attribute", function() {
 	var wiki = new $tw.Wiki();
 	var widget;

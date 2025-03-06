@@ -22,6 +22,10 @@ var graphColors = {
 
 var GraphWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
+	utils.registerForDestruction(this);
+	this.resizeInstance = this.resize.bind(this);
+	this.window = utils.window();
+	this.window.addEventListener("resize", this.resizeInstance);
 };
 
 /*
@@ -160,6 +164,15 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	return changed;
 };
 
+GraphWidget.prototype.refreshSelf = function() {
+	var nextSibling = this.findNextSiblingDomNode();
+	this.removeChildDomNodes();
+	if (this.engine) {
+		this.engine.destroy();
+	}
+	this.render(this.parentDomNode, nextSibling);
+};
+
 GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 	var changed = false;
 	for (var color in graphColors) {
@@ -181,6 +194,22 @@ GraphWidget.prototype.executeColors = function() {
 					0: {type: "string", value: graphColors[color]}}
 			}]}, {parentWidget: this});
 	}
+};
+
+GraphWidget.prototype.destroy = function() {
+	this.window.removeEventListener("resize", this.resizeInstance);
+	if (this.engine) {
+		this.engine.destroy();
+	}
+};
+
+GraphWidget.prototype.isGarbage = function() {
+	var body = this.document.body;
+	return !body || !body.contains(this.graphElement);
+};
+
+GraphWidget.prototype.resize = function(event) {
+	console.log("Resized");
 };
 
 GraphWidget.prototype.getEngineName = function() {
