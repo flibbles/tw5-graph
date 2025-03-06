@@ -42,8 +42,12 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		className += " graph-error";
 	}
 	this.graphElement.className = className;
-	this.graphElement.style.width = this.width;
-	this.graphElement.style.height = this.height;
+	if (this.width) {
+		this.graphElement.style.width = this.width;
+	}
+	if (this.height) {
+		this.graphElement.style.height = this.height;
+	}
 	this.domNodes.push(this.graphElement);
 
 	parent.insertBefore(this.graphElement, nextSibling);

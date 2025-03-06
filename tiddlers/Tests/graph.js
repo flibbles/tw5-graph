@@ -145,6 +145,32 @@ it("does not bother refreshing for dimension changes", async function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:300");
 });
 
+it("can remove height and width attributes", async function() {
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "dimensions", text: "247"});
+	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}} />\n\n");
+	await $tw.test.flushChanges();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
+	wiki.addTiddler({title: "dimensions"});
+	await $tw.test.flushChanges();
+	// There will still be style="height:;width:;", but I don't know how to
+	// get rid of that.
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain("height:247");
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain("width:247");
+});
+
+it("does not write any style info if no dimensions supplied", function() {
+	function render(text) {
+		return wiki.renderText("text/html", "text/vnd.tiddlywiki", text);
+	};
+	var wiki = new $tw.Wiki();
+	expect(render("<$graph/>\n\n")).toBe('<div class="graph-canvas"></div>');
+	expect(render("<$graph $width='' $height=''/>\n\n")).toBe('<div class="graph-canvas"></div>');
+	expect(render("<$graph $width=5px/>\n\n")).toBe('<div class="graph-canvas" style="width:5px;"></div>');
+	expect(render("<$graph $height=5px/>\n\n")).toBe('<div class="graph-canvas" style="height:5px;"></div>');
+});
+
 /*** color palette ***/
 
 it('sends style update if palette changes', async function() {
