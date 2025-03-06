@@ -13,6 +13,12 @@ var AdapterBase = function() {};
 
 var Engines = $tw.modules.createClassesFromModules("graphengine", null, AdapterBase);
 
+/*
+Returns the window for flibbles/graph to use. I do this so that the testing
+framework can mock it out on Node.JS.
+*/
+exports.window = function() { return window; };
+
 exports.getEngineMap = function() {
 	return Engines;
 };
@@ -27,4 +33,31 @@ exports.getEngine = function(name) {
 		return engineMap[entry];
 	}
 	return null;
+};
+
+// Aren't we all eventually garbage?
+var eventualGarbage = [];
+var upkeepId;
+
+/*
+Register an object for destruction. It's ready to pass on once its
+isGarbage method returns true;
+*/
+exports.registerForDestruction = function(object) {
+	if (!upkeepId) {
+		upkeepId = setInterval(upkeep, 5000);
+	}
+	eventualGarbage.push(object);
+};
+
+function upkeep() {
+	var i = eventualGarbage.length;
+	while (i > 0) {
+		i--;
+		var object = eventualGarbage[i];
+		if (object.isGarbage()) {
+			eventualGarbage.splice(i, 1);
+			object.destroy();
+		}
+	}
 };

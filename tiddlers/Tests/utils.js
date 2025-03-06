@@ -6,17 +6,17 @@ Sets up some utilities for testing.
 
 var test = $tw.test = {};
 var engineConfig = "$:/config/flibbles/graph/engine";
-var utils = require("$:/plugins/flibbles/graph/utils.js");
+test.utils = require("$:/plugins/flibbles/graph/utils.js");
 
 Object.defineProperty(test, 'adapter', {
 	get: function() {
-		return utils.getEngineMap().Test.prototype;
+		return test.utils.getEngineMap().Test.prototype;
 	}
 });
 
 Object.defineProperty(test, 'adapterAlso', {
 	get: function() {
-		return utils.getEngineMap().Also.prototype;
+		return test.utils.getEngineMap().Also.prototype;
 	}
 });
 
