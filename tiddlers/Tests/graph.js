@@ -6,6 +6,14 @@ Tests that graphs properly refresh.
 
 describe('GraphWidget', function() {
 
+var init, update;
+
+beforeEach(function() {
+	update = spyOn($tw.test.adapter, "update").and.callThrough();
+	init = spyOn($tw.test.adapter, "init").and.callThrough();
+});
+
+
 function clean(objects) {
 	objects.edges = Object.values(objects.edges);
 	return objects;
@@ -17,7 +25,6 @@ function onlyCallOf(spy) {
 };
 
 it('handles updates to nodes', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
@@ -38,7 +45,6 @@ it('handles updates to nodes', async function() {
 });
 
 it('handles updates to edges', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
@@ -67,7 +73,6 @@ it('handles updates to edges', async function() {
 });
 
 it('handles incomplete edges completed later', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
@@ -84,7 +89,6 @@ it('handles incomplete edges completed later', async function() {
 });
 
 it('handles edge getting incompleted later', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
@@ -101,7 +105,6 @@ it('handles edge getting incompleted later', async function() {
 });
 
 it('does not hand over empty edge lists', function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "A"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$edge from=A to=B />");
@@ -114,7 +117,6 @@ it('does not hand over empty edge lists', function() {
 });
 
 it('does not send update if no graph objects changed', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddlers([{title: "A"},{title: "Other"}]);
 	var widgetNode = $tw.test.renderText(wiki, "<$graph>{{Other}}");
@@ -129,8 +131,6 @@ it('does not send update if no graph objects changed', async function() {
 /*** dimensions ***/
 
 it("does not bother refreshing for dimension changes", async function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "dimensions", text: "247"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node $tiddler=A/>\n");
@@ -174,8 +174,6 @@ it("does not write any style info if no dimensions supplied", function() {
 /*** color palette ***/
 
 it('sends style update if palette changes', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph/>')
@@ -190,8 +188,6 @@ it('sends style update if palette changes', async function() {
 });
 
 it('sends style and node updates together', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-color}} />')
@@ -211,7 +207,6 @@ it('sends style and node updates together', async function() {
 });
 
 it('can update colors and other graph settings together', async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph value={{graph-node-color}} />')
@@ -242,9 +237,8 @@ it("uses first available engine if none specified", function() {
 it("does not let blank $engine value override settings", function() {
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
-	var testInit = spyOn($tw.test.adapter, "init");
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph $engine={{missing}} />")
-	expect(testInit).toHaveBeenCalled();
+	expect(init).toHaveBeenCalled();
 });
 
 it("handles missing engine gracefully", function() {
@@ -269,7 +263,6 @@ it("handles bad global setting gracefully", function() {
 });
 
 it("performs complete refresh if engine changes", async function() {
-	var testUpdate = spyOn($tw.test.adapter, "update");
 	var alsoInit = spyOn($tw.test.adapterAlso, "init");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "target", text: "Test"});
@@ -277,7 +270,7 @@ it("performs complete refresh if engine changes", async function() {
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
-	expect(testUpdate).not.toHaveBeenCalled();
+	expect(update).not.toHaveBeenCalled();
 	expect(alsoInit).toHaveBeenCalledTimes(1);
 	// Let's make sure it didn't hold onto old objects from the old engine.
 	var objects = alsoInit.calls.first().args[1];
@@ -286,14 +279,13 @@ it("performs complete refresh if engine changes", async function() {
 });
 
 it("handles switching to a bad engine", async function() {
-	var testUpdate = spyOn($tw.test.adapter, "update");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "target", text: "Test"});
 	var widget = $tw.test.renderText(wiki, "<$graph $engine={{target}} />\n");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Missing"});
 	await $tw.test.flushChanges();
-	expect(testUpdate).not.toHaveBeenCalled();
+	expect(update).not.toHaveBeenCalled();
 	// There should only be the error widget. No canvas
 	expect(widget.parentDomNode.innerHTML).toContain("not found");
 	expect(widget.parentDomNode.innerHTML).not.toContain("<canvas");
@@ -302,14 +294,13 @@ it("handles switching to a bad engine", async function() {
 
 it("detects change of global engine configuration", async function() {
 	var alsoInit = spyOn($tw.test.adapterAlso, "init");
-	var testUpdate = spyOn($tw.test.adapter, "update");
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
 	var widget = $tw.test.renderText(wiki, "<$graph/>\n");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
 	await $tw.test.flushChanges();
-	expect(testUpdate).not.toHaveBeenCalled();
+	expect(update).not.toHaveBeenCalled();
 	expect(alsoInit).toHaveBeenCalled();
 });
 
@@ -318,19 +309,18 @@ it("does not refresh explicit engine if global changes", async function() {
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Test"});
 	var widget = $tw.test.renderText(wiki, "<$graph $engine=Test/>\n");
 	await $tw.test.flushChanges();
-	var testInit = spyOn($tw.test.adapter, "init");
+	init.calls.reset();
 	wiki.addTiddler({title: "$:/config/flibbles/graph/engine", text: "Also"});
 	await $tw.test.flushChanges();
-	expect(testInit).not.toHaveBeenCalled();
+	expect(init).not.toHaveBeenCalled();
 });
 
 /*** Typecasting ***/
 
 it("converts numbers", function() {
-	var testInit = spyOn($tw.test.adapter, "init");
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string size=5/><$node $tiddler=B size=0/><$node $tiddler=C size='-5' /><$edge from=A to=B width=5/>");
-	var objects = testInit.calls.first().args[1];
+	var objects = init.calls.first().args[1];
 	// B ensures that 0, which is falsy, still passes through fine.
 	// C ensures that we respect minimum allowed values.
 	expect(objects.nodes).toEqual({A: {label: "string", size: 5}, B: {size: 0}, C: {size: 0}});
@@ -338,10 +328,9 @@ it("converts numbers", function() {
 });
 
 it("converts booleans", function() {
-	var testInit = spyOn($tw.test.adapter, "init");
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string hidden=no/><$node $tiddler=B hidden=yes/><$node $tiddler=C hidden=true />");
-	var objects = testInit.calls.first().args[1];
+	var objects = init.calls.first().args[1];
 	// B ensures that 0, which is falsy, still passes through fine.
 	// C ensures that we respect minimum allowed values.
 	expect(objects.nodes).toEqual({A: {label: "string", hidden: false}, B: {hidden: true}, C: {hidden: true}});
@@ -350,8 +339,6 @@ it("converts booleans", function() {
 /*** View attributes ***/
 
 it("converts graph attributes", async function() {
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "Physics", text: "yes"});
 	var widget = $tw.test.renderText(wiki, "<$graph physics={{Physics}} />");
@@ -364,16 +351,13 @@ it("converts graph attributes", async function() {
 });
 
 it("passes along only non-$ attributes as graph settings", function() {
-	var testInit = spyOn($tw.test.adapter, "init");
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, "<$graph $width=5 $height=10 $else=ignore something=here and=this empty={{noexist}} />");
-	var object = testInit.calls.first().args[1];
+	var object = init.calls.first().args[1];
 	expect(object).toEqual({graph: {something: "here", and: "this"}});
 });
 
 it("refreshes graph only when graph attributes change", async function() {
-	var update = spyOn($tw.test.adapter, "update").and.callThrough();
-	var init = spyOn($tw.test.adapter, "init").and.callThrough();
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "Target", text: "this"});
 	wiki.addTiddler({title: "Shared", text: "Shared_this"});
@@ -397,9 +381,9 @@ it("refreshes graph only when graph attributes change", async function() {
 /*** Error handling ***/
 
 it("handles init errors", async function() {
+	init.and.callFake(()=>{throw error});
 	var error = new Error("Init Error"),
 		message = error.message || error.toString(),
-		init = spyOn($tw.test.adapter, "init").and.callFake(()=>{throw error}),
 		log = spyOn(console, "error"),
 		wiki = new $tw.Wiki(),
 		widgetNode = $tw.test.renderText(wiki, "<$graph>\n\nContent");
@@ -421,7 +405,7 @@ it("handles update errors", async function() {
 		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}>\n\nContent</$graph>\n");
 	// Make sure it doesn't crash when refreshing
 	await $tw.test.flushChanges();
-	var update = spyOn($tw.test.adapter, "update").and.callFake(()=>{ throw error; });
+	update.and.callFake(()=>{ throw error; });
 	wiki.addTiddler({title: "Value", text: "newValue"});
 	await $tw.test.flushChanges();
 	var graphNode = widgetNode.parentDomNode.childNodes[0];
@@ -432,10 +416,10 @@ it("handles update errors", async function() {
 
 it("can recover from error state", async function() {
 	var error = new Error("Init Error"),
-		init = spyOn($tw.test.adapter, "init").and.throwError(error);
 		log = spyOn(console, "error"),
-		wiki = new $tw.Wiki(),
-		widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}><$node $tiddler=A/>");
+		wiki = new $tw.Wiki();
+	init.and.throwError(error);
+	var widgetNode = $tw.test.renderText(wiki, "<$graph value={{Value}}><$node $tiddler=A/>");
 	expect(widgetNode.parentDomNode.innerHTML).toContain("Init Error");
 	expect(log).toHaveBeenCalled();
 	await $tw.test.flushChanges();
