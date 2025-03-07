@@ -10,7 +10,7 @@ describe('ActionDelayWidget', function() {
 // positive, because it's time expensive.
 it('works with positive ms and clears state', async function() {
 	var wiki = new $tw.Wiki();
-	var widgetNode = $tw.test.renderText(wiki,"<$action-delay $state=state $ms=5><$action-test value=success/>");
+	var widgetNode = $tw.test.renderText(wiki,"<$action-delay $state=state $ms=10><$action-test value=success/>");
 	var method = spyOn($tw.test, "actionMethod").and.callThrough();
 	widgetNode.invokeActions(widgetNode, {});
 	expect(method).not.toHaveBeenCalled();
@@ -20,7 +20,7 @@ it('works with positive ms and clears state', async function() {
 	var now = (new Date()).getTime();
 	expect(attributes).toEqual({value: "success"});
 	expect(method).toHaveBeenCalled();
-	expect(now - then).toBeGreaterThanOrEqual(4);
+	expect(now - then).toBeGreaterThanOrEqual(5);
 	expect(wiki.getTiddler("state")).toBeUndefined();
 });
 
