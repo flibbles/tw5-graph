@@ -9,9 +9,7 @@ Utility methods used by the graphing widgets.
 
 "use strict";
 
-var AdapterBase = function() {};
-
-var Engines = $tw.modules.createClassesFromModules("graphengine", null, AdapterBase);
+var Engines = $tw.modules.createClassesFromModules("graphengine");
 
 /*
 Returns the window for flibbles/graph to use. I do this so that the testing

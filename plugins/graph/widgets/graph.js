@@ -46,12 +46,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		className += " graph-error";
 	}
 	this.graphElement.className = className;
-	if (this.width) {
-		this.graphElement.style.width = this.width;
-	}
-	if (this.height) {
-		this.graphElement.style.height = this.height;
-	}
+	this.resize();
 	this.domNodes.push(this.graphElement);
 
 	parent.insertBefore(this.graphElement, nextSibling);
@@ -108,8 +103,20 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.executeDimensions = function() {
-	this.width = this.getAttribute("$width", "");
-	this.height = this.getAttribute("$height", "");
+	this.widthFilter = this.wiki.compileFilter(this.getAttribute("$width", ""));
+	this.heightFilter = this.wiki.compileFilter(this.getAttribute("$height", ""));
+};
+
+GraphWidget.prototype.executeColors = function() {
+	for (var color in graphColors) {
+		this.colorWidgets[color] = this.wiki.makeWidget({
+			tree: [{
+				type: "transclude",
+				attributes: {
+					"$variable": {type: "string", value: "colour"},
+					0: {type: "string", value: graphColors[color]}}
+			}]}, {parentWidget: this});
+	}
 };
 
 /*
@@ -129,13 +136,14 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		if (attribute === "$width" || attribute === "$height") {
 			changed = true;
 			this.executeDimensions();
-			this.graphElement.style.width = this.width;
-			this.graphElement.style.height = this.height;
 		}
 		if (attribute.charAt(0) !== "$") {
 			viewChanged = true;
 		}
 	}
+	// We always try to resize.
+	// The $dimension filters might spit out something different.
+	this.resize();
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		objects = this.findGraphObjects();
@@ -184,15 +192,14 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.prototype.executeColors = function() {
-	for (var color in graphColors) {
-		this.colorWidgets[color] = this.wiki.makeWidget({
-			tree: [{
-				type: "transclude",
-				attributes: {
-					"$variable": {type: "string", value: "colour"},
-					0: {type: "string", value: graphColors[color]}}
-			}]}, {parentWidget: this});
+GraphWidget.prototype.resize = function(event) {
+	var newWidth = this.widthFilter(null, this)[0];
+	var newHeight = this.heightFilter(null, this)[0];
+	if (newWidth !== this.width) {
+		this.graphElement.style.width = this.width = newWidth;
+	}
+	if (newHeight !== this.height) {
+		this.graphElement.style.height = this.height = newHeight;
 	}
 };
 
@@ -206,10 +213,6 @@ GraphWidget.prototype.destroy = function() {
 GraphWidget.prototype.isGarbage = function() {
 	var body = this.document.body;
 	return !body || !body.contains(this.graphElement);
-};
-
-GraphWidget.prototype.resize = function(event) {
-	console.log("Resized");
 };
 
 GraphWidget.prototype.getEngineName = function() {

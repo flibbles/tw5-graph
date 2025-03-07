@@ -159,7 +159,7 @@ it("detects when to destroy itself", async function() {
 
 /*** dimensions ***/
 
-it("does not bother refreshing for dimension changes", async function() {
+it("resizes on literal dimension changes", async function() {
 	wiki.addTiddler({title: "dimensions", text: "247"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node $tiddler=A/>\n");
 	await $tw.test.flushChanges();
@@ -168,9 +168,22 @@ it("does not bother refreshing for dimension changes", async function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
 	wiki.addTiddler({title: "dimensions", text: "300"});
 	await $tw.test.flushChanges();
+	// We want to update the dimensions, but not refresh the graph
 	expect(update).not.toHaveBeenCalled();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("height:300");
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:300");
+});
+
+it("resizes on filter dimension changes", async function() {
+	wiki.addTiddler({title: "dimensions", text: "247"});
+	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$graph $height='[<.D>]' $width='[<.D>add[100]]'>\n");
+	await $tw.test.flushChanges();
+	expect(init).toHaveBeenCalled();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:347;height:247;");
+	wiki.addTiddler({title: "dimensions", text: "300"});
+	await $tw.test.flushChanges();
+	expect(update).not.toHaveBeenCalled();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:400;height:300;");
 });
 
 it("can remove height and width attributes", async function() {
