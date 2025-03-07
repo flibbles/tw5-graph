@@ -186,18 +186,28 @@ it("resizes on filter dimension changes", async function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:400;height:300;");
 });
 
-it("can remove height and width attributes", async function() {
-	wiki.addTiddler({title: "dimensions", text: "247"});
+it("can remove dimension attributes", async function() {
+	wiki.addTiddler({title: "dimensions", text: "27"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}} />\n\n");
 	await $tw.test.flushChanges();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
 	wiki.addTiddler({title: "dimensions"});
 	await $tw.test.flushChanges();
 	// There will still be style="height:;width:;", but I don't know how to
 	// get rid of that.
-	expect(widgetNode.parentDomNode.innerHTML).not.toContain("height:247");
-	expect(widgetNode.parentDomNode.innerHTML).not.toContain("width:247");
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain(":27;");
+});
+
+it("can have dimension attributes return nothing", async function() {
+	wiki.addTiddler({title: "dimensions", text: "27"});
+	var widgetNode = $tw.test.renderText(wiki, "<$graph $height='[{dimensions}]' $width='[{dimensions}]' />\n");
+	await $tw.test.flushChanges();
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
+	wiki.addTiddler({title: "dimensions"});
+	await $tw.test.flushChanges();
+	// There will still be style="height:;width:;", but I don't know how to
+	// get rid of that.
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain(":27;");
 });
 
 it("does not write any style info if no dimensions supplied", function() {
@@ -208,6 +218,9 @@ it("does not write any style info if no dimensions supplied", function() {
 	expect(render("<$graph $width='' $height=''/>\n\n")).toBe('<div class="graph-canvas"></div>');
 	expect(render("<$graph $width=5px/>\n\n")).toBe('<div class="graph-canvas" style="width:5px;"></div>');
 	expect(render("<$graph $height=5px/>\n\n")).toBe('<div class="graph-canvas" style="height:5px;"></div>');
+	// Has a filter, but filter returns nothing
+	expect(render("<$graph $width='[match[x]]' $height='[match[x]]'/>\n")).toBe('<div class="graph-canvas"></div>');
+	expect(render("<$graph $width='[[]]' $height='[[]]'/>\n")).toBe('<div class="graph-canvas"></div>');
 });
 
 /*** color palette ***/

@@ -193,8 +193,8 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.resize = function(event) {
-	var newWidth = this.widthFilter(null, this)[0];
-	var newHeight = this.heightFilter(null, this)[0];
+	var newWidth = this.widthFilter(null, this)[0] || undefined;
+	var newHeight = this.heightFilter(null, this)[0] || undefined;
 	if (newWidth !== this.width) {
 		this.graphElement.style.width = this.width = newWidth;
 	}
