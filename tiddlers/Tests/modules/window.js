@@ -21,3 +21,11 @@ Window.prototype.removeEventListener = function(type, method) {
 	this.expect(method.type).toBe(type);
 	this.eventListeners.delete(method);
 };
+
+Window.prototype.dispatchEvent = function(event) {
+	for (var listener of this.eventListeners) {
+		if (listener.type === event.type) {
+			listener(event);
+		}
+	}
+};

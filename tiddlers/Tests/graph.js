@@ -175,15 +175,15 @@ it("resizes on literal dimension changes", async function() {
 });
 
 it("resizes on filter dimension changes", async function() {
-	wiki.addTiddler({title: "dimensions", text: "247"});
-	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$graph $height='[<.D>]' $width='[<.D>add[100]]'>\n");
+	wiki.addTiddler({title: "dimensions", text: "27"});
+	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$graph $height='[<.D>]' $width='[<.D>add[10]]'>\n");
 	await $tw.test.flushChanges();
 	expect(init).toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:347;height:247;");
-	wiki.addTiddler({title: "dimensions", text: "300"});
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:37;height:27;");
+	wiki.addTiddler({title: "dimensions", text: "30"});
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:400;height:300;");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:40;height:30;");
 });
 
 it("can remove dimension attributes", async function() {
@@ -221,6 +221,38 @@ it("does not write any style info if no dimensions supplied", function() {
 	// Has a filter, but filter returns nothing
 	expect(render("<$graph $width='[match[x]]' $height='[match[x]]'/>\n")).toBe('<div class="graph-canvas"></div>');
 	expect(render("<$graph $width='[[]]' $height='[[]]'/>\n")).toBe('<div class="graph-canvas"></div>');
+});
+
+it("can use browser info for dimension attributes", function() {
+	var createElement = $tw.fakeDocument.createElement;
+	spyOn($tw.fakeDocument, "createElement").and.callFake(function() {
+		var element = createElement.apply(this, arguments);
+		element.getBoundingClientRect = () => ({top: 17, left: 13});
+		return element;
+	});
+	function test(text, expected) {
+		var output = wiki.renderText("text/html", "text/vnd.tiddlywiki", text);
+		expect(output).toContain(expected);
+	};
+	var win = window();
+	win.innerWidth = 53;
+	win.innerHeight = 34;
+	test("<$graph $width='[<windowWidth>]'/>\n", "width:53;");
+	test("<$graph $height='[<windowHeight>]'/>\n", "height:34;");
+	test("<$graph $width='[<boundingLeft>]'/>\n", "width:13;");
+	test("<$graph $height='[<boundingTop>]'/>\n", "height:17;");
+});
+
+it("handles resize events", function() {
+	var win = window();
+	win.innerWidth = 53;
+	win.innerHeight = 34;
+	var widgetNode = $tw.test.renderText(wiki, "<$graph $height='[<windowHeight>]' $width='[<windowWidth>]' />\n");
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:53;height:34;");
+	win.innerWidth = 7;
+	win.innerHeight = 11;
+	win.dispatchEvent({type: "resize"});
+	expect(widgetNode.parentDomNode.innerHTML).toContain("width:7;height:11;");
 });
 
 /*** color palette ***/

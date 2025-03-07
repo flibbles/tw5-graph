@@ -103,8 +103,26 @@ GraphWidget.prototype.execute = function() {
 };
 
 GraphWidget.prototype.executeDimensions = function() {
+	var self = this;
 	this.widthFilter = this.wiki.compileFilter(this.getAttribute("$width", ""));
 	this.heightFilter = this.wiki.compileFilter(this.getAttribute("$height", ""));
+	this.dimensionWidget = this.wiki.makeWidget({tree: [{type: "widget", children: []}]}, {parentWidget: this});
+	this.dimensionWidget.execute();
+	// We set up the widget so it only gets values for these variables
+	// if needed. This keeps down unncessary calls to window and document,
+	// and makes the $graph widget usable on Node, if that ever comes up.
+	var variables = {
+		// It may be better to use document.body.clientWidth,
+		// which doesn't consider the scrollbar.
+		windowWidth: function() { return self.window.innerWidth.toString(); },
+		windowHeight: function() { return self.window.innerHeight.toString(); },
+		boundingLeft: function() { return self.graphElement.getBoundingClientRect().left.toString(); },
+		boundingTop: function() { return self.graphElement.getBoundingClientRect().top.toString(); },
+	};
+	for (var name in variables) {
+		this.dimensionWidget.setVariable(name);
+		Object.defineProperty(this.dimensionWidget.variables[name], "value", { get: variables[name] });
+	}
 };
 
 GraphWidget.prototype.executeColors = function() {
@@ -193,8 +211,9 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 };
 
 GraphWidget.prototype.resize = function(event) {
-	var newWidth = this.widthFilter(null, this)[0] || undefined;
-	var newHeight = this.heightFilter(null, this)[0] || undefined;
+	var widget = this.dimensionWidget.children[0];
+	var newWidth = this.widthFilter(null, widget)[0] || undefined;
+	var newHeight = this.heightFilter(null, widget)[0] || undefined;
 	if (newWidth !== this.width) {
 		this.graphElement.style.width = this.width = newWidth;
 	}
