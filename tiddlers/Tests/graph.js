@@ -154,7 +154,7 @@ it("detects when to destroy itself", async function() {
 	await $tw.test.flushChanges();
 	$tw.test.utils.upkeep();
 	expect(destroy).toHaveBeenCalled();
-	expect(window().set.size).toBe(0);
+	expect(window().eventListeners.size).toBe(0);
 });
 
 /*** dimensions ***/

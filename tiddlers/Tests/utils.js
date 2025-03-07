@@ -4,35 +4,21 @@ Sets up some utilities for testing.
 
 \*/
 
+var mock = $tw.modules.applyMethods("mocklibrary");
 var test = $tw.test = {};
 var engineConfig = "$:/config/flibbles/graph/engine";
 test.utils = require("$:/plugins/flibbles/graph/utils.js");
 
 test.setSpies = function() {
+	var TestAdapter = test.utils.getEngineMap().Test.prototype;
 	return {
-		update: spyOn($tw.test.adapter, "update").and.callThrough(),
-		init: spyOn($tw.test.adapter, "init").and.callThrough(),
-		destroy: spyOn($tw.test.adapter, "destroy").and.callThrough(),
+		update: spyOn(TestAdapter, "update").and.callThrough(),
+		init: spyOn(TestAdapter, "init").and.callThrough(),
+		destroy: spyOn(TestAdapter, "destroy").and.callThrough(),
 		register: spyOn($tw.test.utils, "registerForDestruction"),
-		window: spyOn($tw.test.utils, "window").and.returnValue({
-			set: new Set(),
-			addEventListener: function(type, method) {
-				method.type = type;
-				this.set.add(method);
-			},
-			removeEventListener: function(type, method) {
-				expect(method.type).toBe(type);
-				this.set.delete(method);
-			}
-		})
+		window: spyOn($tw.test.utils, "window").and.returnValue(new mock.window(expect))
 	};
 };
-
-Object.defineProperty(test, 'adapter', {
-	get: function() {
-		return test.utils.getEngineMap().Test.prototype;
-	}
-});
 
 Object.defineProperty(test, 'adapterAlso', {
 	get: function() {
