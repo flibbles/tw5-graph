@@ -46,11 +46,13 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		className += " graph-error";
 	}
 	this.graphElement.className = className;
-	this.resize();
 	this.domNodes.push(this.graphElement);
 
 	parent.insertBefore(this.graphElement, nextSibling);
 	this.renderChildren(this.graphElement, null);
+	// Make sure this comes AFTER inserting graphElement into the tree,
+	// otherwise getBoundingClientRect() will be all zeros.
+	this.resize();
 
 	// Render and recenter the view
 	if(this.engine) {
@@ -212,13 +214,14 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 
 GraphWidget.prototype.resize = function(event) {
 	var widget = this.dimensionWidget.children[0];
-	var newWidth = this.widthFilter(null, widget)[0] || undefined;
-	var newHeight = this.heightFilter(null, widget)[0] || undefined;
-	if (newWidth !== this.width) {
-		this.graphElement.style.width = this.width = newWidth;
+	var newWidth = this.widthFilter(null, widget)[0] || "";
+	var newHeight = this.heightFilter(null, widget)[0] || "";
+	var style = this.graphElement.style;
+	if (newWidth !== style.width) {
+		style.width = newWidth;
 	}
-	if (newHeight !== this.height) {
-		this.graphElement.style.height = this.height = newHeight;
+	if (newHeight !== style.height) {
+		style.height = newHeight;
 	}
 };
 
