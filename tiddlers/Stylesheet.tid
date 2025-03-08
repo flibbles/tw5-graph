@@ -74,10 +74,19 @@ a.graph-dragger.tc-tiddlylink:hover {
 	min-height: 350px;
 }
 
-@media (max-width: <<sidebarbreakpoint-minus-one>>) {
+.tc-sidebar-scrollable .graph-disabled {
+	display: none;
+}
+
+@media (max-width: <<sidebarbreakpoint>>) {
 	.tc-sidebar-scrollable .graph-canvas {
+		display: none;
 		position: relative;
 		height: 400px !important;
+	}
+
+	.tc-sidebar-scrollable .graph-disabled {
+		display: block;
 	}
 }
 

@@ -31,9 +31,7 @@ Error-state graphs
 
 }
 
-/*
-Engine toggle buttons
-*/
+/*** Engine toggle buttons ***/
 
 .graph-engine-button {
 	margin: 1em;
