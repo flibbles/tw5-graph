@@ -18,13 +18,13 @@ tags: Examples
 
 <$list filter="[list[Editable Graphs/nodes]]" >
 
-	<$graphevent $drag="""<$action-setfield pos=<<point>> />""">
+	<$style drag="""<$action-setfield pos=<<point>> />""">
 
 		<$node label={{!!title}} $pos={{!!pos}} >
 
 			<$action-navigate />
 
-	</$node></$graphevent>
+	</$node></$style>
 
 	<$edge to={{!!father}} />
 

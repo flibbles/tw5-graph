@@ -88,6 +88,14 @@ test.dispatchEvent = function(wiki, params, callback) {
 	test.latestEngine.onevent(params);
 };
 
+function createEvent(type) {
+	if (typeof Event !== "undefined") {
+		return new Event(type);
+	} else {
+		return {type: type};
+	}
+};
+
 test.fetchGraphObjects = function(widget) {
 	var objects = {};
 	var searchChildren = function(children) {
@@ -106,28 +114,4 @@ test.fetchGraphObjects = function(widget) {
 	};
 	searchChildren([widget]);
 	return objects;
-};
-
-/*
- * options can include the following:
- *   point: {x: Number, y: Number}
- */
-test.dispatchGraphEvent = function(wiki, options) {
-	options = options || {};
-	var event = createEvent("doubletap");
-	wiki.latestEngine.onevent({event: event, point: options.point});
-};
-
-test.dispatchNodeEvent = function(wiki, target, options) {
-	options = options || {};
-	var event = createEvent("doubletap");
-	wiki.latestEngine.onevent({objectType: "nodes", id: target, event: event, point: options.point});
-};
-
-function createEvent(type) {
-	if (typeof Event !== "undefined") {
-		return new Event(type);
-	} else {
-		return {type: type};
-	}
 };

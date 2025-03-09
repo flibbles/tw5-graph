@@ -348,7 +348,7 @@ GraphWidget.prototype.handleEvent = function(params) {
 		this.setVariable("viewPoint", params.viewPoint.x + "," + params.viewPoint.y);
 		object.invokeActions(this, params);
 	} else {
-		// Start at the object. Go up, finding any $graphevents to handle this
+		// Start at the object. Go up, finding any $style to handle this
 		while (!object.catchGraphEvent || !object.catchGraphEvent(params)) {
 			object = object.parentWidget;
 		}

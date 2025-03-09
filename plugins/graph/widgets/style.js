@@ -133,4 +133,22 @@ StyleWidget.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	return newObjects;
 };
 
+StyleWidget.prototype.catchGraphEvent = function(graphEvent) {
+	var actions = this.attributes[graphEvent.type];
+	if (actions) {
+		var variables = {
+			targetTiddler: graphEvent.id
+		};
+		if (graphEvent.point) {
+			variables.point = graphEvent.point.x + "," + graphEvent.point.y;
+		}
+		if (graphEvent.viewPoint) {
+			variables.viewPoint = graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
+		}
+		this.invokeActionString(actions, this, graphEvent.event, variables);
+		return true;
+	}
+	return false;
+};
+
 exports.style = StyleWidget;

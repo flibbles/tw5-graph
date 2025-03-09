@@ -410,6 +410,14 @@ it("converts booleans", function() {
 	expect(objects.nodes).toEqual({A: {label: "string", hidden: false}, B: {hidden: true}, C: {hidden: true}});
 });
 
+it("treats actions as booleans to the engine", function() {
+	var widget = $tw.test.renderText(wiki, `<$graph>
+		<$node $tiddler=A delete='<$action-test/>' />
+		<$node $tiddler=B delete=<<nothing>> />`);
+	var objects= init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {delete: true}, B: {}});
+});
+
 /*** View attributes ***/
 
 it("converts graph attributes", async function() {

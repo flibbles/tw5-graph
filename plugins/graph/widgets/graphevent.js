@@ -27,20 +27,6 @@ EventWidget.prototype.render = function(parent, nextSibling) {
 	this.renderChildren(parent, nextSibling);
 };
 
-EventWidget.prototype.catchGraphEvent = function(graphEvent) {
-	var actions = this.attributes["$" + graphEvent.type];
-	if (actions) {
-		var variables = {
-			targetTiddler: graphEvent.id,
-			point: graphEvent.point.x + "," + graphEvent.point.y,
-			viewPoint: graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
-		};
-		this.invokeActionString(actions, this, graphEvent.event, variables);
-		return true;
-	}
-	return false;
-};
-
 EventWidget.prototype.refresh = function(changedTiddlers) {
 	this.computeAttributes();
 	return this.refreshChildren(changedTiddlers);

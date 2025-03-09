@@ -19,7 +19,8 @@ exports.properties = {
 		label: {type: "string"},
 		hidden: {type: "boolean"},
 		x: {type: "number", hidden: true},
-		y: {type: "number", hidden: true}
+		y: {type: "number", hidden: true},
+		delete: {type: "actions"}
 	},
 	edges: {
 		width: {type: "number"}

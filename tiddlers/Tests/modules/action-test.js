@@ -30,7 +30,15 @@ TestWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 TestWidget.prototype.invokeAction = function(triggeringWidget, event) {
-	$tw.test.actionMethod(this.attributes);
+	var args = {};
+	for (var attribute in this.attributes) {
+		var value = this.attributes[attribute];
+		if (value == "true") {
+			value = this.getVariable(attribute);
+		}
+		args[attribute] = value;
+	}
+	$tw.test.actionMethod(args);
 };
 
 exports['action-test'] = TestWidget;

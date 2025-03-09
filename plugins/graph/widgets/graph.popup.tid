@@ -18,11 +18,11 @@ tags: $:/tags/Global
 
 <$parameters state=<<qualify "$:/state/graph/tooltip">> >
 
-<$graphevent $hover=<<hover>> $blur=<<blur>> >
+<$style hover=<<hover>> blur=<<blur>> >
 
 <$slot $name="ts-raw" />
 
-</$graphevent>
+</$style>
 <$reveal type=popup state=<<state>> >
 
 <$slot $name=tooltip>

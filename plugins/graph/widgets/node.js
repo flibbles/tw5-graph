@@ -90,4 +90,16 @@ NodeWidget.prototype.setStyle = function(data, convert) {
 	this.object = data;
 };
 
+NodeWidget.prototype.catchGraphEvent = function(graphEvent) {
+	var actions = this.attributes[graphEvent.type];
+	if (actions) {
+		var variables = {
+			targetTiddler: graphEvent.id
+		};
+		this.invokeActionString(actions, this, graphEvent.event, variables);
+		return true;
+	}
+	return false;
+};
+
 exports.node = NodeWidget;
