@@ -1,10 +1,10 @@
 /*\
 
-Tests the $style widget.
+Tests the $properties widget.
 
 \*/
 
-describe("StyleWidget", function() {
+describe("PropertiesWidget", function() {
 
 var init, update, window;
 
@@ -14,7 +14,7 @@ beforeEach(function() {
 
 it('can hierarchically apply style to all nested', function() {
 	var wiki = new $tw.Wiki();
-	var widget = $tw.test.renderText(wiki, "<$graph><$style $for=nodes custom=val dynamic=1><$style $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge from=A to=B/></$style><$node $tiddler=C/></$style><$node $tiddler=D/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=nodes custom=val dynamic=1><$properties $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge from=A to=B/></$properties><$node $tiddler=C/></$properties><$node $tiddler=D/>");
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {custom: "val", dynamic: "2", label: "label"}, B: {custom: "val", dynamic: "2"}, C: {custom: "val", dynamic: "1"}, D: {}});
@@ -25,15 +25,15 @@ it('can hierarchically apply styles to filtered nested', function() {
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$style $for=nodes $filter="[match[A]] [match[B]] [match[E]]" custom=val dynamic=1>
-				<$style $for=nodes $filter="[match[B]] [match[C]]" dynamic=2>
+			<$properties $for=nodes $filter="[match[A]] [match[B]] [match[E]]" custom=val dynamic=1>
+				<$properties $for=nodes $filter="[match[B]] [match[C]]" dynamic=2>
 					<$node $tiddler=A/>
 					<$node $tiddler=B/>
 					<$node $tiddler=C/>
 					<$node $tiddler=D/>
-				</$style>
+				</$properties>
 				<$node $tiddler=E/>
-			</$style>
+			</$properties>
 			<$node $tiddler=F/>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
@@ -52,12 +52,12 @@ it('can apply styles to non-node objects, like edges', function() {
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
 			<$edge from=A to=C />
-			<$style $for=edges color=blue>
+			<$properties $for=edges color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$node $tiddler=C/>
 				<$edge from=A to=B />
-			</$style>
+			</$properties>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -72,14 +72,14 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 	var wiki = new $tw.Wiki();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$style $for=edges $filter="[last[]match[C]]" color=blue>
+			<$properties $for=edges $filter="[last[]match[C]]" color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$node $tiddler=C/>
 				<$edge from=A to=B />
 				<$edge from=A to=C />
 				<$edge from=B to=C />
-			</$style>
+			</$properties>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -92,12 +92,12 @@ it('refreshes properly if $for changes when filtering', async function() {
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$style $for={{for}} $filter="[first[]match[A]]" color=blue>
+			<$properties $for={{for}} $filter="[first[]match[A]]" color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$edge from=A to=B />
 				<$edge from=B to=A />
-			</$style>
+			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "for", text: "nodes"});
@@ -113,12 +113,12 @@ it('refreshes properly if $for changes when not filtering', async function() {
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$style $for={{for}} color=blue>
+			<$properties $for={{for}} color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$edge from=A to=B />
 				<$edge from=B to=A />
-			</$style>
+			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "for", text: "nodes"});
@@ -131,7 +131,7 @@ it('refreshes properly if $for changes when not filtering', async function() {
 
 it('treats empty attributes as non-existent', function() {
 	var wiki = new $tw.Wiki();
-	var widget = $tw.test.renderText(wiki, "<$graph><$style yes=value no={{!!nofield}}><$node $tiddler=target />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties yes=value no={{!!nofield}}><$node $tiddler=target />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({target: {yes: "value"}});
 });
@@ -142,15 +142,15 @@ it("can handle local variables in $filter", async function() {
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
 			<$let test=B>
-			<$style $filter="[match<test>]" dynamic=1>
+			<$properties $filter="[match<test>]" dynamic=1>
 				<$let test=C>
-				<$style $filter="[match<test>]" dynamic=2>
+				<$properties $filter="[match<test>]" dynamic=2>
 					<$node $tiddler=A/>
 					<$node $tiddler=B/>
 					<$node $tiddler=C/>
-				</$style>
+				</$properties>
 				</$let>
-			</$style>
+			</$properties>
 			</$let>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
@@ -161,8 +161,8 @@ it("can handle local variables in $filter", async function() {
 		B: {dynamic: "1"},
 		C: {dynamic: "2"}});
 	// We need to add anything and force any kind of refresh.
-	// The $style refresh mechanism will mess up despite no relevant change
-	// if its filterCall isn't passing $style as the widget.
+	// The $properties refresh mechanism will mess up despite no relevant
+	// change if its filterCall isn't passing $properties as the widget.
 	wiki.addTiddler({title: "anything"});
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
@@ -174,16 +174,16 @@ it('can handle changes to style properties', async function() {
 	wiki.addTiddler({title: "Special", text: "then"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$style $for=nodes layer=1>
-				<$style $for=nodes $filter="[match[A]] [match[C]]" special={{Special}} layer=2>
-					<$style layer=3>
+			<$properties $for=nodes layer=1>
+				<$properties $for=nodes $filter="[match[A]] [match[C]]" special={{Special}} layer=2>
+					<$properties layer=3>
 						<$node $tiddler=A/>
 						<$node $tiddler=B/>
-					</$style>
+					</$properties>
 					<$node $tiddler=C/>
-				</$style>
+				</$properties>
 				<$node $tiddler=D/>
-			</$style>
+			</$properties>
 		</$graph>`);
 	var objects = init.calls.first().args[1];
 	await $tw.test.flushChanges();
@@ -201,11 +201,11 @@ it('can handle changes to style properties', async function() {
 it('updates when $filter output would be only change', async function() {
 	var wiki = new $tw.Wiki();
 	wiki.addTiddler({title: "List", tags: "A B"});
-	var widget = $tw.test.renderText(wiki, "<$graph><$style value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/>");
 	await $tw.test.flushChanges();
 	// The fun thing about this update is it will not flag any widgets as
 	// changed from the usual methods. We must realize that A and C are swapped
-	// out by running the $style filter during refresh.
+	// out by running the $properties filter during refresh.
 	wiki.addTiddler({title: "List", tags: "B C"});
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledWith({nodes: {A: {}, C: {value: "X"}}});

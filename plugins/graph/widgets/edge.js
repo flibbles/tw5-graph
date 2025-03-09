@@ -66,8 +66,8 @@ EdgeWidget.prototype.getGraphObject = function() {
 	return this.object;
 };
 
-/* When testing applicability in a $style filter, use the from and to tiddlers
- * as input sources.
+/* When testing applicability in a $properties filter, use the from and
+ * to tiddlers as input sources.
  */
 EdgeWidget.prototype.getGraphFilterSource = function() {
 	return [this.fromTiddler, this.toTiddler];

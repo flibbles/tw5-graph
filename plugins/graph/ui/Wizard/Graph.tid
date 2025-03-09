@@ -5,15 +5,15 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 \define makeGraph()
 \whitespace trim
 <$graph $engine={{{ [<engineState>get[text]] }}} $(graphAttributes)$>
-<$style $for=nodes $(nodeAttributes)$>
+<$properties $for=nodes $(nodeAttributes)$>
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
 	<$node $tiddler=Leaf1 />
 	<$node $tiddler=Leaf2 />
 	<$node $tiddler=Leaf3 />
 	<$node $tiddler=Leaf4 />
-</$style>
-<$style $for=edges $(edgeAttributes)$>
+</$properties>
+<$properties $for=edges $(edgeAttributes)$>
 	<$edge from=Root to=Branch />
 	<$edge from=Root to=Leaf1 />
 	<$edge from=Root to=Leaf2 />
@@ -21,7 +21,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	<$edge from=Leaf3 to=Branch />
 	<$edge from=Branch to=Leaf4 />
 	<$edge from=Leaf4 to=Leaf4 />
-</$style>
+</$properties>
 </$graph>
 \end
 

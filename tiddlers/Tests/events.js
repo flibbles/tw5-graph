@@ -34,7 +34,7 @@ it("can send custom events to nodes", function() {
 });
 
 it("can send custom events to properties", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph><$style delete='<$action-test targetTiddler/>' $for=nodes><$node $tiddler=A />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties delete='<$action-test targetTiddler/>' $for=nodes><$node $tiddler=A />");
 	$tw.test.dispatchEvent(wiki, {
 		type: "delete",
 		id: "A",

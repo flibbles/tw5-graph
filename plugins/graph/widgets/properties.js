@@ -1,9 +1,9 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/style.js
+title: $:/plugins/flibbles/graph/widgets/properties.js
 type: application/javascript
 module-type: widget
 
-Widget for setting styles on graph objects.
+Widget for setting properties on graph objects.
 
 \*/
 
@@ -11,20 +11,20 @@ Widget for setting styles on graph objects.
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
-var StyleWidget = function(parseTreeNode, options) {
+var Properties = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
-StyleWidget.prototype = new Widget();
+Properties.prototype = new Widget();
 
-StyleWidget.prototype.render = function(parent, nextSibling) {
+Properties.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
 	this.execute();
 	this.renderChildren(parent, nextSibling);
 };
 
-StyleWidget.prototype.execute = function() {
+Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
 	this.filter = this.getAttribute("$filter");
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
@@ -36,7 +36,7 @@ StyleWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-StyleWidget.prototype.refresh = function(changedTiddlers) {
+Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
 	if ($tw.utils.count(changedAttributes) > 0) {
@@ -81,7 +81,7 @@ StyleWidget.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers) || changed;
 };
 
-StyleWidget.prototype.createStyleFromAttributes = function(attributes) {
+Properties.prototype.createStyleFromAttributes = function(attributes) {
 	var styleObject = Object.create(null);
 	for (var name in attributes) {
 		if (name.charAt(0) !== '$' && attributes[name]) {
@@ -91,7 +91,7 @@ StyleWidget.prototype.createStyleFromAttributes = function(attributes) {
 	return styleObject;
 };
 
-StyleWidget.prototype.updateGraphWidgets = function(parentCallback, convert) {
+Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	var self = this;
 	var newObjects = {};
 	var callback = function(widget) {
@@ -133,7 +133,7 @@ StyleWidget.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	return newObjects;
 };
 
-StyleWidget.prototype.catchGraphEvent = function(graphEvent) {
+Properties.prototype.catchGraphEvent = function(graphEvent) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {
 		var variables = {
@@ -151,4 +151,4 @@ StyleWidget.prototype.catchGraphEvent = function(graphEvent) {
 	return false;
 };
 
-exports.style = StyleWidget;
+exports.properties = Properties;

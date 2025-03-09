@@ -95,7 +95,7 @@ GraphWidget.prototype.execute = function() {
 		this.engine = undefined;
 	} else {
 		var coreStyleNode = {
-			type: "style",
+			type: "properties",
 			children: this.parseTreeNode.children
 		};
 		this.knownObjects = {};
@@ -343,6 +343,10 @@ function getDifferences(prevObjects, newObjects) {
 
 GraphWidget.prototype.handleEvent = function(params) {
 	var object = params.id? this.knownObjects[params.objectType][params.id]: this;
+	if (!object) {
+		// The engine somehow has objects we don't know about.
+		return;
+	}
 	if (params.type === "doubleclick") {
 		this.setVariable("point", params.point.x + "," + params.point.y);
 		this.setVariable("viewPoint", params.viewPoint.x + "," + params.viewPoint.y);
