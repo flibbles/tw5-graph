@@ -94,12 +94,12 @@ GraphWidget.prototype.execute = function() {
 		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
 		this.engine = undefined;
 	} else {
-		var coreStyleNode = {
+		var graphPropertiesNode = {
 			type: "properties",
 			children: this.parseTreeNode.children
 		};
 		this.knownObjects = {};
-		this.children = [this.makeChildWidget(coreStyleNode)];
+		this.children = [this.makeChildWidget(graphPropertiesNode)];
 		this.engine = new Engine(this.wiki);
 	}
 };
@@ -359,8 +359,19 @@ GraphWidget.prototype.handleEvent = function(params) {
 	}
 };
 
-GraphWidget.prototype.catchGraphEvent = function(params) {
-	// This catches all uncaught events
+GraphWidget.prototype.catchGraphEvent = function(graphEvent) {
+	var actions = this.attributes[graphEvent.type];
+	if (actions && graphEvent.objectType === "graph") {
+		var variables = {};
+		if (graphEvent.point) {
+			variables.point = graphEvent.point.x + "," + graphEvent.point.y;
+		}
+		if (graphEvent.viewPoint) {
+			variables.viewPoint = graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
+		}
+		this.invokeActionString(actions, this, graphEvent.event, variables);
+	}
+	// Whether we did anything or not, we stop here. Return true.
 	return true;
 };
 

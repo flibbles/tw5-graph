@@ -6,14 +6,14 @@ Tests the graphevent widget.
 
 describe('graphEventWidget', function() {
 
-var window;
+var window, wiki;
 
 beforeEach(function() {
+	wiki = new $tw.Wiki();
 	({window} = $tw.test.setSpies());
 });
 
 it('captures correct events', function() {
-	var wiki = new $tw.Wiki();
 	var event = {objectType: "nodes", id: "target", type: "hover", point: {x: 23, y: 27}, viewPoint: {x: 67, y: 71}};
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties hover='<$action-test targetTiddler point viewPoint />'><$node $tiddler=target />");
 	$tw.test.dispatchEvent(wiki, event);

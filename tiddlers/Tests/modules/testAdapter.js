@@ -11,7 +11,9 @@ exports.name = "Test";
 
 exports.properties = {
 	graph: {
-		physics: {type: "boolean", default: true}
+		physics: {type: "boolean", default: true},
+		hierarchy: {type: "string", default: true},
+		addNode: {type: "actions"}
 	},
 	nodes: {
 		color: {type: "color"},

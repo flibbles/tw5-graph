@@ -44,12 +44,16 @@ it("can send custom events to properties", function() {
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "A"});
 });
 
-xit("can send custom events to the graph", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test/>' />");
-	$tw.test.dispatchEvent(wiki, "A", {
-		type: "delete",
-		objectType: "nodes"
-	});
+it('can send custom graph events to the graph', function() {
+	var event = {
+		type: "addNode",
+		objectType: "graph",
+		point: {x: 23, y: 27},
+		viewPoint: {x: 67, y: 71}};
+	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test point viewPoint/>'>");
+	$tw.test.dispatchEvent(wiki, event);
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({point: "23,27", viewPoint: "67,71"});
 });
 
 });
