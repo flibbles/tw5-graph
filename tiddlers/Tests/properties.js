@@ -202,7 +202,7 @@ it('updates when $filter output would be only change', async function() {
 	expect(update).toHaveBeenCalledWith({nodes: {A: {}, C: {value: "X"}}});
 });
 
-xit("can add to graph sequentially", function() {
+it("can add to graph sequentially", function() {
 	wiki.addTiddler({title: "Horizontal", text: "2"});
 	var widget = $tw.test.renderText(wiki, `<$graph root=yes>
 		<$properties $for=graph physics=yes value=1 />
@@ -210,5 +210,7 @@ xit("can add to graph sequentially", function() {
 	var objects = init.calls.first().args[1];
 	expect(objects.graph).toEqual({ physics: true, value: "2", root: "yes"});
 });
+
+// TODO: When $properties $for=graph changes, minimize the amount of changing
 
 });

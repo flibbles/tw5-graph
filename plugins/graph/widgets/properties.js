@@ -133,6 +133,25 @@ Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	return newObjects;
 };
 
+Properties.prototype.collectGraphProperties = function(properties, convert) {
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			if (widget.collectGraphProperties) {
+				widget.collectGraphProperties(properties, convert);
+			} else if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren(this.children, null);
+	if (this.type === "graph") {
+		for (var style in this.styleObject) {
+			properties[style] = convert("graph", style, this.styleObject[style]);
+		}
+	}
+};
+
 Properties.prototype.catchGraphEvent = function(graphEvent) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {

@@ -244,6 +244,7 @@ GraphWidget.prototype.getEngineName = function() {
 
 GraphWidget.prototype.getViewSettings = function() {
 	var settings = Object.create(null);
+	var self = this;
 	if (this.engine) {
 		for (var color in graphColors) {
 			var widget = this.colorWidgets[color];
@@ -254,6 +255,9 @@ GraphWidget.prototype.getViewSettings = function() {
 				settings[color] = content;
 			}
 		}
+		this.children[0].collectGraphProperties(settings, function(type, key, value) {
+			return self.transformProperty(type, key, value);
+		});
 		for (var name in this.attributes) {
 			if (name.charAt(0) !== '$' && this.attributes[name]) {
 				settings[name] = this.transformProperty("graph", name, this.attributes[name]);
