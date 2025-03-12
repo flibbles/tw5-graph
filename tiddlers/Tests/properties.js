@@ -203,12 +203,22 @@ it('updates when $filter output would be only change', async function() {
 });
 
 it("can add to graph sequentially", function() {
-	wiki.addTiddler({title: "Horizontal", text: "2"});
 	var widget = $tw.test.renderText(wiki, `<$graph root=yes>
 		<$properties $for=graph physics=yes value=1 />
-		<$properties $for=graph root=no value={{Horizontal}} />`);
+		<$properties $for=graph root=no value=2 />`);
 	var objects = init.calls.first().args[1];
 	expect(objects.graph).toEqual({ physics: true, value: "2", root: "yes"});
+});
+
+it("can update $for=graph", async function() {
+	wiki.addTiddler({title: "Value", text: "one"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=graph value={{Value}}/>");
+	await $tw.test.flushChanges();
+	var objects = init.calls.first().args[1];
+	expect(objects.graph).toEqual({value: "one"});
+	wiki.addTiddler({title: "Value", text: "two"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledWith({graph: {value: "two"}});
 });
 
 // TODO: When $properties $for=graph changes, minimize the amount of changing

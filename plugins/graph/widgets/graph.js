@@ -58,7 +58,10 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if(this.engine) {
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		objects.graph = this.getViewSettings();
+		var graphProperties = this.getViewSettings();
+		if (graphProperties) {
+			objects.graph = graphProperties;
+		}
 		try {
 			this.engine.init(this.graphElement, objects);
 		} catch(e) {
@@ -144,8 +147,7 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		newEngineValue = this.getEngineName(),
-		viewChanged = false;
+		newEngineValue = this.getEngineName();
 	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
 		return true;
@@ -158,7 +160,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 			this.executeDimensions();
 		}
 		if (attribute.charAt(0) !== "$") {
-			viewChanged = true;
+			changed = true;
 		}
 	}
 	// We always try to resize.
@@ -169,10 +171,13 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		objects = this.findGraphObjects();
 		changed = true;
 	}
-	if (viewChanged || this.refreshColors(changedTiddlers)) {
-		objects = objects || {};
-		objects.graph = this.getViewSettings();
-		changed = true;
+	if (changed || this.refreshColors(changedTiddlers)) {
+		var newGraphProperties = this.getViewSettings();
+		if (newGraphProperties) {
+			objects = objects || {};
+			objects.graph = newGraphProperties;
+			changed = true;
+		}
 	}
 	if (changed) {
 		if (!this.engine) {
@@ -243,7 +248,7 @@ GraphWidget.prototype.getEngineName = function() {
 };
 
 GraphWidget.prototype.getViewSettings = function() {
-	var settings = Object.create(null);
+	var newProperties = Object.create(null);
 	var self = this;
 	if (this.engine) {
 		for (var color in graphColors) {
@@ -252,19 +257,25 @@ GraphWidget.prototype.getViewSettings = function() {
 			widget.render(container, null);
 			var content = container.textContent;
 			if (content) {
-				settings[color] = content;
+				newProperties[color] = content;
 			}
 		}
-		this.children[0].collectGraphProperties(settings, function(type, key, value) {
+		this.children[0].collectGraphProperties(newProperties, function(type, key, value) {
 			return self.transformProperty(type, key, value);
 		});
 		for (var name in this.attributes) {
 			if (name.charAt(0) !== '$' && this.attributes[name]) {
-				settings[name] = this.transformProperty("graph", name, this.attributes[name]);
+				newProperties[name] = this.transformProperty("graph", name, this.attributes[name]);
 			}
 		}
 	}
-	return settings;
+	if (!this.knownProperties
+	|| JSON.stringify(newProperties) !== JSON.stringify(this.knownProperties)) {
+		this.knownProperties = newProperties;
+		return newProperties;
+	}
+	// Return null if nothing changed
+	return null;
 };
 
 GraphWidget.prototype.transformProperty = function(type, key, value) {
