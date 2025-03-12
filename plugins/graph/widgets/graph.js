@@ -376,6 +376,7 @@ GraphWidget.prototype.handleEvent = function(params) {
 
 GraphWidget.prototype.catchGraphEvent = function(graphEvent) {
 	var actions = this.attributes[graphEvent.type];
+	this.children[0].trickleGraphEvent(graphEvent);
 	if (actions && graphEvent.objectType === "graph") {
 		var variables = {};
 		if (graphEvent.point) {

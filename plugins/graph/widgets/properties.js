@@ -170,4 +170,21 @@ Properties.prototype.catchGraphEvent = function(graphEvent) {
 	return false;
 };
 
+Properties.prototype.trickleGraphEvent = function(graphEvent) {
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			if (widget.trickleGraphEvent) {
+				widget.trickleGraphEvent(graphEvent);
+			} else if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren(this.children, null);
+	if (this.type === "graph") {
+		this.catchGraphEvent(graphEvent);
+	}
+};
+
 exports.properties = Properties;
