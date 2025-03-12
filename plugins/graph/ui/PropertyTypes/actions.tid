@@ -1,0 +1,8 @@
+title: $:/plugins/flibbles/graph/ui/PropertyTypes/actions
+
+\whitespace trim
+
+<$checkbox tiddler=<<stateTiddler>> index=<<property>>
+	checked="<$action-log event=<<property>> />"
+	unchecked=''
+/>
