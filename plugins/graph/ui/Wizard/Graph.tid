@@ -2,9 +2,17 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 
 \whitespace trim
 
+\procedure preview(property variables)
+<$action-setfield
+	$tiddler=`$(state)$/event`
+	text={{{ [enlist<variables>] :map[<currentTiddler>getvariable[]addprefix[=]addprefix<currentTiddler>] +[join[
+]] }}} />
+\end
+
 \define makeGraph()
 \whitespace trim
 <$graph $engine={{{ [<engineState>get[text]] }}} >
+<span class=graph-overlay><$text text={{{ [<state>addsuffix[/event]get[text]] }}} /></span>
 <$properties $for=graph $(graphAttributes)$>
 </$properties>
 <$properties $for=nodes $(nodesAttributes)$>

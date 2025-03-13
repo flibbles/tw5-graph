@@ -16,10 +16,10 @@ beforeEach(function() {
 });
 
 it('handles double click events to canvas', function() {
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$action-test point viewPoint /><$node $tiddler=test><$action-test bad=node /></$node><$edge from=test to=test><$action-test bad=edge />");
-	$tw.test.dispatchEvent(wiki, {type: 'doubleclick', point: {x: 37, y: 43}, viewPoint: {x: 101, y: 103}});
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$action-test x y xView yView /><$node $tiddler=test><$action-test bad=node /></$node><$edge from=test to=test><$action-test bad=edge />");
+	$tw.test.dispatchEvent(wiki, {type: 'doubleclick'}, {x: 37, y: 43, xView: 101, yView: 103});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({point: "37,43", viewPoint: "101,103"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "37", y: "43", xView: "101", yView: "103"});
 });
 
 it("can send custom events to nodes", function() {
@@ -47,13 +47,14 @@ it("can send custom events to properties", function() {
 it('can send custom graph events to the graph', function() {
 	var event = {
 		type: "addNode",
-		objectType: "graph",
-		point: {x: 23, y: 27},
-		viewPoint: {x: 67, y: 71}};
-	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test point viewPoint/>'>");
-	$tw.test.dispatchEvent(wiki, event);
+		objectType: "graph"};
+	var variables = {
+		x: 23, y: 27,
+		xView: 67, yView: 71};
+	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test x y xView yView />'>");
+	$tw.test.dispatchEvent(wiki, event, variables);
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({point: "23,27", viewPoint: "67,71"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "23",y: "27", xView: "67", yView: "71"});
 });
 
 });

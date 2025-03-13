@@ -152,30 +152,22 @@ Properties.prototype.collectGraphProperties = function(properties, convert) {
 	}
 };
 
-Properties.prototype.catchGraphEvent = function(graphEvent) {
+Properties.prototype.catchGraphEvent = function(graphEvent, variables) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {
-		var variables = {
-			targetTiddler: graphEvent.id
-		};
-		if (graphEvent.point) {
-			variables.point = graphEvent.point.x + "," + graphEvent.point.y;
-		}
-		if (graphEvent.viewPoint) {
-			variables.viewPoint = graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
-		}
+		variables.targetTiddler = graphEvent.id;
 		this.invokeActionString(actions, this, graphEvent.event, variables);
 		return true;
 	}
 	return false;
 };
 
-Properties.prototype.trickleGraphEvent = function(graphEvent) {
+Properties.prototype.trickleGraphEvent = function(graphEvent, variables) {
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.trickleGraphEvent) {
-				widget.trickleGraphEvent(graphEvent);
+				widget.trickleGraphEvent(graphEvent, variables);
 			} else if (widget.children) {
 				searchChildren(widget.children);
 			}
@@ -183,7 +175,7 @@ Properties.prototype.trickleGraphEvent = function(graphEvent) {
 	};
 	searchChildren(this.children, null);
 	if (this.type === "graph") {
-		this.catchGraphEvent(graphEvent);
+		this.catchGraphEvent(graphEvent, variables);
 	}
 };
 

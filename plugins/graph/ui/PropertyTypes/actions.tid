@@ -1,8 +1,9 @@
 title: $:/plugins/flibbles/graph/ui/PropertyTypes/actions
 
+\function .variables() [<jsonEntry>jsonget[variables]join[ ]]
 \whitespace trim
 
 <$checkbox tiddler=<<stateTiddler>> index=<<property>>
-	checked="<$action-log event=<<property>> />"
+	checked=`<<preview $(property)$ "$(.variables)$">>`
 	unchecked=''
 />

@@ -356,35 +356,29 @@ function getDifferences(prevObjects, newObjects) {
 	return objects;
 };
 
-GraphWidget.prototype.handleEvent = function(params) {
-	var object = params.id? this.knownObjects[params.objectType][params.id]: this;
+GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
+	var object = graphEvent.id? this.knownObjects[graphEvent.objectType][graphEvent.id]: this;
 	if (!object) {
 		// The engine somehow has objects we don't know about.
 		return;
 	}
-	if (params.type === "doubleclick") {
-		this.setVariable("point", params.point.x + "," + params.point.y);
-		this.setVariable("viewPoint", params.viewPoint.x + "," + params.viewPoint.y);
-		object.invokeActions(this, params);
+	if (graphEvent.type === "doubleclick") {
+		for (var name in variables) {
+			this.setVariable(name, variables[name].toString());
+		}
+		object.invokeActions(this, graphEvent);
 	} else {
 		// Start at the object. Go up, finding any $style to handle this
-		while (!object.catchGraphEvent || !object.catchGraphEvent(params)) {
+		while (!object.catchGraphEvent || !object.catchGraphEvent(graphEvent, variables)) {
 			object = object.parentWidget;
 		}
 	}
 };
 
-GraphWidget.prototype.catchGraphEvent = function(graphEvent) {
+GraphWidget.prototype.catchGraphEvent = function(graphEvent, variables) {
 	var actions = this.attributes[graphEvent.type];
-	this.children[0].trickleGraphEvent(graphEvent);
+	this.children[0].trickleGraphEvent(graphEvent, variables);
 	if (actions && graphEvent.objectType === "graph") {
-		var variables = {};
-		if (graphEvent.point) {
-			variables.point = graphEvent.point.x + "," + graphEvent.point.y;
-		}
-		if (graphEvent.viewPoint) {
-			variables.viewPoint = graphEvent.viewPoint.x + "," + graphEvent.viewPoint.y
-		}
 		this.invokeActionString(actions, this, graphEvent.event, variables);
 	}
 	// Whether we did anything or not, we stop here. Return true.

@@ -6,7 +6,7 @@ tags: $:/tags/Global
 
 \procedure hover()
 <$action-delay $state=`$(state)$-delay` $ms=600>
-<$action-popup $state=<<state>> $coords=`($(viewPoint)$,100,0)` />
+<$action-popup $state=<<state>> $coords=`($(canvasX)$,$(canvasY)$,100,0)` />
 <$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />
 </$action-delay>
 \end hover

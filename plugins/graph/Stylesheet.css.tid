@@ -13,6 +13,19 @@ tags: $:/tags/Stylesheet
 }
 
 /*
+Basic graph overlay options
+*/
+
+.graph-overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 0px;
+	background: transparent;
+	border-width: 0px;
+}
+
+/*
 Error-state graphs
 */
 
