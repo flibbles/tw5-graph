@@ -12,7 +12,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 \define makeGraph()
 \whitespace trim
 <$graph $engine={{{ [<engineState>get[text]] }}} >
-<span class=graph-overlay><$text text={{{ [<state>addsuffix[/event]get[text]] }}} /></span>
+<pre class=graph-overlay><$text text={{{ [<state>addsuffix[/event]get[text]] }}} /></pre>
 <$properties $for=graph $(graphAttributes)$>
 </$properties>
 <$properties $for=nodes $(nodesAttributes)$>

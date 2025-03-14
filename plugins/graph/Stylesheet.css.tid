@@ -18,7 +18,7 @@ Basic graph overlay options
 
 .graph-overlay {
 	position: absolute;
-	top: 0px;
+	bottom: 0px;
 	left: 0px;
 	margin: 0px;
 	background: transparent;
