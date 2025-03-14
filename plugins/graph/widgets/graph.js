@@ -102,6 +102,7 @@ GraphWidget.prototype.execute = function() {
 			children: this.parseTreeNode.children
 		};
 		this.knownObjects = {};
+		this.knownProperties = {};
 		this.children = [this.makeChildWidget(graphPropertiesNode)];
 		this.engine = new Engine(this.wiki);
 	}

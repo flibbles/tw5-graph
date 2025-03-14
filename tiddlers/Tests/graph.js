@@ -339,7 +339,7 @@ it("handles bad global setting gracefully", function() {
 it("performs complete refresh if engine changes", async function() {
 	var alsoInit = spyOn($tw.test.adapterAlso, "init");
 	wiki.addTiddler({title: "target", text: "Test"});
-	var widget = $tw.test.renderText(wiki, "<$graph $height=30px $width=50px $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge from=A to=B/>");
+	var widget = $tw.test.renderText(wiki, "<$graph $height=30px $width=50px property=persists $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge from=A to=B/>");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
@@ -350,8 +350,10 @@ it("performs complete refresh if engine changes", async function() {
 	var objects = alsoInit.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {}, B: {}});
 	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
-	// Also, had a problem where the dimensions wouldn't carry over correctly
+	// make sure dimensions carry over
 	expect(widget.parentDomNode.innerHTML).toContain("width:50px;height:30px;");
+	// make sure the graph properties properly carry over
+	expect(objects.graph).toEqual({property: "persists"});
 });
 
 it("handles switching to a bad engine", async function() {
