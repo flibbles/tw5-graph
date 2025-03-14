@@ -15,6 +15,19 @@ beforeEach(function() {
 	({window} = $tw.test.setSpies());
 });
 
+it('can send events to $property', function() {
+	var event = {objectType: "nodes", id: "target", type: "hover"};
+	var variables ={x: 23, y: 27, xView: 67, yView: 71};
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties hover='<$action-test targetTiddler x y xView yView />'><$node $tiddler=target />");
+	$tw.test.dispatchEvent(wiki, event, variables);
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "target", x: "23", y: "27", xView: "67", yView: "71"});
+	// Change the event type.
+	event.type = "drag";
+	$tw.test.dispatchEvent(wiki, event, variables);
+	expect($tw.test.actionMethod).not.toHaveBeenCalled();
+});
+
 it('handles double click events to canvas', function() {
 	var widgetNode = $tw.test.renderText(wiki, "<$graph><$action-test x y xView yView /><$node $tiddler=test><$action-test bad=node /></$node><$edge from=test to=test><$action-test bad=edge />");
 	$tw.test.dispatchEvent(wiki, {type: 'doubleclick'}, {x: 37, y: 43, xView: 101, yView: 103});
