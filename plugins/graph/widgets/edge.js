@@ -14,8 +14,6 @@ var nextId = 1;
 
 var EdgeWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
-	this.id = nextId.toString();
-	nextId++;
 };
 
 EdgeWidget.prototype = new Widget();
@@ -30,9 +28,17 @@ EdgeWidget.prototype.render = function(parent, nextSibling) {
 };
 
 EdgeWidget.prototype.execute = function() {
+	this.id = this.getAttribute("$id");
+	if (!this.id) {
+		// We do this so we don't increment unecessarily, and maybe reuse
+		// the same auto-id if this edge refreshes Self. This'll give better
+		// results when updating the graph. It's a CHANGED edge, not a new one.
+		this.counter = this.counter || nextId++;
+		this.id = "edgeid-" + this.counter;
+	}
 	// TODO: Maybe this should be $from
 	this.fromTiddler = this.getAttribute("from", this.getVariable("currentTiddler"));
-	this.toTiddler = this.getAttribute("to");
+	this.toTiddler = this.getAttribute("to", this.getVariable("toTiddler"));
 	this.settings = Object.create(null);
 	for (var key in this.attributes) {
 		if (key.charAt(0) !== "$" && key !== "from") {
@@ -64,13 +70,6 @@ EdgeWidget.prototype.allowActionPropagation = function() {
 EdgeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
 	return this.object;
-};
-
-/* When testing applicability in a $properties filter, use the from and
- * to tiddlers as input sources.
- */
-EdgeWidget.prototype.getGraphFilterSource = function() {
-	return [this.fromTiddler, this.toTiddler];
 };
 
 EdgeWidget.prototype.setStyle = function(data, convert) {

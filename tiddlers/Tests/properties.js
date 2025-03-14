@@ -69,30 +69,30 @@ it('can apply styles to non-node objects, like edges', function() {
 it('can selectively apply styles to non-node objects, like edges', function() {
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$properties $for=edges $filter="[last[]match[C]]" color=blue>
+			<$properties $for=edges $filter="[suffix[C]]" color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$node $tiddler=C/>
-				<$edge from=A to=B />
-				<$edge from=A to=C />
-				<$edge from=B to=C />
+				<$edge $id=AB from=A to=B />
+				<$edge $id=AC from=A to=C />
+				<$edge $id=BC from=B to=C />
 			</$properties>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {}, B: {}, C: {}});
-	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "A", to: "C", color: "blue"}, {from: "B", to: "C", color: "blue"}]);
+	expect(objects.edges).toEqual({AB: {from: "A", to: "B"}, AC: {from: "A", to: "C", color: "blue"}, BC: {from: "B", to: "C", color: "blue"}});
 });
 
 it('refreshes properly if $for changes when filtering', async function() {
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$properties $for={{for}} $filter="[first[]match[A]]" color=blue>
+			<$properties $for={{for}} $filter="[prefix[A]]" color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
-				<$edge from=A to=B />
-				<$edge from=B to=A />
+				<$edge $id=AB from=A to=B />
+				<$edge $id=BA from=B to=A />
 			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();
@@ -101,7 +101,7 @@ it('refreshes properly if $for changes when filtering', async function() {
 	expect(update).toHaveBeenCalledTimes(1);
 	var objects = update.calls.first().args[0];
 	expect(objects.nodes).toEqual({A: {color: "blue"}});
-	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
+	expect(objects.edges).toEqual({AB: {from: "A", to: "B"}});
 });
 
 it('refreshes properly if $for changes when not filtering', async function() {

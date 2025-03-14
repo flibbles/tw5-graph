@@ -63,13 +63,6 @@ NodeWidget.prototype.getGraphObject = function(style) {
 	return this.object;
 };
 
-/* When testing applicability in a $style filter, use the tiddler title
- * as the input source.
- */
-NodeWidget.prototype.getGraphFilterSource = function() {
-	return [this.id];
-}
-
 NodeWidget.prototype.setStyle = function(data, convert) {
 	if (this.pos) {
 		var points = this.pos.split(",");

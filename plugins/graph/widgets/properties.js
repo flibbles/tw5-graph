@@ -67,8 +67,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 		var known = this.knownObjects[this.type];
 		for (var id in known) {
 			var widget = known[id];
-			var source = widget.getGraphFilterSource();
-			var shouldStyle = this.filterFunc(source, this).length > 0;
+			var shouldStyle = this.filterFunc([id], this).length > 0;
 			if (shouldStyle !== !!this.affectedObjects[id]) {
 				// We're changing whether we style it or not. And also that
 				// object will need to resubmit its info to the graph.
@@ -102,8 +101,7 @@ Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 		var object = parentCallback(widget);
 		if (type === self.type) {
 			if (self.filter) {
-				var source = widget.getGraphFilterSource();
-				if (self.filterFunc(source, self).length > 0) {
+				if (self.filterFunc([id], self).length > 0) {
 					self.affectedObjects[id] = true;
 				} else {
 					return object;
