@@ -363,6 +363,9 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		// The engine somehow has objects we don't know about.
 		return;
 	}
+	if (graphEvent.id) {
+		variables.id = graphEvent.id;
+	}
 	if (graphEvent.type === "doubleclick") {
 		for (var name in variables) {
 			this.setVariable(name, variables[name].toString());
