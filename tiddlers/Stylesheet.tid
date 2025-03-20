@@ -2,13 +2,6 @@ title: Stylesheet
 tags: $:/tags/Stylesheet
 
 
-\define sidebarbreakpoint()
-<$text text={{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}/>
-\end
-
-\define sidebarbreakpoint-minus-one()
-<$text text={{{ [{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}removesuffix[px]subtract[1]addsuffix[px]] ~[{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}] }}}/>
-\end
 \rules only macrocallinline
 
 .graph-demo-palette {
@@ -65,29 +58,6 @@ a.graph-dragger.tc-tiddlylink:hover {
 .graph-dragger:active {
   box-shadow: inset 4.3px 4.3px 7px #b7b1b5;
   filter: drop-shadow(0 0 0 rgb(183, 177, 181));
-}
-
-/*** Sidebar graphs ***/
-
-.tc-sidebar-scrollable .graph-canvas {
-	position: absolute;
-	min-height: 350px;
-}
-
-.tc-sidebar-scrollable .graph-disabled {
-	display: none;
-}
-
-@media (max-width: <<sidebarbreakpoint>>) {
-	.tc-sidebar-scrollable .graph-canvas {
-		display: none;
-		position: relative;
-		height: 400px !important;
-	}
-
-	.tc-sidebar-scrollable .graph-disabled {
-		display: block;
-	}
 }
 
 /*** doc-style ***/

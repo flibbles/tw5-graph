@@ -1,6 +1,10 @@
 title: $:/plugins/flibbles/graph/Stylesheet.css
 tags: $:/tags/Stylesheet
 
+\define sidebarbreakpoint()
+<$text text={{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}/>
+\end
+
 \rules only macrocallinline
 .graph-canvas {
 	position: relative;
@@ -42,6 +46,29 @@ Error-state graphs
 	border: medium solid <<colour alert-border>>;
 	border-radius: 1em;
 
+}
+
+/*** SideBar ***/
+
+.tc-sidebar-scrollable .graph-canvas {
+	position: absolute;
+	min-height: 350px;
+}
+
+.tc-sidebar-scrollable .graph-disabled {
+	display: none;
+}
+
+@media (max-width: <<sidebarbreakpoint>>) {
+	.tc-sidebar-scrollable .graph-canvas {
+		display: none;
+		position: relative;
+		height: 400px !important;
+	}
+
+	.tc-sidebar-scrollable .graph-disabled {
+		display: block;
+	}
 }
 
 /*** Engine toggle buttons ***/

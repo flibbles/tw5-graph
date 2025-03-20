@@ -1,0 +1,31 @@
+title: $:/plugins/flibbles/graph/ui/SideBar
+caption: SideBar
+tags: $:/tags/SideBar
+
+\whitespace trim
+
+<!-- If moving this over to the plugin, make sure to take its CSS too. -->
+
+<div class="graph-disabled graph-error">
+
+<!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,
+     it's always possible to have the SideBar graph at the top, but it catches
+     the mouse's scrolling too easily. -->
+
+<$text text="Graph disabled in mobile view."/>
+
+</div>
+<$graph
+	$width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
+	$height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]"
+>
+
+<$slot $name=graph>
+
+<$graph.popup>
+
+<$list filter="[all[]!is[system]!is[draft]]">
+
+<$node label={{!!title}} >
+
+<$action-navigate />
