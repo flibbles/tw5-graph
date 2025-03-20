@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/widgets/action.selecttiddler
+title: $:/plugins/flibbles/graph/globals/action.selecttiddler
 tags: $:/tags/Global
 
 \widget $action.selecttiddler()
