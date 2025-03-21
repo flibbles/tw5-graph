@@ -4,7 +4,7 @@ Tests the action-filterops widget.
 
 \*/
 
-fdescribe('ActionFilterOpsWidget', function() {
+describe('ActionFilterOpsWidget', function() {
 
 var wiki;
 
@@ -16,12 +16,12 @@ function testAdd(input, expected, value) {
 	value = value || "value";
 	wiki.addTiddler({title: "Target", text: input});
 	wiki.addTiddler({title: value});
+	var widgetNode = $tw.test.renderText(wiki,"\\define value() " + value + "\n<$action-filterops $tiddler=Target $field=text $add=<<value>> />");
 	var oldResults = wiki.filterTiddlers(input, widgetNode);
 	var expectedResults = oldResults;
 	if (expectedResults.indexOf(value) < 0) {
 		expectedResults.push(value);
 	}
-	var widgetNode = $tw.test.renderText(wiki,"\\define value() " + value + "\n<$action-filterops $tiddler=Target $field=text $add=<<value>> />");
 	widgetNode.invokeActions(widgetNode, {});
 	var newFilter = wiki.getTiddlerText("Target");
 	expect(newFilter).toBe(expected);
@@ -43,8 +43,8 @@ function testRemove(input, expected, value) {
 	expect(newResults).toEqual(expectedResults);
 };
 
-// We won' have more than one test that actually sets ms to something
-// positive, because it's time expensive.
+/*** Adding values to filter. ***/
+
 it('can add', function() {
 	testAdd("A B C", "A B C value");
 	testAdd("A B value C", "A B value C");
@@ -101,6 +101,96 @@ it("can remove", function() {
 	testRemove("A B val +[addsuffix[ue]]", "A B val +[addsuffix[ue]] -value");
 	testRemove("A B value [all[tags]]", "A B [all[tags]]");
 	testRemove("A B value [all[]]", "A B [all[]] -value");
+});
+
+// I don't like this behavior. I'd rather remove the field if it's empty,
+// but it's probably better to mimic listops in this way.
+it("does not remove field if emptied", function() {
+	wiki.addTiddler({title: "Target", filter: "value"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=filter $remove=value />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.filter).toBe("");
+});
+
+it("does not create field when removing", function() {
+	wiki.addTiddler({title: "Target"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=filter $remove=value />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.filter).toBeUndefined();
+});
+
+/*** Reassembling ***/
+
+it("can reassemble various types of filter structures", function() {
+	// Capture the log because the regexp emits a deprecation warning
+	spyOn(console, "log");
+	testAdd("[match[x]]", "[match[x]] value");
+	testAdd("[match{x}]", "[match{x}] value");
+	testAdd("[match<x>]", "[match<x>] value");
+	testAdd("[match/x/]", "[match/x/] value");
+	testAdd("[!match[value]]", "[!match[value]] value");
+	testAdd("[field:title[x]]", "[field:title[x]] value");
+	testAdd("[[x]addsuffix[y]match[xy]]", "[[x]addsuffix[y]match[xy]] value");
+	testAdd("[all[]] :filter[match[v]]", "[all[]] :filter[match[v]] value");
+	testAdd("other", "other value");
+	testAdd("'other'", "other value");
+	testAdd("[[ot' \"her]]", "[[ot' \"her]] value");
+});
+
+/*** Timestamping ***/
+
+it("timestamps by default", function() {
+	testAdd("A B C value", "A B C value");
+	expect(wiki.getTiddler("Target").fields.modified).toBeUndefined();
+	testAdd("A B C", "A B C value");
+	expect(wiki.getTiddler("Target").fields.modified).not.toBeUndefined();
+});
+
+it("timestamps explicitly", function() {
+	wiki.addTiddler({title: "Target", text: "A B C"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=text $add=value $timestamp=yes />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.text).toBe("A B C value");
+	expect(target.fields.modified).not.toBeUndefined();
+});
+
+it("does not timestamp modify when disabled", function() {
+	wiki.addTiddler({title: "Target", text: "A B C"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=text $add=value $timestamp=no />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.text).toBe("A B C value");
+	expect(target.fields.modified).toBeUndefined();
+});
+
+it("does not timestamp create when disabled", function() {
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=text $add=value $timestamp=no />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.text).toBe("value");
+	expect(target.fields.created).toBeUndefined();
+});
+
+/*** Creation ***/
+
+it("creates tiddler when does not exist", function() {
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=text $add=value />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.text).toBe("value");
+	expect(target.fields.created).not.toBeUndefined();
+});
+
+it("creates field when does not exist", function() {
+	wiki.addTiddler({title: "Target", text: "text"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=filter $add=value />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.text).toBe("text");
+	expect(target.fields.filter).toBe("value");
 });
 
 });

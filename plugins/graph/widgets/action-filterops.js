@@ -41,16 +41,21 @@ OpsWidget.prototype.refresh = function(changedTiddlers) {
 
 OpsWidget.prototype.invokeAction = function(triggeringWidget, event) {
 	var tiddler = this.wiki.getTiddler(this.actionTiddler),
-		hasChanged = false;
+		hasChanged = false,
+		options = {};
 	if (this.actionTiddler) {
-		var filterString = tiddler.fields[this.actionField];
+		options.suppressTimestamp = !this.actionTimestamp;
+		var oldFilterString = tiddler? tiddler.fields[this.actionField]: "";
+		var filterString = oldFilterString;
 		if (this.actionAdd) {
 			filterString = this.addValue(filterString, this.actionAdd);
 		}
 		if (this.actionRemove) {
 			filterString = this.removeValue(filterString, this.actionRemove);
 		}
-		this.wiki.setText(this.actionTiddler, this.actionField, undefined, filterString, {});
+		if (oldFilterString !== filterString) {
+			this.wiki.setText(this.actionTiddler, this.actionField, undefined, filterString || "", options);
+		}
 	}
 };
 
