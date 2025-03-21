@@ -1,0 +1,53 @@
+title: $:/plugins/flibbles/graph/globals/action.addedge
+tags: $:/tags/Global
+
+\whitespace trim
+\widget $action.addedge($field, $value)
+<$parameters
+	$$tiddler=<<currentTiddler>> >
+
+<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
+
+<%if [<fieldType>match[list]] %>
+
+<$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="[<$value>]" />
+
+<%elseif [<fieldType>match[title]] %>
+
+<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> $value=<<$value>> />
+
+<%elseif [<fieldType>match[filter]] %>
+
+<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $add=<<$value>> />
+
+\end
+
+\widget $action.removeedge($field, $value)
+<$parameters
+	$$tiddler=<<currentTiddler>> >
+
+<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
+
+<%if [<fieldType>match[list]] %>
+
+<%if [<$tiddler>each:list-item<$field>match<$value>] %>
+
+<$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="-[<$value>]" />
+
+<%endif%>
+
+<%elseif [<fieldType>match[title]] %>
+
+<%if [<$tiddler>get<$field>match<$value>] %>
+
+<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
+
+<%endif%>
+
+<%elseif [<fieldType>match[filter]] %>
+
+<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> />
+
+<%endif%>
+
+\end

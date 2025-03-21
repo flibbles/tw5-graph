@@ -88,6 +88,11 @@ it("add chooses best quotes", function() {
 	testAdd("A B C", "A B C a=ll", "a=ll");
 });
 
+it("add does not timestamp if no change is made", function() {
+	testAdd("A B C value", "A B C value");
+	expect(wiki.getTiddler("Target").fields.modified).toBeUndefined();
+});
+
 /*** Removing values from filter. ***/
 
 it("can remove", function() {
@@ -121,6 +126,11 @@ it("does not create field when removing", function() {
 	expect(target.fields.filter).toBeUndefined();
 });
 
+it("remove does not timestamp if no change is made", function() {
+	testRemove("A B C", "A B C");
+	expect(wiki.getTiddler("Target").fields.modified).toBeUndefined();
+});
+
 /*** Reassembling ***/
 
 it("can reassemble various types of filter structures", function() {
@@ -142,8 +152,6 @@ it("can reassemble various types of filter structures", function() {
 /*** Timestamping ***/
 
 it("timestamps by default", function() {
-	testAdd("A B C value", "A B C value");
-	expect(wiki.getTiddler("Target").fields.modified).toBeUndefined();
 	testAdd("A B C", "A B C value");
 	expect(wiki.getTiddler("Target").fields.modified).not.toBeUndefined();
 });
