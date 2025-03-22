@@ -6,19 +6,9 @@ tags: $:/tags/Global
 <$parameters
 	$$tiddler=<<currentTiddler>> >
 
-<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
+<$importvariables filter="[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]]" >
 
-<%if [<fieldType>match[list]] %>
-
-<$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="[<$value>]" />
-
-<%elseif [<fieldType>match[title]] %>
-
-<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> $value=<<$value>> />
-
-<%elseif [<fieldType>match[filter]] %>
-
-<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $add=<<$value>> />
+<$transclude $variable=add $$tiddler=$tiddler $$field=$field $$value=$value $mode=inline />
 
 \end
 
@@ -26,62 +16,18 @@ tags: $:/tags/Global
 <$parameters
 	$$tiddler=<<currentTiddler>> >
 
-<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
+<$importvariables filter={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}} >
 
-<%if [<fieldType>match[list]] %>
+<$transclude $variable=remove $tiddler=$tiddler $field=$field $value=$value />
 
-<%if [<$tiddler>each:list-item<$field>match<$value>] %>
-
-<%if [<$tiddler>each:list-item<$field>count[]match[1]] %>
-
-<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
-
-<%else%>
-
-<$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="-[<$value>]" />
-
-<%endif%><%endif%>
-
-<%elseif [<fieldType>match[title]] %>
-
-<%if [<$tiddler>get<$field>match<$value>] %>
-
-<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
-
-<%endif%>
-
-<%elseif [<fieldType>match[filter]] %>
-
-<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
-
-<%endif%>
 \end
 
 \widget $edges.field($field)
 <$parameters
 	$$tiddler=<<currentTiddler>> >
 
-<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
-
-<%if [<fieldType>match[list]] %>
-
-<$list variable=toTiddler filter="[<$tiddler>each:list-item<$field>]">
-
-<$edge from=<<currentTiddler>> to=<<toTiddler>> />
-
-</$list>
-<%elseif [<fieldType>match[title]] %>
-
-<%if [<$tiddler>get<$field>] %>
-
-<$edge from=<<currentTiddler>> to=<<condition>> />
-
-<%endif%>
-
-<%elseif [<fieldType>match[filter]] %>
-
-<$list variable=toTiddler filter="[<$tiddler>get<$field>] :map:flat[subfilter{!!title}]" >
-
-<$edge from=<<currentTiddler>> to=<<toTiddler>> />
+<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}}
+	$$tiddler=<<$tiddler>>
+	$$field=<<$field>> $mode=inline />
 
 \end
