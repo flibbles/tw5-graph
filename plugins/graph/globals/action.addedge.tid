@@ -55,5 +55,33 @@ tags: $:/tags/Global
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
 
 <%endif%>
+\end
+
+\widget $edges.field($field)
+<$parameters
+	$$tiddler=<<currentTiddler>> >
+
+<$let fieldType={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]] }}} >
+
+<%if [<fieldType>match[list]] %>
+
+<$list variable=toTiddler filter="[<$tiddler>each:list-item<$field>]">
+
+<$edge from=<<currentTiddler>> to=<<toTiddler>> />
+
+</$list>
+<%elseif [<fieldType>match[title]] %>
+
+<%if [<$tiddler>get<$field>] %>
+
+<$edge from=<<currentTiddler>> to=<<condition>> />
+
+<%endif%>
+
+<%elseif [<fieldType>match[filter]] %>
+
+<$list variable=toTiddler filter="[<$tiddler>get<$field>] :map:flat[subfilter{!!title}]" >
+
+<$edge from=<<currentTiddler>> to=<<toTiddler>> />
 
 \end
