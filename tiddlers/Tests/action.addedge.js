@@ -67,8 +67,51 @@ it("can set filter fields", function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]] -[[this value]]");
 });
 
-$tw.utils.each(['title', 'list', 'filter'], function(fieldType) {
-	it("ignores miss removals for " + fieldType, function() {
+/*** Edge rendering ***/
+
+it("can render title edges", function() {
+	wiki.addTiddler(relinkConfig("title"));
+	wiki.addTiddler({title: "Target", field: "this value"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(Object.values(edgeObjects)).toEqual([{from: "Target", to: "this value"}]);
+});
+
+it("can render list edges", function() {
+	wiki.addTiddler(relinkConfig("list"));
+	wiki.addTiddler({title: "Target", field: "this -value"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(Object.values(edgeObjects)).toEqual([
+		{from: "Target", to: "this"},
+		{from: "Target", to: "-value"}]);
+});
+
+it("renders list edges as default", function() {
+	wiki.addTiddler({title: "Target", field: "this -value"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(Object.values(edgeObjects)).toEqual([
+		{from: "Target", to: "this"},
+		{from: "Target", to: "-value"}]);
+});
+
+it("can render filter edges", function() {
+	wiki.addTiddler(relinkConfig("filter"));
+	wiki.addTiddler({title: "Target", field: "A B [[this]addsuffix[ value]]"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(Object.values(edgeObjects)).toEqual([
+		{from: "Target", to: "A"},
+		{from: "Target", to: "B"},
+		{from: "Target", to: "this value"}]);
+});
+
+/*** Standard behavior between all edgetypes ***/
+
+$tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/plugins/flibbles/graph/edgetypes/]]"), function(fieldType) {
+
+	it("ignores missed removals for " + fieldType, function() {
 		wiki.addTiddler({title: "Target", field: "value"});
 		wiki.addTiddler(relinkConfig(fieldType));
 		var remove = renderAction("<$action.removeedge $tiddler=Target $field=field $value=else />");
@@ -128,37 +171,6 @@ $tw.utils.each(['title', 'list', 'filter'], function(fieldType) {
 		expect(Object.values(edgeObjects)).toEqual([
 			{from: "Target", to: "to", value: "test"}]);
 	});
-});
-
-/*** Edge rendering ***/
-
-it("can render title edges", function() {
-	wiki.addTiddler(relinkConfig("title"));
-	wiki.addTiddler({title: "Target", field: "this value"});
-	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
-	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
-	expect(Object.values(edgeObjects)).toEqual([{from: "Target", to: "this value"}]);
-});
-
-it("can render list edges", function() {
-	wiki.addTiddler(relinkConfig("list"));
-	wiki.addTiddler({title: "Target", field: "this -value"});
-	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
-	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
-	expect(Object.values(edgeObjects)).toEqual([
-		{from: "Target", to: "this"},
-		{from: "Target", to: "-value"}]);
-});
-
-it("can render filter edges", function() {
-	wiki.addTiddler(relinkConfig("filter"));
-	wiki.addTiddler({title: "Target", field: "A B [[this]addsuffix[ value]]"});
-	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
-	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
-	expect(Object.values(edgeObjects)).toEqual([
-		{from: "Target", to: "A"},
-		{from: "Target", to: "B"},
-		{from: "Target", to: "this value"}]);
 });
 
 });
