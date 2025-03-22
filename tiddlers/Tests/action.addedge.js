@@ -119,6 +119,15 @@ $tw.utils.each(['title', 'list', 'filter'], function(fieldType) {
 		expect(Object.values(edgeObjects)).toEqual([
 			{from: "Template", to: "goodTo"}]);
 	});
+
+	it("renders with custom fill for " + fieldType, function() {
+		wiki.addTiddler(relinkConfig(fieldType));
+		wiki.addTiddler({title: "Target", field: "to"});
+		var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field>\n\n<$edge value=test to=<<toTiddler>> />\n");
+		var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+		expect(Object.values(edgeObjects)).toEqual([
+			{from: "Target", to: "to", value: "test"}]);
+	});
 });
 
 /*** Edge rendering ***/

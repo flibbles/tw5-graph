@@ -28,4 +28,11 @@ tags: $:/tags/Global
 
 <$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}} $mode=inline>
 
+<$fill $name=edge>
+
+<$slot $depth=2 $name=ts-raw>
+
+<$edge to=<<toTiddler>> />
+
+</$slot></$fill></$transclude>
 \end

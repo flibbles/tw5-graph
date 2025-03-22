@@ -12,5 +12,5 @@ title: $:/plugins/flibbles/graph/edgetypes/title
 \end
 
 <$list variable=toTiddler filter="[<$tiddler>get<$field>]" >
-  <$edge from=<<currentTiddler>> to=<<toTiddler>> />
+  <$slot $name=edge />
 </$list>
