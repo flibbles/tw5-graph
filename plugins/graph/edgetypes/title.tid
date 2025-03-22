@@ -3,19 +3,14 @@ title: $:/plugins/flibbles/graph/edgetypes/title
 \whitespace trim
 \procedure add()
 <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> $value=<<$value>> />
-
 \end
 
 \procedure remove()
 <%if [<$tiddler>get<$field>match<$value>] %>
-
-<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
-
+  <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
 <%endif%>
 \end
 
-<%if [<$tiddler>get<$field>] %>
-
-<$edge from=<<currentTiddler>> to=<<condition>> />
-
-<%endif%>
+<$list variable=toTiddler filter="[<$tiddler>get<$field>]" >
+  <$edge from=<<currentTiddler>> to=<<toTiddler>> />
+</$list>

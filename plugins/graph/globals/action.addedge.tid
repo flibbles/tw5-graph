@@ -18,7 +18,7 @@ tags: $:/tags/Global
 
 <$importvariables filter={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}} >
 
-<$transclude $variable=remove $tiddler=$tiddler $field=$field $value=$value />
+<$transclude $variable=remove $tiddler=$tiddler $field=$field $value=$value $mode=inline />
 
 \end
 
@@ -26,8 +26,6 @@ tags: $:/tags/Global
 <$parameters
 	$$tiddler=<<currentTiddler>> >
 
-<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}}
-	$$tiddler=<<$tiddler>>
-	$$field=<<$field>> $mode=inline />
+<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}} $mode=inline>
 
 \end

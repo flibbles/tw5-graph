@@ -3,25 +3,18 @@ title: $:/plugins/flibbles/graph/edgetypes/list
 \whitespace trim
 \procedure add()
 <$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="[<$value>]" />
-
 \end
 
 \procedure remove()
 <%if [<$tiddler>each:list-item<$field>match<$value>] %>
-
-<%if [<$tiddler>each:list-item<$field>count[]match[1]] %>
-
-<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
-
-<%else%>
-
-<$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="-[<$value>]" />
-
-<%endif%><%endif%>
+  <%if [<$tiddler>each:list-item<$field>count[]match[1]] %>
+    <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
+  <%else%>
+    <$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="-[<$value>]" />
+  <%endif%>
+<%endif%>
 \end
 
 <$list variable=toTiddler filter="[<$tiddler>each:list-item<$field>]">
-
-<$edge from=<<currentTiddler>> to=<<toTiddler>> />
-
+  <$edge from=<<currentTiddler>> to=<<toTiddler>> />
 </$list>

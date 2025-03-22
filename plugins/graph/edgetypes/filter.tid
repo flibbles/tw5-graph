@@ -7,11 +7,8 @@ title: $:/plugins/flibbles/graph/edgetypes/filter
 
 \procedure remove()
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
-
 \end
 
 <$list variable=toTiddler filter="[<$tiddler>get<$field>] :map:flat[subfilter{!!title}]" >
-
-<$edge from=<<currentTiddler>> to=<<toTiddler>> />
-
+  <$edge from=<<currentTiddler>> to=<<toTiddler>> />
 </$list>
