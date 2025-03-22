@@ -77,6 +77,15 @@ $tw.utils.each(['title', 'list', 'filter'], function(fieldType) {
 		expect(tiddler.fields.field).toBe("value");
 		expect(tiddler.fields.modified).toBeUndefined();
 	});
+
+	it("clears the field when emptied for " + fieldType, function() {
+		wiki.addTiddler({title: "Target", field: "value"});
+		wiki.addTiddler(relinkConfig(fieldType));
+		var remove = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+		remove.invokeActions(remove, {});
+		var tiddler = wiki.getTiddler("Target");
+		expect(tiddler.fields.field).toBeUndefined();
+	});
 });
 
 });

@@ -32,9 +32,15 @@ tags: $:/tags/Global
 
 <%if [<$tiddler>each:list-item<$field>match<$value>] %>
 
+<%if [<$tiddler>each:list-item<$field>count[]match[1]] %>
+
+<$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
+
+<%else%>
+
 <$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="-[<$value>]" />
 
-<%endif%>
+<%endif%><%endif%>
 
 <%elseif [<fieldType>match[title]] %>
 
@@ -46,7 +52,7 @@ tags: $:/tags/Global
 
 <%elseif [<fieldType>match[filter]] %>
 
-<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> />
+<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
 
 <%endif%>
 

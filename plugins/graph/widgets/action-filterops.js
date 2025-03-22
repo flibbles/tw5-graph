@@ -28,6 +28,7 @@ OpsWidget.prototype.execute = function() {
 	this.actionAdd = this.getAttribute("$add");
 	this.actionRemove = this.getAttribute("$remove");
 	this.actionTimestamp = this.getAttribute("$timestamp","yes") === "yes";
+	this.actionClean = this.getAttribute("$clean","no") === "yes";
 };
 
 OpsWidget.prototype.refresh = function(changedTiddlers) {
@@ -54,7 +55,7 @@ OpsWidget.prototype.invokeAction = function(triggeringWidget, event) {
 			filterString = this.removeValue(filterString, this.actionRemove);
 		}
 		if (oldFilterString !== filterString) {
-			this.wiki.setText(this.actionTiddler, this.actionField, undefined, filterString || "", options);
+			this.wiki.setText(this.actionTiddler, this.actionField, undefined, filterString, options);
 		}
 	}
 };
@@ -121,7 +122,7 @@ OpsWidget.prototype.removeValue = function(filterString, value) {
 				prefix: "-",
 				operators: [{operator: "title", operands: [{text: value}]}]});
 		}
-		filterString = reassembleFilter(filterTree);
+		filterString = reassembleFilter(filterTree, this.actionClean);
 		// Now we do it again to make sure it was actually removed
 	}
 	return filterString;
@@ -144,7 +145,7 @@ function runIsSingleTitle(run) {
 	return null;
 };
 
-function reassembleFilter(parseTree) {
+function reassembleFilter(parseTree, clean) {
 	// This will hold all of the filter parts
 	const fragments = [];
 	// Rebuild the filter.
@@ -197,10 +198,10 @@ function reassembleFilter(parseTree) {
 		}
 	}
 	// Return compiled filter string, if there is one
-	if (fragments.length > 0) {
-		return fragments.join("");
+	if (clean && fragments.length == 0) {
+		return undefined;
 	}
-	return undefined;
+	return fragments.join("");
 };
 
 function bestQuoteFor(title) {

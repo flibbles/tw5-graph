@@ -108,14 +108,22 @@ it("can remove", function() {
 	testRemove("A B value [all[]]", "A B [all[]] -value");
 });
 
-// I don't like this behavior. I'd rather remove the field if it's empty,
-// but it's probably better to mimic listops in this way.
-it("does not remove field if emptied", function() {
+// I would make the default behavior to clean, but it's better to behave more
+// like listops in this way.
+it("remove does not clean field if emptied by default", function() {
 	wiki.addTiddler({title: "Target", filter: "value"});
 	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=filter $remove=value />");
 	widgetNode.invokeActions(widgetNode, {});
 	var target = wiki.getTiddler("Target");
 	expect(target.fields.filter).toBe("");
+});
+
+it("remove cleans field if specified", function() {
+	wiki.addTiddler({title: "Target", filter: "value"});
+	var widgetNode = $tw.test.renderText(wiki,"<$action-filterops $tiddler=Target $field=filter $remove=value $clean=yes />");
+	widgetNode.invokeActions(widgetNode, {});
+	var target = wiki.getTiddler("Target");
+	expect(target.fields.filter).toBeUndefined();
 });
 
 it("does not create field when removing", function() {
