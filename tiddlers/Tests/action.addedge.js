@@ -26,11 +26,27 @@ function renderAction(text) {
 	return widgetNode;
 };
 
-it("assumes field is a list type", function() {
+it("assumes undefined field type is a list", function() {
 	wiki.addTiddler({title: "Target", field: "A -value B"});
 	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value=value />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A -value B value");
+	wiki.addTiddler({title: "Target", field: "A value 'value' B"});
+	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+	removeNode.invokeActions(removeNode, {});
+	expect(wiki.getTiddler("Target").fields.field).toBe("A 'value' B");
+});
+
+it("takes no action with unknown field type", function() {
+	wiki.addTiddler({title: "Target", field: "A B"});
+	wiki.addTiddler(relinkConfig("bizarre"));
+	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value=value />");
+	addNode.invokeActions(addNode, {});
+	expect(wiki.getTiddler("Target").fields.field).toBe("A B");
+	wiki.addTiddler({title: "Target", field: "value"});
+	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+	removeNode.invokeActions(removeNode, {});
+	expect(wiki.getTiddler("Target").fields.field).toBe("value");
 });
 
 it("can set explicit list fields", function() {
@@ -69,6 +85,23 @@ it("can set filter fields", function() {
 
 /*** Edge rendering ***/
 
+it("renders list edges as default", function() {
+	wiki.addTiddler({title: "Target", field: "this -value"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(Object.values(edgeObjects)).toEqual([
+		{from: "Target", to: "this"},
+		{from: "Target", to: "-value"}]);
+});
+
+it("renders nothing for unknown edge types", function() {
+	wiki.addTiddler(relinkConfig("bizarre"));
+	wiki.addTiddler({title: "Target", field: "value"});
+	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
+	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
+	expect(edgeObjects).toBeUndefined();
+});
+
 it("can render title edges", function() {
 	wiki.addTiddler(relinkConfig("title"));
 	wiki.addTiddler({title: "Target", field: "this value"});
@@ -79,15 +112,6 @@ it("can render title edges", function() {
 
 it("can render list edges", function() {
 	wiki.addTiddler(relinkConfig("list"));
-	wiki.addTiddler({title: "Target", field: "this -value"});
-	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
-	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
-	expect(Object.values(edgeObjects)).toEqual([
-		{from: "Target", to: "this"},
-		{from: "Target", to: "-value"}]);
-});
-
-it("renders list edges as default", function() {
 	wiki.addTiddler({title: "Target", field: "this -value"});
 	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
 	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
