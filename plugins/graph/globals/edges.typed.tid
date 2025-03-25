@@ -1,0 +1,20 @@
+title: $:/plugins/flibbles/graph/globals/edges.type
+tags: $:/tags/Global
+
+\widget $edges.typed($filter, $fields:'[all[]]')
+<$parameters $$tiddler=<<currentTiddler>> >
+
+<!-- TODO: Make sure currentTiddler doesn't get overridden before $fields filter -->
+
+<$list variable=fieldName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]subfilter<$fields>]">
+
+<$vars currentTiddler=<<$tiddler>> configTiddler=`$:/config/flibbles/graph/edges/$(fieldName)$`>
+
+<$genesis $type="$properties"
+	$names="[<configTiddler>indexes[]]"
+	$values="[<configTiddler>indexes[]] :map[<configTiddler>getindex<currentTiddler>]"
+	$$for=edges>
+
+<$edges.field $tiddler=<<$tiddler>> $field=<<fieldName>> />
+
+\end

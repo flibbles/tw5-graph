@@ -43,6 +43,11 @@ test.renderText = function(wiki, text) {
 	return widgetNode;
 };
 
+test.renderGlobal = function(wiki, text) {
+	return test.renderText(wiki, "\\import [subfilter{$:/core/config/GlobalImportFilter}]\n" + text + "\n");
+};
+
+
 test.flushChanges = function(ms) {
 	return new Promise(function(resolve, reject) {
 		// I'm using this instead of $tw.utils.nextTick(resolve) because
