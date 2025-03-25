@@ -5,7 +5,7 @@ tags: $:/tags/Global
 \widget $action.addedge($field, $value)
 <$parameters $$tiddler=<<currentTiddler>> >
 
-<$importvariables filter="[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]]" >
+<$importvariables filter="[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]]" >
 
 <$transclude $variable=add $$tiddler=$tiddler $$field=$field $$value=$value $mode=inline />
 
@@ -14,7 +14,7 @@ tags: $:/tags/Global
 \widget $action.removeedge($field, $value)
 <$parameters $$tiddler=<<currentTiddler>> >
 
-<$importvariables filter="[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]]" >
+<$importvariables filter="[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]]" >
 
 <$transclude $variable=remove $tiddler=$tiddler $field=$field $value=$value $mode=inline />
 
@@ -23,7 +23,7 @@ tags: $:/tags/Global
 \widget $edges.field($field)
 <$parameters $$tiddler=<<currentTiddler>> >
 
-<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/edgetypes/]] }}} $mode=inline>
+<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]] }}} $mode=inline>
 
 <$fill $name=edge>
 

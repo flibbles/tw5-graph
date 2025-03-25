@@ -131,9 +131,9 @@ it("can render filter edges", function() {
 		{from: "Target", to: "this value"}]);
 });
 
-/*** Standard behavior between all edgetypes ***/
+/*** Standard behavior between all fieldtypes ***/
 
-$tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/plugins/flibbles/graph/edgetypes/]]"), function(fieldType) {
+$tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/plugins/flibbles/graph/fieldtypes/]]"), function(fieldType) {
 
 	it("ignores missed removals for " + fieldType, function() {
 		wiki.addTiddler({title: "Target", field: "value"});

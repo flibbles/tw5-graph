@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/edgetypes/list
+title: $:/plugins/flibbles/graph/fieldtypes/list
 
 \whitespace trim
 \procedure add()
