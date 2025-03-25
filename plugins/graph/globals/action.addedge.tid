@@ -29,7 +29,7 @@ tags: $:/tags/Global
 
 <$slot $depth=2 $name=ts-raw>
 
-<$edge to=<<toTiddler>> />
+<$edge />
 
 </$slot></$fill></$transclude>
 \end
