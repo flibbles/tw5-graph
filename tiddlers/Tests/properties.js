@@ -14,7 +14,7 @@ beforeEach(function() {
 });
 
 it('can hierarchically apply style to all nested', function() {
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=nodes custom=val dynamic=1><$properties $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge from=A to=B/></$properties><$node $tiddler=C/></$properties><$node $tiddler=D/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=nodes custom=val dynamic=1><$properties $for=nodes dynamic=2><$node $tiddler=A label=label/><$node $tiddler=B/><$edge $from=A $to=B/></$properties><$node $tiddler=C/></$properties><$node $tiddler=D/>");
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {custom: "val", dynamic: "2", label: "label"}, B: {custom: "val", dynamic: "2"}, C: {custom: "val", dynamic: "1"}, D: {}});
@@ -49,12 +49,12 @@ it('can hierarchically apply styles to filtered nested', function() {
 it('can apply styles to non-node objects, like edges', function() {
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
-			<$edge from=A to=C />
+			<$edge $from=A $to=C />
 			<$properties $for=edges color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$node $tiddler=C/>
-				<$edge from=A to=B />
+				<$edge $from=A $to=B />
 			</$properties>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
@@ -73,9 +73,9 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
 				<$node $tiddler=C/>
-				<$edge $id=AB from=A to=B />
-				<$edge $id=AC from=A to=C />
-				<$edge $id=BC from=B to=C />
+				<$edge $id=AB $from=A $to=B />
+				<$edge $id=AC $from=A $to=C />
+				<$edge $id=BC $from=B $to=C />
 			</$properties>
 		</$graph>`);
 	expect(init).toHaveBeenCalledTimes(1);
@@ -91,8 +91,8 @@ it('refreshes properly if $for changes when filtering', async function() {
 			<$properties $for={{for}} $filter="[prefix[A]]" color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
-				<$edge $id=AB from=A to=B />
-				<$edge $id=BA from=B to=A />
+				<$edge $id=AB $from=A $to=B />
+				<$edge $id=BA $from=B $to=A />
 			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();
@@ -111,8 +111,8 @@ it('refreshes properly if $for changes when not filtering', async function() {
 			<$properties $for={{for}} color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
-				<$edge from=A to=B />
-				<$edge from=B to=A />
+				<$edge $from=A $to=B />
+				<$edge $from=B $to=A />
 			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();

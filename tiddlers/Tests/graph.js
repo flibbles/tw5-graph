@@ -49,7 +49,7 @@ it('handles updates to edges', async function() {
 		{title: "B", tags: "node", list: "A"},
 		{title: "C", tags: "node"},
 		{title: "D", tags: "node", list: "A B"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /><$list variable=to filter='[list[]]'><$edge to=<<to>> label={{!!toLabel}} />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /><$list variable=to filter='[list[]]'><$edge $to=<<to>> label={{!!toLabel}} />");
 	await $tw.test.flushChanges();
 	expect(Object.values($tw.test.latestEngine.objects.edges)).toEqual([
 		{from: "B", to: "A"}, {from: "D", to: "A"}, {from: "D", to: "B"}]);
@@ -74,7 +74,7 @@ it('handles incomplete edges completed later', async function() {
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
 		{title: "B"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge $from=A $to=B />");
 	await $tw.test.flushChanges();
 	var objects = $tw.test.latestEngine.objects;
 	expect(objects.nodes).toEqual({A:{}});
@@ -89,7 +89,7 @@ it('handles edge getting incompleted later', async function() {
 	wiki.addTiddlers([
 		{title: "A", tags: "node"},
 		{title: "B", tags: "node"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge from=A to=B />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node /></$list><$edge $from=A $to=B />");
 	await $tw.test.flushChanges();
 	var objects = clean($tw.test.latestEngine.objects);
 	expect(objects.nodes).toEqual({A:{}, B:{}});
@@ -102,7 +102,7 @@ it('handles edge getting incompleted later', async function() {
 
 it('does not hand over empty edge lists', function() {
 	wiki.addTiddler({title: "A"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$edge from=A to=B />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$edge $from=A $to=B />");
 	expect(init).toHaveBeenCalledTimes(1);
 	// Might expect to have an edge object because one was added,
 	// and then trimmed. But we should be better than that.
@@ -339,7 +339,7 @@ it("handles bad global setting gracefully", function() {
 it("performs complete refresh if engine changes", async function() {
 	var alsoInit = spyOn($tw.test.adapterAlso, "init");
 	wiki.addTiddler({title: "target", text: "Test"});
-	var widget = $tw.test.renderText(wiki, "<$graph $height=30px $width=50px property=persists $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge from=A to=B/>");
+	var widget = $tw.test.renderText(wiki, "<$graph $height=30px $width=50px property=persists $engine={{target}}><$node $tiddler=A/><$node $tiddler=B/><$edge $from=A $to=B/>");
 	await $tw.test.flushChanges();
 	wiki.addTiddler({title: "target", text: "Also"});
 	await $tw.test.flushChanges();
@@ -396,7 +396,7 @@ it("does not refresh explicit engine if global changes", async function() {
 /*** Typecasting ***/
 
 it("converts numbers", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string size=5/><$node $tiddler=B size=0/><$node $tiddler=C size='-5' /><$edge from=A to=B width=5/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A label=string size=5/><$node $tiddler=B size=0/><$node $tiddler=C size='-5' /><$edge $from=A $to=B width=5/>");
 	var objects = init.calls.first().args[1];
 	// B ensures that 0, which is falsy, still passes through fine.
 	// C ensures that we respect minimum allowed values.

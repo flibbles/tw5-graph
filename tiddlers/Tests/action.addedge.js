@@ -166,7 +166,7 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	it("renders with custom fill for " + fieldType, function() {
 		wiki.addTiddler(relinkConfig(fieldType));
 		wiki.addTiddler({title: "Target", field: "to"});
-		var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field>\n\n<$edge value=test to=<<toTiddler>> />\n");
+		var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field>\n\n<$edge value=test $to=<<toTiddler>> />\n");
 		var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
 		expect(Object.values(edgeObjects)).toEqual([
 			{from: "Target", to: "to", value: "test"}]);

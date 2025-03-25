@@ -36,12 +36,11 @@ EdgeWidget.prototype.execute = function() {
 		this.counter = this.counter || nextId++;
 		this.id = "edgeid-" + this.counter;
 	}
-	// TODO: Maybe this should be $from
-	this.fromTiddler = this.getAttribute("from", this.getVariable("currentTiddler"));
-	this.toTiddler = this.getAttribute("to", this.getVariable("toTiddler"));
+	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
+	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));
 	this.settings = Object.create(null);
 	for (var key in this.attributes) {
-		if (key.charAt(0) !== "$" && key !== "from") {
+		if (key.charAt(0) !== "$") {
 			var value = this.attributes[key];
 			if (value) {
 				this.settings[key] = this.attributes[key];
@@ -73,7 +72,12 @@ EdgeWidget.prototype.getGraphObject = function() {
 };
 
 EdgeWidget.prototype.setStyle = function(data, convert) {
-	data.from = this.fromTiddler;
+	if (this.fromTiddler) {
+		data.from = this.fromTiddler;
+	}
+	if (this.toTiddler) {
+		data.to = this.toTiddler;
+	}
 	for (var property in this.settings) {
 		var value = convert("edges", property, this.settings[property]);
 		if (value !== null) {

@@ -26,9 +26,9 @@ tags: Examples
 
 	</$node></$properties>
 
-	<$edge to={{!!father}} />
+	<$edge $to={{!!father}} />
 
-	<$edge to={{!!mother}} />
+	<$edge $to={{!!mother}} />
 
 </$list>
 

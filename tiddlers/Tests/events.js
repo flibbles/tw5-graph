@@ -29,7 +29,7 @@ it('can send events to $property', function() {
 });
 
 it('handles double click events to canvas', function() {
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$action-test x y xView yView /><$node $tiddler=test><$action-test bad=node /></$node><$edge from=test to=test><$action-test bad=edge />");
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$action-test x y xView yView /><$node $tiddler=test><$action-test bad=node /></$node><$edge $from=test $to=test><$action-test bad=edge />");
 	$tw.test.dispatchEvent(wiki, {type: 'doubleclick'}, {x: 37, y: 43, xView: 101, yView: 103});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "37", y: "43", xView: "101", yView: "103"});

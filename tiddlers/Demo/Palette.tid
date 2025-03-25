@@ -13,7 +13,7 @@ tags: Demo
 
 </$node>
 
-<$edge to={{!!father}} />
+<$edge $to={{!!father}} />
 
 </$list></$graph.popup></$graph>
 

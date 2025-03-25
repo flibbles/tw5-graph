@@ -6,7 +6,7 @@ tags: Examples
 	<$list filter="[[$:/core]plugintiddlers[]]">
 		<$node/>
 		<$list variable=toTiddler filter="[all[current]links[]is[shadow]]">
-			<$edge to=<<toTiddler>> />
+			<$edge $to=<<toTiddler>> />
 		</$list>
 	</$list>
 </$graph>
