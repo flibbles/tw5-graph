@@ -17,7 +17,10 @@ var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 var graphColors = {
 	nodeColor: "graph-node-color",
-	fontColor: "graph-font-color"
+	fontColor: "graph-font-color",
+	// We pass along the background too, even though it's probably covered
+	// by CSS. Some engines might need this for other coloring effects.
+	graphColor: "graph-background"
 };
 
 var GraphWidget = function(parseTreeNode, options) {

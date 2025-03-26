@@ -300,6 +300,17 @@ it('can update colors and other graph settings together', async function() {
 	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff", value: "#0000ff"}});
 });
 
+it("conveys graph, node, and font colors to the engines", async function() {
+	// All three of these are used, at least by vis-network
+	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
+	wiki.addTiddler({title: "graph-font-color", text: "#00ff00"});
+	wiki.addTiddler({title: "graph-background", text: "#0000ff"});
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph />')
+	await $tw.test.flushChanges();
+	var objects = onlyCallOf(init)[1];
+	expect(objects).toEqual({graph: {nodeColor: "#ff0000", fontColor: "#00ff00", graphColor: "#0000ff"}});
+});
+
 /*** $engine attribute ***/
 
 // TODO: Also make it not refresh if global setting gets set, but doesn't change outcome? Maybe too much?
