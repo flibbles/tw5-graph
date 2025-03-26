@@ -34,7 +34,7 @@ function nodesFor() {
 	return Array.prototype.map.call(arguments, x => `<$node $tiddler="${x}"/>`).join("");
 };
 
-it("handles edges with different fieldTypes", function() {
+it("uses all fieldTyped edges when no fields specified", function() {
 	wiki.addTiddlers([
 		edgeConfig("fieldA", {value: "A"}),
 		edgeConfig("fieldB", {value: "B"}),
@@ -48,6 +48,44 @@ it("handles edges with different fieldTypes", function() {
 		{from: "from", to: "to this", value: "A"},
 		{from: "from", to: "to", value: "B"},
 		{from: "from", to: "this", value: "B"}]);
+});
+
+it("handles non-fieldTyped edges when specified", function() {
+	wiki.addTiddlers([
+		edgeConfig("fieldA", {value: "A"}),
+		edgeConfig("fieldB", {value: "B"}),
+		relinkConfig("fieldA", "title"),
+		{title: "from", fieldA: "to this", fieldB: "to this", fieldC: "C D"}]);
+	var text = "<$graph><$edges.typed $fields='fieldB fieldC' $tiddler=from/>" + nodesFor("from", "to", "this", "to this", "C", "D");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "from", to: "to", value: "B"},
+		{from: "from", to: "this", value: "B"},
+		{from: "from", to: "C"},
+		{from: "from", to: "D"}]);
+});
+
+it("can have custom edge fill", function() {
+	wiki.addTiddlers([
+		edgeConfig("fieldA", {value: "A", other: "val"}),
+		{title: "from", fieldA: "to"}]);
+	var text = "<$graph><$edges.typed $tiddler=from><$edge value=custom/></$edges.typed>" + nodesFor("from", "to");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "from", to: "to", value: "custom", other: "val"}]);
+});
+
+it("currentTiddler remains unchanged for $fields filter", function() {
+	wiki.addTiddlers([
+		{title: "Info", choice: "fieldB"},
+		{title: "from", fieldA: "bad", fieldB: "good"}]);
+	var text = "\\define currentTiddler() Info\n<$graph><$edges.typed $fields='[<currentTiddler>get[choice]]' $tiddler=from/>" + nodesFor("from", "bad", "good");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "from", to: "good"}]);
 });
 
 });
