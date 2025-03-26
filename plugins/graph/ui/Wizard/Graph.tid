@@ -24,13 +24,13 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	<$node $tiddler=Leaf4 />
 </$properties>
 <$properties $for=edges $(edgesAttributes)$>
-	<$edge from=Root to=Branch />
-	<$edge from=Root to=Leaf1 />
-	<$edge from=Root to=Leaf2 />
-	<$edge from=Branch to=Leaf3 />
-	<$edge from=Leaf3 to=Branch />
-	<$edge from=Branch to=Leaf4 />
-	<$edge from=Leaf4 to=Leaf4 />
+	<$edge $from=Root $to=Branch />
+	<$edge $from=Root $to=Leaf1 />
+	<$edge $from=Root $to=Leaf2 />
+	<$edge $from=Branch $to=Leaf3 />
+	<$edge $from=Leaf3 $to=Branch />
+	<$edge $from=Branch $to=Leaf4 />
+	<$edge $from=Leaf4 $to=Leaf4 />
 </$properties>
 </$graph>
 \end
