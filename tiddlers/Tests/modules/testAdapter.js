@@ -25,7 +25,8 @@ exports.properties = {
 		delete: {type: "actions"}
 	},
 	edges: {
-		width: {type: "number"}
+		width: {type: "number"},
+		delete: {type: "actions"}
 	}
 };
 

@@ -1,16 +1,20 @@
 title: $:/plugins/flibbles/graph/globals/edges.type
 tags: $:/tags/Global
 
-\widget $edges.typed($filter, $fields:'[all[]]')
+\widget $edges.typed($filter, $fields:'[all[]]': $editable)
 <$parameters $$tiddler=<<currentTiddler>> >
 
 <$list variable=fieldName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]subfilter<$fields>]">
 
-<$vars currentTiddler=<<$tiddler>> configTiddler=`$:/config/flibbles/graph/edges/$(fieldName)$`>
+<$let
+	currentTiddler=<<$tiddler>>
+	configTiddler=`$:/config/flibbles/graph/edges/$(fieldName)$`
+	deleteAction="<$action.removeedge $field=<<fieldName>> $value=<<toTiddler>> />" >
 
 <$genesis $type="$properties"
 	$names="[<configTiddler>indexes[]]"
 	$values="[<configTiddler>indexes[]] :map[<configTiddler>getindex<currentTiddler>]"
+	delete={{{ [<$editable>match[]else<deleteAction>] }}}
 	$$for=edges>
 
 <$edges.field $tiddler=<<$tiddler>> $field=<<fieldName>> >

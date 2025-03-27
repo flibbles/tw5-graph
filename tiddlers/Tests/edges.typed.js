@@ -88,4 +88,20 @@ it("currentTiddler remains unchanged for $fields filter", function() {
 		{from: "from", to: "good"}]);
 });
 
+it("can delete edges", function() {
+	wiki.addTiddlers([
+		edgeConfig("fieldA", {value: "A"}),
+		relinkConfig("fieldA", "title"),
+		{title: "$:/config/TimestampDisable", text: "yes"},
+		{title: "from", fieldA: "to there"}]);
+	var text = "<$graph><$edges.typed $editable=yes $tiddler=from/>" + nodesFor("from", "to there");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var edges = $tw.test.latestEngine.objects.edges;
+	var id = Object.keys(edges)[0];
+	expect(edges[id]).toEqual({from: "from", to: "to there", value: "A", delete: true});
+	$tw.test.dispatchEvent(wiki, {objectType: "edges", id: id, type: "delete"}, {});
+	expect(wiki.getTiddler("from").fields).toEqual({title: "from"});
+	
+});
+
 });

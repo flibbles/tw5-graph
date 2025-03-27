@@ -83,11 +83,11 @@ NodeWidget.prototype.setStyle = function(data, convert) {
 	this.object = data;
 };
 
-NodeWidget.prototype.catchGraphEvent = function(graphEvent, variables) {
+NodeWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
-		this.invokeActionString(actions, this, graphEvent.event, variables);
+		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
 		return true;
 	}
 	return false;

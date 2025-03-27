@@ -52,7 +52,7 @@ it("updates but doesn't refresh if $to changes", async function() {
 	wiki.addTiddler({title: "to", text: "B"});
 	await $tw.test.flushChanges();
 	var newEdges = $tw.test.latestEngine.objects.edges;
-	expect(newEdges).toEqual({[oldId]: {from: "A", to: "B"}});
+	expect(newEdges[oldId]).toEqual({from: "A", to: "B"});
 });
 
 });

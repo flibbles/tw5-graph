@@ -87,4 +87,14 @@ EdgeWidget.prototype.setStyle = function(data, convert) {
 	this.object = data;
 };
 
+EdgeWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
+	var actions = this.attributes[graphEvent.type];
+	if (actions) {
+		variables.targetTiddler = graphEvent.id;
+		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
+		return true;
+	}
+	return false;
+};
+
 exports.edge = EdgeWidget;

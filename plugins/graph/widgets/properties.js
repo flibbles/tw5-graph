@@ -150,22 +150,22 @@ Properties.prototype.collectGraphProperties = function(properties, convert) {
 	}
 };
 
-Properties.prototype.catchGraphEvent = function(graphEvent, variables) {
+Properties.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
-		this.invokeActionString(actions, this, graphEvent.event, variables);
+		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
 		return true;
 	}
 	return false;
 };
 
-Properties.prototype.trickleGraphEvent = function(graphEvent, variables) {
+Properties.prototype.trickleGraphEvent = function(triggeringWidget, graphEvent, variables) {
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.trickleGraphEvent) {
-				widget.trickleGraphEvent(graphEvent, variables);
+				widget.trickleGraphEvent(triggeringWidget, graphEvent, variables);
 			} else if (widget.children) {
 				searchChildren(widget.children);
 			}
@@ -173,7 +173,7 @@ Properties.prototype.trickleGraphEvent = function(graphEvent, variables) {
 	};
 	searchChildren(this.children, null);
 	if (this.type === "graph") {
-		this.catchGraphEvent(graphEvent, variables);
+		this.catchGraphEvent(triggeringWidget, graphEvent, variables);
 	}
 };
 

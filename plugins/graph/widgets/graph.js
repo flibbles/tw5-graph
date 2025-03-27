@@ -366,6 +366,7 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		// The engine somehow has objects we don't know about.
 		return;
 	}
+	var triggeringWidget = object;
 	if (graphEvent.id) {
 		variables.id = graphEvent.id;
 	}
@@ -376,17 +377,19 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		object.invokeActions(this, graphEvent);
 	} else {
 		// Start at the object. Go up, finding any $style to handle this
-		while (!object.catchGraphEvent || !object.catchGraphEvent(graphEvent, variables)) {
+		while (!object.catchGraphEvent || !object.catchGraphEvent(triggeringWidget, graphEvent, variables)) {
 			object = object.parentWidget;
 		}
 	}
 };
 
-GraphWidget.prototype.catchGraphEvent = function(graphEvent, variables) {
+GraphWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
 	var actions = this.attributes[graphEvent.type];
-	this.children[0].trickleGraphEvent(graphEvent, variables);
-	if (actions && graphEvent.objectType === "graph") {
-		this.invokeActionString(actions, this, graphEvent.event, variables);
+	if (graphEvent.objectType === "graph") {
+		this.children[0].trickleGraphEvent(triggeringWidget, graphEvent, variables);
+		if (actions) {
+			triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
+		}
 	}
 	// Whether we did anything or not, we stop here. Return true.
 	return true;
