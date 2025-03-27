@@ -11,8 +11,7 @@ tags: Demo
     <$node shape={{!!shape}} label={{!!title}} >
      <$action-navigate />
     </$node>
-    <$edge $to={{!!father}} />
-    <$edge $to={{!!mother}} color="#3565AE" label=mother />
+    <$edges.typed />
    </$list>
   </$properties>
   </$properties>
