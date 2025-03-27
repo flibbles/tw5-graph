@@ -1,0 +1,9 @@
+title: PropertiesWidget
+tags: Widgets
+caption: properties
+
+! Introduction
+
+! Action scope
+
+If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object.
