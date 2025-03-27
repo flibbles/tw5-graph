@@ -122,13 +122,15 @@ it("can render list edges", function() {
 
 it("can render filter edges", function() {
 	wiki.addTiddler(relinkConfig("filter"));
-	wiki.addTiddler({title: "Target", field: "A B [[this]addsuffix[ value]]"});
+	// We ensure the filter treats its containing tiddler as the currentTiddler.
+	wiki.addTiddler({title: "Target", store: "other", field: "A B [[this]addsuffix[ value]] [{!!store}]"});
 	var widget = renderAction("\\define currentTiddler() Target\n<$edges.field $field=field />");
 	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
 	expect(Object.values(edgeObjects)).toEqual([
 		{from: "Target", to: "A"},
 		{from: "Target", to: "B"},
-		{from: "Target", to: "this value"}]);
+		{from: "Target", to: "this value"},
+		{from: "Target", to: "other"}]);
 });
 
 /*** Standard behavior between all fieldtypes ***/

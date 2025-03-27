@@ -9,6 +9,8 @@ title: $:/plugins/flibbles/graph/fieldtypes/filter
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
 \end
 
-<$list variable=toTiddler filter="[<$tiddler>get<$field>] :map:flat[subfilter{!!title}]" >
-  <$slot $name=edge />
+<$list variable=_filter filter="[<$tiddler>get<$field>]">
+  <$list variable=toTiddler filter="[subfilter<_filter>]" >
+    <$slot $name=edge />
+  </$list>
 </$list>
