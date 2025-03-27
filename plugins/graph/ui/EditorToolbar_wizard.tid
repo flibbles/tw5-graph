@@ -6,7 +6,7 @@ shortcuts: ((graph))
 tags: $:/tags/EditorToolbar
 title: $:/plugins/flibbles/graph/ui/EditorToolbar/wizard
 
-<$action-modal $tiddler="$:/plugins/flibbles/graph/Modals/BuildAGraph">
+<$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/BuildAGraph">
 
 <$action-sendmessage
 	$message=tm-edit-text-operation

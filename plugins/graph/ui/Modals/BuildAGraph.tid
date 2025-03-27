@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/Modals/BuildAGraph
+title: $:/plugins/flibbles/graph/ui/Modals/BuildAGraph
 subtitle: Build-a-Graph
 footer: <$importvariables filter="[all[current]] $:/plugins/flibbles/graph/ui/Wizard/Output"><$button actions=<<accept-actions>> >Insert</$button> <$button message="tm-close-tiddler">Close</$button>
 

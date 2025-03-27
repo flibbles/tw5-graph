@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/Modals/SelectTiddler
+title: $:/plugins/flibbles/graph/ui/Modals/SelectTiddler
 subtitle: Select tiddler
 first-search-filter: [!is[system]!is[draft]search:title{$:/temp/graph/select}sort[title]limit[10]]
 footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button message="tm-close-tiddler">Close</$button>

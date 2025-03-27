@@ -3,7 +3,7 @@ tags: $:/tags/Global
 
 \widget $action.selecttiddler()
 \whitespace trim
-<$action-modal $tiddler="$:/plugins/flibbles/graph/Modals/SelectTiddler">
+<$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/SelectTiddler">
 
 <$slot $name="ts-raw" />
 
