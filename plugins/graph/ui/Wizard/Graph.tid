@@ -9,13 +9,13 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 ]] }}} />
 \end
 
-\define makeGraph()
-\whitespace trim
-<$graph $engine={{{ [<engineState>get[text]] }}} >
-<pre class=graph-overlay><$text text={{{ [<state>addsuffix[/event]get[text]] }}} /></pre>
-<$properties $for=graph $(graphAttributes)$>
+<$graph $engine={{{ [[$(state)$/engine]substitute[]get[text]] }}} >
+<pre class=graph-overlay>
+<$view tiddler=`$(state)$/event` />
+</pre>
+<$properties $for=graph $tiddler=`$(state)$/type/graph`>
 </$properties>
-<$properties $for=nodes $(nodesAttributes)$>
+<$properties $for=nodes $tiddler=`$(state)$/type/nodes`>
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
 	<$node $tiddler=Leaf1 />
@@ -23,7 +23,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	<$node $tiddler=Leaf3 />
 	<$node $tiddler=Leaf4 />
 </$properties>
-<$properties $for=edges $(edgesAttributes)$>
+<$properties $for=edges $tiddler=`$(state)$/type/edges`>
 	<$edge $from=Root $to=Branch />
 	<$edge $from=Root $to=Leaf1 />
 	<$edge $from=Root $to=Leaf2 />
@@ -33,16 +33,3 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	<$edge $from=Leaf4 $to=Leaf4 />
 </$properties>
 </$graph>
-\end
-
-
-<$let
-	graphState=`$(state)$/type/graph`
-	nodesState=`$(state)$/type/nodes`
-	edgesState=`$(state)$/type/edges`
-	engineState=`$(state)$/engine`
-	graphAttributes={{{ [<json>jsonindexes[graph]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<graphState>] +[join[ ]] }}}
-	nodesAttributes={{{ [<json>jsonindexes[nodes]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<nodesState>] +[join[ ]] }}}
-	edgesAttributes={{{ [<json>jsonindexes[edges]] :map[[$1$={{$2$##$1$}}]substitute<currentTiddler>,<edgesState>] +[join[ ]] }}}>
-
-<$transclude $variable=makeGraph $mode=inline />
