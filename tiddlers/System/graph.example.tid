@@ -1,0 +1,30 @@
+code-body: yes
+title: $:/editions/tw5-graph/graph.example
+tags: $:/tags/Global
+
+\whitespace trim
+
+\procedure .state-prefix() $:/state/editions/tw5-graph/
+
+\widget $graph.example(n, content)
+<div class="doc-example">
+<$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
+<$codeblock code=<<content>> />
+<$vars .state=`$(.state-prefix)$(currentTiddler)$/$(n)$`>
+	<%if [<.state>get[text]match[show]] %>
+		<dl>
+			<dd><$button set=<<.state>> setTo="">Hide</$button></dd>
+		</dl>
+		<$slot $name=header/>
+		<$graph>
+			<$transclude $variable=content />
+		</$graph>
+		<$slot $name=footer/>
+	<%else%>
+		<dl>
+			<dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
+		</dl>
+	<%endif%>
+</$vars>
+</div>
+\end

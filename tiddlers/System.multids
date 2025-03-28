@@ -8,3 +8,4 @@ themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint: 1160px
 # If we have this to true, it causes annoying scrolling when experimentally
 # switching the palette.
 config/Search/AutoFocus: false
+config/flibbles/graph/engine: Vis-Network

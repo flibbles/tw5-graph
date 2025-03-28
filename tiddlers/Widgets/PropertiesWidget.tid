@@ -4,6 +4,55 @@ caption: properties
 
 ! Introduction
 
-! Action scope
+The properties widget provides an alternative means to apply properties to the graph and to graph objects instead of applying the properties as attributes directly to those widgets. This provides several versatile uses:
 
-If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object.
+* Encapsulating features for more modular addition to graphs, such as suites of actions or properties
+* Selectively applying properties to swaths of graph objects fitting certain criteria
+* Importing properties from data tiddlers.
+* Specifying graphs and graph objects dynamically without causing a graph refresh.
+
+! Content and Attributes
+
+The contents of a `<$properties>` widget are rendered as normal, but any contained graph objects will inherit the widgets properties, assuming they fit its criteria.
+
+Alternatively, if the `<$properties>` widget specified properties for the graph using <<.attr $for>>, then its properties apply the the graph widget //containing// the properties widget, rather than any graph widget the properties widget may contain.
+
+|!Attributes |!Description |
+|$for |Specifies the type of graph objects this widget applies to (defaults to "nodes") |
+|$filter |A filter to specify which contained objects this widget's properties should apply to |
+|$dataTiddler |The name of a data tiddler containing properties to import |
+|//{attributes not starting with $}// |Any other attributes specify properties associated with the graph engine |
+
+!! `$for` Attribute
+
+The <<.attr $for>> attribute specifies what kind of graph objects within it should inerit this widget's properties. Common options are <<.value nodes>> and <<.value edges>>, but other kinds of graph objects would be supported if defined.
+
+!! Filtering
+
+When used with node objects, the properties widget can selectively apply itself to those nodes depending on whether they would pass the filter. Each node is inputted into the filter individually. It's considered applicable if that filter then returns anything. Like so:
+
+<$graph.example n=filtering content="""<$properties $filter="[tag[Greek]]" color="navy">
+  <$properties $filter="[tag[Norse]]" color="maroon">
+    <$properties $filter="[tag[Ruler]]" shape="star">
+      <$nodes.for $filter="Odin Thor Zeus Apollo" $labelField=title />
+    </$properties>
+  </$properties>
+</$properties>""" />
+
+!! Action scope
+
+If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object. This means it uses all variables as defined for the object widget.
+
+For instance, here the value of <<.value value>> is different for each <<.wid node>>, even though they'll inherit the same hover action.
+
+<$graph.example n=actions content="""<$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
+  <$list filter="Odin Thor Zeus">
+    <$node label={{!!title}} />
+  </$list>
+</$properties>""">
+<$fill $name=footer>
+Value of $:/state/properties-example: {{$:/state/properties-example}}
+</$fill>
+</$graph.example>
+
+Likewise, when a properties widget specifies properties for its containing graph, it uses the scope of that graph widget, not itself.
