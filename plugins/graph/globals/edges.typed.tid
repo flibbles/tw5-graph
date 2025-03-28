@@ -11,11 +11,10 @@ tags: $:/tags/Global
 	configTiddler=`$:/config/flibbles/graph/edges/$(fieldName)$`
 	deleteAction="<$action.removeedge $field=<<fieldName>> $value=<<toTiddler>> />" >
 
-<$genesis $type="$properties"
-	$names="[<configTiddler>indexes[]]"
-	$values="[<configTiddler>indexes[]] :map[<configTiddler>getindex<currentTiddler>]"
+<$properties
+	$tiddler=<<configTiddler>>
 	delete={{{ [<$editable>match[]else<deleteAction>] }}}
-	$$for=edges>
+	$for=edges>
 
 <$edges.field $tiddler=<<$tiddler>> $field=<<fieldName>> >
 

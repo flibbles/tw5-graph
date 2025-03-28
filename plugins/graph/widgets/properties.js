@@ -27,8 +27,9 @@ Properties.prototype.render = function(parent, nextSibling) {
 Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
 	this.filter = this.getAttribute("$filter");
+	this.dataTiddler = this.getAttribute("$tiddler");
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
-	this.styleObject = this.createStyleFromAttributes(this.attributes);
+	this.styleObject = this.createStyle();
 	if (this.filter) {
 		this.affectedObjects = Object.create(null);
 	}
@@ -39,10 +40,12 @@ Properties.prototype.execute = function() {
 Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
-	if ($tw.utils.count(changedAttributes) > 0) {
+	if ($tw.utils.count(changedAttributes) > 0
+	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
-		this.styleObject = this.createStyleFromAttributes(this.attributes);
+		this.dataTiddler = this.getAttribute("$tiddler");
+		this.styleObject = this.createStyle();
 		for (var id in this.affectedObjects || this.knownObjects[this.type]) {
 			this.knownObjects[this.type][id].changed = true;
 		}
@@ -80,11 +83,15 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers) || changed;
 };
 
-Properties.prototype.createStyleFromAttributes = function(attributes) {
+Properties.prototype.createStyle = function() {
 	var styleObject = Object.create(null);
-	for (var name in attributes) {
-		if (name.charAt(0) !== '$' && attributes[name]) {
-			styleObject[name] = attributes[name];
+	if (this.dataTiddler) {
+		var data = this.wiki.getTiddlerData(this.dataTiddler);
+		$tw.utils.extend(styleObject, data);
+	}
+	for (var name in this.attributes) {
+		if (name.charAt(0) !== '$' && this.attributes[name]) {
+			styleObject[name] = this.attributes[name];
 		}
 	}
 	return styleObject;

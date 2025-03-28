@@ -104,4 +104,22 @@ it("can delete edges", function() {
 	
 });
 
+it("can update edges when type is changed", async function() {
+	wiki.addTiddlers([
+		edgeConfig("fieldA", {value: "A"}),
+		{title: "from", fieldA: "[[to there]]"}]);
+	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "to there");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	await $tw.test.flushChanges();
+	var edges = $tw.test.latestEngine.objects.edges;
+	var id = Object.keys(edges)[0];
+	expect(edges[id]).toEqual({from: "from", to: "to there", value: "A"});
+	// Now changes the type
+	wiki.addTiddler(edgeConfig("fieldA", {value: "B"}));
+	await $tw.test.flushChanges();
+	edges = $tw.test.latestEngine.objects.edges;
+	// The id should remain the same, because we don't do a full refresh
+	expect(edges).toEqual({[id]: {from: "from", to: "to there", value: "B"}});
+});
+
 });
