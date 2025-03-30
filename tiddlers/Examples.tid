@@ -5,7 +5,7 @@ Graph can be used in a variety of different ways! Click through the tabs to see 
 <$transclude $variable=tabs
 	tabsList="[[Examples]tagging[]!is[draft]]"
 	default={{{ [[Examples]tagging[]!is[draft]first[]] }}}
-	template="Templates/example"
+	template="$:/editions/tw5-graph/templates/example"
 	default="Editable Graphs"
 	class=tc-vertical
 />

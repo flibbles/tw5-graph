@@ -1,4 +1,5 @@
-title: Templates/example
+code-body: yes
+title: $:/editions/tw5-graph/templates/example
 
 \import [<currentTab>]
 
