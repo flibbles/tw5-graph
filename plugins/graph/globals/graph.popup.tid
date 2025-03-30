@@ -1,11 +1,11 @@
 title: $:/plugins/flibbles/graph/widgets/graph.popup
 tags: $:/tags/Global
 
-\widget $graph.popup(state)
+\widget $graph.popup(state, $ms:600)
 \whitespace trim
 
 \procedure hover()
-<$action-delay $state=`$(state)$-delay` $ms=600>
+<$action-delay $state=`$(state)$-delay` $ms=<<$ms>> >
 <$action-popup $state=<<state>> $coords=`($(canvasX)$,$(canvasY)$,100,0)` />
 <$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />
 </$action-delay>

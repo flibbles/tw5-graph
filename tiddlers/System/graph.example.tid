@@ -6,20 +6,30 @@ tags: $:/tags/Global
 
 \procedure .state-prefix() $:/state/editions/tw5-graph/
 
-\widget $graph.example(n, content)
+\procedure graph.example(description, narrative, content, footer, header)
+<$testcase>
+	<$data title=Description text=<<description>> />
+	<$data title=Narrative text=<<narrative>> />
+	<$data title=Output text=<<content>> />
+	<$data title="$:/config/flibbles/graph/engine" text={{$:/config/flibbles/graph/endgine}} />
+</$testcase>
+\end
+
+\procedure graph.example(description, narrative, content, footer, header)
+<<narrative>>
 <div class="doc-example">
 <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
 <$codeblock code=<<content>> />
-<$vars .state=`$(.state-prefix)$(currentTiddler)$/$(n)$`>
+<$vars .state=`$(.state-prefix)$(currentTiddler)$/$(description)$`>
 	<%if [<.state>get[text]match[show]] %>
 		<dl>
 			<dd><$button set=<<.state>> setTo="">Hide</$button></dd>
 		</dl>
-		<$slot $name=header/>
+		<<header>>
 		<$graph>
 			<$transclude $variable=content />
 		</$graph>
-		<$slot $name=footer/>
+		<<footer>>
 	<%else%>
 		<dl>
 			<dd><$button set=<<.state>> setTo="show">Try it</$button></dd>

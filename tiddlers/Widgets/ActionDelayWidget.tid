@@ -1,0 +1,32 @@
+title: ActionDelayWidget
+tags: ActionWidgets Widgets
+caption: action-delay
+
+! Introduction
+
+The ''action-delay'' widget introduces a delay before invoking any actions contained within it. [[ActionWidgets]] are used within graph action properties such as when a node is hovered, but they can also be used elsewhere in TiddlyWiki, such as in [[ButtonWidgets]].
+
+This action is a key component of the <<.wlink ActionPopupWidget>>.
+
+! Contents and Attributes
+
+|!Attribute | !Description |
+|$ms |Milliseconds to elapse before executing contained actions (defaults to "0") |
+|$state |Optional tiddler that can be used to interrupt or delay execution |
+
+!! Interrupting action-delay
+
+action-delay works by creating a state tiddler which it monitors. If that state Tiddler is changed, then the queued actions are aborted. This results in a few behaviors:
+
+* If the action-delay is called multiple times, it does not queue multiple performances of the followup actions, but rather "resets the countdown" and performs the actions once.
+* The actions can be aborted if no longer wanted simply by deleting that state tiddler.
+
+! Examples
+
+<<graph.example
+	description:"Delay on node hover"
+	narrative:"This example will create a popup if you hover over the node long enough. If you stop hovering, it will delete the associated state field, which will abort the coming action call."
+	content:"""<$node label="Hover me"
+	hover="<$action-delay $state='$:/state/action-delay' $ms=500><$action-confirm $message='You hovered long enough.'/></$action-delay>"
+	blur="<$action-deletetiddler $tiddler='$:/state/action-delay' />"
+/>""">>

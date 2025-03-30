@@ -1,0 +1,43 @@
+title: Graph.PopupWidget
+tags: Macros Widgets
+caption: graph.popup
+
+! Introduction
+
+The graph.popup widget is a macro-defined widget which introduces a popup feature into a graph, for all nodes that it contains. By default, the popup features the rendered contents of the node's corresponding text.
+
+! Content and Attributes
+
+All <<.wlink NodeWidget>> objects contained within this widget will have actions attached to their "hover" and "blur" action properties that enable a popup that this widget includes.
+
+This widget introduces DOM elements into the graph, and should be used at the top level of the <<.wlink GraphWidget>>'s contents.
+
+|!Attribute |!Description |
+|$ms |Milliseconds before popup appears (defaults to "600") |
+|$state |Optional name of a state tiddler which stores the popup coordinates and target |
+
+!! "tooltip" slot
+
+The graph.popup widget supplies one optional slot, which if filled will be used to render the popup
+
+! Example
+
+<<graph.example
+	description: "Basic popup"
+	narrative: "Here is an example of how the graph.popup applies only to nodes it contains."
+	content:"""<$graph.popup $ms="1000">
+  <$nodes.for $filter="Zeus Odin" $labelField="title" />
+</$graph.popup>
+<$nodes.for $filter="Freya Poseidon"/>""">>
+
+<<graph.example
+	description: "Popup with slot"
+	narrative: "This example "
+	content:"""<$graph.popup>
+  <$nodes.for $filter="Aphrodite Balder" $labelField="title" />
+  <$fill $name="tooltip">
+    Name: {{!!title}}
+    Mother: {{!!mother}}
+    Father: {{!!father}}
+  </$fill>
+</$graph.popup>""">>

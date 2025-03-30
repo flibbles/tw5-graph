@@ -31,28 +31,29 @@ The <<.attr $for>> attribute specifies what kind of graph objects within it shou
 
 When used with node objects, the properties widget can selectively apply itself to those nodes depending on whether they would pass the filter. Each node is inputted into the filter individually. It's considered applicable if that filter then returns anything. Like so:
 
-<$graph.example n=filtering content="""<$properties $filter="[tag[Greek]]" color="navy">
+<<graph.example
+	description: "Selective property filtering"
+	content: """<$properties $filter="[tag[Greek]]" color="navy">
   <$properties $filter="[tag[Norse]]" color="maroon">
     <$properties $filter="[tag[Ruler]]" shape="star">
       <$nodes.for $filter="Odin Thor Zeus Apollo" $labelField=title />
     </$properties>
   </$properties>
-</$properties>""" />
+</$properties>""" >>
 
 !! Action scope
 
 If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object. This means it uses all variables as defined for the object widget.
 
-For instance, here the value of <<.value value>> is different for each <<.wid node>>, even though they'll inherit the same hover action.
 
-<$graph.example n=actions content="""<$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
+<<graph.example
+	description: "Scope of property actions"
+	narrative: "Here the value of <<.value currentTiddler>> is different for each <<.wid node>>, even though they'll inherit the same hover action."
+	footer: "Value of $:/state/properties-example: {{$:/state/properties-example}}"
+	content:"""<$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
   <$list filter="Odin Thor Zeus">
     <$node label={{!!title}} />
   </$list>
-</$properties>""">
-<$fill $name=footer>
-Value of $:/state/properties-example: {{$:/state/properties-example}}
-</$fill>
-</$graph.example>
+</$properties>""">>
 
 Likewise, when a properties widget specifies properties for its containing graph, it uses the scope of that graph widget, not itself.
