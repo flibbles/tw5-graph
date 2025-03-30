@@ -30,7 +30,7 @@ afterAll(function() {
 
 // We limit how many of these tests we have, because it sleeps. It's slow.
 it("works with default popup slot", async function() {
-	var expected = '<div class="tc-drop-down"><p>Text content</p></div>';
+	var expected = '<div class="graph-drop-down"><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", text: "Text content"});
 	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
@@ -50,7 +50,7 @@ it("works with default popup slot", async function() {
 });
 
 it("works with custom popup slot", async function() {
-	var expected = '<div class="tc-drop-down"><p>Text content</p></div>';
+	var expected = '<div class="graph-drop-down"><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", caption: "Text content"});
 	var text =  "<$graph><$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<currentTooltip>> >\n\n{{!!caption}}";
 	var widget = $tw.test.renderGlobal(wiki, text);

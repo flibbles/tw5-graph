@@ -29,7 +29,7 @@ tags: $:/tags/Global
 
 <$vars currentTooltip={{{ [<$state>get[target]] }}}>
 
-<div class="tc-drop-down">
+<div class="graph-drop-down">
 
 <$slot $name=tooltip>
 
