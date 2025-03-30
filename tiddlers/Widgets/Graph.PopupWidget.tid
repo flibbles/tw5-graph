@@ -18,7 +18,9 @@ This widget introduces DOM elements into the graph, and should be used at the to
 
 !! "tooltip" slot
 
-The graph.popup widget supplies one optional slot, which if filled will be used to render the popup
+The graph.popup widget supplies one optional slot, which if filled will be used to render the popup tooltip. Without this slot, the popup renders the hovered tiddler's rendered text content.
+
+This slot has the variable <<.value currentTooltip>> available to it.
 
 ! Example
 
@@ -32,7 +34,7 @@ The graph.popup widget supplies one optional slot, which if filled will be used 
 
 <<graph.example
 	description: "Popup with slot"
-	narrative: "This example "
+	narrative: "This example shows how to use custom template slot for the tooltip."
 	content:[[<$graph.popup>
   <$nodes.for $filter="Aphrodite Balder" $labelField="title" />
   <$fill $name="tooltip">
