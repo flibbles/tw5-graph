@@ -31,15 +31,6 @@ NodeWidget.prototype.render = function(parent, nextSibling) {
 NodeWidget.prototype.execute = function() {
 	this.id = this.getAttribute("$tiddler", this.getVariable("currentTiddler"));
 	this.pos = this.getAttribute("$pos");
-	this.settings = Object.create(null);
-	for (var key in this.attributes) {
-		if (key.charAt(0) !== "$") {
-			var value = this.attributes[key];
-			if (value) {
-				this.settings[key] = this.attributes[key];
-			}
-		}
-	}
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 	this.makeChildWidgets();
@@ -60,31 +51,32 @@ NodeWidget.prototype.allowActionPropagation = function() {
 };
 
 NodeWidget.prototype.getGraphObject = function(style) {
-	return this.object;
+	return this.properties;
 };
 
-NodeWidget.prototype.setStyle = function(data, convert) {
+NodeWidget.prototype.setProperties = function(parentProperties) {
+	this.properties = $tw.utils.extend(Object.create(null), parentProperties);
 	if (this.pos) {
 		var points = this.pos.split(",");
 		var count = Math.min(points.length, axes.length);
 		for (var i = 0; i < count; i++) {
-			var value = convert("nodes", axes[i], points[i]);
-			if (value !== null) {
-				data[axes[i]] = value;
+			if (points[i]) {
+				this.properties[axes[i]] = points[i];
 			}
 		}
 	}
-	for (var property in this.settings) {
-		var value = convert("nodes", property, this.settings[property]);
-		if (value !== null) {
-			data[property] = value;
+	for (var key in this.attributes) {
+		if (key.charAt(0) !== "$") {
+			var value = this.attributes[key];
+			if (value) {
+				this.properties[key] = this.attributes[key];
+			}
 		}
 	}
-	this.object = data;
 };
 
 NodeWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
-	var actions = this.attributes[graphEvent.type];
+	var actions = this.properties[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
 		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);

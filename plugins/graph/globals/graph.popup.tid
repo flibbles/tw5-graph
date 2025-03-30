@@ -1,35 +1,39 @@
 title: $:/plugins/flibbles/graph/widgets/graph.popup
 tags: $:/tags/Global
 
-\widget $graph.popup(state, $ms:600)
+\widget $graph.popup($ms:600)
 \whitespace trim
 
-\procedure hover()
-<$action-delay $state=`$(state)$-delay` $ms=<<$ms>> >
-<$action-popup $state=<<state>> $coords=`($(canvasX)$,$(canvasY)$,100,0)` />
-<$action-setfield $tiddler=<<state>> target=<<targetTiddler>> />
+\procedure hoverAction()
+<$action-delay $state=<<delayState>> $ms=<<$ms>> >
+<$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)` />
+<$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
 </$action-delay>
-\end hover
+\end hoverAction
 
-\procedure blur()
-<$action-deletetiddler $tiddler=`$(state)$-delay` />
+\procedure blurAction()
+<$action-deletetiddler $tiddler=<<delayState>> />
 <$action-popup $state=<<state>> />
-\end blur
+\end blurAction
 
-<$parameters state=<<qualify "$:/state/graph/tooltip">> >
+<$parameters $state=<<qualify "$:/state/graph/tooltip">> >
 
-<$properties hover=<<hover>> blur=<<blur>> >
+<$vars delayState={{{ [<$state>addsuffix[-delay]] }}} >
+
+<$properties hover=<<hoverAction>> blur=<<blurAction>> >
 
 <$slot $name="ts-raw" />
 
 </$properties>
-<$reveal type=popup state=<<state>> >
+<$reveal type=popup state=<<$state>> >
 
-<$slot $name=tooltip>
+<$vars currentTooltip={{{ [<$state>get[target]] }}}>
 
 <div class="tc-drop-down">
 
-<$transclude $tiddler={{{ [<state>get[target]] }}} />
+<$slot $name=tooltip>
 
-</div></$slot></$reveal></$parameters>
+<$transclude $tiddler=<<currentTooltip>> />
+
+</$slot></div></$vars></$reveal></$vars></$parameters>
 \end

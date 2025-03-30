@@ -97,7 +97,7 @@ Properties.prototype.createStyle = function() {
 	return styleObject;
 };
 
-Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
+Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	var self = this;
 	var newObjects = {};
 	var callback = function(widget) {
@@ -115,7 +115,7 @@ Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 				}
 			}
 			for (var style in self.styleObject) {
-				object[style] = convert(self.type, style, self.styleObject[style]);
+				object[style] = self.styleObject[style];
 			}
 		}
 		return object;
@@ -124,10 +124,10 @@ Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.graphObjectType) {
-				widget.setStyle(callback(widget), convert);
+				widget.setProperties(callback(widget));
 			}
 			if (widget.updateGraphWidgets) {
-				widget.updateGraphWidgets(callback, convert);
+				widget.updateGraphWidgets(callback);
 			} else if (widget.children) {
 				searchChildren(widget.children);
 			}
@@ -138,12 +138,12 @@ Properties.prototype.updateGraphWidgets = function(parentCallback, convert) {
 	return newObjects;
 };
 
-Properties.prototype.collectGraphProperties = function(properties, convert) {
+Properties.prototype.collectGraphProperties = function(properties) {
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
 			var widget = children[i];
 			if (widget.collectGraphProperties) {
-				widget.collectGraphProperties(properties, convert);
+				widget.collectGraphProperties(properties);
 			} else if (widget.children) {
 				searchChildren(widget.children);
 			}
@@ -152,7 +152,7 @@ Properties.prototype.collectGraphProperties = function(properties, convert) {
 	searchChildren(this.children, null);
 	if (this.type === "graph") {
 		for (var style in this.styleObject) {
-			properties[style] = convert("graph", style, this.styleObject[style]);
+			properties[style] = this.styleObject[style];
 		}
 	}
 };

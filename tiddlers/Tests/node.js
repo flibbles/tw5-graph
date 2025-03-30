@@ -40,11 +40,22 @@ it("get handle partial coordinates from $pos attribute", function() {
 	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {y: 17}});
 });
 
-it("ignores non-number coordinates", function() {
+it("ignores non-number coordinates in $pos", function() {
+	// This isn't really ideal, but I figure if they're giving bad numbers
+	// overriding good, the problem is really in their court anyway.
 	var wiki = new $tw.Wiki();
-	wiki.addTiddler({title: "Store", pos: "string,11", y: "nan"});
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store!!pos}} x={{Store!!x}} y={{Store!!y}} />\n");
+	wiki.addTiddler({title: "Store", pos: "string,11"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store!!pos}} />\n");
 	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {y: 11}});
+});
+
+it("non-number coordinates override good numbers", function() {
+	// This isn't really ideal, but I figure if they're giving bad numbers
+	// overriding good, the problem is really in their court anyway.
+	var wiki = new $tw.Wiki();
+	wiki.addTiddler({title: "Store", pos: "7,11", y: "nan"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store!!pos}} x={{Store!!x}} y={{Store!!y}} />\n");
+	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {x: 7}});
 });
 
 it("prefers explicit axis values over $pos", function() {

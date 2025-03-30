@@ -4,10 +4,10 @@ Sets up some utilities for testing.
 
 \*/
 
-var mock = $tw.modules.applyMethods("mocklibrary");
 var test = $tw.test = {};
 var engineConfig = "$:/config/flibbles/graph/engine";
 test.utils = require("$:/plugins/flibbles/graph/utils.js");
+test.mock = $tw.modules.applyMethods("mocklibrary");
 
 test.setSpies = function() {
 	var TestAdapter = test.utils.getEngineMap().Test.prototype;
@@ -16,7 +16,7 @@ test.setSpies = function() {
 		init: spyOn(TestAdapter, "init").and.callThrough(),
 		destroy: spyOn(TestAdapter, "destroy").and.callThrough(),
 		register: spyOn($tw.test.utils, "registerForDestruction"),
-		window: spyOn($tw.test.utils, "window").and.returnValue(new mock.window(expect))
+		window: spyOn($tw.test.utils, "window").and.returnValue(new test.mock.Window(expect))
 	};
 };
 
@@ -110,7 +110,7 @@ test.fetchGraphObjects = function(widget) {
 			var type = widget.graphObjectType;
 			if (type && widget.changed) {
 				objects[type] = objects[type] || Object.create(null);
-				widget.setStyle({}, (type, key, x) => x);
+				widget.setProperties({});
 				objects[type][widget.id] = widget.getGraphObject();
 			}
 			if (widget.children) {

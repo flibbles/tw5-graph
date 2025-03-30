@@ -36,8 +36,10 @@ The graph.popup widget supplies one optional slot, which if filled will be used 
 	content:"""<$graph.popup>
   <$nodes.for $filter="Aphrodite Balder" $labelField="title" />
   <$fill $name="tooltip">
-    Name: {{!!title}}
-    Mother: {{!!mother}}
-    Father: {{!!father}}
+    <$tiddler tiddler=<<currentTooltip>> >
+      Name: {{!!title}}
+      Mother: {{!!mother}}
+      Father: {{!!father}}
+    </$tiddler>
   </$fill>
 </$graph.popup>""">>

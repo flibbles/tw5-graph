@@ -38,15 +38,6 @@ EdgeWidget.prototype.execute = function() {
 	}
 	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));
-	this.settings = Object.create(null);
-	for (var key in this.attributes) {
-		if (key.charAt(0) !== "$") {
-			var value = this.attributes[key];
-			if (value) {
-				this.settings[key] = this.attributes[key];
-			}
-		}
-	}
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 	this.makeChildWidgets();
@@ -68,27 +59,29 @@ EdgeWidget.prototype.allowActionPropagation = function() {
 
 EdgeWidget.prototype.getGraphObject = function() {
 	this.changed = false;
-	return this.object;
+	return this.properties;
 };
 
-EdgeWidget.prototype.setStyle = function(data, convert) {
-	if (this.fromTiddler) {
-		data.from = this.fromTiddler;
-	}
-	if (this.toTiddler) {
-		data.to = this.toTiddler;
-	}
-	for (var property in this.settings) {
-		var value = convert("edges", property, this.settings[property]);
-		if (value !== null) {
-			data[property] = value;
+EdgeWidget.prototype.setProperties = function(parentProperties) {
+	this.properties = $tw.utils.extend(Object.create(null), parentProperties);
+	for (var key in this.attributes) {
+		if (key.charAt(0) !== "$") {
+			var value = this.attributes[key];
+			if (value) {
+				this.properties[key] = value;
+			}
 		}
 	}
-	this.object = data;
+	if (this.fromTiddler) {
+		this.properties.from = this.fromTiddler;
+	}
+	if (this.toTiddler) {
+		this.properties.to = this.toTiddler;
+	}
 };
 
 EdgeWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
-	var actions = this.attributes[graphEvent.type];
+	var actions = this.properties[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
 		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);

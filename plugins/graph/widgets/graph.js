@@ -264,46 +264,50 @@ GraphWidget.prototype.getViewSettings = function() {
 				newProperties[color] = content;
 			}
 		}
-		this.children[0].collectGraphProperties(newProperties, function(type, key, value) {
-			return self.transformProperty(type, key, value);
-		});
+		this.children[0].collectGraphProperties(newProperties);
 		for (var name in this.attributes) {
-			if (name.charAt(0) !== '$' && this.attributes[name]) {
-				newProperties[name] = this.transformProperty("graph", name, this.attributes[name]);
+			var value = this.attributes[name];
+			if (name.charAt(0) !== '$' && value) {
+				newProperties[name] = value;
 			}
 		}
 	}
 	if (!this.knownProperties
 	|| JSON.stringify(newProperties) !== JSON.stringify(this.knownProperties)) {
 		this.knownProperties = newProperties;
-		return newProperties;
+		return this.typecastProperties(newProperties, "graph");;
 	}
 	// Return null if nothing changed
 	return null;
 };
 
-GraphWidget.prototype.transformProperty = function(type, key, value) {
-	var category = this.engine.properties[type];
-	var info = category && category[key];
-	if (info && PropertyTypes[info.type]) {
-		return PropertyTypes[info.type].toProperty(info, value);
+GraphWidget.prototype.typecastProperties = function(properties, type) {//type, key, value) {
+	var output = Object.create(null);
+	var category = this.engine.properties[type] || {};
+	for (var key in properties) {
+		var info = category[key];
+		if (info && PropertyTypes[info.type]) {
+			var value = PropertyTypes[info.type].toProperty(info, properties[key]);
+			if (value !== null) {
+				output[key] = value;
+			}
+		} else {
+			output[key] = properties[key];
+		}
 	}
-	return value;
+	return output;
 };
 
 GraphWidget.prototype.findGraphObjects = function() {
 	var self = this;
 	var newObjects = this.children[0].updateGraphWidgets(
-		function() {return {};},
-		function(type, key, value) {
-			return self.transformProperty(type, key, value);
-		}
+		function() {return Object.create(null);}
 	);
 	// Special handling for edge trimming
 	withholdObjects(newObjects);
 	var prevObjects = this.knownObjects;
 	this.knownObjects = newObjects;
-	return getDifferences(prevObjects, newObjects);
+	return this.getDifferences(prevObjects, newObjects);
 };
 
 function withholdObjects(objects) {
@@ -322,7 +326,7 @@ function withholdObjects(objects) {
 	}
 };
 
-function getDifferences(prevObjects, newObjects) {
+GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
 	var objects = null
 	for (var type in prevObjects) {
 		var was = prevObjects[type];
@@ -338,7 +342,7 @@ function getDifferences(prevObjects, newObjects) {
 					// It changed. updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = is[id].getGraphObject();
+					objects[type][id] = this.typecastProperties(is[id].getGraphObject(), type);
 					is[id].changed = false;
 				}
 			}
@@ -352,7 +356,7 @@ function getDifferences(prevObjects, newObjects) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = is[id].getGraphObject();
+				objects[type][id] = this.typecastProperties(is[id].getGraphObject(), type);
 				is[id].changed = false;
 			}
 		}

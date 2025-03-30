@@ -6,7 +6,7 @@ Tests the action-delay widget.
 
 describe('ActionDelayWidget', function() {
 
-// We won' have more than one test that actually sets ms to something
+// We won't have more than one test that actually sets ms to something
 // positive, because it's time expensive.
 it('works with positive ms and clears state', async function() {
 	var wiki = new $tw.Wiki();

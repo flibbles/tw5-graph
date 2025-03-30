@@ -5,27 +5,10 @@ Mock window for testing on Node.JS and the sort
 
 \*/
 
-var Window = function(expect) {
-	this.eventListeners = new Set();
-	this.expect = expect;
-};
+var EventHandler = require("./eventHandler.js").EventHandler;
 
-exports.window = Window;
+var Window = function() { };
 
-Window.prototype.addEventListener = function(type, method) {
-	method.type = type;
-	this.eventListeners.add(method);
-};
+$tw.utils.extend(Window.prototype, EventHandler.prototype);
 
-Window.prototype.removeEventListener = function(type, method) {
-	this.expect(method.type).toBe(type);
-	this.eventListeners.delete(method);
-};
-
-Window.prototype.dispatchEvent = function(event) {
-	for (var listener of this.eventListeners) {
-		if (listener.type === event.type) {
-			listener(event);
-		}
-	}
-};
+exports.Window = Window;
