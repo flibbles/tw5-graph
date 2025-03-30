@@ -157,31 +157,4 @@ Properties.prototype.collectGraphProperties = function(properties) {
 	}
 };
 
-Properties.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
-	var actions = this.attributes[graphEvent.type];
-	if (actions) {
-		variables.targetTiddler = graphEvent.id;
-		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
-		return true;
-	}
-	return false;
-};
-
-Properties.prototype.trickleGraphEvent = function(triggeringWidget, graphEvent, variables) {
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.trickleGraphEvent) {
-				widget.trickleGraphEvent(triggeringWidget, graphEvent, variables);
-			} else if (widget.children) {
-				searchChildren(widget.children);
-			}
-		}
-	};
-	searchChildren(this.children, null);
-	if (this.type === "graph") {
-		this.catchGraphEvent(triggeringWidget, graphEvent, variables);
-	}
-};
-
 exports.properties = Properties;

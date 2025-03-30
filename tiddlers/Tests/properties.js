@@ -248,10 +248,10 @@ it("can send graph events to $for=graph", function() {
 		type: "addNode",
 		objectType: "graph"
 	});
-	expect($tw.test.actionMethod).toHaveBeenCalledTimes(3);
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
-		[{call: "this"}],
-		[{call: "that"}],
+		//[{call: "this"}],
+		//[{call: "that"}],
 		[{call: "other"}]]);
 });
 

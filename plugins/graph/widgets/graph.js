@@ -61,10 +61,8 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if(this.engine) {
 		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		var graphProperties = this.getViewSettings();
-		if (graphProperties) {
-			objects.graph = graphProperties;
-		}
+		this.properties = this.getViewSettings() || {};
+		objects.graph = this.typecastProperties(this.properties, "graph");
 		try {
 			this.engine.init(this.graphElement, objects);
 		} catch(e) {
@@ -179,7 +177,8 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		var newGraphProperties = this.getViewSettings();
 		if (newGraphProperties) {
 			objects = objects || {};
-			objects.graph = newGraphProperties;
+			this.properties = newGraphProperties;
+			objects.graph = this.typecastProperties(this.properties, "graph");
 			changed = true;
 		}
 	}
@@ -275,7 +274,7 @@ GraphWidget.prototype.getViewSettings = function() {
 	if (!this.knownProperties
 	|| JSON.stringify(newProperties) !== JSON.stringify(this.knownProperties)) {
 		this.knownProperties = newProperties;
-		return this.typecastProperties(newProperties, "graph");;
+		return newProperties;
 	}
 	// Return null if nothing changed
 	return null;
@@ -283,7 +282,8 @@ GraphWidget.prototype.getViewSettings = function() {
 
 GraphWidget.prototype.typecastProperties = function(properties, type) {//type, key, value) {
 	var output = Object.create(null);
-	var category = this.engine.properties[type] || {};
+	var catalog = this.engine.properties;
+	var category = (catalog && catalog[type]) || {};
 	for (var key in properties) {
 		var info = category[key];
 		if (info && PropertyTypes[info.type]) {
@@ -365,38 +365,28 @@ GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
 };
 
 GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
-	var object = graphEvent.id? this.knownObjects[graphEvent.objectType][graphEvent.id]: this;
-	if (!object) {
-		// The engine somehow has objects we don't know about.
-		return;
-	}
-	var triggeringWidget = object;
-	if (graphEvent.id) {
-		variables.id = graphEvent.id;
-	}
-	if (graphEvent.type === "doubleclick") {
-		for (var name in variables) {
-			this.setVariable(name, variables[name].toString());
-		}
-		object.invokeActions(this, graphEvent);
-	} else {
-		// Start at the object. Go up, finding any $style to handle this
-		while (!object.catchGraphEvent || !object.catchGraphEvent(triggeringWidget, graphEvent, variables)) {
-			object = object.parentWidget;
-		}
-	}
-};
-
-GraphWidget.prototype.catchGraphEvent = function(triggeringWidget, graphEvent, variables) {
-	var actions = this.attributes[graphEvent.type];
 	if (graphEvent.objectType === "graph") {
-		this.children[0].trickleGraphEvent(triggeringWidget, graphEvent, variables);
+		var actions = this.properties[graphEvent.type];
 		if (actions) {
-			triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
+			this.invokeActionString(actions, this, graphEvent.event, variables);
+		}
+	} else {
+		var object = this.knownObjects[graphEvent.objectType][graphEvent.id];
+		if (!object) {
+			// The engine somehow has objects we don't know about.
+			return;
+		}
+		variables.id = graphEvent.id;
+		if (graphEvent.type === "doubleclick") {
+			for (var name in variables) {
+				this.setVariable(name, variables[name].toString());
+			}
+			object.invokeActions(this, graphEvent);
+		} else {
+			// Start at the object. Go up, finding any $style to handle this
+			object.catchGraphEvent(graphEvent, variables);
 		}
 	}
-	// Whether we did anything or not, we stop here. Return true.
-	return true;
 };
 
 exports.graph = GraphWidget;
