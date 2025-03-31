@@ -1,0 +1,29 @@
+code-body: yes
+title: $:/editions/tw5-graph/implementation
+tags: $:/tags/Global
+
+\whitespace trim
+
+\widget $implementation.block(code)
+
+\function .caption() [all[current]get[caption]addprefix[<$]]
+\procedure .linkTemplate() <[[$$2$|$1$]]
+\function .link() [<.linkTemplate>substitute<currentTiddler>,{!!caption}]
+
+\procedure addLink() [<accumulator>search-replace<.caption>,<.link>]
+
+<pre>
+
+<code>
+
+<$vars input={{{ [<code>addprefix[\rules only prettylink
+]] }}}>
+
+<$list filter="[all[tiddlers]tag[Widgets]reduce<addLink>,<input>]">
+
+<$transclude $variable=currentTiddler $mode=inline/>
+
+</$list></$vars></code></pre>
+\end
+
+This acts like a $codeblock widget, except that it makes links out of all document widgets that occur in the code.
