@@ -1,6 +1,3 @@
-title: $:/plugins/flibbles/graph/widgets/graph.popup
-tags: $:/tags/Global
-
 \widget $graph.popup($ms:600)
 \whitespace trim
 

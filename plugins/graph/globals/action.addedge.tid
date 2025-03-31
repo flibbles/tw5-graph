@@ -1,6 +1,3 @@
-title: $:/plugins/flibbles/graph/globals/action.addedge
-tags: $:/tags/Global
-
 \whitespace trim
 \widget $action.addedge($field, $value)
 <$parameters $$tiddler=<<currentTiddler>> >

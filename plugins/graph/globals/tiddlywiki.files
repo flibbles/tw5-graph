@@ -1,0 +1,17 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph/globals/"
+				},
+				"tags": "$:/tags/Global",
+				"code-body": "yes"
+			}
+		}
+	]
+}

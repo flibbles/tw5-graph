@@ -1,6 +1,3 @@
-title: $:/plugins/flibbles/graph/globals/nodes.for
-tags: $:/tags/Global
-
 \whitespace trim
 \widget $nodes.for($filter, $labelField)
 
