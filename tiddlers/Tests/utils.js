@@ -91,7 +91,7 @@ test.dispatchEvent = function(wiki, params, variables, callback) {
 		spy.and.callFake(callback);
 	}
 	params.event = event;
-	test.latestEngine.onevent(params, variables);
+	test.latestEngine.dispatchEvent(params, variables, expect);
 };
 
 function createEvent(type) {
