@@ -247,7 +247,7 @@ it("can send graph events to $for=graph", function() {
 	$tw.test.dispatchEvent(wiki, {
 		type: "addNode",
 		objectType: "graph"
-	}, {x: 3, y: 5, xView: 7, yView: 11});
+	}, {x: 3, y: 5});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
 		//[{call: "this"}],

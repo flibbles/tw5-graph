@@ -62,12 +62,11 @@ it('can send custom graph events to the graph', function() {
 		type: "addNode",
 		objectType: "graph"};
 	var variables = {
-		x: 23, y: 27,
-		xView: 67, yView: 71};
-	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test x y xView yView />'>");
+		x: 23, y: 27};
+	var widget = $tw.test.renderText(wiki, "<$graph addNode='<$action-test x y />'>");
 	$tw.test.dispatchEvent(wiki, event, variables);
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "23",y: "27", xView: "67", yView: "71"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "23",y: "27"});
 });
 
 });

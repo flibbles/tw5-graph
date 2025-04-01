@@ -13,7 +13,7 @@ exports.properties = {
 	graph: {
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
-		addNode: {type: "actions", variables: ['x', 'y', 'xView', 'yView']},
+		addNode: {type: "actions", variables: ['x', 'y']},
 		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
 	},
 	nodes: {
