@@ -14,6 +14,7 @@ exports.properties = {
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
 		addNode: {type: "actions", variables: ['x', 'y']},
+		addEdge: {type: "actions", variables: ['fromTiddler', 'toTiddler']},
 		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
 	},
 	nodes: {

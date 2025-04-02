@@ -1,0 +1,12 @@
+\widget $action.addedge()
+\whitespace trim
+<$parameters $$from=<<fromTiddler>> $$to=<<toTiddler>> >
+
+<$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/SelectField">
+
+  <$action.addtyped $tiddler=<<$from>> $field=<<selection>> $value=<<$to>> />
+
+</$action-modal>
+<$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+
+\end
