@@ -6,6 +6,12 @@ Tests the action-modal widget.
 
 describe('ActionModalWidget', function() {
 
+var wiki;
+
+beforeEach(function() {
+	wiki = new $tw.Wiki();
+});
+
 function whileSpyingOnModal(method) {
 	var oldModal = $tw.modal;
 	try {
@@ -18,7 +24,6 @@ function whileSpyingOnModal(method) {
 };
 
 it('does nothing if $tiddler is not set', function() {
-	var wiki = new $tw.Wiki();
 	var widgetNode = $tw.test.renderText(wiki,"<$action-modal><$action-test/>");
 	spyOn($tw.test, "actionMethod");
 	whileSpyingOnModal(() => {
@@ -29,7 +34,6 @@ it('does nothing if $tiddler is not set', function() {
 });
 
 it('invokes children only after modal', function() {
-	var wiki = new $tw.Wiki();
 	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><$action-test/>");
 	spyOn($tw.test, "actionMethod");
 	whileSpyingOnModal(() => {
@@ -42,7 +46,6 @@ it('invokes children only after modal', function() {
 });
 
 it('refreshes children before invoking them', function() {
-	var wiki = new $tw.Wiki();
 	var widgetNode = $tw.test.renderText(wiki, "<$action-modal $tiddler=anything><% if [<selection>match[Exists]] %><$action-test exists=yes /><% else %><$action-test exists=no>");
 	spyOn($tw.test, "actionMethod");
 	whileSpyingOnModal(() => {
@@ -52,6 +55,17 @@ it('refreshes children before invoking them', function() {
 	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "Exists"});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({exists: "yes"});
+});
+
+it('passes along attributes as variables', function() {
+	var widgetNode = $tw.test.renderText(wiki, "<$action-modal value=success $tiddler=anything><$action-test/>");
+	spyOn($tw.test, "actionMethod");
+	whileSpyingOnModal(() => {
+		var event = {};
+		widgetNode.invokeActions(widgetNode, event);
+		expect($tw.modal.display).toHaveBeenCalledTimes(1);
+		expect($tw.modal.display).toHaveBeenCalledWith( "anything", { variables: {value: "success"}, event: {}});
+	});
 });
 
 });

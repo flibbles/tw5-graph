@@ -58,8 +58,15 @@ ModalWidget.prototype.invokeAction = function(triggeringWidget, event) {
 		});
 	}
 	primedWidget = this;
+	var variables = Object.create(null);
+	for (var key in this.attributes) {
+		if (key.charAt(0) !== "$") {
+			variables[key] = this.attributes[key];
+		}
+	}
 	if (this.modal) {
-		$tw.modal.display(this.modal, {variables: event.paramObject, event: event});
+		// Used to be "variables: event.paramObject", not sure why.
+		$tw.modal.display(this.modal, {variables: variables, event: event});
 	}
 };
 
