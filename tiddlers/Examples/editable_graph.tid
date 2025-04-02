@@ -1,20 +1,31 @@
 title: Editable Graphs
 tags: Examples
 
-\widget $graph.example()
-<$graph>
-
+\whitespace trim
+\procedure actionDoubleclick()
 <$action.selecttiddler>
-
-	<% if [<selection>!is[tiddler]] %>
-
-		<$action-createtiddler $basetitle=<<selection>> />
-
-	<% endif %>
-	<$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selection>]" />
-	<$action-setfield $tiddler=<<selection>> pos=`$(x)$,$(y)$` />
-
+  <% if [<selection>!is[tiddler]] %>
+    <$action-createtiddler $basetitle=<<selection>> />
+  <% endif %>
+  <$action-listops $tiddler="Editable Graphs/nodes" $subfilter="[<selection>]" />
+  <$action-setfield $tiddler=<<selection>> pos=`$(x)$,$(y)$` />
 </$action.selecttiddler>
+\end
+
+\procedure actionAddedge()
+<$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/SelectField">
+
+  <$action.addedge $tiddler=<<fromTiddler>> $field=<<selection>> $value=<<toTiddler>> />
+
+</$action-modal>
+<$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+
+\end
+
+\widget $graph.example()
+<$graph
+	doubleclick=<<actionDoubleclick>>
+	addEdge=<<actionAddedge>> >
 
 <$list filter="[list[Editable Graphs/nodes]]" >
 

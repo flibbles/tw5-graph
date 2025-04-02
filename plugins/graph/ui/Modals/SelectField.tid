@@ -1,6 +1,6 @@
-title: $:/plugins/flibbles/graph/ui/Modals/SelectTiddler
-subtitle: Select tiddler
-first-search-filter: [!is[system]!is[draft]search:title{$:/temp/graph/select}sort[title]limit[10]]
+title: $:/plugins/flibbles/graph/ui/Modals/SelectField
+subtitle: Select field
+first-search-filter: [all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]search:title{$:/temp/graph/select}sort[title]limit[10]]
 footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button message="tm-close-tiddler">Close</$button>
 mask-closable: yes
 
@@ -8,7 +8,7 @@ mask-closable: yes
 
 <em class="tc-edit tc-small-gap-right">
 
-<$text text="Select an existing tiddler, or type in the name for a new one."/>
+<$text text="Select an existing field, or type in the name for a new one."/>
 
 </em></p>
 
