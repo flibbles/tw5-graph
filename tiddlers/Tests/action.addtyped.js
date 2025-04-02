@@ -1,6 +1,6 @@
 /*\
 
-Tests the action.addedge global widget.
+Tests the action.addtyped global widget.
 
 \*/
 
@@ -28,11 +28,11 @@ function renderAction(text) {
 
 it("assumes undefined field type is a list", function() {
 	wiki.addTiddler({title: "Target", field: "A -value B"});
-	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value=value />");
+	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A -value B value");
 	wiki.addTiddler({title: "Target", field: "A value 'value' B"});
-	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A 'value' B");
 });
@@ -40,11 +40,11 @@ it("assumes undefined field type is a list", function() {
 it("takes no action with unknown field type", function() {
 	wiki.addTiddler({title: "Target", field: "A B"});
 	wiki.addTiddler(relinkConfig("bizarre"));
-	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value=value />");
+	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A B");
 	wiki.addTiddler({title: "Target", field: "value"});
-	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("value");
 });
@@ -52,10 +52,10 @@ it("takes no action with unknown field type", function() {
 it("can set explicit list fields", function() {
 	wiki.addTiddler({title: "Target", field: "A B"});
 	wiki.addTiddler(relinkConfig("list"));
-	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value='this value' />");
+	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value='this value' />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A B [[this value]]");
-	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value='this value' />");
+	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value='this value' />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A B");
 });
@@ -63,10 +63,10 @@ it("can set explicit list fields", function() {
 it("can set title fields", function() {
 	wiki.addTiddler({title: "Target", field: "else"});
 	wiki.addTiddler(relinkConfig("title"));
-	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value='this value' />");
+	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value='this value' />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("this value");
-	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value='this value' />");
+	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value='this value' />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBeUndefined();
 });
@@ -75,10 +75,10 @@ it("can set filter fields", function() {
 	wiki.addTiddler({title: "this value"});
 	wiki.addTiddler({title: "Target", field: "[all[]] -[[this value]]"});
 	wiki.addTiddler(relinkConfig("filter"));
-	var addNode = renderAction("<$action.addedge $tiddler=Target $field=field $value='this value' />");
+	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value='this value' />");
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]]");
-	var removeNode = renderAction("<$action.removeedge $tiddler=Target $field=field $value='this value' />");
+	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value='this value' />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]] -[[this value]]");
 });
@@ -140,7 +140,7 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	it("ignores missed removals for " + fieldType, function() {
 		wiki.addTiddler({title: "Target", field: "value"});
 		wiki.addTiddler(relinkConfig(fieldType));
-		var remove = renderAction("<$action.removeedge $tiddler=Target $field=field $value=else />");
+		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=else />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
 		expect(tiddler.fields.field).toBe("value");
@@ -150,7 +150,7 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	it("clears the field when emptied for " + fieldType, function() {
 		wiki.addTiddler({title: "Target", field: "value"});
 		wiki.addTiddler(relinkConfig(fieldType));
-		var remove = renderAction("<$action.removeedge $tiddler=Target $field=field $value=value />");
+		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
 		expect(tiddler.fields.field).toBeUndefined();

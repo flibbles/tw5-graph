@@ -5,7 +5,7 @@
 
 <$let
 	currentTiddler=<<$tiddler>>
-	deleteAction="<$action.removeedge $field=<<fieldName>> $value=<<toTiddler>> />" >
+	deleteAction="<$action.removetyped $field=<<fieldName>> $value=<<toTiddler>> />" >
 
 <$properties
 	$tiddler=`$:/config/flibbles/graph/edges/$(fieldName)$`
