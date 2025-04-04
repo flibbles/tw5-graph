@@ -9,3 +9,7 @@ themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint: 1160px
 # switching the palette.
 config/Search/AutoFocus: false
 config/flibbles/graph/engine: Vis-Network
+
+# Relink field settings
+config/flibbles/relink/fields/father: title
+config/flibbles/relink/fields/mother: title
