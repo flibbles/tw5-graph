@@ -19,7 +19,7 @@ tags: Examples
 
 <$list filter="[list[Editable Graphs/nodes]]" >
 
-	<$properties drag="""<$action-setfield pos=`$(x)$,$(y)$` />""">
+	<$properties free="""<$action-setfield pos=`$(x)$,$(y)$` />""">
 
 		<$node label={{!!title}} $pos={{!!pos}} >
 

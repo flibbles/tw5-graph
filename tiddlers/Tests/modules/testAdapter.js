@@ -27,7 +27,7 @@ exports.properties = {
 		delete: {type: "actions"},
 		hover: {type: "actions", variables: ['x', 'y', 'xView', 'yView']},
 		blur: {type: "actions"},
-		drag: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
+		free: {type: "actions", variables: ['x', 'y']}
 	},
 	edges: {
 		width: {type: "number"},
