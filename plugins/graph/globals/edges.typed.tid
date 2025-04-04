@@ -1,4 +1,4 @@
-\widget $edges.typed($filter, $fields:'[all[]]': $editable)
+\widget $edges.typed($fields:'[all[]]': $editable)
 <$parameters $$tiddler=<<currentTiddler>> >
 
 <$list variable=fieldName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]subfilter<$fields>]">

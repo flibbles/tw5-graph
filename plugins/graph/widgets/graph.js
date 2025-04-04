@@ -372,17 +372,8 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		}
 	} else {
 		var object = this.knownObjects[graphEvent.objectType][graphEvent.id];
-		if (!object) {
-			// The engine somehow has objects we don't know about.
-			return;
-		}
-		variables.id = graphEvent.id;
-		if (graphEvent.type === "doubleclick") {
-			for (var name in variables) {
-				this.setVariable(name, variables[name].toString());
-			}
-			object.invokeActions(this, graphEvent);
-		} else {
+		// Make sure it's an objects we actually know about
+		if (object) {
 			// Start at the object. Go up, finding any $style to handle this
 			object.catchGraphEvent(graphEvent, variables);
 		}

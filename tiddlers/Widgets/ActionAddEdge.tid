@@ -1,0 +1,45 @@
+title: ActionAddEdgeWidget
+tags: Macros ActionWidgets Widgets
+caption: action.addedge
+
+! Introduction
+
+The ''action-addedge'' widget is used to add a typed field to a tiddler corresponding to a newly created edge. This is designed to work in conjunction with the [[addEdge]] properties of graph engines.
+
+Instead of specifying a field through attributes, this will call up a modal to select from active edge types used by tw5-graph.
+
+! Contents and Attributes
+
+|!Attribute | !Description |
+|$fromTiddler |The tiddler whose field will be written to (defaults to value of fromTiddler variable, or the current tiddler) |
+|$toTiddler |The value to be written to that field (defaults to value of toTiddler variable, or the current tiddler) |
+
+! Implementation
+
+<$implementation.block code={{$:/plugins/flibbles/graph/globals/action.addedge}} />
+
+! Examples
+
+<<graph.example
+	description:"Standard use"
+	narrative:"This example show how this action's default behavior when connecting nodes with a graph engines's native manipulation tools."
+	graphProperties:' addEdge="<$action.addedge />"'
+	content:"""
+	<$list filter="BranchA BranchB BranchC">
+		<$node label={{!!title}} />
+		<$edges.typed />
+	</$list>
+""">>
+
+<<graph.example
+	description:"Custom use"
+	narrative:"This example show how this action can be used for more custom behavior. In this case, the action is tied to the double-click action, and all created edges all stem from 'Root'."
+	content:"""
+	<$node $tiddler=Root size=20 color=brown/>
+	<$edges.typed $tiddler=Root />
+	<$properties size=10 doubleclick="<$action.addedge $fromTiddler=Root/>">
+		<$list filter="BranchA BranchB BranchC">
+			<$node />
+		</$list>
+	</$properties>
+""">>

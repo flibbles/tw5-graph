@@ -17,23 +17,17 @@ tags: Examples
 	doubleclick=<<actionDoubleclick>>
 	addEdge="<$action.addedge/>" >
 
-<$list filter="[list[Editable Graphs/nodes]]" >
+<$properties
+	free="""<$action-setfield pos=`$(x)$,$(y)$` />"""
+	doubleclick="""<$action-navigate""" >
 
-	<$properties free="""<$action-setfield pos=`$(x)$,$(y)$` />""">
+	<$list filter="[list[Editable Graphs/nodes]]" >
 
-		<$node label={{!!title}} $pos={{!!pos}} >
+		<$node label={{!!title}} $pos={{!!pos}} />
 
-			<$action-navigate />
+	<$edges.typed />
 
-	</$node></$properties>
-
-	<$edge $to={{!!father}} />
-
-	<$edge $to={{!!mother}} />
-
-</$list>
-
-</$graph>
+</$list></$properties></$graph>
 \end
 
 This graph is capable of being edited. By double-clicking, you can create/add more tiddlers to your graph.

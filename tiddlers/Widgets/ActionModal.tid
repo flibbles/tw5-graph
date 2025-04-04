@@ -1,0 +1,27 @@
+title: ActionModalWidget
+tags: ActionWidgets Widgets
+caption: action-modal
+
+! Introduction
+
+The ''action-modal'' widget provides a mean to activate a tiddler as a modal, and then use an output variable from that modal to execute its contained actions. This makes action-modal effective for executing actions which require additional input.
+
+! Contents and Attributes
+
+Any content of action-modal gets executed as an action once the modal emits a <<value tm-modal-finish>>.
+
+|!Attribute | !Description |
+|$tiddler |The tiddler to display as a modal |
+|//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are assigned as variables available for the rendered modal. |
+
+!! modals
+
+The modals are summoned using Tiddlywiki's native modal implementation, which means they have all the same features. Such as allowing "header" and "footer" fields to customize the headers and footers of the resulting modal.
+
+!! tm-modal-finish
+
+If the modal executes the following message: <<value tm-modal-finish>> along with some parameter value, action-modal will invoke its contents as an action, with the parameter of that message assigned to "selection".
+
+! Examples
+
+Examples needed.

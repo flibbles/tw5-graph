@@ -7,11 +7,7 @@ tags: Demo
 
 <$list filter="[tag[Deity]!is[system]!is[draft]]">
 
-<$node label={{!!title}} >
-
-<$action-navigate />
-
-</$node>
+<$node label={{!!title}} doubleclick="<$action-navigate />"/>
 
 <$edges.typed />
 

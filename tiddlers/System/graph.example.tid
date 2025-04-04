@@ -15,11 +15,12 @@ tags: $:/tags/Global
 </$testcase>
 \end
 
-\procedure graph.example(description, narrative, content, footer, header)
+\procedure graph.example(description, narrative, content, graphProperties, footer, header)
 <<narrative>>
 <div class="doc-example">
 <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
-<$codeblock code=<<content>> />
+<$vars graph=`<$graph$(graphProperties)$>$(content)$</$graph>` >
+<$codeblock code=<<graph>> />
 <!-- We set the transclusion variable below so that qualifiers can get
      different values when multiple examples are on the same page. -->
 <$vars
@@ -30,15 +31,11 @@ tags: $:/tags/Global
 			<dd><$button set=<<.state>> setTo="">Hide</$button></dd>
 		</dl>
 		<<header>>
-		<$graph>
-			<$transclude $variable=content />
-		</$graph>
+		<$transclude $variable=graph />
 		<<footer>>
 	<%else%>
 		<dl>
 			<dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
 		</dl>
 	<%endif%>
-</$vars>
-</div>
 \end
