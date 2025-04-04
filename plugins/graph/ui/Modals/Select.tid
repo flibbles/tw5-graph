@@ -64,4 +64,6 @@ mask-closable: yes
 
 <span class={{{[{$:/temp/graph/select/tiddler}match<currentTiddler>then[tc-list-item-selected]] }}}>
 
+<$slot $name=list-item>
+
 <$transclude tiddler="$:/core/ui/ListItemTemplate" mode=inline/>

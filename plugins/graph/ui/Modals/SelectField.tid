@@ -12,4 +12,10 @@ mask-closable: yes
 
 </em></p>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Modals/Select" />
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Modals/Select">
+
+<$fill $name=list-item>
+
+<div class="tc-menu-list-item">
+
+<$link overrideClass="tc-tiddlylink" />

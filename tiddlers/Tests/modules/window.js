@@ -6,8 +6,11 @@ Mock window for testing on Node.JS and the sort
 \*/
 
 var EventHandler = require("./eventHandler.js").EventHandler;
+var Document = require("./document.js").Document;
 
-var Window = function() { };
+var Window = function() {
+	this.document = new Document(this);
+};
 
 $tw.utils.extend(Window.prototype, EventHandler.prototype);
 

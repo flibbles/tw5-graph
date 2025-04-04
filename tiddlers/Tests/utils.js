@@ -57,6 +57,12 @@ test.renderGlobal = function(wiki, text) {
 	return test.renderText(wiki, "\\import [subfilter{$:/core/config/GlobalImportFilter}]\n" + text + "\n");
 };
 
+test.renderAction = function(wiki, text) {
+	var widgetNode = test.renderGlobal(wiki, text);
+	// Action widgets should not be introducing content to the DOM.
+	expect(widgetNode.parentDomNode.innerHTML).toBe("");
+	return widgetNode;
+};
 
 test.flushChanges = function(ms) {
 	return new Promise(function(resolve, reject) {
