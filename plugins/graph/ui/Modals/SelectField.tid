@@ -1,7 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/Modals/SelectField
 subtitle: Select field
 first-search-filter: [all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]search:title{$:/temp/graph/select}sort[title]limit[10]]
-footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button message="tm-close-tiddler">Close</$button>
+footer: {{$:/plugins/flibbles/graph/ui/Modals/Select!!footer}}
 mask-closable: yes
 
 <p class="tc-edit-field-add">

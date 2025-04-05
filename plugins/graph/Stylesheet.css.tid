@@ -37,6 +37,8 @@ tags: $:/tags/Stylesheet
 }
 
 .graph-canvas.graph-error span {
+	display: inline-block;
+	max-width: 80%;
 	background: <<colour alert-background>>;
 	padding: 1em;
 	border: medium solid <<colour alert-border>>;

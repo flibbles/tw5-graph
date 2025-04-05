@@ -1,14 +1,11 @@
 title: $:/plugins/flibbles/graph/ui/Modals/Select
-subtitle: Select tiddler
-first-search-filter: [!is[system]!is[draft]search:title{$:/temp/graph/select}sort[title]limit[10]]
-footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button message="tm-close-tiddler">Close</$button>
-mask-closable: yes
+footer: <$importvariables filter="[all[current]]"><$button actions=<<select-accept-actions>> >Okay</$button> <$button actions=<<select-close-actions>>>Close</$button>
 
 \procedure select-accept-actions()
 \whitespace trim
 <$action-sendmessage $message="tm-modal-finish" $param={{$:/temp/graph/select/tiddler}} />
 <$action-sendmessage $message="tm-close-tiddler" />
-<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]]" />
+<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
 \end
 
 \procedure select-click-actions()
@@ -16,16 +13,22 @@ mask-closable: yes
 <<select-accept-actions>>
 \end
 
+\procedure select-close-actions()
+\whitespace trim
+<$action-sendmessage $message="tm-close-tiddler" />
+<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
+\end
+
 \procedure select-cancel-actions()
 \whitespace trim
 <% if [{$:/temp/graph/select}match[]] %>
-	<$action-sendmessage $message="tm-close-tiddler" />
+	<<select-close-actions>>
 <% elseif [{$:/temp/graph/select}!match{$:/temp/graph/select/tiddler}] %>
 	<$action-setfield $tiddler="$:/temp/graph/select/tiddler" text={{$:/temp/graph/select}}/>
 	<$action-deletetiddler $filter="$:/temp/graph/select/selected-item" />
 	<$action-setfield $tiddler="$:/temp/graph/select/refresh" text="yes"/>
 <% else %>
-	<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]]" />
+	<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
 <% endif %>
 \end
 
