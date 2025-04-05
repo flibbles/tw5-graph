@@ -4,37 +4,60 @@ tags: $:/tags/Global
 
 \whitespace trim
 
-\procedure .state-prefix() $:/state/editions/tw5-graph/
 
 \procedure graph.example(description, narrative, content, footer, header)
-<<narrative>>
-<div class="doc-example">
-<$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
-<$codeblock code=<<content>> />
-<!-- We set the transclusion variable below so that qualifiers can get
-     different values when multiple examples are on the same page. -->
-<$vars
-	.state=`$(.state-prefix)$(currentTiddler)$/$(description)$`
-	transclusion=<<description>> >
-	<%if [<.state>get[text]match[show]] %>
-		<dl>
-			<dd><$button set=<<.state>> setTo="">Hide</$button></dd>
-		</dl>
-		<<header>>
-		<$transclude $variable=content />
-		<<footer>>
-	<%else%>
-		<dl>
-			<dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
-		</dl>
-	<%endif%>
+  \procedure .state-prefix() $:/state/editions/tw5-graph/
+  <<narrative>>
+  <div class="doc-example">
+    <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
+    <$codeblock code=<<content>> />
+    <!-- We set the transclusion variable below so that qualifiers can get
+         different values when multiple examples are on the same page. -->
+    <$vars .state=`$(.state-prefix)$(currentTiddler)$/$(description)$`
+           transclusion=<<description>> >
+      <%if [<.state>get[text]match[show]] %>
+        <dl>
+          <dd><$button set=<<.state>> setTo="">Hide</$button></dd>
+        </dl>
+        <<header>>
+        <$transclude $variable=content />
+        <<footer>>
+      <%else%>
+        <dl>
+          <dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
+        </dl>
+      <%endif%>
 \end
 
-\procedure graph.example(description, narrative, content, footer, header)
-<$testcase>
-	<$data title=Description text=<<description>> />
-	<$data title=Narrative text=<<narrative>> />
-	<$data title=Output text=<<content>> />
-	<$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
-</$testcase>
+\widget $graph.example(description, narrative, content, footer, header)
+
+  \function filter() [[$:/plugins/flibbles/graph]plugintiddlers[]removeprefix[$:/config/DefaultColourMappings/]]
+
+  <!-- We use $apply.colours to evaluate our color values in
+       the primary wiki context, because the standard <<colour>>
+       won't work in the testcase context. -->
+  \widget $apply.colours(nth:1)
+    <%if [function[filter]nth<nth>] %>
+      <$wikify name=<<condition>>  text=`<<colour "$(condition)$">>` >
+        <$apply.colours nth={{{ [<nth>add[1]] }}} />
+      </$wikify>
+    <%else%>
+      <$slot $name=ts-raw $depth=<<nth>> />
+    <%endif%>
+  \end $apply.colours
+
+  \procedure inner()
+    \function colour(name) [<name>getvariable[]]
+    <$testcase>
+      <$data title=Description text=<<description>> />
+      <$data title=Narrative text=<<narrative>> />
+      <$data title=Output text=<<content>> />
+      <$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
+      <$slot $name=ts-raw $depth={{{ [<nth>add[2]] }}} />
+    </$testcase>
+  \end inner
+
+  <$apply.colours>
+    <<inner>>
+  </$apply.colours>
 \end
