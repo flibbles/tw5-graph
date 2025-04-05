@@ -6,7 +6,7 @@ Tests that graphs properly refresh.
 
 describe('GraphWidget', function() {
 
-var wiki, init, update, register, window;
+var wiki, init, update, destroy, register, window;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
@@ -486,6 +486,9 @@ it("handles init errors", async function() {
 	expect(log).toHaveBeenCalled();
 	// Make sure it doesn't crash when refreshing
 	await $tw.test.flushChanges();
+	// Also, make sure adapter##destroy wasn't called.
+	// It should not be, because it was never successfully initialized.
+	expect(destroy).not.toHaveBeenCalled();
 });
 
 it("handles update errors", async function() {
@@ -502,6 +505,8 @@ it("handles update errors", async function() {
 	expect(graphNode.innerHTML).toContain("<span>"+message+"</span>");
 	expect(graphNode.className).toBe("graph-canvas graph-error");
 	expect(log).toHaveBeenCalled();
+	// It was initialized, so it should have had a chance to deconstruct
+	expect(destroy).toHaveBeenCalled();
 });
 
 it("can recover from error state", async function() {

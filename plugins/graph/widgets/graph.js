@@ -66,6 +66,10 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		try {
 			this.engine.init(this.graphElement, objects);
 		} catch(e) {
+			// Technically, we should drop this engine without destroying it.
+			// It didn't successfully init, so it's not initialized.
+			// This means it's up to the engines to be "Strong Exception Safe".
+			this.engine = undefined;
 			// Something went wrong. Rebuild this widget as an error displayer
 			console.error(e);
 			this.errorState = e.message || e.toString();
