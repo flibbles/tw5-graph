@@ -53,6 +53,7 @@ tags: $:/tags/Global
       <$data title=Narrative text=<<narrative>> />
       <$data title=Output text=<<content>> />
       <$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
+      <$data $tiddler="$:/plugins/flibbles/graph" />
       <$slot $name=ts-raw $depth={{{ [<nth>add[2]] }}} />
     </$testcase>
   \end inner

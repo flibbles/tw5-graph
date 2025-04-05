@@ -21,7 +21,6 @@ var ModalWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
-// TODO: Make sure all the \widgets aren't introducing whitespace
 ModalWidget.prototype = new Widget();
 
 ModalWidget.prototype.render = function(parent, nextSibling) {
@@ -32,7 +31,15 @@ ModalWidget.prototype.render = function(parent, nextSibling) {
 };
 
 ModalWidget.prototype.execute = function() {
-	this.modal = this.getAttribute("$tiddler");
+	this.modalTiddler = this.getAttribute("$tiddler");
+	this.modal = $tw.modal;
+	if (!this.modal || this.modal.wiki !== this.wiki) {
+		// Ah, we have a modal working with a subwiki (or a Node.JS system
+		// which has no modal). We'll create an overlay of the modal
+		// that works with our subwiki instead.
+		this.modal = Object.create($tw.modal || null);
+		this.modal.wiki = this.wiki;
+	}
 	this.makeChildWidgets();
 };
 
@@ -64,9 +71,11 @@ ModalWidget.prototype.invokeAction = function(triggeringWidget, event) {
 			variables[key] = this.attributes[key];
 		}
 	}
-	if (this.modal) {
+	if (this.modalTiddler) {
 		// Used to be "variables: event.paramObject", not sure why.
-		$tw.modal.display(this.modal, {variables: variables, event: event});
+		this.modal.display(this.modalTiddler, {
+			variables: variables,
+			event: event});
 	}
 };
 

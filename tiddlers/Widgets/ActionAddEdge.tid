@@ -2,6 +2,22 @@ title: ActionAddEdgeWidget
 tags: Macros ActionWidgets Widgets
 caption: action.addedge
 
+\procedure edgePackage()
+	<$data title="$:/config/flibbles/relink/fields/titleType"
+		caption="Relink for titleType"
+		text=title
+		notes="tw5-graph uses Relink configuration to determine the type of field an edge uses." />
+	<$data title="$:/config/flibbles/graph/edges/titleType"
+		caption="titleType"
+		type="application/json"
+		text='{"color": "red", "arrows": "to"}' />
+	<$data title="$:/config/flibbles/graph/edges/listType"
+		caption="listType"
+		type="application/json"
+		text='{"color": "blue"}' />
+\end
+
+
 ! Introduction
 
 The ''action-addedge'' widget is used to add a typed field to a tiddler corresponding to a newly created edge. This is designed to work in conjunction with the [[addEdge]] properties of graph engines.
@@ -28,7 +44,9 @@ Instead of specifying a field through attributes, this will call up a modal to s
 		<$node label={{!!title}} />
 		<$edges.typed />
 	</$list>
-</$graph>"""/>
+</$graph>""">
+<<edgePackage>>
+</$graph.example>
 
 <$graph.example
 	description="Custom use"
@@ -41,4 +59,6 @@ Instead of specifying a field through attributes, this will call up a modal to s
 			<$node />
 		</$list>
 	</$properties>
-</$graph>"""/>
+</$graph>""">
+<<edgePackage>>
+</$graph.example>
