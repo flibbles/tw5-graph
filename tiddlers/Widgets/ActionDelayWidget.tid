@@ -26,7 +26,9 @@ action-delay works by creating a state tiddler which it monitors. If that state 
 <<graph.example
 	description:"Delay on node hover"
 	narrative:"This example will create a popup if you hover over the node long enough. If you stop hovering, it will delete the associated state field, which will abort the coming action call."
-	content:"""<$node label="Hover me"
-	hover="<$action-delay $state='$:/state/action-delay' $ms=500><$action-confirm $message='You hovered long enough.'/></$action-delay>"
-	blur="<$action-deletetiddler $tiddler='$:/state/action-delay' />"
-/>""">>
+	content:"""<$graph>
+	<$node label="Hover me"
+		hover="<$action-delay $state='$:/state/action-delay' $ms=500><$action-confirm $message='You hovered long enough.'/></$action-delay>"
+		blur="<$action-deletetiddler $tiddler='$:/state/action-delay' />"
+	/>
+</$graph>""">>

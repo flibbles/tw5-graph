@@ -7,20 +7,10 @@ tags: $:/tags/Global
 \procedure .state-prefix() $:/state/editions/tw5-graph/
 
 \procedure graph.example(description, narrative, content, footer, header)
-<$testcase>
-	<$data title=Description text=<<description>> />
-	<$data title=Narrative text=<<narrative>> />
-	<$data title=Output text=<<content>> />
-	<$data title="$:/config/flibbles/graph/engine" text={{$:/config/flibbles/graph/endgine}} />
-</$testcase>
-\end
-
-\procedure graph.example(description, narrative, content, graphProperties, footer, header)
 <<narrative>>
 <div class="doc-example">
 <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
-<$vars graph=`<$graph$(graphProperties)$>$(content)$</$graph>` >
-<$codeblock code=<<graph>> />
+<$codeblock code=<<content>> />
 <!-- We set the transclusion variable below so that qualifiers can get
      different values when multiple examples are on the same page. -->
 <$vars
@@ -31,11 +21,20 @@ tags: $:/tags/Global
 			<dd><$button set=<<.state>> setTo="">Hide</$button></dd>
 		</dl>
 		<<header>>
-		<$transclude $variable=graph />
+		<$transclude $variable=content />
 		<<footer>>
 	<%else%>
 		<dl>
 			<dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
 		</dl>
 	<%endif%>
+\end
+
+\procedure graph.example(description, narrative, content, footer, header)
+<$testcase>
+	<$data title=Description text=<<description>> />
+	<$data title=Narrative text=<<narrative>> />
+	<$data title=Output text=<<content>> />
+	<$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
+</$testcase>
 \end

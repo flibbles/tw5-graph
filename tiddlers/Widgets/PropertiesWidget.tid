@@ -33,13 +33,15 @@ When used with node objects, the properties widget can selectively apply itself 
 
 <<graph.example
 	description: "Selective property filtering"
-	content: """<$properties $filter="[tag[Greek]]" color="navy">
-  <$properties $filter="[tag[Norse]]" color="maroon">
-    <$properties $filter="[tag[Ruler]]" shape="star">
-      <$nodes.for $filter="Odin Thor Zeus Apollo" $labelField=title />
+	content: """<$graph>
+  <$properties $filter="[tag[Greek]]" color="navy">
+    <$properties $filter="[tag[Norse]]" color="maroon">
+      <$properties $filter="[tag[Ruler]]" shape="star">
+        <$nodes.for $filter="Odin Thor Zeus Apollo" $labelField=title />
+      </$properties>
     </$properties>
   </$properties>
-</$properties>""" >>
+</$graph>""" >>
 
 !! Action scope
 
@@ -50,10 +52,12 @@ If a properties widget is used to define action properties for graph objects lik
 	description: "Scope of property actions"
 	narrative: "Here the value of <<.value currentTiddler>> is different for each <<.wid node>>, even though they'll inherit the same hover action."
 	footer: "Value of $:/state/properties-example: {{$:/state/properties-example}}"
-	content:"""<$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
-  <$list filter="Odin Thor Zeus">
-    <$node label={{!!title}} />
-  </$list>
-</$properties>""">>
+	content:"""<$graph>
+  <$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
+    <$list filter="Odin Thor Zeus">
+      <$node label={{!!title}} />
+    </$list>
+  </$properties>
+</$graph>""">>
 
 Likewise, when a properties widget specifies properties for its containing graph, it uses the scope of that graph widget, not itself.
