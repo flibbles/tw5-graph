@@ -12,7 +12,7 @@
 	delete={{{ [<$editable>match[]else<deleteAction>] }}}
 	$for=edges>
 
-<$edges.field $tiddler=<<$tiddler>> $field=<<fieldName>> >
+<$each.typed $variable=toTiddler $tiddler=<<$tiddler>> $field=<<fieldName>> >
 
 <$slot $depth=3 $name=ts-raw>
 

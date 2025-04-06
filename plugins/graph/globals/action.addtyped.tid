@@ -17,16 +17,16 @@
 
 \end
 
-\widget $edges.field($field)
+\widget $each.typed($variable:currentTiddler $field)
 <$parameters $$tiddler=<<currentTiddler>> >
 
 <$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]] }}} $mode=inline>
 
-<$fill $name=edge>
+<$fill $name=list-item>
 
 <$slot $depth=2 $name=ts-raw>
 
-<$edge />
+<$link to={{{ [<$variable>getvariable[]] }}} />
 
 </$slot></$fill></$transclude>
 \end

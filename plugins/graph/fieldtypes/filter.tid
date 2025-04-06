@@ -10,7 +10,10 @@ title: $:/plugins/flibbles/graph/fieldtypes/filter
 \end
 
 <$list variable=_filter filter="[<$tiddler>get<$field>]">
-  <$list variable=toTiddler filter="[subfilter<_filter>]" >
-    <$slot $name=edge />
+
+  <$list variable=<<$variable>> filter="[subfilter<_filter>]" >
+
+    <$slot $name=list-item />
+
   </$list>
 </$list>

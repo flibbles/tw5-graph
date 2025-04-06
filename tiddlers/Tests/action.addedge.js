@@ -38,7 +38,7 @@ it("lists fields in the modal", function() {
 		{title: "Else", existingField: "this is used too"},
 		$tw.wiki.getTiddler("$:/core/macros/keyboard-driven-input"),
 		{title: "$:/config/flibbles/graph/edges/configuredField", text: "{}", type: "application/json"}]);
-	var widgetNode = $tw.test.renderAction(wiki,"\\define fromTiddler() A\n\\define toTiddler() B\n<$action.addedge />");
+	var widgetNode = $tw.test.renderAction(wiki,"\\define fromTiddler() A\n\\define toTiddler() B\n<$action.addedge />\n");
 	$tw.modal.display.and.callThrough();
 	// If we're actually going to call modal.display, we've got to mockup a
 	// window and document for it to attach itself to.
@@ -56,7 +56,7 @@ it("can use custom values", function() {
 	wiki.addTiddlers([
 		{title: "A"},
 		{title: "$:/config/flibbles/relink/fields/myfield", text: "title"}]);
-	var widgetNode = $tw.test.renderAction(wiki,"<$action.addedge $fromTiddler=A $toTiddler='to there'/>");
+	var widgetNode = $tw.test.renderAction(wiki,"<$action.addedge $fromTiddler=A $toTiddler='to there'/>\n");
 	widgetNode.invokeActions(widgetNode, {});
 	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "myfield"});
 	expect(wiki.getTiddler("A").fields.myfield).toBe("to there");

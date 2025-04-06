@@ -54,7 +54,7 @@ test.renderText = function(wiki, text) {
 };
 
 test.renderGlobal = function(wiki, text) {
-	return test.renderText(wiki, "\\import [subfilter{$:/core/config/GlobalImportFilter}]\n" + text + "\n");
+	return test.renderText(wiki, "\\import [subfilter{$:/core/config/GlobalImportFilter}]\n" + text);
 };
 
 test.renderAction = function(wiki, text) {

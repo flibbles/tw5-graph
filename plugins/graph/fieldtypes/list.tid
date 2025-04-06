@@ -15,6 +15,8 @@ title: $:/plugins/flibbles/graph/fieldtypes/list
 <%endif%>
 \end
 
-<$list variable=toTiddler filter="[<$tiddler>each:list-item<$field>]">
-  <$slot $name=edge />
+<$list variable=<<$variable>> filter="[<$tiddler>each:list-item<$field>]">
+
+  <$slot $name=list-item />
+
 </$list>
