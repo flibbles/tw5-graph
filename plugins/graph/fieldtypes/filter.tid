@@ -1,6 +1,5 @@
 title: $:/plugins/flibbles/graph/fieldtypes/filter
 
-\whitespace trim
 \procedure add()
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $add=<<$value>> />
 \end
@@ -9,11 +8,10 @@ title: $:/plugins/flibbles/graph/fieldtypes/filter
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
 \end
 
+\whitespace trim
+
 <$list variable=_filter filter="[<$tiddler>get<$field>]">
-
   <$list variable=<<$variable>> filter="[subfilter<_filter>]" >
-
     <$slot $name=list-item />
-
   </$list>
 </$list>

@@ -1,11 +1,11 @@
 title: $:/plugins/flibbles/graph/fieldtypes/list
 
-\whitespace trim
 \procedure add()
 <$action-listops $tiddler=<<$tiddler>> $field=<<$field>> $subfilter="[<$value>]" />
 \end
 
 \procedure remove()
+\whitespace trim
 <%if [<$tiddler>each:list-item<$field>match<$value>] %>
   <%if [<$tiddler>each:list-item<$field>count[]match[1]] %>
     <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
@@ -15,8 +15,8 @@ title: $:/plugins/flibbles/graph/fieldtypes/list
 <%endif%>
 \end
 
+\whitespace trim
+
 <$list variable=<<$variable>> filter="[<$tiddler>each:list-item<$field>]">
-
   <$slot $name=list-item />
-
 </$list>

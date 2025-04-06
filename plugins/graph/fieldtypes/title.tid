@@ -1,18 +1,18 @@
 title: $:/plugins/flibbles/graph/fieldtypes/title
 
-\whitespace trim
 \procedure add()
 <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> $value=<<$value>> />
 \end
 
 \procedure remove()
+\whitespace trim
 <%if [<$tiddler>get<$field>match<$value>] %>
   <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
 <%endif%>
 \end
 
+\whitespace trim
+
 <$list variable=<<$variable>> filter="[<$tiddler>get<$field>]" >
-
   <$slot $name=list-item />
-
 </$list>
