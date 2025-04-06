@@ -12,8 +12,6 @@ describe('ActionAddEdge \\widget', function() {
 
 var wiki;
 
-// TODO: Need more tests regarding the $variable attribute
-
 beforeEach(function() {
 	wiki = new $tw.Wiki();
 	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
@@ -112,10 +110,10 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 
 	beforeEach(function() {
 		wiki.addTiddler(relinkConfig(fieldType));
+		wiki.addTiddler({title: "Target", field: "value"});
 	});
 
 	it("ignores missed removals", function() {
-		wiki.addTiddler({title: "Target", field: "value"});
 		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=else />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
@@ -124,7 +122,6 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	});
 
 	it("clears the field when emptied", function() {
-		wiki.addTiddler({title: "Target", field: "value"});
 		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
@@ -132,47 +129,43 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	});
 
 	it("renders nothing with missing tiddler", function() {
-		var widget = renderAction("<$each.typed $field=field $tiddler=Target />");
+		var widget = renderAction("<$each.typed $field=field $tiddler=Missing />");
 		var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
 		expect(edgeObjects).toBeUndefined();
 	});
 
 	it("renders nothing with missing field", function() {
-		wiki.addTiddler({title: "Target"});
-		var widget = renderAction("<$each.typed $field=field $tiddler=Target />");
+		wiki.addTiddler({title: "Fieldless"});
+		var widget = renderAction("<$each.typed $field=field $tiddler=Fieldless />");
 		var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
 		expect(edgeObjects).toBeUndefined();
 	});
 
 	it("renders nothing with blank field", function() {
-		wiki.addTiddler({title: "Target", field: ""});
-		var widget = renderAction("<$each.typed $field=field $tiddler=Target />");
+		wiki.addTiddler({title: "EmptyField", field: ""});
+		var widget = renderAction("<$each.typed $field=field $tiddler=EmptyField />");
 		var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
 		expect(edgeObjects).toBeUndefined();
 	});
 
 	it("default uses currentTiddler", function() {
-		wiki.addTiddler({title: "Template", field: "value"});
-		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$each.typed $field=field />\n");
+		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$each.typed $field=field />\n");
 		expect(widget.parentDomNode.innerHTML).toBe(links(["value"]));
 	});
 
 	it("preserves currentTiddler if not assigned", function() {
-		wiki.addTiddler({title: "Template", field: "value"});
-		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() myCurrent\n<$each.typed $variable=var $tiddler=Template $field=field><<currentTiddler>>-<<var>>");
+		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() myCurrent\n<$each.typed $variable=var $tiddler=Target $field=field><<currentTiddler>>-<<var>>");
 		expect(widget.parentDomNode.innerHTML).toBe("<p>myCurrent-value</p>");
 	});
 
 	it("renders with custom block fill", function() {
-		wiki.addTiddler({title: "Target", field: "to"});
 		var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field>\n\n* {{!!title}}");
-		expect(widget.parentDomNode.innerHTML).toBe("<ul><li>to</li></ul>");
+		expect(widget.parentDomNode.innerHTML).toBe("<ul><li>value</li></ul>");
 	});
 
 	it("renders with custom inline fill", function() {
-		wiki.addTiddler({title: "Target", field: "to"});
 		var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field>\n* {{!!title}}");
-		expect(widget.parentDomNode.innerHTML).toBe("<p>\n* to</p>");
+		expect(widget.parentDomNode.innerHTML).toBe("<p>\n* value</p>");
 	});
 });
 
