@@ -1,0 +1,22 @@
+code-body: yes
+title: $:/editions/tw5-graph/doc.implementation
+tags: $:/tags/Global
+
+\whitespace trim
+
+\widget $doc.implementation()
+\define section-regexp() [\w\W]*(\\widget\s+\$$(caption)$[\w\W]*?\n\s*\\end(?:\s+$(caption)$)?(?:$|\n))[\W\w]*
+<$parameters tiddler=<<currentTiddler>> >
+
+!! Implementation
+
+<$let
+	caption={{{ [<tiddler>get[caption]] }}}
+	keyword=`$(caption)$(`
+	sourceTiddler={{{ [[$:/plugins/flibbles/graph]plugintiddlers[]search<keyword>] }}}
+	source={{{ [<sourceTiddler>get[text]] }}}
+	section={{{ [<source>search-replace::regexp<section-regexp>,[$1]] }}} >
+
+<$implementation.block code=<<section>> />
+
+\end
