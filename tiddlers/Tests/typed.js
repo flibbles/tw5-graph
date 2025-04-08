@@ -8,7 +8,7 @@ $each.typed
 
 \*/
 
-describe('ActionAddEdge \\widget', function() {
+describe('Typed \\widgets', function() {
 
 var wiki;
 
@@ -47,7 +47,7 @@ it("handles unspecified field types as list", function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("A 'value' B");
 });
 
-it("ignores unrecognized field types", function() {
+it("handles unrecognized field types (by ignoring them)", function() {
 	wiki.addTiddler({title: "Target", field: "A B"});
 	wiki.addTiddler(relinkConfig("bizarre"));
 	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
@@ -113,7 +113,7 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 		wiki.addTiddler({title: "Target", field: "value"});
 	});
 
-	it("ignores missed removals", function() {
+	it("remove ignores missing values", function() {
 		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=else />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
@@ -121,11 +121,35 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 		expect(tiddler.fields.modified).toBeUndefined();
 	});
 
-	it("clears the field when emptied", function() {
+	it("add ignores redundant additions", function() {
+		var add = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
+		add.invokeActions(add, {});
+		var tiddler = wiki.getTiddler("Target");
+		expect(tiddler.fields.field).toBe("value");
+		expect(tiddler.fields.modified).toBeUndefined();
+	});
+
+	it("remove clears the field when emptied", function() {
 		var remove = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 		remove.invokeActions(remove, {});
 		var tiddler = wiki.getTiddler("Target");
 		expect(tiddler.fields.field).toBeUndefined();
+	});
+
+	it("add creates field when field does not exist", function() {
+		wiki.addTiddler({title: "Target"});
+		var add = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
+		add.invokeActions(add, {});
+		var tiddler = wiki.getTiddler("Target");
+		expect(tiddler.fields.field).toBe("value");
+	});
+
+	it("add creates tiddler and field when tiddler does not exist", function() {
+		wiki.addTiddler({title: "Target"});
+		var add = renderAction("<$action.addtyped $tiddler=Other $field=field $value=value />");
+		add.invokeActions(add, {});
+		var tiddler = wiki.getTiddler("Other");
+		expect(tiddler.fields.field).toBe("value");
 	});
 
 	it("renders nothing with missing tiddler", function() {
@@ -148,12 +172,13 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 		expect(edgeObjects).toBeUndefined();
 	});
 
-	it("default uses currentTiddler", function() {
+	it("renders using currentTiddler", function() {
+		// ...Even when setting currentTiddler as the variable
 		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$each.typed $field=field />\n");
 		expect(widget.parentDomNode.innerHTML).toBe(links(["value"]));
 	});
 
-	it("preserves currentTiddler if not assigned", function() {
+	it("renders and preserves currentTiddler if not assigned", function() {
 		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() myCurrent\n<$each.typed $variable=var $tiddler=Target $field=field><<currentTiddler>>-<<var>>");
 		expect(widget.parentDomNode.innerHTML).toBe("<p>myCurrent-value</p>");
 	});
