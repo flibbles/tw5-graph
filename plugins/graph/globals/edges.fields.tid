@@ -1,0 +1,20 @@
+\widget $edges.fields($fields:'[all[]]' $editable:no)
+\procedure deleteAction() <$action.removetyped $field=<<fieldName>> $value=<<toTiddler>> />
+<$parameters $$tiddler=<<currentTiddler>> >
+
+<$list variable=fieldName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]subfilter<$fields>]">
+
+<$let currentTiddler=<<$tiddler>> >
+
+<$properties
+	$tiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
+	delete={{{ [<$editable>match[no]then[]else<deleteAction>] }}}
+	$for=edges>
+
+<$each.typed $variable=toTiddler $tiddler=<<$tiddler>> $field=<<fieldName>> >
+
+<$slot $depth=3 $name=ts-raw>
+
+<$edge />
+
+\end

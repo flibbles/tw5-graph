@@ -1,10 +1,10 @@
 /*\
 
-Tests the edges.typed global widget.
+Tests the edges.fields global widget.
 
 \*/
 
-describe('edges.typed \\widget', function() {
+describe('edges.fields \\widget', function() {
 
 var wiki, init;
 
@@ -25,7 +25,7 @@ function relinkConfig(name, type) {
 
 function  edgeConfig(name, properties) {
 	return {
-		title: "$:/config/flibbles/graph/edges/" + name,
+		title: "$:/config/flibbles/graph/edges/fields/" + name,
 		text: JSON.stringify(properties),
 		type: "application/json"};
 };
@@ -40,7 +40,7 @@ it("uses all fieldTyped edges when no fields specified", function() {
 		edgeConfig("fieldB", {value: "B"}),
 		relinkConfig("fieldA", "title"),
 		{title: "from", fieldA: "to this", fieldB: "to this"}]);
-	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "to", "this", "to this");
+	var text = "<$graph><$edges.fields $tiddler=from/>" + nodesFor("from", "to", "this", "to this");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -56,7 +56,7 @@ it("handles non-fieldTyped edges when specified", function() {
 		edgeConfig("fieldB", {value: "B"}),
 		relinkConfig("fieldA", "title"),
 		{title: "from", fieldA: "to this", fieldB: "to this", fieldC: "C D"}]);
-	var text = "<$graph><$edges.typed $fields='fieldB fieldC' $tiddler=from/>" + nodesFor("from", "to", "this", "to this", "C", "D");
+	var text = "<$graph><$edges.fields $fields='fieldB fieldC' $tiddler=from/>" + nodesFor("from", "to", "this", "to this", "C", "D");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.values(objects.edges)).toEqual([
@@ -70,7 +70,7 @@ it("can have custom edge fill", function() {
 	wiki.addTiddlers([
 		edgeConfig("fieldA", {value: "A", other: "val"}),
 		{title: "from", fieldA: "to"}]);
-	var text = "<$graph><$edges.typed $tiddler=from><$edge value=custom/></$edges.typed>" + nodesFor("from", "to");
+	var text = "<$graph><$edges.fields $tiddler=from><$edge value=custom/></$edges.fields>" + nodesFor("from", "to");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.values(objects.edges)).toEqual([
@@ -81,7 +81,7 @@ it("currentTiddler remains unchanged for $fields filter", function() {
 	wiki.addTiddlers([
 		{title: "Info", choice: "fieldB"},
 		{title: "from", fieldA: "bad", fieldB: "good"}]);
-	var text = "\\define currentTiddler() Info\n<$graph><$edges.typed $fields='[<currentTiddler>get[choice]]' $tiddler=from/>" + nodesFor("from", "bad", "good");
+	var text = "\\define currentTiddler() Info\n<$graph><$edges.fields $fields='[<currentTiddler>get[choice]]' $tiddler=from/>" + nodesFor("from", "bad", "good");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.values(objects.edges)).toEqual([
@@ -94,7 +94,7 @@ it("can delete edges", function() {
 		relinkConfig("fieldA", "title"),
 		{title: "$:/config/TimestampDisable", text: "yes"},
 		{title: "from", fieldA: "to there"}]);
-	var text = "<$graph><$edges.typed $editable=yes $tiddler=from/>" + nodesFor("from", "to there");
+	var text = "<$graph><$edges.fields $editable=yes $tiddler=from/>" + nodesFor("from", "to there");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var edges = $tw.test.latestEngine.objects.edges;
 	var id = Object.keys(edges)[0];
@@ -108,7 +108,7 @@ it("can update edges when type is changed", async function() {
 	wiki.addTiddlers([
 		edgeConfig("fieldA", {value: "A"}),
 		{title: "from", fieldA: "[[to there]]"}]);
-	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "to there");
+	var text = "<$graph><$edges.fields $tiddler=from/>" + nodesFor("from", "to there");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	await $tw.test.flushChanges();
 	var edges = $tw.test.latestEngine.objects.edges;

@@ -25,7 +25,7 @@ tags: Examples
 
 		<$node label={{!!title}} $pos={{!!pos}} />
 
-	<$edges.typed />
+	<$edges.fields />
 
 </$list></$properties></$graph>
 \end

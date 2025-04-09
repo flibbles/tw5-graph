@@ -9,7 +9,7 @@ tags: Demo
   <$properties $filter="[tag[Ruler]]" shape=star >
    <$list filter="[tag[Deity]!is[system]!is[draft]]">
     <$node shape={{!!shape}} label={{!!title}} doubleclick="<$action-navigate/>"/>
-    <$edges.typed />
+    <$edges.fields />
    </$list>
   </$properties>
   </$properties>
