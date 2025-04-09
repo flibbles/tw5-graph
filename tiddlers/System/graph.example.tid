@@ -39,10 +39,10 @@ tags: $:/tags/Global
   \widget $apply.colours(nth:1)
     <%if [function[filter]nth<nth>] %>
       <$wikify name=<<condition>>  text=`<<colour "$(condition)$">>` >
-        <$apply.colours nth={{{ [<nth>add[1]] }}} />
+        <$transclude $variable="$apply.colours" nth={{{ [<nth>add[1]] }}} $fillignore=yes />
       </$wikify>
     <%else%>
-      <$slot $name=ts-raw $depth=<<nth>> />
+      <$slot $name=ts-raw />
     <%endif%>
   \end $apply.colours
 
@@ -54,7 +54,7 @@ tags: $:/tags/Global
       <$data title=Output text=<<content>> />
       <$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
       <$data $tiddler="$:/plugins/flibbles/graph" />
-      <$slot $name=ts-raw $depth={{{ [<nth>add[2]] }}} />
+      <$slot $name=ts-raw $depth=3 />
     </$testcase>
   \end inner
 
