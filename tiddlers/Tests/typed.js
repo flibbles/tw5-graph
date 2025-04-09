@@ -30,8 +30,9 @@ function renderAction(text) {
 	return widgetNode;
 };
 
-function links(array) {
-	return array.map(a => `<a class="tc-tiddlylink tc-tiddlylink-missing" href="#${encodeURIComponent(a)}">${a}</a>`).join("");
+function links(array, wrapper) {
+	wrapper = wrapper || "div";
+	return array.map(a => `<${wrapper}><a class="tc-tiddlylink tc-tiddlylink-missing" href="#${encodeURIComponent(a)}">${a}</a></${wrapper}>`).join("");
 };
 
 it("handles unspecified field types as list", function() {
@@ -181,6 +182,16 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	it("renders and preserves currentTiddler if not assigned", function() {
 		var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() myCurrent\n<$each.typed $variable=var $tiddler=Target $field=field><<currentTiddler>>-<<var>>");
 		expect(widget.parentDomNode.innerHTML).toBe("<p>myCurrent-value</p>");
+	});
+
+	it("renders with default block fill", function() {
+		var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />\n");
+		expect(widget.parentDomNode.innerHTML).toBe(links(["value"]));
+	});
+
+	it("renders with default inline fill", function() {
+		var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />");
+		expect(widget.parentDomNode.innerHTML).toBe("<p>" + links(["value"], "span") + "</p>");
 	});
 
 	it("renders with custom block fill", function() {
