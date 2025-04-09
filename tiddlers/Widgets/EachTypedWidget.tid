@@ -1,0 +1,71 @@
+title: EachTypedWidget
+tags: Macros Widgets
+caption: each.typed
+
+! Introduction
+
+The ''each.typed'' widget iterates over all the values of a tiddler's field in a way that's reflective of how that field is configured through [[Relink]]. This allows you to create blocks for field values regardless of whether that field is a list, a filter, a title type, or something else.
+
+This widget's behavior model after the core <<.wid list>> widget, from it's default fill behavior, to how it reacts to being block and inline.
+
+! Contents and Attributes
+
+The content of an `<$each.typed>` widget is an optional template to use for rendering each value in the given field.
+
+|!Attribute | !Description |
+|$tiddler |The tiddler whose field will be used (defaults to the current tiddler) |
+|$field |The field whose values are to be used for each block |
+|$variable |The name for a variable in which the value of each iterated field-value is stored. Defaults to ''currentTiddler''.|
+
+
+<$doc.implementation />
+
+! Relink integration
+
+The each.typed widget takes advantage of any configuration present due to the [[Relink]] plugin. If Relink specifies a type for a field, this widget will automatically recognize that type and treat it appropriately.
+
+Even if you don't have Relink installed, this widget will know the type of several core fields. See [[Field Types]] for more information.
+
+! Examples
+
+<$graph.example
+	description="each.typed with graphs"
+	narrative="This shows how each.typed can be used to add nodes to a graph from fields without caring about the field type.">
+<$data
+	title=Output
+	list="Planck Bohr Einstein Heisenberg Newton Yalow Curie"
+	link="George Gaylord Simpson"
+	text="""<$graph>
+	<$each.typed $field="list">
+		<$node label={{!!title}} color=blue />
+	</$each.typed>
+	<$each.typed $field="link">
+		<$node label={{!!title}} color=green />
+	</$each.typed>
+</$graph>""" />
+<$data title="$:/config/flibbles/relink/fields/link"
+	caption="Relink config for 'link'"
+	text=title
+	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
+</$graph.example>
+
+<$graph.example
+	description="each.typed vs. list"
+	narrative="each.typed behaves very much like the <<.wid link>> widget does. In many ways, each.typed is just a <<.wid link>> widget specialized for fields.">
+<$data
+	title=Output
+	list="Planck Bohr Curie"
+	link="David Hilbert"
+	filter="Anderson Bosch Sagan +[addprefix[Carl ]]"
+	text="""|$each.typed |$list |h
+|<$each.typed $field="link" /> |<$list filter="[{!!link}]" /> |
+|<$each.typed $field="list" /> |<$list filter="[list[!!list]]" /> |
+|<$each.typed $field="filter" /> |<$list filter="[subfilter{!!filter}]" /> |
+""" />
+<$data title="$:/config/flibbles/relink/fields/link"
+	caption="Relink config for 'link'"
+	text=title
+	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
+</$graph.example>
+
+{{TypedWidgets (Examples)}}

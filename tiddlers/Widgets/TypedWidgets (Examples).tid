@@ -2,7 +2,7 @@ title: TypedWidgets (Examples)
 
 <$graph.example
 	description="Typed widget suite"
-	narrative="This shows how the the suite of 'type' widgets manipulate different fields depending on their type.">
+	narrative="This shows how the the suite of 'typed' widgets (<<.wid action.addtyped>>, <<.wid action.removetyped>>, and <<.wid each.typed>> work in concert with each other. All of them can manipulate fields depending on their type.">
 <$data title="$:/config/flibbles/relink/fields/link"
 	caption="Relink config for 'link'"
 	text=title
