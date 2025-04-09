@@ -69,4 +69,16 @@ it('can send custom graph events to the graph', function() {
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "23",y: "27"});
 });
 
+it('can ignore events for unknown object types', function() {
+	var event = {
+		type: "weird",
+		objectType: "ineffables"};
+	var variables = {};
+	var widget = $tw.test.renderText(wiki, "<$graph>");
+	// We're not using the usual dispatchEvent method here, because the event
+	// we're calling is unknown.
+	$tw.test.latestEngine.onevent(wiki, event, variables);
+	// No test here, just shouldn't throw an exception
+});
+
 });
