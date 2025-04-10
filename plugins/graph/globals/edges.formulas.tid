@@ -1,0 +1,20 @@
+\widget $edges.formulas($formulas:'[all[]]')
+<$parameters $$tiddler=<<currentTiddler>> >
+
+<$list variable=formulaName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]subfilter<$formulas>]">
+
+<$let
+	formulaTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
+	formula={{{ [<formulaTiddler>get[filter]] }}} >
+
+<$properties $for=edges $tiddler=<<formulaTiddler>> >
+
+<$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
+
+<$tiddler tiddler=<<$tiddler>> >
+
+<$slot $name=ts-raw>
+
+<$edge />
+
+\end

@@ -1,0 +1,8 @@
+title: $:/config/flibbles/graph/edges/formulas/transcludes
+description: The tiddler contains a transclusion of another resource.
+filter: [transcludes[]]
+type: application/json
+
+{
+    "label": "transcludes"
+}
