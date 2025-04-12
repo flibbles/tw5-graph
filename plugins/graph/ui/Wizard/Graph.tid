@@ -13,9 +13,9 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 <pre class=graph-overlay>
 <$view tiddler=`$(state)$/event` />
 </pre>
-<$properties $for=graph $tiddler=`$(state)$/type/graph`>
+<$properties $for=graph $dataTiddler=`$(state)$/type/graph`>
 </$properties>
-<$properties $for=nodes $tiddler=`$(state)$/type/nodes`>
+<$properties $for=nodes $dataTiddler=`$(state)$/type/nodes`>
 	<$node $tiddler=Root />
 	<$node $tiddler=Branch />
 	<$node $tiddler=Leaf1 />
@@ -23,7 +23,7 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Graph
 	<$node $tiddler=Leaf3 />
 	<$node $tiddler=Leaf4 />
 </$properties>
-<$properties $for=edges $tiddler=`$(state)$/type/edges`>
+<$properties $for=edges $dataTiddler=`$(state)$/type/edges`>
 	<$edge $from=Root $to=Branch />
 	<$edge $from=Root $to=Leaf1 />
 	<$edge $from=Root $to=Leaf2 />
