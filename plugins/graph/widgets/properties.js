@@ -87,7 +87,12 @@ Properties.prototype.createStyle = function() {
 	var styleObject = Object.create(null);
 	if (this.dataTiddler) {
 		var data = this.wiki.getTiddlerData(this.dataTiddler);
-		$tw.utils.extend(styleObject, data);
+		for (var entry in data) {
+			// We only accept non-empty values
+			if (data[entry]) {
+				styleObject[entry] = data[entry];
+			}
+		}
 	}
 	for (var name in this.attributes) {
 		if (name.charAt(0) !== '$' && this.attributes[name]) {

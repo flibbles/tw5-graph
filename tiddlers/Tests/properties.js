@@ -270,6 +270,13 @@ it("can point to a nonexistent data tiddler", function() {
 	expect(objects.nodes).toEqual({N: {key: "value"}});
 });
 
+it("does not accept blank values from data tiddler", function() {
+	wiki.addTiddler({title: "Properties", type: "application/json", text: JSON.stringify({value: "good", empty: ""})});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {value: "good"}});
+});
+
 it("can change properties from a tiddler", async function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: JSON.stringify({value: "old"})});
 	await $tw.test.flushChanges();
