@@ -27,7 +27,7 @@ Properties.prototype.render = function(parent, nextSibling) {
 Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
 	this.filter = this.getAttribute("$filter");
-	this.dataTiddler = this.getAttribute("$tiddler");
+	this.dataTiddler = this.getAttribute("$dataTiddler");
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.styleObject = this.createStyle();
 	if (this.filter) {
@@ -44,7 +44,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
-		this.dataTiddler = this.getAttribute("$tiddler");
+		this.dataTiddler = this.getAttribute("$dataTiddler");
 		this.styleObject = this.createStyle();
 		for (var id in this.affectedObjects || this.knownObjects[this.type]) {
 			this.knownObjects[this.type][id].changed = true;

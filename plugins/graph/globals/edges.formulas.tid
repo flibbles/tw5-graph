@@ -7,7 +7,7 @@
 	formulaTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
 	formula={{{ [<formulaTiddler>get[filter]] }}} >
 
-<$properties $for=edges $tiddler=<<formulaTiddler>> >
+<$properties $for=edges $dataTiddler=<<formulaTiddler>> >
 
 <$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
 
