@@ -7,7 +7,7 @@
 <$let currentTiddler=<<$tiddler>> >
 
 <$properties
-	$tiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
+	$dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
 	delete={{{ [<$editable>match[no]then[]else<deleteAction>] }}}
 	$for=edges>
 

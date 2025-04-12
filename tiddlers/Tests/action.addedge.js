@@ -37,7 +37,7 @@ it("lists fields in the modal", function() {
 		{title: "A"},
 		{title: "Else", existingField: "this is used too"},
 		$tw.wiki.getTiddler("$:/core/macros/keyboard-driven-input"),
-		{title: "$:/config/flibbles/graph/edges/configuredField", text: "{}", type: "application/json"}]);
+		{title: "$:/config/flibbles/graph/edges/fields/configuredField", text: "{}", type: "application/json"}]);
 	var widgetNode = $tw.test.renderAction(wiki,"\\define fromTiddler() A\n\\define toTiddler() B\n<$action.addedge />\n");
 	$tw.modal.display.and.callThrough();
 	// If we're actually going to call modal.display, we've got to mockup a
