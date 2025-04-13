@@ -85,4 +85,13 @@ it("has even depth with its blocks", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>AL</p>");
 });
 
+it("makes dataTiddler available for all edge types", function() {
+	wiki.addTiddlers([
+		fieldConfig("fieldA", {}),
+		{title: "Target", fieldA: "A", text: "[[L]] [[R]]"}]);
+	var text = "<$edges.all $tiddler=Target>=<$text text={{{ [<dataTiddler>split[/]last[]] }}}/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>=fieldA=links=links</p>");
+});
+
 });

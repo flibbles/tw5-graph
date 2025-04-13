@@ -4,10 +4,12 @@
 
 <$list variable=fieldName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]subfilter<$fields>]">
 
-<$let currentTiddler=<<$tiddler>> >
+<$let
+	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
+	currentTiddler=<<$tiddler>> >
 
 <$properties
-	$dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
+	$dataTiddler=<<dataTiddler>>
 	delete={{{ [<$editable>match[no]then[]else<deleteAction>] }}}
 	$for=edges>
 
