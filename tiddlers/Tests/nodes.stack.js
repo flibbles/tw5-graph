@@ -39,4 +39,18 @@ it("applies stack in order", function() {
 		XY: {last: "A", value: "this"}});
 });
 
+it("can render inline fills", function() {
+	var text = "<$nodes.stack>* A\n* B";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var html = widget.parentDomNode.innerHTML;
+	expect(html).toBe("<p>* A\n* B</p>");
+});
+
+it("can render block fills", function() {
+	var text = "<$nodes.stack>\n\n* A\n* B";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var html = widget.parentDomNode.innerHTML;
+	expect(html).toBe("<ul><li>A</li><li>B</li></ul>");
+});
+
 });

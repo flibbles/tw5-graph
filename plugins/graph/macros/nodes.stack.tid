@@ -1,21 +1,15 @@
 \widget $nodes.stack()
-\whitespace trim
 \procedure $nodes.stack.recurse(nth)
-
+\whitespace trim
 <%if [all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/nodes/stack/]sort[]nth<nth>addprefix[$:/config/flibbles/graph/nodes/stack/]] %>
-
-<$properties $filter={{{ [<condition>get[filter]] }}} $dataTiddler=<<condition>> >
-
-<$transclude $variable=$nodes.stack.recurse $fillignore=yes nth={{{ [<nth>add[1]] }}} />
-
-</$properties>
+  <$properties $filter={{{ [<condition>get[filter]] }}} $dataTiddler=<<condition>> >
+    <$transclude $variable=$nodes.stack.recurse $fillignore=yes nth={{{ [<nth>add[1]] }}} />
+  </$properties>
 <%else%>
-
-<$slot $name=ts-raw />
-
+  <$slot $name=ts-raw />
 <%endif%>
 \end $nodes.stack.recurse
-
+\whitespace trim
 <$transclude $variable=$nodes.stack.recurse nth=1 $fillignore />
 
 \end
