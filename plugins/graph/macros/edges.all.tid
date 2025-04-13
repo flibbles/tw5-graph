@@ -1,0 +1,15 @@
+\widget $edges.all($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
+<$parameters $$tiddler=<<currentTiddler>> >
+
+<$transclude $variable="$edges.fields"
+	$fillignore=yes
+	$$fields=<<$fields>>
+	$$editable=<<$editable>>
+	$$tiddler=<<$tiddler>> />
+
+<$transclude $variable="$edges.formulas"
+	$fillignore=yes
+	$$formulas=<<$formulas>>
+	$$tiddler=<<$tiddler>> />
+
+\end
