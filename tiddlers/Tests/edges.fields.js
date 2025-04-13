@@ -23,7 +23,7 @@ function relinkConfig(name, type) {
 	return {title: "$:/config/flibbles/relink/fields/" + name, text: type};
 };
 
-function  edgeConfig(name, properties) {
+function edgeConfig(name, properties) {
 	return {
 		title: "$:/config/flibbles/graph/edges/fields/" + name,
 		text: JSON.stringify(properties),
@@ -81,11 +81,9 @@ it("currentTiddler remains unchanged for $fields filter", function() {
 	wiki.addTiddlers([
 		{title: "Info", choice: "fieldB"},
 		{title: "from", fieldA: "bad", fieldB: "good"}]);
-	var text = "\\define currentTiddler() Info\n<$graph><$edges.fields $fields='[<currentTiddler>get[choice]]' $tiddler=from/>" + nodesFor("from", "bad", "good");
+	var text = "\\define currentTiddler() Info\n<$edges.fields $fields='[<currentTiddler>get[choice]]' $tiddler=from><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	var objects = init.calls.first().args[1];
-	expect(Object.values(objects.edges)).toEqual([
-		{from: "from", to: "good"}]);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>good</p>");
 });
 
 it("can delete edges", function() {
@@ -101,7 +99,6 @@ it("can delete edges", function() {
 	expect(edges[id]).toEqual({from: "from", to: "to there", value: "A", delete: true});
 	$tw.test.dispatchEvent(wiki, {objectType: "edges", id: id, type: "delete"}, {});
 	expect(wiki.getTiddler("from").fields).toEqual({title: "from"});
-	
 });
 
 it("can update edges when type is changed", async function() {
