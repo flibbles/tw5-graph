@@ -7,7 +7,7 @@
 			"fields": {
 				"title": {
 					"source": "basename",
-					"prefix": "$:/plugins/flibbles/graph/globals/"
+					"prefix": "$:/plugins/flibbles/graph/macros/"
 				},
 				"tags": "$:/tags/Global",
 				"code-body": "yes"
