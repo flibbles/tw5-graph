@@ -17,18 +17,9 @@
 
 \end
 
-\widget $each.typed($variable:currentTiddler $field)
+\widget $each.typed($variable:currentTiddler $field, $defaultTemplate:"$:/plugins/flibbles/graph/ui/linkTemplate")
 <$parameters $parseMode=$each.mode $$tiddler=<<currentTiddler>> >
 
-<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]] }}} $mode=inline>
+<$transclude $tiddler={{{ [<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]] }}} $mode=inline $fillignore=yes />
 
-<$fill $name=list-item>
-
-<$slot $depth=2 $name=ts-raw>
-
-<$genesis $type={{{ [<$each.mode>match[inline]then[span]else[div]] }}}>
-
-<$link to={{{ [<$variable>getvariable[]] }}} />
-
-</$genesis></$slot></$fill></$transclude>
 \end

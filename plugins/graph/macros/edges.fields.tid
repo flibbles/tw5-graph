@@ -11,10 +11,6 @@
 	delete={{{ [<$editable>match[no]then[]else<deleteAction>] }}}
 	$for=edges>
 
-<$each.typed $variable=toTiddler $tiddler=<<$tiddler>> $field=<<fieldName>> >
-
-<$slot $depth=3 $name=ts-raw>
-
-<$edge />
+<$transclude $variable="$each.typed" $$variable=toTiddler $$tiddler=<<$tiddler>> $$field=<<fieldName>> $$defaultTemplate="$:/plugins/flibbles/graph/ui/edgeTemplate" $fillignore=yes />
 
 \end

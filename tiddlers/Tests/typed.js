@@ -205,7 +205,7 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 	});
 
 	it("supports simple slot filling at 1 depth", function() {
-		var widget = $tw.test.renderGlobal(wiki, `\\widget $.test()<$each.typed $tiddler=Target $field=field>(<$slot $name=ts-test $depth=3/>)
+		var widget = $tw.test.renderGlobal(wiki, `\\widget $.test()<$each.typed $tiddler=Target $field=field>(<$slot $name=ts-test $depth=2/>)
 			<$.test><$fill $name=ts-test>[{{!!title}}]`);
 		expect(widget.parentDomNode.innerHTML).toBe("<p>([value])</p>");
 	});

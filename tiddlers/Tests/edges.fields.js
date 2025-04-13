@@ -68,13 +68,11 @@ it("handles non-fieldTyped edges when specified", function() {
 
 it("can have custom edge fill", function() {
 	wiki.addTiddlers([
-		edgeConfig("fieldA", {value: "A", other: "val"}),
+		edgeConfig("fieldA", {}),
 		{title: "from", fieldA: "to"}]);
-	var text = "<$graph><$edges.fields $tiddler=from><$edge value=custom/></$edges.fields>" + nodesFor("from", "to");
+	var text = "<$edges.fields $tiddler=from>X-<<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	var objects = init.calls.first().args[1];
-	expect(Object.values(objects.edges)).toEqual([
-		{from: "from", to: "to", value: "custom", other: "val"}]);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>X-to</p>");
 });
 
 it("currentTiddler remains unchanged for $fields filter", function() {

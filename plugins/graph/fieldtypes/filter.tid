@@ -12,6 +12,8 @@ title: $:/plugins/flibbles/graph/fieldtypes/filter
 
 <$list variable=_filter filter="[<$tiddler>get<$field>]">
   <$list variable=<<$variable>> filter="[subfilter<_filter>]" >
-    <$slot $name=list-item />
+    <$slot $name=ts-raw >
+      <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
+    </$slot>
   </$list>
 </$list>

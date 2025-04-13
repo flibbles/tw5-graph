@@ -76,7 +76,7 @@ it("makes edges for both types by default", function() {
 		{from: "from", to: "transclude", label: "transcludes"}]);
 });
 
-xit("has even depth with its blocks", function() {
+it("has even depth with its blocks", function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {}),
 		{title: "Target", fieldA: "A", text: "[[L]]"}]);

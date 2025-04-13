@@ -21,5 +21,7 @@ title: $:/plugins/flibbles/graph/fieldtypes/list
 \whitespace trim
 
 <$list variable=<<$variable>> filter="[<$tiddler>each:list-item<$field>]">
-  <$slot $name=list-item />
+  <$slot $name=ts-raw >
+    <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
+  </$slot>
 </$list>

@@ -17,5 +17,7 @@ title: $:/plugins/flibbles/graph/fieldtypes/title
 \whitespace trim
 
 <$list variable=<<$variable>> filter="[<$tiddler>get<$field>]" >
-  <$slot $name=list-item />
+  <$slot $name=ts-raw >
+    <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
+  </$slot>
 </$list>
