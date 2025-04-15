@@ -230,13 +230,13 @@ tags: $:/tags/Stylesheet
 	flex-grow: 1;
 }
 
-.graph-wizard .graph-property-remove {
+/*** Build-a-Graph Property Table ***/
+
+table .graph-property-remove {
 	width: 2em;
 }
 
-/*
-Build-a-Graph Property Types
-*/
+/*** Build-a-Graph Property Types ***/
 
 table .graph-property-input {
 	width: 8em;
@@ -252,11 +252,7 @@ table.graph-property td {
 
 .graph-property-input-color input[type='color'] {
 	height: 24px;
-	width: 50%;
-}
-
-.graph-property-input-color input[type='text'] {
-	width: 50%;
+	width: 100%;
 }
 
 table.graph-property .graph-property-input-number input {

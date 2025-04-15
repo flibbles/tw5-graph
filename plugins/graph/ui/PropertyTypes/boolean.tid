@@ -2,7 +2,7 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/boolean
 
 \whitespace trim
 
-<$checkbox tiddler=<<stateTiddler>> index=<<property>>
+<$checkbox index=<<property>>
 	checked=yes
 	unchecked=no
 	default={{{ [<jsonEntry>jsonget[default]match[true]then[yes]else[no]] }}}

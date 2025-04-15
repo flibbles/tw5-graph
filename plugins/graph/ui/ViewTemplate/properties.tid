@@ -36,6 +36,6 @@ title: $:/plugins/flibbles/graph/ui/ViewTemplate/properties
 
 <$button class=tc-btn-invisible tooltip="Unset this property">
 
-<$action-setfield $index=<<property>> $value=""/>
+<$action-setfield $index=<<property>> />
 
 <$transclude $tiddler="$:/core/images/delete-button" $mode=inline />
