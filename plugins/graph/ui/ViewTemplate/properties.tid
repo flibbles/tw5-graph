@@ -1,0 +1,41 @@
+title: $:/plugins/flibbles/graph/ui/ViewTemplate/properties
+
+\parameters (type, engine)
+\whitespace trim
+
+<$list variable=json filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<engine>] +[moduleproperty[properties]jsonextract<type>]" >
+
+<table class=graph-property>
+
+<$list variable=property filter="[<json>jsonindexes[]]">
+
+<$let jsonEntry={{{ [<json>jsonextract<property>] }}}
+      propertyType={{{ [<jsonEntry>jsonget[type]] }}} >
+
+<%if [<jsonEntry>jsonget[hidden]else[false]!match[true]] %>
+
+<tr>
+
+<td class=graph-property-label>
+
+<$text text=<<property>> />
+
+</td>
+<td class=`graph-property-input graph-property-input-$(propertyType)$`>
+
+<$transclude
+  $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(propertyType)$`
+  $mode=inline>
+
+<$edit-text tag=input index=<<property>> />
+
+</$transclude></td>
+<td class=graph-property-remove>
+
+<%if [all[current]getindex<property>] %>
+
+<$button class=tc-btn-invisible tooltip="Unset this property">
+
+<$action-setfield $index=<<property>> $value=""/>
+
+<$transclude $tiddler="$:/core/images/delete-button" $mode=inline />

@@ -2,40 +2,8 @@ title: $:/plugins/flibbles/graph/ui/Wizard/Table
 
 \whitespace trim
 
-<$let stateTiddler=`$(state)$/type/$(currentTab)$`
-      jsonType={{{ [<json>jsonextract<currentTab>] }}}>
+<$tiddler tiddler=`$(state)$/type/$(currentTab)$`>
 
-<table class=graph-property>
-
-<$list variable=property filter="[<jsonType>jsonindexes[]]">
-
-<$let jsonEntry={{{ [<jsonType>jsonextract<property>] }}}
-      type={{{ [<jsonEntry>jsonget[type]] }}} >
-
-<%if [<jsonEntry>jsonget[hidden]else[false]!match[true]] %>
-
-<tr>
-
-<td class=graph-property-label>
-
-<$text text=<<property>> />
-
-</td>
-<td class=`graph-property-input graph-property-input-$(type)$`>
-
-<$transclude
-  $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(type)$`
-  $mode=inline>
-
-<$edit-text tag=input tiddler=<<stateTiddler>> index=<<property>> />
-
-</$transclude></td>
-<td class=graph-property-remove>
-
-<%if [<stateTiddler>getindex<property>] %>
-
-<$button class=tc-btn-invisible tooltip="Unset this property">
-
-<$action-setfield $tiddler=<<stateTiddler>> $index=<<property>> $value=""/>
-
-<$transclude $tiddler="$:/core/images/delete-button" $mode=inline />
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
+	type=<<currentTab>>
+	engine=<<engine>> />

@@ -1,7 +1,9 @@
 title: $:/plugins/flibbles/graph/ui/Wizard/Engine
 
-<$vars json={{{ [[graphengine]modules[]] :filter[moduleproperty[name]match<currentTab>] +[moduleproperty[properties]] }}}
-	defaultType=nodes>
+<$let
+	engine=<<currentTab>>
+	json={{{ [[graphengine]modules[]] :filter[moduleproperty[name]match<engine>] +[moduleproperty[properties]] }}}
+	defaultType=nodes >
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Wizard/Output" $mode=inline/>
 
