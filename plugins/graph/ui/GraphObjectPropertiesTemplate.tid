@@ -1,5 +1,14 @@
 title: $:/plugins/flibbles/graph/ui/GraphObjectPropertiesTemplate
 
+\whitespace trim
+
+<$let
+	descriptors={{{[all[current]removeprefix[$:/config/flibbles/graph/]]}}}
+	type={{{ [<descriptors>split[/]nth[1]] }}}
+	category={{{ [<descriptors>split[/]nth[2]] }}} >
+
+<$transclude $tiddler=`$:/plugins/flibbles/graph/presettypes/$(type)$/$(category)$` />
+
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
 	type={{{ [all[current]removeprefix[$:/config/flibbles/graph/]splitbefore[/]removesuffix[/]] }}}
 	engine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} />

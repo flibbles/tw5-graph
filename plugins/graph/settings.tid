@@ -1,0 +1,10 @@
+title: $:/plugins/flibbles/graph/settings
+
+\parameters (default:nodes)
+
+<$transclude $variable=tabs
+	tabsList="[all[shadows+tiddlers]removeprefix[$:/plugins/flibbles/graph/presettypes/]splitbefore[/]removesuffix[/]unique[]sort[]]"
+	default=<<default>>
+	state="$:/state/graph/settings/"
+	template="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate"
+/>

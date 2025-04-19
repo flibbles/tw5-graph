@@ -1,3 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/Settings/ObjectTypeButton
-
-<$text text={{{ [<currentTab>removeprefix[$:/config/flibbles/graph/]removeprefix<currentType>removeprefix[/]removeprefix<currentCategory>removeprefix[/]] }}} />

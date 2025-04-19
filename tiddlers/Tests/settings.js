@@ -15,7 +15,7 @@ beforeEach(async function() {
 });
 */
 
-it("renders config tiddlers using viewTemplate", function() {
+it("renders data tiddlers using viewTemplate", function() {
 	var widget = $tw.test.renderText($tw.wiki, "{{$:/config/flibbles/graph/edges/formulas/links||$:/core/ui/ViewTemplate/body}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure the table renders
@@ -26,6 +26,17 @@ it("renders config tiddlers using viewTemplate", function() {
 	expect(html).toContain('type="color"');
 	// Make sure we're loading the right kind of CSS classes
 	expect(html).toContain("input-color");
+	// Make sure the category-specific stuff loads
+	expect(html).toContain("Filter:");
+});
+
+it("renders plugin tab", function() {
+	var widget = $tw.test.renderGlobal($tw.wiki, "{{$:/plugins/flibbles/graph/settings|edges}}");
+	var html = widget.parentDomNode.innerHTML;
+	// Make sure we're getting those default object type categories
+	expect(html).toContain("Formulas");
+	// Make sure we're finding the types within the categories too
+	expect(html).toContain(">links<");
 });
 
 });

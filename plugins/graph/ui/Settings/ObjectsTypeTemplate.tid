@@ -1,0 +1,70 @@
+title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
+
+\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
+\function master.list(tiddler) [all[shadows+tiddlers]sort[]prefix<tiddler>sort.by<tiddler>] -[<tiddler>]
+
+\define list-links-draggable-drop-actions()
+<$action-listops $tiddler=<<targetTiddler>> $field=<<targetField>> $filter="[master.list<targetTiddler>] +[insertbefore<actionTiddler>,<currentTiddler>]"/>
+\end
+
+\whitespace trim
+\procedure list-links-draggable(tiddler,field:"list",emptyMessage,type:"ul",subtype:"li",class:"",itemTemplate)
+\whitespace trim
+<span class="tc-links-draggable-list">
+  <$vars targetTiddler=<<tiddler>> targetField=<<field>>>
+    <$genesis $type=<<__type__>> class=<<class>>>
+      <$list filter=`[master.list<tiddler>]` emptyMessage=<<__emptyMessage__>>>
+        <$droppable
+          actions=<<list-links-draggable-drop-actions>>
+          tag=<<subtype>>
+          enable=<<tv-enable-drag-and-drop>>
+        >
+          <div class="tc-droppable-placeholder"/>
+          <div>
+            <$transclude tiddler=<<itemTemplate>> >
+              <$link to={{!!title}}>
+                <$let tv-wikilinks="no">
+                  <$transclude field="caption">
+                    <$view field="title"/>
+                  </$transclude>
+                </$let>
+              </$link>
+            </$transclude>
+          </div>
+        </$droppable>
+      </$list>
+      <$tiddler tiddler="">
+        <$droppable
+          actions=<<list-links-draggable-drop-actions>>
+          tag="div"
+          enable=<<tv-enable-drag-and-drop>> >
+          <div class="tc-droppable-placeholder">
+            {{$:/core/images/blank}}
+          </div>
+          <div style="height:0.5em;"/>
+        </$droppable>
+\end
+
+\procedure tabs-tab-list()
+\whitespace trim
+<$list filter="[all[shadows+tiddlers]removeprefix<presetPrefix>]" variable="currentCategory">
+  <$text text={{{ [<currentCategory>titlecase[]] }}} />
+  <$vars categoryPrefix=`$(configPrefix)$$(currentCategory)$/`>
+    <$list filter="[all[shadows+tiddlers]prefix<categoryPrefix>]" variable="currentTab" storyview="pop">
+      <<tabs-tab>>
+    </$list>
+  </$vars>
+</$list>
+\end
+
+<$let
+	currentType=<<currentTab>>
+	presetPrefix=`$:/plugins/flibbles/graph/presettypes/$(currentType)$/`
+	configPrefix=`$:/config/flibbles/graph/$(currentTab)$/`>
+
+<$transclude $variable=tabs
+	tabsList="[all[shadows+tiddlers]prefix<configPrefix>]"
+	class=tc-vertical
+	template="$:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate"
+	buttonTemplate="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeButton"
+/>
