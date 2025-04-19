@@ -230,6 +230,28 @@ tags: $:/tags/Stylesheet
 	flex-grow: 1;
 }
 
+/*** Graph settings pages ***/
+
+.graph-tab-header {
+	font-weight: bold;
+	margin-right: 0.0em;
+	margin-top: 1em;
+	border: 1px solid <<color tab-border>>;
+	padding: 3px 5px 0px 5px;
+	border-top-left-radius: 1em;
+}
+
+.tc-tab-buttons.tc-vertical button.graph-tab-new {
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+}
+
+button.graph-tab-new svg {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /*** Build-a-Graph Property Table ***/
 
 table .graph-property-remove {

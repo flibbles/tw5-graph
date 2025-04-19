@@ -48,11 +48,21 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 \procedure tabs-tab-list()
 \whitespace trim
 <$list filter="[all[shadows+tiddlers]removeprefix<presetPrefix>]" variable="currentCategory">
-  <$text text={{{ [<currentCategory>titlecase[]] }}} />
+  <div class="graph-tab-header"><$text text={{{ [<currentCategory>titlecase[]] }}} /></div>
   <$vars categoryPrefix=`$(configPrefix)$$(currentCategory)$/`>
     <$list filter="[all[shadows+tiddlers]prefix<categoryPrefix>]" variable="currentTab" storyview="pop">
       <<tabs-tab>>
     </$list>
+    <$button class="graph-tab-new">
+      {{$:/core/images/new-button}}
+      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
+        <$vars newTitle=`$(categoryPrefix)$$(selection)$`>
+          <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
+          <$action-setfield $tiddler=<<tabsState>> text=<<newTitle>> />
+        </$vars>
+      </$action-modal>
+      <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+    </$button>
   </$vars>
 </$list>
 \end
@@ -64,6 +74,7 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 
 <$transclude $variable=tabs
 	tabsList="[all[shadows+tiddlers]prefix<configPrefix>]"
+	state=`$:/state/flibbles/graph/tab/$(currentType)$`
 	class=tc-vertical
 	template="$:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate"
 	buttonTemplate="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeButton"
