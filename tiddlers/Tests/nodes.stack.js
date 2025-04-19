@@ -53,4 +53,17 @@ it("can render block fills", function() {
 	expect(html).toBe("<ul><li>A</li><li>B</li></ul>");
 });
 
+it("does not require same output from filter to qualify", function() {
+	wiki.addTiddlers([
+		nodeConfig("type", "[get[field]]", {value: "assigned"}),
+		{title: "X", field: "value"},
+		{title: "Y"}]);
+	var text = "<$graph><$nodes.stack><$list filter='X Y'><$node/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(init).toHaveBeenCalledTimes(1);
+	expect(init.calls.first().args[1].nodes).toEqual({
+		X: {value: "assigned"},
+		Y: {}});
+});
+
 });
