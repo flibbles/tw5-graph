@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/presettypes/nodes/stack
+
+"stack" nodes define the node properties that can be applied as a stack to contained nodes, such as nodes contained within `$nodes.stack`. For each node, the stack of node properties are applied one after another, each depending on if that node matches any given stack property's filter.
+
+Filter: <$edit-text field=filter />

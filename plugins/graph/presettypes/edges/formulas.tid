@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/ui/PresetTypes/edges/formulas
+
+"Formula" edges define the edge properties for edges generated for a given node but running a filter taking that node as input, and creating for every output of that filter. These edges can be created using the `$edges.formulas` widget, or the more inclusive `$edges.all` widget, which generates all other types of preset edge types.
+
+Filter: <$edit-text field=filter />
