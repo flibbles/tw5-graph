@@ -190,6 +190,8 @@ it('can handle changes to style properties', async function() {
 	expect(update).toHaveBeenCalledWith({nodes: {A: {layer: "3", special: "now"}, C: {layer: "2", special: "now"}}});
 });
 
+/*** $filter manipulation ***/
+
 it('updates when $filter output would be only change', async function() {
 	wiki.addTiddler({title: "List", tags: "A B"});
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/>");
@@ -200,6 +202,44 @@ it('updates when $filter output would be only change', async function() {
 	wiki.addTiddler({title: "List", tags: "B C"});
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledWith({nodes: {A: {}, C: {value: "X"}}});
+});
+
+it("udates when indirect $filter changes", async function() {
+	wiki.addTiddler({title: "Filter", text: "[match[A]]"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter={{Filter}}><$node $tiddler=A/><$node $tiddler=B/>");
+	await $tw.test.flushChanges();
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({
+		A: {value: "X"},
+		B: {}});
+	wiki.addTiddler({title: "Filter", text: "[all[]]"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledWith({nodes: {B: {value: "X"}}});
+});
+
+it("udates when indirect $filter is removed", async function() {
+	wiki.addTiddler({title: "Filter", text: "[match[A]]"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter={{Filter}}><$node $tiddler=A/><$node $tiddler=B/>");
+	await $tw.test.flushChanges();
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({
+		A: {value: "X"},
+		B: {}});
+	wiki.deleteTiddler("Filter");
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledWith({nodes: {B: {value: "X"}}});
+});
+
+it("updates when indirect $filter is added", async function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter={{Filter}}><$node $tiddler=A/><$node $tiddler=B/>");
+	await $tw.test.flushChanges();
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({
+		A: {value: "X"},
+		B: {value: "X"}});
+	wiki.addTiddler({title: "Filter", text: "[match[A]]"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledWith({nodes: {B: {}}});
 });
 
 it("can add to graph sequentially", function() {

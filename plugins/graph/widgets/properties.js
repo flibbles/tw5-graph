@@ -30,9 +30,7 @@ Properties.prototype.execute = function() {
 	this.dataTiddler = this.getAttribute("$dataTiddler");
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.styleObject = this.createStyle();
-	if (this.filter) {
-		this.affectedObjects = Object.create(null);
-	}
+	this.affectedObjects = Object.create(null);
 	this.knownObjects = {};
 	this.makeChildWidgets();
 };
@@ -40,14 +38,17 @@ Properties.prototype.execute = function() {
 Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
-	if ($tw.utils.count(changedAttributes) > 0
+	if (propertiesChanged(changedAttributes)
+	|| changedAttributes["$dataTiddler"]
+	|| changedAttributes["$for"]
 	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
 		this.dataTiddler = this.getAttribute("$dataTiddler");
 		this.styleObject = this.createStyle();
-		for (var id in this.affectedObjects || this.knownObjects[this.type]) {
-			this.knownObjects[this.type][id].changed = true;
+		var known = this.knownObjects[this.type];
+		for (var id in this.affectedObjects || known) {
+			known[id].changed = true;
 		}
 		changed = true;
 	}
@@ -66,7 +67,11 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.
 	// TODO: A full refresh is not required, even if the filter changes
-	if (this.filter) {
+	if (changedAttributes["$filter"]) {
+		this.filter = this.getAttribute("$filter");
+		this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
+	}
+	if (this.filter || changedAttributes["$filter"]) {
 		var known = this.knownObjects[this.type];
 		for (var id in known) {
 			var widget = known[id];
@@ -112,12 +117,10 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 		newObjects[type][id] = widget;
 		var object = parentCallback(widget);
 		if (type === self.type) {
-			if (self.filter) {
-				if (self.filterFunc([id], self).length > 0) {
-					self.affectedObjects[id] = true;
-				} else {
-					return object;
-				}
+			if (self.filterFunc([id], self).length > 0) {
+				self.affectedObjects[id] = true;
+			} else {
+				return object;
 			}
 			for (var style in self.styleObject) {
 				object[style] = self.styleObject[style];
@@ -160,6 +163,15 @@ Properties.prototype.collectGraphProperties = function(properties) {
 			properties[style] = this.styleObject[style];
 		}
 	}
+};
+
+function propertiesChanged(changedAttributes) {
+	for (var name in changedAttributes) {
+		if (name.charAt(0) !== "$") {
+			return true;
+		}
+	}
+	return false;
 };
 
 exports.properties = Properties;
