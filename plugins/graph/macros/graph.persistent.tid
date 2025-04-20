@@ -1,0 +1,15 @@
+\widget $graph.persistent($ledgerTiddler)
+\whitespace trim
+
+\function pos() [<$ledgerTiddler>getindex{!!title}]
+
+\procedure recordPosition(title)
+<$action-setfield $tiddler=<<$ledgerTiddler>> $index=<<title>> $value=`$(x)$,$(y)$`/>
+\end recordPosition
+\procedure actionFree()<$transclude $variable=recordPosition title={{!!title}}/>
+
+<$properties free=<<actionFree>> >
+
+<$slot $name=ts-raw />
+
+\end
