@@ -146,30 +146,15 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	return newObjects;
 };
 
-Properties.prototype.collectThisProperties = function(properties) {
-	if (this.type === "graph") {
-		for (var style in this.styleObject) {
-			properties[style] = this.styleObject[style];
-		}
-	}
-};
-
 Properties.prototype.collectGraphProperties = function(properties) {
 	var iterator = new WidgetIterator(this);
 	var results;
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
-		if (widget.collectThisProperties) {
-			widget.collectThisProperties(properties);
-		}
-	}
-};
-
-Properties.prototype.invokeThisWidget = function(graphEvent, variables) {
-	if (this.type === "graph") {
-		var actions = this.styleObject[graphEvent.type];
-		if (actions) {
-			this.invokeActionString(actions, this, graphEvent.event, variables);
+		if (widget.type === "graph") {
+			for (var style in widget.styleObject) {
+				properties[style] = widget.styleObject[style];
+			}
 		}
 	}
 };
@@ -179,8 +164,11 @@ Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
 	var results;
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
-		if (widget.invokeThisWidget) {
-			widget.invokeThisWidget(graphEvent, variables);
+		if (widget.type === "graph") {
+			var actions = widget.styleObject[graphEvent.type];
+			if (actions) {
+				widget.invokeActionString(actions, widget, graphEvent.event, variables);
+			}
 		}
 	}
 };
@@ -204,28 +192,29 @@ function WidgetIterator(root) {
 };
 
 WidgetIterator.prototype.next = function() {
-	var rtn;
-	if (!this.ptr) {
+	var rtn, ptr = this.ptr;
+	if (!ptr) {
 		rtn = {done: true};
 	} else {
-		rtn = {value: this.ptr, done: false};
-		this.ptr = this.ptr.parentWidget;
+		rtn = {value: ptr, done: false};
+		ptr = ptr.parentWidget;
 		var index = this.stack.pop();
 		if (index !== undefined) {
 			index++;
-			if (this.ptr && this.ptr.children.length > index) {
-				this.ptr = this.ptr.children[index];
+			if (ptr && ptr.children.length > index) {
+				ptr = ptr.children[index];
 				this.stack.push(index);
 				// Now dive to the lowest child
-				while (this.ptr.children && this.ptr.children.length > 0) {
+				while (ptr.children && ptr.children.length > 0) {
 					this.stack.push(0);
-					this.ptr = this.ptr.children[0];
+					ptr = ptr.children[0];
 				}
 			}
 		} else {
-			this.ptr = null;
+			ptr = null;
 		}
 	}
+	this.ptr = ptr;
 	return rtn;
 };
 
