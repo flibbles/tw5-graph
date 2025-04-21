@@ -19,6 +19,6 @@
 	addEdge="""<$action.addedge/>"""
 />
 
-<$each.typed $tiddler=<<$tiddler>> $field=<<$field>> >
+<$transclude $variable="$each.typed" $$tiddler=<<$tiddler>> $$field=<<$field>> $$defaultTemplate="$:/plugins/flibbles/graph/ui/nodeTemplate" $fillignore=yes />
 
 \end
