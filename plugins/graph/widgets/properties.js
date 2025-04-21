@@ -146,18 +146,7 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	return newObjects;
 };
 
-Properties.prototype.collectGraphProperties = function(properties) {
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.collectGraphProperties) {
-				widget.collectGraphProperties(properties);
-			} else if (widget.children) {
-				searchChildren(widget.children);
-			}
-		}
-	};
-	searchChildren(this.children, null);
+Properties.prototype.collectThisProperties = function(properties) {
 	if (this.type === "graph") {
 		for (var style in this.styleObject) {
 			properties[style] = this.styleObject[style];
@@ -165,22 +154,33 @@ Properties.prototype.collectGraphProperties = function(properties) {
 	}
 };
 
-Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.invokeGraphActions) {
-				widget.invokeGraphActions(graphEvent, variables);
-			} else if (widget.children) {
-				searchChildren(widget.children);
-			}
+Properties.prototype.collectGraphProperties = function(properties) {
+	var iterator = new WidgetIterator(this);
+	var results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		if (widget.collectThisProperties) {
+			widget.collectThisProperties(properties);
 		}
-	};
-	searchChildren(this.children, null);
+	}
+};
+
+Properties.prototype.invokeThisWidget = function(graphEvent, variables) {
 	if (this.type === "graph") {
 		var actions = this.styleObject[graphEvent.type];
 		if (actions) {
 			this.invokeActionString(actions, this, graphEvent.event, variables);
+		}
+	}
+};
+
+Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
+	var iterator = new WidgetIterator(this);
+	var results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		if (widget.invokeThisWidget) {
+			widget.invokeThisWidget(graphEvent, variables);
 		}
 	}
 };
@@ -193,5 +193,41 @@ function propertiesChanged(changedAttributes) {
 	}
 	return false;
 };
+
+function WidgetIterator(root) {
+	this.stack = [];
+	this.ptr = root;
+	while (this.ptr.children && this.ptr.children.length > 0) {
+		this.stack.push(0);
+		this.ptr = this.ptr.children[0];
+	}
+};
+
+WidgetIterator.prototype.next = function() {
+	var rtn;
+	if (!this.ptr) {
+		rtn = {done: true};
+	} else {
+		rtn = {value: this.ptr, done: false};
+		this.ptr = this.ptr.parentWidget;
+		var index = this.stack.pop();
+		if (index !== undefined) {
+			index++;
+			if (this.ptr && this.ptr.children.length > index) {
+				this.ptr = this.ptr.children[index];
+				this.stack.push(index);
+				// Now dive to the lowest child
+				while (this.ptr.children && this.ptr.children.length > 0) {
+					this.stack.push(0);
+					this.ptr = this.ptr.children[0];
+				}
+			}
+		} else {
+			this.ptr = null;
+		}
+	}
+	return rtn;
+};
+
 
 exports.properties = Properties;
