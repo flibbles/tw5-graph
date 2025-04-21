@@ -370,7 +370,8 @@ GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
 
 GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
-		var actions = this.properties[graphEvent.type];
+		var newObjects = this.children[0].invokeGraphActions(graphEvent, variables);
+		var actions = this.attributes[graphEvent.type];
 		if (actions) {
 			this.invokeActionString(actions, this, graphEvent.event, variables);
 		}

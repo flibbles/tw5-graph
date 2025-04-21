@@ -165,6 +165,26 @@ Properties.prototype.collectGraphProperties = function(properties) {
 	}
 };
 
+Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			if (widget.invokeGraphActions) {
+				widget.invokeGraphActions(graphEvent, variables);
+			} else if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren(this.children, null);
+	if (this.type === "graph") {
+		var actions = this.styleObject[graphEvent.type];
+		if (actions) {
+			this.invokeActionString(actions, this, graphEvent.event, variables);
+		}
+	}
+};
+
 function propertiesChanged(changedAttributes) {
 	for (var name in changedAttributes) {
 		if (name.charAt(0) !== "$") {

@@ -1,0 +1,24 @@
+\widget $graph.nodelist($field)
+
+\procedure actionAddnode()
+\whitespace trim
+<$action.selecttiddler>
+  <% if [<selection>!is[tiddler]] %>
+    <$action-createtiddler $basetitle=<<selection>> />
+  <% endif %>
+  <$action.addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
+  <$transclude $variable=recordPosition title=<<selection>> />
+</$action.selecttiddler>
+\end actionAddnode
+\whitespace trim
+<$parameters $$tiddler={{!!title}}>
+
+<$properties $for=graph
+	doubleclick=<<actionAddnode>>
+	addNode=<<actionAddnode>>
+	addEdge="""<$action.addedge/>"""
+/>
+
+<$each.typed $tiddler=<<$tiddler>> $field=<<$field>> >
+
+\end
