@@ -6,7 +6,9 @@
   <% if [<selection>!is[tiddler]] %>
     <$action-createtiddler $basetitle=<<selection>> />
   <% endif %>
-  <$action.addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
+  <% if [<$field>!match[]] %>
+    <$action.addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
+  <% endif %>
   <$transclude $variable=recordPosition title=<<selection>> />
 </$action.selecttiddler>
 \end actionAddnode

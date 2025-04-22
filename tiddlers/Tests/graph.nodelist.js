@@ -58,4 +58,14 @@ it("combining wth graph.persistent records location", async function() {
 	expect(objects.nodes.newTiddler.y).toBe(43);
 });
 
+it("without $field, only takes care of creation and position", function() {
+	var text = "\\procedure recordPosition(title) <$action-test title />\n<$graph><$graph.nodelist/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
+	expect($tw.modal.display).toHaveBeenCalled();
+	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "newTiddler"});
+	expect(wiki.tiddlerExists("newTiddler")).toBe(true);
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({title: "newTiddler"});
+});
+
 });
