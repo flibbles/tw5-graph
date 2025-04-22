@@ -1,10 +1,10 @@
-\widget $graph.persistent($ledgerTiddler)
+\widget $graph.persistent($dataTiddler)
 \whitespace trim
 
-\function pos() [<$ledgerTiddler>getindex{!!title}]
+\function pos() [<$dataTiddler>getindex{!!title}]
 
 \procedure recordPosition(title)
-<$action-setfield $tiddler=<<$ledgerTiddler>> $index=<<title>> $value=`$(x)$,$(y)$`/>
+<$action-setfield $tiddler=<<$dataTiddler>> $index=<<title>> $value=`$(x)$,$(y)$`/>
 \end recordPosition
 \procedure actionFree()<$transclude $variable=recordPosition title={{!!title}}/>
 

@@ -43,7 +43,7 @@ it("works with custom content block", function() {
 });
 
 it("combining wth graph.persistent records location", async function() {
-	var text = "<$graph><$graph.persistent $ledgerTiddler=Target><$graph.nodelist $tiddler=Target $field=list/>";
+	var text = "<$graph><$graph.persistent $dataTiddler=Target><$graph.nodelist $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
 	expect($tw.modal.display).toHaveBeenCalled();
