@@ -10,7 +10,7 @@
 
 <$properties
 	$dataTiddler=<<dataTiddler>>
-	delete={{{ [<$editable>match[no]then[]else<deleteAction>] }}}
+	delete={{{ [<$editable>!match[no]then<deleteAction>] }}}
 	$for=edges>
 
 <$transclude $variable="$each.typed" $$variable=toTiddler $$tiddler=<<$tiddler>> $$field=<<fieldName>> $$defaultTemplate="$:/plugins/flibbles/graph/ui/edgeTemplate" $fillignore=yes />

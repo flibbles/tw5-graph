@@ -1,0 +1,89 @@
+title: EdgesFieldsWidget
+tags: Macros Widgets
+caption: edges.fields
+
+! Introduction
+
+The ''edges.fields'' widget provides a quick way to introduce all edges for a given tiddler which correspond to its fields. This takes care of applying any properties configured in the TW5-map edge settings for field edges.
+
+Fields are parsed using their [[Relink settings]], which can also be configured through the edge settings as well, in case Relink is not installed.
+
+! Contents and Attributes
+
+The content of an `<$edges.fields>` widget is an optional template used to manually describe an edge widget (or more) for each type of edge. Without this template, <$transclude $variable=.value _={{$:/plugins/flibbles/graph/edgeTemplate}} /> is used.
+
+Within the widget block, ''edges.fields'' defines the tiddler <<.value toTiddler>> for each iterated field list-item.
+
+|!Attribute | !Description |
+|$tiddler |The tiddler whose fields are used to create edges (defaults to "[all[]]") |
+|$fields |Filter to decide which fields to render (defaults to all fields configured in TW5-graph settings |
+|$editable |If 'yes', the created edges will be deletable, which will modify the corresponding fields (defaults to 'no') |
+
+<$doc.implementation />
+
+! $fields
+
+The $fields attributes can specify which ''edges.fields'' should be considered. This is a filter attribute which is passed a list of all configured fields in the TW5-graph settings.
+
+By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Here are some example ways this attribute may be useful
+
+; [all[]] -list -tag
+: Use all configured fields except for "list" and "tag"
+; list
+: Generate edges only for the the "list" field
+; [all[]] otherField
+: Uses all configured fields, and also the unconfigured "otherField". (Unconfigured fields are treated as a list field.)
+
+! Examples
+
+<$graph.example
+	description="each.typed with graphs"
+	narrative="This shows a typical usage of <<.wid edges.fields>>. Lists and tags come preconfigured with the plugin, but this example has custom settings for the list field. Notice how the element nodes don't correspond to existing tiddlers. In that case, the widget ignores them and generates no edges.">
+<$data
+	title=Output
+	elements="Water Electric Fire"
+	text="""<$graph>
+	<$list filter="[tag[Pokemon]]">
+		<$node label={{!!title}} />
+		<$edges.fields />
+	</$list>
+	<$list filter="[enlist{!!elements}]">
+		<$node label={{!!title}} shape="star" />
+	</$list>
+</$graph>""" />
+<$data title=Eevee tags="Pokemon" list="Vaporeon Jolteon Flareon"/>
+<$data title=Vaporeon tags="Pokemon Water" />
+<$data title=Jolteon tags="Pokemon Electric" />
+<$data title=Flareon  tags="Pokemon Fire" />
+<$data title=Charmander  tags="Pokemon Fire" list="Charmeleon" />
+<$data title=Charmeleon  tags="Pokemon Fire" list="Charizard" />
+<$data title=Charizard  tags="Pokemon Fire" />
+<$data title="$:/config/flibbles/graph/edges/fields/list" caption="List field" type="application/json" text='{
+    "label": "evolves",
+    "arrows": "to"
+}' />
+</$graph.example>
+<$graph.example
+	description="each.typed with graphs"
+	narrative="This shows how <<.wid edges.fields>> can have content which can do more than just generate an edge. In this case, it makes neighbor nodes for those edges. [[Note that there are more robust ways to make neighbor nodes.]]">
+<$data
+	title=Output
+	caption="Manhattan Project"
+	scientists="[[Albert Einstein]] [[Richard Feynman]] [[James Chadwick]] [[Hans Bethe]]"
+	administrators="[[Robert Oppenheimer]] [[Leslie Groves]]"
+	text="""<$graph>
+	<$node label={{!!caption}} />
+	<$edges.fields>
+		<$edge />
+		<$node $tiddler=<<toTiddler>> label=<<toTiddler>> size="5" color="gray" />
+	</$edges.fields>
+</$graph>""" />
+<$data title="$:/config/flibbles/graph/edges/fields/scientists" caption="scientist field" type="application/json" text='{
+    "color": "blue",
+    "arrows": "to"
+}' />
+<$data title="$:/config/flibbles/graph/edges/fields/administrators" caption="administrator field" type="application/json" text='{
+    "color": "red",
+    "arrows": "to"
+}' />
+</$graph.example>

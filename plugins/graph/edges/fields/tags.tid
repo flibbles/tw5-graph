@@ -1,0 +1,7 @@
+title: $:/config/flibbles/graph/edges/fields/tags
+description: The tiddler is tagged by another resource.
+type: application/json
+
+{
+    "label": "tagged with"
+}

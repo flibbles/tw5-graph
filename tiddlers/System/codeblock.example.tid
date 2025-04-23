@@ -6,11 +6,15 @@ tags: $:/tags/Global
 
 \widget $implementation.block(code)
 
-\function .caption() [all[current]get[caption]addprefix[<$]]
-\procedure .linkTemplate() <[[$$2$|$1$]]
-\function .link() [<.linkTemplate>substitute<currentTiddler>,{!!caption}]
+\function raw.caption() [all[current]get[caption]addprefix[<$]]
+\procedure raw.linkTemplate() <[[$$2$|$1$]]
+\function raw.link() [<raw.linkTemplate>substitute<currentTiddler>,{!!caption}]
 
-\procedure addLink() [<accumulator>search-replace<.caption>,<.link>]
+\function trans.caption() [all[current]get[caption]addprefix[$variable="$]]
+\procedure trans.linkTemplate() $variable="[[$$2$|$1$]]
+\function trans.link() [<trans.linkTemplate>substitute<currentTiddler>,{!!caption}]
+
+\procedure addLink() [<accumulator>search-replace:g<raw.caption>,<raw.link>search-replace:g<trans.caption>,<trans.link>]
 
 <pre>
 
@@ -26,4 +30,4 @@ tags: $:/tags/Global
 </$list></$vars></code></pre>
 \end
 
-This acts like a $codeblock widget, except that it makes links out of all document widgets that occur in the code.
+This acts like a $codeblock widget, except that it makes links out of all documented widgets that occur in the code.
