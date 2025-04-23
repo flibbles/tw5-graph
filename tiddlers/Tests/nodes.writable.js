@@ -4,7 +4,7 @@ Tests the nodes.manipulation global widget.
 
 \*/
 
-describe('graph.nodelist \\widget', function() {
+describe('nodes.writable \\widget', function() {
 
 var wiki, update, modal, oldModal;
 
@@ -22,7 +22,7 @@ afterEach(function() {
 });
 
 it("generates a modal when addNode is called", async function() {
-	var text = "<$graph><$graph.nodelist $tiddler=Target $field=list/>";
+	var text = "<$graph><$nodes.writable $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
 	expect($tw.modal.display).toHaveBeenCalled();
@@ -37,13 +37,13 @@ it("generates a modal when addNode is called", async function() {
 
 it("works with custom content block", function() {
 	wiki.addTiddler({title: "Target", list: "A B"});
-	var text = "<$graph.nodelist $tiddler=Target $field=list>{{!!title}}";
+	var text = "<$nodes.writable $tiddler=Target $field=list>{{!!title}}";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>AB</p>");
 });
 
 it("combining wth graph.persistent records location", async function() {
-	var text = "<$graph><$graph.persistent $dataTiddler=Target><$graph.nodelist $tiddler=Target $field=list/>";
+	var text = "<$graph><$graph.persistent $dataTiddler=Target><$nodes.writable $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
 	expect($tw.modal.display).toHaveBeenCalled();
@@ -59,13 +59,19 @@ it("combining wth graph.persistent records location", async function() {
 });
 
 it("without $field, only takes care of creation and position", function() {
-	var text = "\\procedure recordPosition(title) <$action-test title />\n<$graph><$graph.nodelist/>";
+	var text = "\\procedure recordPosition(title) <$action-test title />\n<$graph><$nodes.writable />";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
 	expect($tw.modal.display).toHaveBeenCalled();
 	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "newTiddler"});
 	expect(wiki.tiddlerExists("newTiddler")).toBe(true);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({title: "newTiddler"});
+});
+
+it("without $field, does not render its block", function() {
+	var text = "<$nodes.writable >DO NOT RENDER";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p></p>");
 });
 
 });

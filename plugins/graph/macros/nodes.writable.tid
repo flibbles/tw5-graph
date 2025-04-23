@@ -1,4 +1,4 @@
-\widget $graph.nodelist($field)
+\widget $nodes.writable($field)
 
 \procedure actionAddnode()
 \whitespace trim
