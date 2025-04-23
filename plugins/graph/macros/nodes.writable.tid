@@ -2,7 +2,7 @@
 
 \procedure actionAddnode()
 \whitespace trim
-<$action.selecttiddler>
+<$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/SelectTiddler">
   <% if [<selection>!is[tiddler]] %>
     <$action-createtiddler $basetitle=<<selection>> />
   <% endif %>
@@ -10,8 +10,10 @@
     <$action.addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
   <% endif %>
   <$transclude $variable=recordPosition title=<<selection>> />
-</$action.selecttiddler>
+</$action-modal>
+<$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
 \end actionAddnode
+
 \whitespace trim
 <$parameters $$tiddler={{!!title}}>
 
