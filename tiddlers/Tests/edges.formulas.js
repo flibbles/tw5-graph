@@ -75,8 +75,8 @@ it("preserves currentTiddler when running formula filter", function() {
 		edgeConfig("myField", "[{!!myField}]"),
 		{title: "Target", myField: "bad"},
 		{title: "Template", myField: "good"}]);
-	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.formulas $tiddler=Target>=<<toTiddler>>");
-	expect(widget.parentDomNode.innerHTML).toBe("<p>=good</p>");
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.formulas $tiddler=Target>=<<toTiddler>>-<<currentTiddler>>");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>=good-Template</p>");
 });
 
 it("uses currentTiddler as default", function() {
@@ -84,6 +84,5 @@ it("uses currentTiddler as default", function() {
 	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$edges.formulas>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink=toTransclude</p>");
 });
-
 
 });

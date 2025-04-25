@@ -36,7 +36,7 @@ EdgeWidget.prototype.execute = function() {
 		this.counter = this.counter || nextId++;
 		this.id = "edgeid-" + this.counter;
 	}
-	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
+	this.fromTiddler = this.getAttribute("$from") || this.getVariable("fromTiddler") || this.getVariable("currentTiddler");
 	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
