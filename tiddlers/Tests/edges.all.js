@@ -40,20 +40,12 @@ it("passes along filter arguments to internal macros", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>BL</p>");
 });
 
-it("defaults to currentTiddler", function() {
+it("defaults to defaultTiddler", function() {
 	wiki.addTiddlers([
-		{title: "Target", text: "[[Link]]", list: "List"}]);
+		{title: "Target", text: "[[L]]"}]);
 	var text = "\\define currentTiddler() Target\n<$edges.all><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(widget.parentDomNode.innerHTML).toBe("<p>ListLink</p>");
-});
-
-it("preserves currentTiddler if $tiddler is explicit", function() {
-	wiki.addTiddlers([
-		{title: "Target", text: "[[Link]]", list: "List"}]);
-	var text = "\\define currentTiddler() Main\n<$edges.all $tiddler=Target>=<<currentTiddler>>-<<toTiddler>>";
-	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(widget.parentDomNode.innerHTML).toBe("<p>=Main-List=Main-Link</p>");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>L</p>");
 });
 
 it("passes along edit argument to internal macros", function() {

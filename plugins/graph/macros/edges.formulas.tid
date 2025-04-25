@@ -4,13 +4,14 @@
 <$list variable=formulaName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]subfilter<$formulas>]">
 
 <$let
-	fromTiddler=<<$tiddler>>
 	dataTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
 	formula={{{ [<dataTiddler>get[filter]] }}} >
 
 <$properties $for=edges $dataTiddler=<<dataTiddler>> >
 
 <$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
+
+<$tiddler tiddler=<<$tiddler>> >
 
 <$slot $name=ts-raw>
 
