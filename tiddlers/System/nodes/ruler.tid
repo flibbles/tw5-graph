@@ -1,0 +1,7 @@
+title: $:/config/flibbles/graph/nodes/stack/ruler
+filter: [tag[Ruler]]
+type: application/json
+
+{
+	"shape": "star"
+}

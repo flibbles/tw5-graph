@@ -1,0 +1,32 @@
+title: PropertiesStackWidget
+tags: Macros Widgets
+caption: properties.stack
+
+! Introduction
+
+The ''properties.stack'' widget applies all the configured node types of the "stack" category to all contained nodes. This allows you to globally assign properties for nodes of certain classes of tiddlers (as defineed by filters) and have those properties applied with increasing priority. See the [[Type stack]] page for more information about how exactly the stack applies properties.
+
+In theory, this widget could apply stacks of properties to edges or graphs too, but that isn't implemented for now.
+
+! Contents and Attributes
+
+Any nodes defined within a ''properties.stack'' widget will be styled by the properties stack, in accordance with which rules they match to.
+
+|!Attribute | !Description |
+|>|none so far |
+
+<$doc.implementation />
+
+! Examples
+
+<$graph.demo
+	description="each.typed with graphs"
+	narrative="""This demo site has several types of node types configured in its [[settings]]. This shows how they apply to various nodes. Here, all we have to do is wrap the nodes in "$properties.stack", and those settings will apply."""
+	content="""<$graph>
+  <$properties.stack>
+    <$node $tiddler="Zeus"/>
+    <$node $tiddler="Odin"/>
+    <$node $tiddler="Balder"/>
+    <$node $tiddler="Cronus"/>
+  </$properties.stack>
+</$graph>""" />

@@ -5,14 +5,12 @@ tags: Demo
 
 <$graph>
  <$graph.popup>
-  <$properties $filter="[tag[Norse]]" color="#8b0000" >
-  <$properties $filter="[tag[Ruler]]" shape=star >
+  <$properties.stack>
    <$list filter="[tag[Deity]!is[system]!is[draft]]">
     <$node shape={{!!shape}} label={{!!title}} doubleclick="<$action-navigate/>"/>
     <$edges.fields />
    </$list>
-  </$properties>
-  </$properties>
+  </$properties.stack>
  </$graph.popup>
 </$graph>
 

@@ -1,0 +1,28 @@
+code-body: yes
+title: $:/editions/tw5-graph/graph.demo
+tags: $:/tags/Global
+
+\whitespace trim
+\widget $graph.demo(description, narrative, content, footer, header)
+  \procedure .state-prefix() $:/state/editions/tw5-graph/
+  <<narrative>>
+  <div class="doc-example">
+    <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
+    <$codeblock code=<<content>> />
+    <!-- We set the transclusion variable below so that qualifiers can get
+         different values when multiple examples are on the same page. -->
+    <$vars .state=`$(.state-prefix)$(currentTiddler)$/$(description)$`
+           transclusion=<<description>> >
+      <%if [<.state>get[text]match[show]] %>
+        <dl>
+          <dd><$button set=<<.state>> setTo="">Hide</$button></dd>
+        </dl>
+        <<header>>
+        <$transclude $variable=content />
+        <<footer>>
+      <%else%>
+        <dl>
+          <dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
+        </dl>
+      <%endif%>
+\end
