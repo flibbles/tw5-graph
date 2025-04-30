@@ -1,3 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/nodeTemplate
-
-<$node $pos=<<pos>> />
