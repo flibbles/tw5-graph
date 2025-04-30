@@ -4,8 +4,6 @@ tags: $:/tags/SideBar
 
 \whitespace trim
 
-<!-- If moving this over to the plugin, make sure to take its CSS too. -->
-
 <div class="graph-disabled graph-error">
 
 <!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,

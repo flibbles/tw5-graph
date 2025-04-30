@@ -1,0 +1,12 @@
+title: $:/plugins/flibbles/graph/templates/default-graph
+
+\whitespace trim
+
+<$graph>
+  <$properties.stack>
+    <$list variable=node filter={{!!filter}}>
+      <$node $tiddler=<<node>> $pos={{{ [{!!title}getindex<node>] }}} label={{!!nodes.labelField}} />
+      <$edges.all $tiddler=<<node>> $formulas={{!!edges.formulas}} $fields={{!!edges.fields}} $editable=yes />
+    </$list>
+  </$properties.stack>
+</$graph>
