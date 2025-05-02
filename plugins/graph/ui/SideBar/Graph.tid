@@ -2,9 +2,10 @@ title: $:/plugins/flibbles/graph/ui/SideBar
 caption: SideBar
 tags: $:/tags/SideBar
 
+\parameters (viewFilter: "[prefix[$:/config/flibbles/graph/views/]else<defaultView>]" defaultView: "$:/config/flibbles/graph/views/Default")
 \whitespace trim
 
-<div class="graph-disabled graph-error">
+<div class="graph-sidebar-disabled graph-error">
 
 <!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,
      it's always possible to have the SideBar graph at the top, but it catches
@@ -13,17 +14,23 @@ tags: $:/tags/SideBar
 <$text text="Graph disabled in mobile view."/>
 
 </div>
-<$graph
+<div class="graph-sidebar-enabled">
+
+<$let	state=<<qualify "$:/state/graph/sidebar">>
+	currentView={{{ [<state>get[text]else<defaultView>] }}}
+>
+
+<$select tiddler=<<state>> default=<<defaultView>> >
+<$list filter=<<viewFilter>> >
+<option value=<<currentTiddler>> ><$view field=caption><$text text={{{ [{!!title}removeprefix[$:/config/flibbles/graph/views/]else{!!title}] }}} /></$view></option>
+</$list>
+</$select>
+
+<$boundingbox
 	$width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
 	$height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]"
 >
 
-<$slot $name=graph>
+<$tiddler tiddler=<<currentView>> >
 
-<$graph.popup>
-
-<$list filter="[all[]!is[system]!is[draft]]">
-
-<$node label={{!!title}} >
-
-<$action-navigate />
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/default-graph" $mode=inline />

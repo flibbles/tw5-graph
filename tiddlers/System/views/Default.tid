@@ -1,0 +1,3 @@
+title: $:/config/flibbles/graph/views/Default
+filter: [!is[system]]
+type: application/json
