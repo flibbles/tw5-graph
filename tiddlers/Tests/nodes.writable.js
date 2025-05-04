@@ -42,6 +42,13 @@ it("works with custom content block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>AB</p>");
 });
 
+it("handles different variable names", function() {
+	wiki.addTiddler({title: "Target", list: "A B"});
+	var text = "\\procedure currentTiddler() Current\n<$nodes.writable $tiddler=Target $field=list $variable=node>=<<currentTiddler>>-<<node>>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>=Current-A=Current-B</p>");
+});
+
 it("combining wth properties.persistent records location", async function() {
 	var text = "<$graph><$properties.persistent $dataTiddler=Target><$nodes.writable $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);

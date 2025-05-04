@@ -1,4 +1,4 @@
-\widget $nodes.writable($field)
+\widget $nodes.writable($field, $variable:currentTiddler)
 
 \procedure actionAddnode()
 \whitespace trim
@@ -23,6 +23,11 @@
 	addEdge="""<$action.addedge/>"""
 />
 
-<$transclude $variable="$each.typed" $$tiddler=<<$tiddler>> $$field=<<$field>> $$defaultTemplate="$:/plugins/flibbles/graph/templates/node" $fillignore=yes />
+<$transclude $variable="$each.typed"
+	$$tiddler=<<$tiddler>>
+	$$variable=<<$variable>>
+	$$field=<<$field>>
+	$$defaultTemplate="$:/plugins/flibbles/graph/templates/node"
+	$fillignore=yes />
 
 \end
