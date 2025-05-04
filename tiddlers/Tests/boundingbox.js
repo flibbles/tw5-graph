@@ -55,6 +55,18 @@ it("detects when to destroy itself", async function() {
 	expect(window().eventListeners.size).toBe(0);
 });
 
+/*** class ***/
+
+it("can accept custom classes", async function() {
+	wiki.addTiddler({title: "Class", text: "custom-class"});
+	var text =  "<$boundingbox class={{Class}} />\n";
+	var widgetNode = $tw.test.renderText(wiki, text);
+	expect(widgetNode.parentDomNode.children[0].className).toContain("boundingbox custom-class");
+	wiki.addTiddler({title: "Class", text: "new-class"});
+	await $tw.test.flushChanges();
+	expect(widgetNode.parentDomNode.children[0].className).toContain("boundingbox new-class");
+});
+
 /*** dimensions ***/
 
 it("resizes on literal dimension changes", async function() {
