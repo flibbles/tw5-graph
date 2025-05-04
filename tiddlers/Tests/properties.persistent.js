@@ -1,10 +1,10 @@
 /*\
 
-Tests the edges.fields global widget.
+Tests the properties.persistent global widget.
 
 \*/
 
-describe('graph.persistent \\widget', function() {
+describe('properties.persistent \\widget', function() {
 
 var wiki, init;
 
@@ -20,7 +20,7 @@ beforeEach(async function() {
 });
 
 it("creates ledger if it does not exist", function() {
-	var text = "<$graph><$graph.persistent $dataTiddler=Ledger><$list filter=A><$node $pos=<<pos>> />";
+	var text = "<$graph><$properties.persistent $dataTiddler=Ledger><$list filter=A><$node $pos=<<pos>> />";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -33,7 +33,7 @@ it("creates ledger if it does not exist", function() {
 
 it("reads from ledger", function() {
 	wiki.addTiddler({title: "Ledger", type: "application/x-tiddler-dictionary", text: "A: 13,17"});
-	var text = "<$graph><$graph.persistent $dataTiddler=Ledger><$list filter=A><$node $pos=<<pos>> />";
+	var text = "<$graph><$properties.persistent $dataTiddler=Ledger><$list filter=A><$node $pos=<<pos>> />";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];

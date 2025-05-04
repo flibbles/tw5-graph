@@ -42,8 +42,8 @@ it("works with custom content block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>AB</p>");
 });
 
-it("combining wth graph.persistent records location", async function() {
-	var text = "<$graph><$graph.persistent $dataTiddler=Target><$nodes.writable $tiddler=Target $field=list/>";
+it("combining wth properties.persistent records location", async function() {
+	var text = "<$graph><$properties.persistent $dataTiddler=Target><$nodes.writable $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
 	expect($tw.modal.display).toHaveBeenCalled();

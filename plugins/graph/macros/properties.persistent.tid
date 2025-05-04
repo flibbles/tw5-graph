@@ -1,4 +1,4 @@
-\widget $graph.persistent($dataTiddler)
+\widget $properties.persistent($dataTiddler)
 \whitespace trim
 
 \function pos() [<$dataTiddler>getindex{!!title}]
