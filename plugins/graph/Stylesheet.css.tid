@@ -65,6 +65,12 @@ tags: $:/tags/Stylesheet
 	padding: 4px;
 }
 
+.graph-sidebar-banner select, .graph-sidebar-banner button {
+	height: 28px;
+	min-width: 28px;
+	margin-left: 3px;
+}
+
 .tc-sidebar-scrollable .graph-sidebar-enabled .graph-canvas {
 	width: 100%;
 	flex-grow: 1;

@@ -1,8 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/SideBar
-caption: SideBar
+caption: Graph
 tags: $:/tags/SideBar
 
-\parameters (viewFilter: "[prefix[$:/graph/views/]else<defaultView>]" defaultView: "$:/graph/views/Default")
 \whitespace trim
 
 \procedure sidebar-content()
@@ -16,23 +15,29 @@ tags: $:/tags/SideBar
   class="graph-sidebar-enabled"
   $width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
   $height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]">
-  <$let	state=<<qualify "$:/state/graph/sidebar">>
-        currentView={{{ [<state>get[text]else<defaultView>] }}} >
-    <div class="graph-sidebar-banner">
-      <$text text="View: " />
+  <div class="graph-sidebar-banner">
+    <$slot $name="banner">
+      View:
       <$select tiddler=<<state>> default=<<defaultView>> >
-        <$list filter=<<viewFilter>> >
+        <$list filter="[prefix[$:/graph/views/]else<defaultView>]"  >
           <option value=<<currentTiddler>> >
-            <$view field=caption>
-              <$text text={{{ [{!!title}removeprefix[$:/graph/views/]else{!!title}] }}} />
-            </$view>
+            <$text text={{{ [{!!title}removeprefix[$:/graph/views/]] }}} />
           </option>
         </$list>
       </$select>
-    </div>
+      <$button to="$:/plugins/flibbles/graph/settings">
+        {{$:/core/images/menu-button}}
+      </$button>
+    </$slot>
+  </div>
 
-    <$tiddler tiddler=<<currentView>> >
-      <$transclude $tiddler="$:/plugins/flibbles/graph/templates/default-graph" $mode=inline />
+  <$tiddler tiddler=<<graph>> >
+    <$transclude $tiddler=<<defaultTemplate>> $mode=inline />
+  </$tiddler>
+</$boundingbox>
 \end
+
+\parameters (state: "$:/state/flibbles/graph/sidebar", defaultView: "$:/graph/views/Default", defaultTemplate: "$:/plugins/flibbles/graph/templates/default-graph")
+<$parameters graph={{{ [<state>get[text]else<defaultView>] }}} >
 
 <$transclude $variable=sidebar-content $mode=inline />
