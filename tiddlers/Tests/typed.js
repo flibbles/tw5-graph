@@ -103,6 +103,12 @@ it("handles filter field types", function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]!is[system]] [{!!store}] -[[this value]]");
 });
 
+it("renders nothing when no $field value supplied", function() {
+	wiki.addTiddler({title: "Target"});
+	var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target />\n");
+	expect(widget.parentDomNode.innerHTML).toBe(links([]));
+});
+
 /*** Standard behavior between all fieldtypes ***/
 
 $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/plugins/flibbles/graph/fieldtypes/]]"), function(fieldType) {

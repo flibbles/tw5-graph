@@ -76,7 +76,8 @@ it("without $field, only takes care of creation and position", function() {
 });
 
 it("without $field, does not render its block", function() {
-	var text = "<$nodes.writable >DO NOT RENDER";
+	wiki.addTiddler({title: "Target", list: "A B"});
+	var text = "<$nodes.writable $tiddler=Target>DO NOT RENDER";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p></p>");
 });
