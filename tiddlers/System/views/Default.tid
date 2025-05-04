@@ -1,3 +1,6 @@
-title: $:/config/flibbles/graph/views/Default
-filter: [!is[system]]
+title: $:/graph/views/Default
+filter: [tag[Deity]!is[system]!is[draft]]
+edges.formulas: [all[]]
+edges.fields: [all[]]
+nodes.labelField: title
 type: application/json

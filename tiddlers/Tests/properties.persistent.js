@@ -40,4 +40,17 @@ it("reads from ledger", function() {
 	expect(objects.nodes).toEqual({A: {free: true, x: 13, y: 17}});
 });
 
+it("does not need currentTiddler to be set to the node", function() {
+	wiki.addTiddler({title: "Ledger", type: "application/json"});
+	var text = "\\procedure currentTiddler() WRONG\n<$graph><$properties.persistent $dataTiddler=Ledger><$node $tiddler=A $pos=<<pos>> />";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {free: true}});
+	$tw.test.dispatchEvent(wiki, { type: "free", id: "A", objectType: "nodes"},
+		{x: "29", y: "37"});
+	expect(wiki.tiddlerExists("Ledger")).toBe(true);
+	expect(wiki.getTiddlerData("Ledger")).toEqual({A: "29,37"});
+});
+
 });

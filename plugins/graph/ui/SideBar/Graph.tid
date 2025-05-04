@@ -2,7 +2,7 @@ title: $:/plugins/flibbles/graph/ui/SideBar
 caption: SideBar
 tags: $:/tags/SideBar
 
-\parameters (viewFilter: "[prefix[$:/config/flibbles/graph/views/]else<defaultView>]" defaultView: "$:/config/flibbles/graph/views/Default")
+\parameters (viewFilter: "[prefix[$:/graph/views/]else<defaultView>]" defaultView: "$:/graph/views/Default")
 \whitespace trim
 
 <div class="graph-sidebar-disabled graph-error">
@@ -22,7 +22,7 @@ tags: $:/tags/SideBar
 
 <$select tiddler=<<state>> default=<<defaultView>> >
 <$list filter=<<viewFilter>> >
-<option value=<<currentTiddler>> ><$view field=caption><$text text={{{ [{!!title}removeprefix[$:/config/flibbles/graph/views/]else{!!title}] }}} /></$view></option>
+<option value=<<currentTiddler>> ><$view field=caption><$text text={{{ [{!!title}removeprefix[$:/graph/views/]else{!!title}] }}} /></$view></option>
 </$list>
 </$select>
 

@@ -376,6 +376,7 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 			this.invokeActionString(actions, this, graphEvent.event, variables);
 		}
 	} else {
+		variables.id = graphEvent.id;
 		var category = this.knownObjects[graphEvent.objectType];
 		var object = category && category[graphEvent.id];
 		// Make sure it's an objects we actually know about

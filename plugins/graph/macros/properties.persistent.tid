@@ -6,7 +6,7 @@
 \procedure recordPosition(title)
 <$action-setfield $tiddler=<<$dataTiddler>> $index=<<title>> $value=`$(x)$,$(y)$`/>
 \end recordPosition
-\procedure actionFree()<$transclude $variable=recordPosition title={{!!title}}/>
+\procedure actionFree()<$transclude $variable=recordPosition title=<<id>> />
 
 <$properties free=<<actionFree>> >
 

@@ -4,11 +4,20 @@ title: $:/plugins/flibbles/graph/templates/default-graph
 
 <$graph>
   <$properties doubleclick="""<$action-navigate $to=<<node>> />""">
-    <$properties.stack>
-      <$list variable=node filter={{!!filter}}>
-        <$node $tiddler=<<node>> $pos={{{ [{!!title}getindex<node>] }}} label={{!!nodes.labelField}} />
-        <$edges.all $tiddler=<<node>> $formulas={{!!edges.formulas}} $fields={{!!edges.fields}} $editable=yes />
-      </$list>
-    </$properties.stack>
+    <$properties.persistent $dataTiddler=<<currentTiddler>> >
+      <$properties.stack>
+        <$nodes.writable $variable=node $field=filter>
+          <$node $tiddler=<<node>>
+            physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
+            $pos={{{ [{!!title}getindex<node>else[0,0]] }}}
+            label={{{ [<node>get{!!nodes.labelField}] }}} />
+          <$edges.all
+            $tiddler=<<node>>
+            $formulas={{!!edges.formulas}}
+            $fields={{!!edges.fields}}
+            $editable=yes />
+        </$nodes.writable>
+      </$properties.stack>
+    </$properties.persistent>
   </$properties>
 </$graph>
