@@ -5,32 +5,34 @@ tags: $:/tags/SideBar
 \parameters (viewFilter: "[prefix[$:/graph/views/]else<defaultView>]" defaultView: "$:/graph/views/Default")
 \whitespace trim
 
+\procedure sidebar-content()
 <div class="graph-sidebar-disabled graph-error">
-
 <!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,
      it's always possible to have the SideBar graph at the top, but it catches
      the mouse's scrolling too easily. -->
-
-<$text text="Graph disabled in mobile view."/>
-
+  Graph disabled in mobile view.
 </div>
-<div class="graph-sidebar-enabled">
-
-<$let	state=<<qualify "$:/state/graph/sidebar">>
-	currentView={{{ [<state>get[text]else<defaultView>] }}}
->
-
-<$select tiddler=<<state>> default=<<defaultView>> >
-<$list filter=<<viewFilter>> >
-<option value=<<currentTiddler>> ><$view field=caption><$text text={{{ [{!!title}removeprefix[$:/graph/views/]else{!!title}] }}} /></$view></option>
-</$list>
-</$select>
-
 <$boundingbox
-	$width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
-	$height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]"
->
+  class="graph-sidebar-enabled"
+  $width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
+  $height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]">
+  <$let	state=<<qualify "$:/state/graph/sidebar">>
+        currentView={{{ [<state>get[text]else<defaultView>] }}} >
+    <div class="graph-sidebar-banner">
+      <$text text="View: " />
+      <$select tiddler=<<state>> default=<<defaultView>> >
+        <$list filter=<<viewFilter>> >
+          <option value=<<currentTiddler>> >
+            <$view field=caption>
+              <$text text={{{ [{!!title}removeprefix[$:/graph/views/]else{!!title}] }}} />
+            </$view>
+          </option>
+        </$list>
+      </$select>
+    </div>
 
-<$tiddler tiddler=<<currentView>> >
+    <$tiddler tiddler=<<currentView>> >
+      <$transclude $tiddler="$:/plugins/flibbles/graph/templates/default-graph" $mode=inline />
+\end
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/default-graph" $mode=inline />
+<$transclude $variable=sidebar-content $mode=inline />

@@ -1,5 +1,7 @@
 title: $:/config/DefaultColourMappings/
 
+graph-banner-background: <<colour sidebar-tab-background>>
+graph-banner-foreground: <<colour sidebar-tab-foreground>>
 graph-background: <<colour background>>
 graph-border: <<colour tiddler-border>>
 graph-node-color: <<colour primary>>
