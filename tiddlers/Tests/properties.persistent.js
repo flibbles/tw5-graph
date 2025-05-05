@@ -24,11 +24,24 @@ it("creates ledger if it does not exist", function() {
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {free: true}});
+	expect(objects.nodes).toEqual({A: {free: true, delete: true}});
 	$tw.test.dispatchEvent(wiki, { type: "free", id: "A", objectType: "nodes"},
 		{x: "29", y: "37"});
 	expect(wiki.tiddlerExists("Ledger")).toBe(true);
 	expect(wiki.getTiddlerData("Ledger")).toEqual({A: "29,37"});
+});
+
+it("erases from ledger", function() {
+	wiki.addTiddlers([{title: "A"}, {title: "B"}]);
+	wiki.addTiddler({title: "Ledger", type: "application/x-tiddler-dictionary", text: "A: 13,17\nB: 19,23"});
+	var text = '<$graph><$properties.persistent $dataTiddler=Ledger><$list filter="[[Ledger]indexes[]]"><$node $pos=<<pos>> delete="<$action-deletetiddler $tiddler=<<currentTiddler>> />" />';
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(init).toHaveBeenCalledTimes(1);
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {free: true, delete: true, x: 13, y: 17}, B: {free: true, delete: true, x: 19, y: 23}});
+	$tw.test.dispatchEvent(wiki, { type: "delete", id: "A", objectType: "nodes"});
+	expect(wiki.getTiddlerData("Ledger")).toEqual({B: "19,23"});
+	expect(wiki.tiddlerExists("A")).toBe(false);
 });
 
 it("reads from ledger", function() {
@@ -37,7 +50,7 @@ it("reads from ledger", function() {
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {free: true, x: 13, y: 17}});
+	expect(objects.nodes).toEqual({A: {free: true, delete: true, x: 13, y: 17}});
 });
 
 it("does not need currentTiddler to be set to the node", function() {
@@ -46,7 +59,7 @@ it("does not need currentTiddler to be set to the node", function() {
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {free: true}});
+	expect(objects.nodes).toEqual({A: {free: true, delete: true}});
 	$tw.test.dispatchEvent(wiki, { type: "free", id: "A", objectType: "nodes"},
 		{x: "29", y: "37"});
 	expect(wiki.tiddlerExists("Ledger")).toBe(true);

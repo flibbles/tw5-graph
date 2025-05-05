@@ -380,9 +380,13 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		var category = this.knownObjects[graphEvent.objectType];
 		var object = category && category[graphEvent.id];
 		// Make sure it's an objects we actually know about
-		if (object) {
-			// Start at the object. Go up, finding any $style to handle this
-			object.catchGraphEvent(graphEvent, variables);
+		var focus = object;
+		while (object && object !== this) {
+			if (object.catchGraphEvent) {
+				// Start at the object. Go up, finding any $style to handle this
+				object.catchGraphEvent(graphEvent, focus, variables);
+			}
+			object = object.parentWidget;
 		}
 	}
 };

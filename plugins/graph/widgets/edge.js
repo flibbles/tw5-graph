@@ -80,11 +80,11 @@ EdgeWidget.prototype.setProperties = function(parentProperties) {
 	}
 };
 
-EdgeWidget.prototype.catchGraphEvent = function(graphEvent, variables) {
-	var actions = this.properties[graphEvent.type];
+EdgeWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
+	var actions = this.attributes[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
-		this.invokeActionString(actions, this, graphEvent.event, variables);
+		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
 		return true;
 	}
 	return false;

@@ -159,6 +159,18 @@ Properties.prototype.collectGraphProperties = function(properties) {
 	}
 };
 
+Properties.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
+	if (graphEvent.objectType === this.type && this.affectedObjects[graphEvent.id]) {
+		var actions = this.styleObject[graphEvent.type];
+		if (actions) {
+			variables.targetTiddler = graphEvent.id;
+			triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
+			return true;
+		}
+	}
+	return false;
+};
+
 Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
 	var iterator = new WidgetIterator(this);
 	var results;

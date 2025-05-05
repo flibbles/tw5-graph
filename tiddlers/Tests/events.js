@@ -8,11 +8,11 @@ describe('Events', function() {
 
 var TestEngine = $tw.modules.applyMethods("graphengine").Test;
 
-var wiki, window;
+var wiki, init, update, window;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
-	({window} = $tw.test.setSpies());
+	({init, update, window} = $tw.test.setSpies());
 });
 
 it('can send events to $property', function() {
@@ -79,6 +79,49 @@ it('can ignore events for unknown object types', function() {
 	// we're calling is unknown.
 	$tw.test.latestEngine.onevent(wiki, event, variables);
 	// No test here, just shouldn't throw an exception
+});
+
+it("can send graph events to all $for=graph", function() {
+	var widget = $tw.test.renderText(wiki, `<$graph>
+		<$properties $for=graph addNode='<$action-test call=this />'/>
+		<$properties $for=graph addNode='<$action-test call=that />'/>
+		<$properties $for=nodes X=whatever>
+			<$properties $for=graph addNode='<$action-test call=other />'/>
+		</$properties>
+		<$properties addNode='<$action-test call=bad />'/>
+	`);
+	var objects = init.calls.first().args[1];
+	expect(objects.graph).toEqual({addNode: true});
+	expect(update).not.toHaveBeenCalled();
+	$tw.test.dispatchEvent(wiki, {
+		type: "addNode",
+		objectType: "graph"
+	}, {x: 3, y: 5});
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(3);
+	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
+		[{call: "this"}],
+		[{call: "that"}],
+		[{call: "other"}]]);
+});
+
+it("can send property events to all along chain", function() {
+	var widget = $tw.test.renderText(wiki, `<$graph>
+		<$properties delete='<$action-test call=<<X>> />'>
+		<$properties $filter="[!match[A]]" delete='<$action-test call=NO />'>
+		<$properties delete='<$action-test call=<<Y>> />'>
+			<$vars X=outer Y=inner Z=core>
+				<$node $tiddler=A delete='<$action-test call=<<Z>> />'/>`);
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {delete: true}});
+	$tw.test.dispatchEvent(wiki, {
+		type: "delete",
+		objectType: "nodes",
+		id: "A"});
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(3);
+	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
+		[{call: "core"}],
+		[{call: "inner"}],
+		[{call: "outer"}]]);
 });
 
 });

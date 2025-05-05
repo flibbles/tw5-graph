@@ -75,11 +75,11 @@ NodeWidget.prototype.setProperties = function(parentProperties) {
 	}
 };
 
-NodeWidget.prototype.catchGraphEvent = function(graphEvent, variables) {
-	var actions = this.properties[graphEvent.type];
+NodeWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
+	var actions = this.attributes[graphEvent.type];
 	if (actions) {
 		variables.targetTiddler = graphEvent.id;
-		this.invokeActionString(actions, this, graphEvent.event, variables);
+		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
 		return true;
 	}
 	return false;

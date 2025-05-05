@@ -272,29 +272,6 @@ it("prevents unnecessary updates from $for=graph", async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
-it("can send graph events to $for=graph", function() {
-	var widget = $tw.test.renderText(wiki, `<$graph>
-		<$properties $for=graph addNode='<$action-test call=this />'/>
-		<$properties $for=graph addNode='<$action-test call=that />'/>
-		<$properties $for=nodes X=whatever>
-			<$properties $for=graph addNode='<$action-test call=other />'/>
-		</$properties>
-		<$properties addNode='<$action-test call=bad />'/>
-	`);
-	var objects = init.calls.first().args[1];
-	expect(objects.graph).toEqual({addNode: true});
-	expect(update).not.toHaveBeenCalled();
-	$tw.test.dispatchEvent(wiki, {
-		type: "addNode",
-		objectType: "graph"
-	}, {x: 3, y: 5});
-	expect($tw.test.actionMethod).toHaveBeenCalledTimes(3);
-	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
-		[{call: "this"}],
-		[{call: "that"}],
-		[{call: "other"}]]);
-});
-
 /*** $dataTiddler attribute ***/
 
 it("can override properties from a tiddler", function() {
