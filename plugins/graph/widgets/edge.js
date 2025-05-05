@@ -1,7 +1,7 @@
 /*\
 title: $:/plugins/flibbles/graph/widgets/edge.js
 type: application/javascript
-module-type: widget
+module-type: widget-subclass
 
 Widget for creating edges within graphs.
 
@@ -9,25 +9,20 @@ Widget for creating edges within graphs.
 
 "use strict";
 
-var Widget = require("$:/core/modules/widgets/widget.js").widget;
 var nextId = 1;
 
-var EdgeWidget = function(parseTreeNode, options) {
+exports.baseClass = "graphobject";
+exports.name = "edge";
+
+exports.constructor = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
-EdgeWidget.prototype = new Widget();
+var EdgeWidget = exports.prototype = {};
 
-EdgeWidget.prototype.graphObjectType = "edges";
+EdgeWidget.graphObjectType = "edges";
 
-EdgeWidget.prototype.render = function(parent, nextSibling) {
-	this.parentDomNode = parent;
-	this.computeAttributes();
-	this.execute();
-	this.renderChildren(parent, nextSibling);
-};
-
-EdgeWidget.prototype.execute = function() {
+EdgeWidget.execute = function() {
 	this.id = this.getAttribute("$id");
 	if (!this.id) {
 		// We do this so we don't increment unecessarily, and maybe reuse
@@ -43,51 +38,11 @@ EdgeWidget.prototype.execute = function() {
 	this.makeChildWidgets();
 };
 
-EdgeWidget.prototype.refresh = function(changedTiddlers) {
-	var changedAttributes = this.computeAttributes();
-	// TODO: This could be tightened if this.settings and this.object were combined, and we only detect actual differences.
-	for (var attribute in changedAttributes) {
-		this.refreshSelf();
-		return true;
-	}
-	return this.refreshChildren(changedTiddlers);
-};
-
-EdgeWidget.prototype.allowActionPropagation = function() {
-	return false;
-};
-
-EdgeWidget.prototype.getGraphObject = function() {
-	this.changed = false;
-	return this.properties;
-};
-
-EdgeWidget.prototype.setProperties = function(parentProperties) {
-	this.properties = $tw.utils.extend(Object.create(null), parentProperties);
-	for (var key in this.attributes) {
-		if (key.charAt(0) !== "$") {
-			var value = this.attributes[key];
-			if (value) {
-				this.properties[key] = value;
-			}
-		}
-	}
+EdgeWidget.setCustomProperties = function(properties) {
 	if (this.fromTiddler) {
-		this.properties.from = this.fromTiddler;
+		properties.from = this.fromTiddler;
 	}
 	if (this.toTiddler) {
-		this.properties.to = this.toTiddler;
+		properties.to = this.toTiddler;
 	}
 };
-
-EdgeWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
-	var actions = this.attributes[graphEvent.type];
-	if (actions) {
-		variables.targetTiddler = graphEvent.id;
-		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
-		return true;
-	}
-	return false;
-};
-
-exports.edge = EdgeWidget;
