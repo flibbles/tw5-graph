@@ -6,4 +6,4 @@ title: $:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate
 
 ! <$link><$text text={{{ [all[current]removeprefix<configPrefix>removeprefix<currentCategory>removeprefix[/]] }}} /></$link>
 
-{{||$:/plugins/flibbles/graph/ui/GraphObjectPropertiesTemplate}}
+{{||$:/core/ui/ViewTemplate/body}}
