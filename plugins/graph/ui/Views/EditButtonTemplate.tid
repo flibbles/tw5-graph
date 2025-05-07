@@ -1,0 +1,3 @@
+title: $:/plugins/flibbles/graph/ui/Views/EditButtonTemplate
+
+<$text text={{{ [<currentTab>removeprefix[$:/graph/core/]] }}} />

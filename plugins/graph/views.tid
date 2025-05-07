@@ -1,0 +1,12 @@
+title: $:/plugins/flibbles/graph/views
+
+\parameters (default:Default)
+\procedure tabs-filter() [all[shadows+tiddlers]removeprefix[$:/graph/core/]] ~[<default>] +[addprefix[$:/graph/core/]]
+
+<$transclude $variable=tabs
+	tabsList=<<tabs-filter>>
+	default={{{ [subfilter<tabs-filter>first[]] }}}
+	state="$:/state/flibbles/graph/views"
+	template="$:/plugins/flibbles/graph/ui/Views/EditTemplate"
+	buttonTemplate="$:/plugins/flibbles/graph/ui/Views/EditButtonTemplate"
+/>

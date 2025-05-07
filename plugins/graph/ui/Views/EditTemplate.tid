@@ -1,0 +1,6 @@
+title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
+
+<$let currentTiddler=<<currentTab>> >
+
+|tc-max-width tc-edit-max-width|k
+|Label field |<$edit field="nodes.labelField"/> |
