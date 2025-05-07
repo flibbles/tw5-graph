@@ -1,0 +1,20 @@
+title: $:/plugins/flibbles/graph/ui/Modals/NewView
+subtitle: New View
+footer: {{$:/plugins/flibbles/graph/ui/Modals/Select!!footer}}
+mask-closable: yes
+
+<p class="tc-edit-field-add">
+
+<em class="tc-edit tc-small-gap-right">
+
+<$text text="Type in the name for a new view."/>
+
+</em></p>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/Modals/Select">
+
+<$fill $name=list-item>
+
+<div class="tc-menu-list-item">
+
+<$link overrideClass="tc-tiddlylink" />

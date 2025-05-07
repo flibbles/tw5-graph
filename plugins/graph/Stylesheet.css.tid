@@ -266,6 +266,7 @@ tags: $:/tags/Stylesheet
 .tc-tab-buttons.tc-vertical button.graph-tab-new {
 	border-bottom-left-radius: 1em;
 	border-bottom-right-radius: 1em;
+	border-right: 1px solid <<color tab-border>>;
 }
 
 button.graph-tab-new svg {
