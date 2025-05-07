@@ -1,9 +1,12 @@
 title: $:/plugins/flibbles/graph/views
 
-\parameters (default:Default)
-\procedure tabs-filter() [all[shadows+tiddlers]removeprefix[$:/graph/core/]] ~[<default>] +[addprefix[$:/graph/core/]]
+\parameters (default:"$:/graph/core/Default")
+\procedure currentGroup() core
+\define groupPrefix() $:/graph/$(currentGroup)$/
+\procedure tabs-filter() [all[shadows+tiddlers]prefix<groupPrefix>else<default>]
 
-<$transclude $variable=tabs
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	groupsList="[all[shadows+tiddlers]removeprefix[$:/graph/]splitbefore[/]removesuffix[/]unique[]] core +[putfirst[]]"
 	tabsList=<<tabs-filter>>
 	default={{{ [subfilter<tabs-filter>first[]] }}}
 	state="$:/state/flibbles/graph/views"

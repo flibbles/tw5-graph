@@ -1,0 +1,87 @@
+title: $:/plugins/flibbles/graph/ui/grouped-tabs
+
+<!--
+\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
+\function master.list(tiddler) [all[shadows+tiddlers]sort[]prefix<tiddler>sort.by<tiddler>] -[<tiddler>]
+
+\define list-links-draggable-drop-actions()
+<$action-listops $tiddler=<<targetTiddler>> $field=<<targetField>> $filter="[master.list<targetTiddler>] +[insertbefore<actionTiddler>,<currentTiddler>]"/>
+\end
+
+\whitespace trim
+\procedure list-links-draggable(tiddler,field:"list",emptyMessage,type:"ul",subtype:"li",class:"",itemTemplate)
+\whitespace trim
+<span class="tc-links-draggable-list">
+  <$vars targetTiddler=<<tiddler>> targetField=<<field>>>
+    <$genesis $type=<<__type__>> class=<<class>>>
+      <$list filter=`[master.list<tiddler>]` emptyMessage=<<__emptyMessage__>>>
+        <$droppable
+          actions=<<list-links-draggable-drop-actions>>
+          tag=<<subtype>>
+          enable=<<tv-enable-drag-and-drop>>
+        >
+          <div class="tc-droppable-placeholder"/>
+          <div>
+            <$transclude tiddler=<<itemTemplate>> >
+              <$link to={{!!title}}>
+                <$let tv-wikilinks="no">
+                  <$transclude field="caption">
+                    <$view field="title"/>
+                  </$transclude>
+                </$let>
+              </$link>
+            </$transclude>
+          </div>
+        </$droppable>
+      </$list>
+      <$tiddler tiddler="">
+        <$droppable
+          actions=<<list-links-draggable-drop-actions>>
+          tag="div"
+          enable=<<tv-enable-drag-and-drop>> >
+          <div class="tc-droppable-placeholder">
+            {{$:/core/images/blank}}
+          </div>
+          <div style="height:0.5em;"/>
+        </$droppable>
+\end
+-->
+
+
+\procedure tabs-tab-body()
+\whitespace trim
+<$list filter=<<groupsList>> variable="currentGroup">
+  <$list filter=<<__tabsList__>> variable="currentTab">
+    <$reveal type="match" state=<<tabsState>> text=<<currentTab>> default=<<__default__>> retain=<<__retain__>> tag="div">
+      <$transclude tiddler=<<__template__>> mode="block">
+        <$transclude tiddler=<<currentTab>> mode="block"/>
+      </$transclude>
+    </$reveal>
+  </$list>
+</$list>
+\end
+
+\procedure tabs-tab-list()
+\whitespace trim
+<$list variable=currentGroup filter=<<groupsList>> >
+  <div class="graph-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
+  <$list variable=currentTab filter=<<__tabsList__>> >
+    <<tabs-tab>>
+  </$list>
+  <$button class="graph-tab-new">
+    {{$:/core/images/new-button}}
+    <$slot $name=addActions $depth=2 />
+  </$button>
+</$list>
+\end
+
+\parameters (tabsList, groupsList, state:"$:/state/flibbles/graph/grouped-tab", default, template, buttonTemplate)
+<$transclude $variable=tabs
+	tabsList=<<tabsList>>
+	state=<<state>>
+	default=<<default>>
+	class=tc-vertical
+	template=<<template>>
+	buttonTemplate=<<buttonTemplate>>
+	$fillignore=yes
+/>
