@@ -1,6 +1,14 @@
 title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 
-<$let currentTiddler=<<currentTab>> >
+\whitespace trim
+
+<$let currentTiddler=<<currentTab>>
+      currentView={{{ [<currentTab>split[/]butfirst[3]] }}} >
 
 |tc-max-width tc-edit-max-width|k
 |Label field |<$edit field="nodes.labelField"/> |
+
+!!! Graph engine settings
+<$let currentTiddler=`$:/config/flibbles/graph/graph/$(currentView)$`>
+
+<$transclude $tiddler="$:/core/ui/ViewTemplate/body" />

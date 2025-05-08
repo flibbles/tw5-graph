@@ -2,7 +2,9 @@ title: $:/plugins/flibbles/graph/templates/default-graph
 
 \whitespace trim
 
+<$let currentView={{{ [{!!title}split[/]butfirst[3]] }}}>
 <$graph>
+  <$properties $for=graph $dataTiddler=`$:/config/flibbles/graph/graph/$(currentView)$` />
   <$properties doubleclick="""<$action-navigate $to=<<node>> />""">
     <$properties.persistent $dataTiddler=<<currentTiddler>> >
       <$properties.stack>
