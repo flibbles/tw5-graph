@@ -252,9 +252,9 @@ tags: $:/tags/Stylesheet
 	flex-grow: 1;
 }
 
-/*** Graph settings pages ***/
+/*** grouped-tabs ***/
 
-.graph-tab-header {
+.group-tab-header {
 	font-weight: bold;
 	margin-right: 0.0em;
 	margin-top: 1em;
@@ -263,13 +263,13 @@ tags: $:/tags/Stylesheet
 	border-top-left-radius: 1em;
 }
 
-.tc-tab-buttons.tc-vertical button.graph-tab-new {
+.tc-tab-buttons.tc-vertical button.group-tab-new {
 	border-bottom-left-radius: 1em;
 	border-bottom-right-radius: 1em;
 	border-right: 1px solid <<color tab-border>>;
 }
 
-button.graph-tab-new svg {
+button.group-tab-new svg {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;

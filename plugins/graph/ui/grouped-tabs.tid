@@ -64,11 +64,11 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 \procedure tabs-tab-list()
 \whitespace trim
 <$list variable=currentGroup filter=<<groupsList>> >
-  <div class="graph-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
+  <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
   <$list variable=currentTab filter=<<__tabsList__>> >
     <<tabs-tab>>
   </$list>
-  <$button class="graph-tab-new">
+  <$button class="group-tab-new">
     {{$:/core/images/new-button}}
     <$slot $name=addActions $depth=2 />
   </$button>

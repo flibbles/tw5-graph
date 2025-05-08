@@ -1,81 +1,28 @@
 title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 
-\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
-\function master.list(tiddler) [all[shadows+tiddlers]sort[]prefix<tiddler>sort.by<tiddler>] -[<tiddler>]
-
-\define list-links-draggable-drop-actions()
-<$action-listops $tiddler=<<targetTiddler>> $field=<<targetField>> $filter="[master.list<targetTiddler>] +[insertbefore<actionTiddler>,<currentTiddler>]"/>
-\end
-
-\whitespace trim
-\procedure list-links-draggable(tiddler,field:"list",emptyMessage,type:"ul",subtype:"li",class:"",itemTemplate)
-\whitespace trim
-<span class="tc-links-draggable-list">
-  <$vars targetTiddler=<<tiddler>> targetField=<<field>>>
-    <$genesis $type=<<__type__>> class=<<class>>>
-      <$list filter=`[master.list<tiddler>]` emptyMessage=<<__emptyMessage__>>>
-        <$droppable
-          actions=<<list-links-draggable-drop-actions>>
-          tag=<<subtype>>
-          enable=<<tv-enable-drag-and-drop>>
-        >
-          <div class="tc-droppable-placeholder"/>
-          <div>
-            <$transclude tiddler=<<itemTemplate>> >
-              <$link to={{!!title}}>
-                <$let tv-wikilinks="no">
-                  <$transclude field="caption">
-                    <$view field="title"/>
-                  </$transclude>
-                </$let>
-              </$link>
-            </$transclude>
-          </div>
-        </$droppable>
-      </$list>
-      <$tiddler tiddler="">
-        <$droppable
-          actions=<<list-links-draggable-drop-actions>>
-          tag="div"
-          enable=<<tv-enable-drag-and-drop>> >
-          <div class="tc-droppable-placeholder">
-            {{$:/core/images/blank}}
-          </div>
-          <div style="height:0.5em;"/>
-        </$droppable>
-\end
-
-\procedure tabs-tab-list()
-\whitespace trim
-<$list filter="[all[shadows+tiddlers]removeprefix<presetPrefix>]" variable="currentCategory">
-  <div class="graph-tab-header"><$text text={{{ [<currentCategory>titlecase[]] }}} /></div>
-  <$vars categoryPrefix=`$(configPrefix)$$(currentCategory)$/`>
-    <$list filter="[all[shadows+tiddlers]prefix<categoryPrefix>]" variable="currentTab" storyview="pop">
-      <<tabs-tab>>
-    </$list>
-    <$button class="graph-tab-new">
-      {{$:/core/images/new-button}}
-      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
-        <$vars newTitle=`$(categoryPrefix)$$(selection)$`>
-          <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
-          <$action-setfield $tiddler=<<tabsState>> text=<<newTitle>> />
-        </$vars>
-      </$action-modal>
-      <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
-    </$button>
-  </$vars>
-</$list>
-\end
+\define groupPrefix() $:/config/flibbles/graph/$(currentType)$/$(currentGroup)$/
 
 <$let
 	currentType=<<currentTab>>
 	presetPrefix=`$:/plugins/flibbles/graph/presettypes/$(currentType)$/`
 	configPrefix=`$:/config/flibbles/graph/$(currentTab)$/`>
 
-<$transclude $variable=tabs
-	tabsList="[all[shadows+tiddlers]prefix<configPrefix>]"
-	state=`$:/state/flibbles/graph/tab/$(currentType)$`
-	class=tc-vertical
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	groupsList="[all[shadows+tiddlers]removeprefix<presetPrefix>]"
+	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>]"
+	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/core/Default]] }}}
+	state=`$:/state/flibbles/graph/settings/$(currentType)$`
 	template="$:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate"
 	buttonTemplate="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeButton"
-/>
+>
+  <$fill $name=addActions>
+    <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
+      <$vars newTitle=`$(groupPrefix)$$(selection)$`>
+        <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
+        <$action-setfield $tiddler=<<tabsState>> text=<<newTitle>> />
+      </$vars>
+    </$action-modal>
+    <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+  </$fill>
+</$transclude>
