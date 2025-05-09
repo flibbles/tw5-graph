@@ -11,7 +11,7 @@ title: $:/plugins/flibbles/graph/templates/default-graph
         <$nodes.writable $variable=node $field=filter>
           <$node $tiddler=<<node>>
             physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
-            $pos={{{ [{!!title}getindex<node>else[0,0]] }}}
+            $pos={{{ [{!!title}getindex<node>] }}}
             label={{{ [<node>get{!!nodes.labelField}] }}} />
           <$edges.all
             $tiddler=<<node>>

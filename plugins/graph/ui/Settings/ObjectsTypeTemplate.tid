@@ -14,7 +14,6 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/core/Default]] }}}
 	state=`$:/state/flibbles/graph/settings/$(currentType)$`
 	template="$:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate"
-	buttonTemplate="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeButton"
 >
   <$fill $name=addActions>
     <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
@@ -24,5 +23,8 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
       </$vars>
     </$action-modal>
     <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+  </$fill>
+  <$fill $name=button>
+    <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
   </$fill>
 </$transclude>

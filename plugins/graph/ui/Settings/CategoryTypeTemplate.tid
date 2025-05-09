@@ -1,6 +1,6 @@
 title: $:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate
 
-<$tiddler tiddler=<<currentTab>>>
+<$let currentTiddler=<<currentTab>>>
 
 <$vars currentCategory={{{ [all[current]removeprefix<configPrefix>split[/]nth[]] }}} >
 
