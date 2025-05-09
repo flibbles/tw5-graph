@@ -275,6 +275,16 @@ button.group-tab-new svg {
 	margin-right: auto;
 }
 
+/*** Settings: Views ***/
+
+.graph-views-edgelist {
+	color: <<colour muted-foreground>>;
+}
+
+.graph-views-edgelist .active {
+	color: <<colour foreground>>;
+}
+
 /*** Build-a-Graph Property Table ***/
 
 table .graph-property-remove {
