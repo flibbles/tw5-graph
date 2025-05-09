@@ -4,9 +4,9 @@ title: $:/plugins/flibbles/graph/views
 \define groupPrefix() $:/graph/$(currentGroup)$/
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
-	groupsList="[all[shadows+tiddlers]removeprefix[$:/graph/]splitbefore[/]removesuffix[/]unique[]] views +[putfirst[]]"
-	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>else[$:/graph/views/Default]]"
-	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/views/Default]] }}}
+	groupsList="[all[shadows+tiddlers]removeprefix[$:/graph/]splitbefore[/]removesuffix[/]unique[]] view +[putfirst[]]"
+	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>else[$:/graph/view/Default]]"
+	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/view/Default]] }}}
 	state="$:/state/flibbles/graph/views"
 >
   <$fill $name=addActions>

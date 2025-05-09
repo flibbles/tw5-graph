@@ -1,4 +1,4 @@
-title: $:/graph/views/Default
+title: $:/graph/view/Default
 filter: [tag[Deity]!is[system]!is[draft]]
 edges.formulas: [all[]]
 edges.fields: [all[]]

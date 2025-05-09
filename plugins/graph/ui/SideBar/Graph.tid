@@ -3,7 +3,7 @@ caption: Graph
 tags: $:/tags/SideBar
 
 \whitespace trim
-\parameters (state: "$:/state/flibbles/graph/sidebar", defaultView: "$:/graph/views/Default", defaultTemplate: "$:/plugins/flibbles/graph/templates/default-graph")
+\parameters (state: "$:/state/flibbles/graph/sidebar", defaultView: "$:/graph/view/Default", defaultTemplate: "$:/plugins/flibbles/graph/templates/default-graph")
 <$parameters graph={{{ [<state>get[text]else<defaultView>] }}} >
 
 <div class="graph-sidebar-disabled graph-error">
@@ -20,9 +20,9 @@ tags: $:/tags/SideBar
     <$slot $name="banner">
       View:
       <$select tiddler=<<state>> default=<<defaultView>> >
-        <$list filter="[prefix[$:/graph/views/]else<defaultView>]"  >
+        <$list filter="[prefix[$:/graph/view/]else<defaultView>]"  >
           <option value=<<currentTiddler>> >
-            <$text text={{{ [{!!title}removeprefix[$:/graph/views/]] }}} />
+            <$text text={{{ [{!!title}removeprefix[$:/graph/view/]] }}} />
           </option>
         </$list>
       </$select>
