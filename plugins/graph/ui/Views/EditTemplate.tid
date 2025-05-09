@@ -5,6 +5,7 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 <$let currentView={{{ [<currentTab>split[/]butfirst[3]] }}} >
 
 |tc-max-width tc-edit-max-width|k
+|Nodes |<$edit-text field=filter tag=textarea/> |
 |Label field |<$edit field="nodes.labelField"/> |
 
 !!! Graph engine defaults
