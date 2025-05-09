@@ -13,7 +13,6 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>]"
 	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/core/Default]] }}}
 	state=`$:/state/flibbles/graph/settings/$(currentType)$`
-	template="$:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate"
 >
   <$fill $name=addActions>
     <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
@@ -26,5 +25,15 @@ title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
   </$fill>
   <$fill $name=button>
     <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
+  </$fill>
+  <$fill $name=body>
+
+<$let currentTiddler=<<currentTab>>
+      currentCategory={{{ [all[current]removeprefix<configPrefix>split[/]nth[]] }}} >
+
+! <$link><$text text={{{ [all[current]removeprefix<configPrefix>removeprefix<currentCategory>removeprefix[/]] }}} /></$link>
+
+{{||$:/core/ui/ViewTemplate/body}}
+</$let>
   </$fill>
 </$transclude>

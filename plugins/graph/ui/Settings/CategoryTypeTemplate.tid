@@ -1,9 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/Settings/CategoryTypeTemplate
-
-<$let currentTiddler=<<currentTab>>>
-
-<$vars currentCategory={{{ [all[current]removeprefix<configPrefix>split[/]nth[]] }}} >
-
-! <$link><$text text={{{ [all[current]removeprefix<configPrefix>removeprefix<currentCategory>removeprefix[/]] }}} /></$link>
-
-{{||$:/core/ui/ViewTemplate/body}}

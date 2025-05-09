@@ -4,8 +4,9 @@ title: $:/plugins/flibbles/graph/templates/default-graph
 
 <$let currentView={{{ [{!!title}split[/]butfirst[3]] }}}>
 <$graph>
-  <$properties $for=graph $dataTiddler=`$:/config/flibbles/graph/graph/$(currentView)$` />
-  <$properties doubleclick="""<$action-navigate $to=<<node>> />""">
+  <$properties $for=graph $dataTiddler=`$:/config/flibbles/graph/graph/views/$(currentView)$` />
+  <$properties $for=edges $dataTiddler=`$:/config/flibbles/graph/edges/views/$(currentView)$`>
+  <$properties $dataTiddler=`$:/config/flibbles/graph/nodes/views/$(currentView)$` doubleclick="""<$action-navigate $to=<<node>> />""">
     <$properties.persistent $dataTiddler=<<currentTiddler>> >
       <$properties.stack>
         <$nodes.writable $variable=node $field=filter>

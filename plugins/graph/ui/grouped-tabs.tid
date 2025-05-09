@@ -84,9 +84,7 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 <$list filter=<<groupsList>> variable="currentGroup">
   <$list filter=<<tabsList>> variable="currentTab">
     <$reveal type="match" state=<<tabsState>> text=<<currentTab>> default=<<default>> retain=<<retain>> tag="div">
-      <$transclude tiddler=<<template>> mode="block">
-        <$transclude tiddler=<<currentTab>> mode="block"/>
-      </$transclude>
+      <$slot $name=body />
     </$reveal>
   </$list>
 </$list>
@@ -101,12 +99,12 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
   </$list>
   <$button class="group-tab-new">
     {{$:/core/images/new-button}}
-    <$slot $name=addActions $depth=2 />
+    <$slot $name=addActions />
   </$button>
 </$list>
 \end
 
-\parameters (tabsList, groupsList, state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, template, buttonTemplate, class:"tc-vertical", retain)
+\parameters (tabsList, groupsList, state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, class:"tc-vertical", retain)
 
 <$qualify title=<<state>> name=qualifiedState>
   <$let tabsState={{{ [<explicitState>minlength[1]] ~[<qualifiedState>] }}}>

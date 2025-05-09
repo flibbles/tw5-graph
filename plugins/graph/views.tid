@@ -8,7 +8,6 @@ title: $:/plugins/flibbles/graph/views
 	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>else[$:/graph/views/Default]]"
 	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/views/Default]] }}}
 	state="$:/state/flibbles/graph/views"
-	template="$:/plugins/flibbles/graph/ui/Views/EditTemplate"
 >
   <$fill $name=addActions>
     <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewView">
@@ -21,5 +20,10 @@ title: $:/plugins/flibbles/graph/views
   </$fill>
   <$fill $name=button>
     <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
+  </$fill>
+  <$fill $name=body>
+    <$let currentTiddler=<<currentTab>> >
+      <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Views/EditTemplate" />
+    </$let>
   </$fill>
 </$transclude>

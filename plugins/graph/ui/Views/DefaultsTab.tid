@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/ui/Views/DefaultsTab
+
+<$let currentTiddler=<<currentTab>>>
+
+{{||$:/core/ui/ViewTemplate/body}}
