@@ -2,4 +2,4 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/color
 
 \whitespace trim
 
-<$edit-text tag=input index=<<property>> type=color />
+<$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input index=<<property>> type=color />

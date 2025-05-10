@@ -285,17 +285,24 @@ button.group-tab-new svg {
 	color: <<colour foreground>>;
 }
 
-/*** Build-a-Graph Property Table ***/
+/*** Graph Property Table ***/
+
+table.graph-property {
+	width: 100%;
+	padding: 3px;
+}
+
+table .graph-property-input {
+	min-width: 8em;
+	border-right-width: 0px;
+}
 
 table .graph-property-remove {
 	width: 2em;
+	border-left-width: 0px;
 }
 
-/*** Build-a-Graph Property Types ***/
-
-table .graph-property-input {
-	width: 8em;
-}
+/*** Graph Property Table Types ***/
 
 table.graph-property input {
 	width: 100%;
@@ -310,12 +317,17 @@ table.graph-property td {
 	width: 100%;
 }
 
+table.graph-property .graph-property-input-number {
+	display: flex;
+}
+
 table.graph-property .graph-property-input-number input {
-	width: 6em;
+	flex-grow: 1;
 }
 
 table.graph-property .graph-property-input-number span {
 	margin-left: 5px;
+	min-width: 2em;
 	vertical-align: top;
 	font-weight: lighter;
 }
