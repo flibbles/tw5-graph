@@ -14,6 +14,10 @@ This action is a key component of the <<.wlink ActionPopupWidget>>.
 |$ms |Milliseconds to elapse before executing contained actions (defaults to "0") |
 |$state |Optional tiddler that can be used to interrupt or delay execution |
 
+!! 0 Delay
+
+If ''action-delay'' has a 0 ms delay specified (or it doesn't specify a delay), this will cause it to invoke its internal actions without delay, but //after// everything else currently in the callback queue. This can be useful if you need to execute actions now, but only after the refresh mechanism has had an opportunity to run.
+
 !! Interrupting action-delay
 
 action-delay works by creating a state tiddler which it monitors. If that state Tiddler is changed, then the queued actions are aborted. This results in a few behaviors:
