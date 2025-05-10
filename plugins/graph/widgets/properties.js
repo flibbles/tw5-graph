@@ -110,6 +110,7 @@ Properties.prototype.createStyle = function() {
 Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	var self = this;
 	var newObjects = {};
+	var newAffected = Object.create(null);
 	var callback = function(widget) {
 		var type = widget.graphObjectType;
 		var id = widget.id;
@@ -118,7 +119,7 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 		var object = parentCallback(widget);
 		if (type === self.type) {
 			if (self.filterFunc([id], self).length > 0) {
-				self.affectedObjects[id] = true;
+				newAffected[id] = true;
 			} else {
 				return object;
 			}
@@ -143,6 +144,7 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	};
 	searchChildren(this.children, null);
 	this.knownObjects = newObjects;
+	this.affectedObjects = newAffected;
 	return newObjects;
 };
 
