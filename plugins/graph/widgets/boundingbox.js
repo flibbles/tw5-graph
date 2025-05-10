@@ -58,8 +58,8 @@ BoxWidget.prototype.execute = function() {
 
 BoxWidget.prototype.executeDimensions = function() {
 	var self = this;
-	this.widthFilter = this.wiki.compileFilter(this.getAttribute("$width", ""));
-	this.heightFilter = this.wiki.compileFilter(this.getAttribute("$height", ""));
+	this.widthFilter = this.wiki.compileFilter(this.getAttribute("width", ""));
+	this.heightFilter = this.wiki.compileFilter(this.getAttribute("height", ""));
 	this.dimensionWidget = this.wiki.makeWidget({tree: [{type: "widget", children: []}]}, {parentWidget: this});
 	this.dimensionWidget.execute();
 	// We set up the widget so it only gets values for these variables

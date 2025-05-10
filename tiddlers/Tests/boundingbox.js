@@ -71,7 +71,7 @@ it("can accept custom classes", async function() {
 
 it("resizes on literal dimension changes", async function() {
 	wiki.addTiddler({title: "dimensions", text: "247"});
-	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox $height={{dimensions}} $width={{dimensions}}/>");
+	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox height={{dimensions}} width={{dimensions}}/>");
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
@@ -84,7 +84,7 @@ it("resizes on literal dimension changes", async function() {
 
 it("resizes on filter dimension changes", async function() {
 	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$boundingbox $height='[<.D>]' $width='[<.D>add[10]]'>");
+	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$boundingbox height='[<.D>]' width='[<.D>add[10]]'>");
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:37;height:27;");
 	wiki.addTiddler({title: "dimensions", text: "30"});
@@ -94,7 +94,7 @@ it("resizes on filter dimension changes", async function() {
 
 it("can remove dimension attributes", async function() {
 	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox $height={{dimensions}} $width={{dimensions}} />\n\n");
+	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox height={{dimensions}} width={{dimensions}} />\n\n");
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
 	wiki.addTiddler({title: "dimensions"});
@@ -106,7 +106,7 @@ it("can remove dimension attributes", async function() {
 
 it("can have dimension attributes return nothing", async function() {
 	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox $height='[{dimensions}]' $width='[{dimensions}]' />\n");
+	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox height='[{dimensions}]' width='[{dimensions}]' />\n");
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
 	wiki.addTiddler({title: "dimensions"});
@@ -121,12 +121,12 @@ it("does not write any style info if no dimensions supplied", function() {
 		return wiki.renderText("text/html", "text/vnd.tiddlywiki", text);
 	};
 	expect(render("<$boundingbox/>\n\n")).toBe('<div class="boundingbox"></div>');
-	expect(render("<$boundingbox $width='' $height=''/>\n\n")).toBe('<div class="boundingbox"></div>');
-	expect(render("<$boundingbox $width=5px/>\n\n")).toBe('<div class="boundingbox" style="width:5px;"></div>');
-	expect(render("<$boundingbox $height=5px/>\n\n")).toBe('<div class="boundingbox" style="height:5px;"></div>');
+	expect(render("<$boundingbox width='' height=''/>\n\n")).toBe('<div class="boundingbox"></div>');
+	expect(render("<$boundingbox width=5px/>\n\n")).toBe('<div class="boundingbox" style="width:5px;"></div>');
+	expect(render("<$boundingbox height=5px/>\n\n")).toBe('<div class="boundingbox" style="height:5px;"></div>');
 	// Has a filter, but filter returns nothing
-	expect(render("<$boundingbox $width='[match[x]]' $height='[match[x]]'/>\n")).toBe('<div class="boundingbox"></div>');
-	expect(render("<$boundingbox $width='[[]]' $height='[[]]'/>\n")).toBe('<div class="boundingbox"></div>');
+	expect(render("<$boundingbox width='[match[x]]' height='[match[x]]'/>\n")).toBe('<div class="boundingbox"></div>');
+	expect(render("<$boundingbox width='[[]]' height='[[]]'/>\n")).toBe('<div class="boundingbox"></div>');
 });
 
 it("can use browser info for dimension attributes", function() {
@@ -143,17 +143,17 @@ it("can use browser info for dimension attributes", function() {
 	var win = window();
 	win.innerWidth = 53;
 	win.innerHeight = 34;
-	test("<$boundingbox $width='[<windowWidth>]'/>\n", "width:53;");
-	test("<$boundingbox $height='[<windowHeight>]'/>\n", "height:34;");
-	test("<$boundingbox $width='[<boundingLeft>]'/>\n", "width:13;");
-	test("<$boundingbox $height='[<boundingTop>]'/>\n", "height:17;");
+	test("<$boundingbox width='[<windowWidth>]'/>\n", "width:53;");
+	test("<$boundingbox height='[<windowHeight>]'/>\n", "height:34;");
+	test("<$boundingbox width='[<boundingLeft>]'/>\n", "width:13;");
+	test("<$boundingbox height='[<boundingTop>]'/>\n", "height:17;");
 });
 
 it("handles resize events", function() {
 	var win = window();
 	win.innerWidth = 53;
 	win.innerHeight = 34;
-	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox $height='[<windowHeight>]' $width='[<windowWidth>]' />\n");
+	var widgetNode = $tw.test.renderText(wiki, "<$boundingbox height='[<windowHeight>]' width='[<windowWidth>]' />\n");
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:53;height:34;");
 	win.innerWidth = 7;
 	win.innerHeight = 11;
