@@ -1,6 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate
 
 \define groupPrefix() $:/config/flibbles/graph/$(currentType)$/$(currentGroup)$/
+\whitespace trim
 
 <$let
 	currentType=<<currentTab>>

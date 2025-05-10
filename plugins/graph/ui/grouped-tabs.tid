@@ -47,7 +47,7 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 \end
 -->
 
-\define grouped-tabs-button()
+\procedure grouped-tabs-button()
 \whitespace trim
 <$button
   set=<<tabsState>>
