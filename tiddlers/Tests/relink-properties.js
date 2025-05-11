@@ -23,11 +23,10 @@ it("reports and relinks json property files", function() {
 			addNode: "[[cap|from here]]", addEdge: "{{from here}}" })});
 	var report = wiki.getTiddlerRelinkReferences(title);
 	expect(report).toEqual({"from here": ["addNode: [[cap]]","addEdge: {{}}"]});
-	/*
+	spyOn(console, "log");
 	wiki.renameTiddler("from here", "to there");
-	expect(wiki.getTiddlerData(title)).toEqual(JSON.stringify({
-		addNode: "[[to there|cap]]", addEdge: "{{to there}}"}));
-	*/
+	expect(wiki.getTiddlerData(title)).toEqual({
+		addNode: "[[cap|to there]]", addEdge: "{{to there}}"});
 });
 
 });

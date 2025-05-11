@@ -26,7 +26,7 @@ exports.report = function(tiddler, callback, options) {
 			var objectType = title.substring(namespace.length, slashPos);
 			var engine = getEngine(options.wiki);
 			var properties = engine.prototype.properties[objectType];
-			var data = options.wiki.getTiddlerData(title);
+			var data = options.wiki.getTiddlerDataCached(title);
 			if (properties && data) {
 				for (var key in data) {
 					var propertyInfo = properties[key];
@@ -48,36 +48,37 @@ exports.report = function(tiddler, callback, options) {
 };
 
 exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
-	/*
 	var title = tiddler.fields.title;
-	if ($tw.utils.startsWith(title, "$:/graph/")) {
-		var data = options.wiki.getTiddlerDataCached(title, {});
-		if (data[fromTitle] !== undefined) {
-			var newData = {};
-			for (var title in data) {
-				if (title === fromTitle) {
-					newData[toTitle] = data[title];
-				} else {
-					newData[title] = data[title];
+	if ($tw.utils.startsWith(title, namespace)) {
+		var slashPos = title.indexOf("/", namespace.length);
+		if (slashPos >= 0) {
+			var changed = false;
+			var objectType = title.substring(namespace.length, slashPos);
+			var engine = getEngine(options.wiki);
+			var properties = engine.prototype.properties[objectType];
+			var data = options.wiki.getTiddlerData(title);
+			if (properties && data) {
+				for (var key in data) {
+					var propertyInfo = properties[key];
+					var propertyType = propertyInfo.type;
+					var propertyClass = PropertyTypes[propertyType];
+					if (propertyClass && propertyClass.type) {
+						var relinker = relinkUtils.getType(propertyClass.type);
+						if (relinker) {
+							var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
+							if (lineEntry && lineEntry.output) {
+								changed = true;
+								data[key] = lineEntry.output;
+							}
+						}
+					}
 				}
 			}
-			var newText;
-			var type = tiddler.fields.type;
-			if (type === "application/x-tiddler-dictionary") {
-				if (isLegalDictionaryKey(toTitle)) {
-					newText = $tw.utils.makeTiddlerDictionary(newData);
-				} else {
-					type = "application/json";
-					changes.type = {output: type};
-				}
+			if (changed) {
+				changes.text = {output: JSON.stringify(data, null, $tw.config.preferences.jsonSpaces)};
 			}
-			if (type === "application/json") {
-				newText = JSON.stringify(newData, null, $tw.config.preferences.jsonSpaces);
-			}
-			changes.text = {output: newText};
 		}
 	}
-	*/
 };
 
 function getEngine(wiki) {
