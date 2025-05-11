@@ -3,14 +3,14 @@ title: $:/plugins/flibbles/graph/relink/relinkoperator.js
 type: application/javascript
 module-type: relinkoperator
 
-Takes care of relinking everything graph related.
+Takes care of relinking everything view related.
 Such as the tiddlers in the $:/graph/ namespace.
 
 \*/
 
 "use strict";
 
-exports.name = "graph";
+exports.name = "graph-views";
 
 exports.report = function(tiddler, callback, options) {
 	var title = tiddler.fields.title;
