@@ -4,16 +4,16 @@ Tests all relinking.
 
 \*/
 
-describe("Relink", function() {
+describe("Relink views", function() {
 
 var dictType = "application/x-tiddler-dictionary";
+var wiki;
 
-function testTiddler(tiddler, expected, report, options) {
-	const wiki = new $tw.Wiki();
-};
+beforeEach(function() {
+	wiki = new $tw.Wiki();
+});
 
 it("reports json graph tiddlers", function() {
-	const wiki = new $tw.Wiki();
 	var json = {A: "3,5", B: "value"};
 	var title = "$:/graph/view/test";
 	wiki.addTiddler({title: title, type: "application/json", text: JSON.stringify(json)});
@@ -25,7 +25,6 @@ it("reports json graph tiddlers", function() {
 });
 
 it("reports dictionary graph tiddlers", function() {
-	const wiki = new $tw.Wiki();
 	var data = "A: 3,5\nB: value";
 	var title = "$:/graph/view/test";
 	wiki.addTiddler({title: title, type: dictType, text: data});
@@ -37,7 +36,6 @@ it("reports dictionary graph tiddlers", function() {
 });
 
 it("relinks json graph tiddlers", function() {
-	const wiki = new $tw.Wiki();
 	var json = {a: "val", "from here": "3,5", g: "val"};
 	var data = JSON.stringify(json);
 	var title = "$:/graph/view/test";
@@ -51,7 +49,6 @@ it("relinks json graph tiddlers", function() {
 });
 
 it("relinks dictionary graph tiddlers", function() {
-	const wiki = new $tw.Wiki();
 	var data = "from here: 3,5\nB: value";
 	var title = "$:/graph/view/test";
 	spyOn(console, "log");
@@ -61,7 +58,6 @@ it("relinks dictionary graph tiddlers", function() {
 });
 
 it("relinks impossible dictionary graph tiddlers with json", function() {
-	const wiki = new $tw.Wiki();
 	var data = "from here: 3,5\nB: value";
 	var title = "$:/graph/view/test";
 	spyOn(console, "log");
@@ -72,7 +68,6 @@ it("relinks impossible dictionary graph tiddlers with json", function() {
 });
 
 it("empty values do not stop relinking", function() {
-	const wiki = new $tw.Wiki();
 	var json = {"from here": ""};
 	var data = JSON.stringify(json);
 	var title = "$:/graph/view/test";
@@ -83,7 +78,6 @@ it("empty values do not stop relinking", function() {
 });
 
 it("does not touch data tiddlers outside the namespace", function() {
-	const wiki = new $tw.Wiki();
 	var json = {"from here": "3,5"};
 	var data = JSON.stringify(json);
 	var title = "$:/notgraph/view/test";
@@ -95,7 +89,6 @@ it("does not touch data tiddlers outside the namespace", function() {
 });
 
 it("does not touch non-data tiddlers inside the namespace", function() {
-	const wiki = new $tw.Wiki();
 	var json = {"from here": "3,5"};
 	var data = JSON.stringify(json);
 	var title = "$:/graph/view/test";
