@@ -19,44 +19,39 @@ var namespace = "$:/config/flibbles/graph/";
 
 
 exports.report = function(tiddler, callback, options) {
-	var title = tiddler.fields.title;
-	if ($tw.utils.startsWith(title, namespace)) {
-		var slashPos = title.indexOf("/", namespace.length);
-		if (slashPos >= 0) {
-			var objectType = title.substring(namespace.length, slashPos);
-			var engine = getEngine(options.wiki);
-			var properties = engine.prototype.properties[objectType];
-			var data = options.wiki.getTiddlerDataCached(title);
-			if (properties && data) {
-				for (var key in data) {
-					var propertyInfo = properties[key];
-					var propertyType = propertyInfo.type;
-					var propertyClass = PropertyTypes[propertyType];
-					if (propertyClass && propertyClass.type) {
-						var relinker = relinkUtils.getType(propertyClass.type);
-						if (relinker) {
-							relinker.report(data[key], function(title, blurb, info) {
-								var suffix = blurb? (": " + blurb): "";
-								callback(title, key + suffix, info);
-							}, options);
-						}
-					}
-				}
-			}
-		}
-	}
+	forEachProperty(options.wiki, tiddler, function(key, data, relinker) {
+		relinker.report(data[key], function(title, blurb, info) {
+			var suffix = blurb? (": " + blurb): "";
+			callback(title, key + suffix, info);
+		}, options);
+	});
 };
 
 exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
+	var changed, tiddlerData;
+	forEachProperty(options.wiki, tiddler, function(key, data, relinker) {
+		var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
+		if (lineEntry && lineEntry.output) {
+			changed = true;
+			data[key] = lineEntry.output;
+			tiddlerData = data;
+		}
+	});
+	if (changed) {
+		changes.text = {output: JSON.stringify(tiddlerData, null, $tw.config.preferences.jsonSpaces)};
+	}
+};
+
+function forEachProperty(wiki, tiddler, callback) {
 	var title = tiddler.fields.title;
 	if ($tw.utils.startsWith(title, namespace)) {
 		var slashPos = title.indexOf("/", namespace.length);
 		if (slashPos >= 0) {
 			var changed = false;
 			var objectType = title.substring(namespace.length, slashPos);
-			var engine = getEngine(options.wiki);
+			var engine = getEngine(wiki);
 			var properties = engine.prototype.properties[objectType];
-			var data = options.wiki.getTiddlerData(title);
+			var data = wiki.getTiddlerData(title);
 			if (properties && data) {
 				for (var key in data) {
 					var propertyInfo = properties[key];
@@ -65,11 +60,7 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 					if (propertyClass && propertyClass.type) {
 						var relinker = relinkUtils.getType(propertyClass.type);
 						if (relinker) {
-							var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
-							if (lineEntry && lineEntry.output) {
-								changed = true;
-								data[key] = lineEntry.output;
-							}
+							callback(key, data, relinker);
 						}
 					}
 				}
