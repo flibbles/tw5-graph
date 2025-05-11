@@ -1,55 +1,60 @@
 title: $:/plugins/flibbles/graph/ui/ViewTemplate/properties
 
-\procedure row()
+\procedure section(header, filter, default)
 \whitespace trim
-<$let jsonEntry={{{ [<json>jsonextract<property>] }}}
-      propertyType={{{ [<jsonEntry>jsonget[type]] }}} >
-    <td class=graph-property-label>
-      <$text text=<<property>> />
-    </td>
-    <td class=`graph-property-input graph-property-input-$(propertyType)$`>
-      <$transclude
-        $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(propertyType)$`
-        $mode=inline>
-        <$edit-text tag=input index=<<property>> />
-      </$transclude>
-    </td>
-    <td class=graph-property-remove>
-      <%if [all[current]getindex<property>] %>
-        <$button class=tc-btn-invisible tooltip="Unset this property">
-          <$action-setfield $index=<<property>> />
-          <$transclude $tiddler="$:/core/images/delete-button" $mode=inline />
-\end
-
-\parameters (type, engine, actions:no)
-\whitespace trim
-
-<$list variable=json filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<engine>] +[moduleproperty[properties]jsonextract<type>]" >
-<$vars dropdownStateTitle=<<qualify "$:/state/dropdown">> >
-<table class=graph-property>
-  <$list variable=property filter="[<json>jsonindexes[]] :filter[<json>jsonextract<currentTiddler>jsonget[type]!match[actions]] :filter[<json>jsonextract<currentTiddler>jsonget[hidden]else[false]!match[true]]">
-    <tr>
-      <$transclude $variable=row />
-    </tr>
-  </$list>
+<$qualify name=dropdownStateTitle title=`$:/state/dropdown/$(header)$`>
   <tr>
-    <td colspan=3>
-      <$reveal type="nomatch" state=<<dropdownStateTitle>> text=open>
+    <th colspan=3 align=left>
+      <$reveal type="nomatch" state=<<dropdownStateTitle>> text=open default=<<default>> >
         <$button class=tc-btn-invisible>
           <$action-setfield $tiddler=<<dropdownStateTitle>> $value=open />
           {{$:/core/images/right-arrow}}
         </$button>
       </$reveal>
-      <$reveal type="match" state=<<dropdownStateTitle>> text=open>
+      <$reveal type="match" state=<<dropdownStateTitle>> text=open default=<<default>> >
         <$button class="tc-btn-invisible">
-          <$action-setfield $tiddler=<<dropdownStateTitle>> $value=close />
+          <$action-setfield $tiddler=<<dropdownStateTitle>> $value=close  default=<<default>> />
           {{$:/core/images/down-arrow}}
         </$button>
       </$reveal>
       &#32;
-      ''Actions''
-    </td>
+      <<header>>
+    </th>
   </tr>
-  <$list variable=property filter="[<json>jsonindexes[]] :filter[<json>jsonextract<currentTiddler>jsonget[type]match[actions]]">
-    <$reveal tag=tr type="match" state=<<dropdownStateTitle>> text=open>
-      <$transclude $variable=row $mode=inline />
+  <$list variable=property filter=<<filter>> >
+    <$reveal tag=tr type="match" state=<<dropdownStateTitle>> text=open default=<<default>> >
+      <$let jsonEntry={{{ [<json>jsonextract<property>] }}}
+            propertyType={{{ [<jsonEntry>jsonget[type]] }}} >
+        <td class=graph-property-label>
+          <$text text=<<property>> />
+        </td>
+        <td class=`graph-property-input graph-property-input-$(propertyType)$`>
+          <$transclude
+            $tiddler=`$:/plugins/flibbles/graph/ui/PropertyTypes/$(propertyType)$`
+            $mode=inline>
+            <$edit-text tag=input index=<<property>> />
+          </$transclude>
+        </td>
+        <td class=graph-property-remove>
+          <%if [all[current]getindex<property>] %>
+            <$button class=tc-btn-invisible tooltip="Unset this property">
+              <$action-setfield $index=<<property>> />
+              <$transclude $tiddler="$:/core/images/delete-button" $mode=inline />
+\end
+
+\parameters (type, engine)
+\whitespace trim
+
+<$list variable=json filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<engine>] +[moduleproperty[properties]jsonextract<type>]" >
+
+<table class=graph-property>
+
+<$transclude $variable=section $mode=inline
+	header=Style
+	default=open
+	filter="[<json>jsonindexes[]] :filter[<json>jsonextract<currentTiddler>jsonget[type]!match[actions]] :filter[<json>jsonextract<currentTiddler>jsonget[hidden]else[false]!match[true]]" />
+
+<$transclude $variable=section $mode=inline
+	header=Actions
+	default=closed
+	filter="[<json>jsonindexes[]] :filter[<json>jsonextract<currentTiddler>jsonget[type]match[actions]]" />
