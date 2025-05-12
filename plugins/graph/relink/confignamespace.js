@@ -16,6 +16,7 @@ var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 exports.name = "graph-properties";
 var namespace = "$:/config/flibbles/graph/";
+var jsonType = "application/json";
 
 
 exports.report = function(tiddler, callback, options) {
@@ -29,16 +30,37 @@ exports.report = function(tiddler, callback, options) {
 
 exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 	var changed, tiddlerData;
+	var type = tiddler.fields.type;
+	var impossible = false;
 	forEachProperty(options.wiki, tiddler, function(key, data, relinker) {
 		var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
-		if (lineEntry && lineEntry.output) {
+		if (lineEntry) {
 			changed = true;
-			data[key] = lineEntry.output;
-			tiddlerData = data;
+			if (lineEntry.output) {
+				data[key] = lineEntry.output;
+				tiddlerData = data;
+				if (!isLegalDictionaryValue(lineEntry.output)) {
+					type = jsonType;
+					changes.type = {output: jsonType};
+				}
+			}
+			impossible = lineEntry.impossible || impossible;
 		}
 	});
 	if (changed) {
-		changes.text = {output: JSON.stringify(tiddlerData, null, $tw.config.preferences.jsonSpaces)};
+		changes.text = {};
+		if (tiddlerData) {
+			var text;
+			if (type === jsonType) {
+				text = JSON.stringify(tiddlerData, null, $tw.config.preferences.jsonSpaces);
+			} else {
+				text = $tw.utils.makeTiddlerDictionary(tiddlerData);
+			}
+			changes.text.output = text;
+		}
+		if (impossible) {
+			changes.text.impossible = true;
+		}
 	}
 };
 
@@ -47,29 +69,32 @@ function forEachProperty(wiki, tiddler, callback) {
 	if ($tw.utils.startsWith(title, namespace)) {
 		var slashPos = title.indexOf("/", namespace.length);
 		if (slashPos >= 0) {
-			var changed = false;
 			var objectType = title.substring(namespace.length, slashPos);
 			var engine = getEngine(wiki);
-			var properties = engine.prototype.properties[objectType];
-			var data = wiki.getTiddlerData(title);
-			if (properties && data) {
-				for (var key in data) {
-					var propertyInfo = properties[key];
-					var propertyType = propertyInfo.type;
-					var propertyClass = PropertyTypes[propertyType];
-					if (propertyClass && propertyClass.type) {
-						var relinker = relinkUtils.getType(propertyClass.type);
-						if (relinker) {
-							callback(key, data, relinker);
+			if (engine) {
+				var properties = engine.prototype.properties[objectType];
+				var data = wiki.getTiddlerData(title);
+				if (properties && data) {
+					for (var key in data) {
+						var propertyInfo = properties[key];
+						if (propertyInfo) {
+							var propertyClass = PropertyTypes[propertyInfo.type];
+							if (propertyClass && propertyClass.type) {
+								var relinker = relinkUtils.getType(propertyClass.type);
+								if (relinker) {
+									callback(key, data, relinker);
+								}
+							}
 						}
 					}
 				}
 			}
-			if (changed) {
-				changes.text = {output: JSON.stringify(data, null, $tw.config.preferences.jsonSpaces)};
-			}
 		}
 	}
+};
+
+function isLegalDictionaryValue(text) {
+	return text.indexOf("\n") < 0;
 };
 
 function getEngine(wiki) {

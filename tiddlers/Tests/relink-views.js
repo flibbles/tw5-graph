@@ -7,16 +7,18 @@ Tests all relinking.
 describe("Relink views", function() {
 
 var dictType = "application/x-tiddler-dictionary";
-var wiki;
+var jsonType = "application/json";
+var wiki, log;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
+	log = spyOn(console, "log");
 });
 
 it("reports json graph tiddlers", function() {
 	var json = {A: "3,5", B: "value"};
 	var title = "$:/graph/view/test";
-	wiki.addTiddler({title: title, type: "application/json", text: JSON.stringify(json)});
+	wiki.addTiddler({title: title, type: jsonType, text: JSON.stringify(json)});
 	var report = wiki.getTiddlerRelinkReferences(title);
 	expect(report).toEqual({A: ["3,5"], B: ["value"]});
 	// Reports must be soft, so these don't show up as "missing" tiddlers.
@@ -39,8 +41,7 @@ it("relinks json graph tiddlers", function() {
 	var json = {a: "val", "from here": "3,5", g: "val"};
 	var data = JSON.stringify(json);
 	var title = "$:/graph/view/test";
-	spyOn(console, "log");
-	wiki.addTiddler({title: title, type: "application/json", text: data});
+	wiki.addTiddler({title: title, type: jsonType, text: data});
 	wiki.renameTiddler("from here", "to there");
 	expect(wiki.getTiddlerData(title)).toEqual({a: "val", "to there": "3,5", g: "val"});
 	// Maintains pretty printing
@@ -51,7 +52,6 @@ it("relinks json graph tiddlers", function() {
 it("relinks dictionary graph tiddlers", function() {
 	var data = "from here: 3,5\nB: value";
 	var title = "$:/graph/view/test";
-	spyOn(console, "log");
 	wiki.addTiddler({title: title, type: dictType, text: data});
 	wiki.renameTiddler("from here", "to there");
 	expect(wiki.getTiddlerData(title)).toEqual({"to there": "3,5", B: "value"});
@@ -60,19 +60,17 @@ it("relinks dictionary graph tiddlers", function() {
 it("relinks impossible dictionary graph tiddlers with json", function() {
 	var data = "from here: 3,5\nB: value";
 	var title = "$:/graph/view/test";
-	spyOn(console, "log");
 	wiki.addTiddler({title: title, type: dictType, text: data});
 	wiki.renameTiddler("from here", "to:there");
 	expect(wiki.getTiddlerData(title)).toEqual({"to:there": "3,5", B: "value"});
-	expect(wiki.getTiddler(title).fields.type).toBe("application/json");
+	expect(wiki.getTiddler(title).fields.type).toBe(jsonType);
 });
 
 it("empty values do not stop relinking", function() {
 	var json = {"from here": ""};
 	var data = JSON.stringify(json);
 	var title = "$:/graph/view/test";
-	spyOn(console, "log");
-	wiki.addTiddler({title: title, type: "application/json", text: data});
+	wiki.addTiddler({title: title, type: jsonType, text: data});
 	wiki.renameTiddler("from here", "to there");
 	expect(wiki.getTiddlerData(title)).toEqual({"to there": ""});
 });
@@ -81,11 +79,12 @@ it("does not touch data tiddlers outside the namespace", function() {
 	var json = {"from here": "3,5"};
 	var data = JSON.stringify(json);
 	var title = "$:/notgraph/view/test";
-	wiki.addTiddler({title: title, type: "application/json", text: data});
+	wiki.addTiddler({title: title, type: jsonType, text: data});
 	wiki.renameTiddler("from here", "to there");
 	expect(wiki.getTiddlerData(title)).toEqual({"from here": "3,5"});
 	// It also does not report anything
 	expect(wiki.getTiddlerRelinkReferences(title)).toEqual({});
+	expect(log).not.toHaveBeenCalled();
 });
 
 it("does not touch non-data tiddlers inside the namespace", function() {
@@ -97,6 +96,7 @@ it("does not touch non-data tiddlers inside the namespace", function() {
 	expect(wiki.getTiddlerText(title)).toEqual(data);
 	// It also does not report anything
 	expect(wiki.getTiddlerRelinkReferences(title)).toEqual({});
+	expect(log).not.toHaveBeenCalled();
 });
 
 });
