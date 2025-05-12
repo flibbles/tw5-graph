@@ -10,11 +10,11 @@ in the $:/config/flibbles/graph namespace..
 
 "use strict";
 
+exports.name = "graph-properties";
+
 var utils = require("../utils.js");
 var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
-
-exports.name = "graph-properties";
 var namespace = "$:/config/flibbles/graph/";
 var jsonType = "application/json";
 
