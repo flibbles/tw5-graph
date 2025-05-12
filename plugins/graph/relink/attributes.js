@@ -14,22 +14,38 @@ exports.name = "graph";
 var utils = require("../utils.js");
 var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
+var graphObjects = Object.create(null);
+
+$tw.modules.forEachModuleOfType("widget-subclass", function(subclass, module) {
+	if (module.baseClass === "graphobject") {
+		graphObjects["$" + module.name] = module.prototype.graphObjectType;
+	}
+});
 
 exports.getHandler = function(element, attribute, options) {
 	if (element.tag === "$properties") {
-		var name = attribute.name;
-		if (name[0] !== "$") {
-			var forObject = element.attributes["$for"] || "nodes";
-			var engine = getEngine(options.wiki);
-			if (engine) {
-				var properties = engine.prototype.properties[forObject];
-				if (properties) {
-					var propertyInfo = properties[attribute.name];
-					if (propertyInfo) {
-						var propertyClass = PropertyTypes[propertyInfo.type];
-						if (propertyClass && propertyClass.type) {
-							return relinkUtils.getType(propertyClass.type);
-						}
+		var forAttr = element.attributes["$for"];
+		var forObject = (forAttr && forAttr.value) || "nodes";
+		return processAttribute(forObject, attribute, options);
+	} else if (graphObjects[element.tag]) {
+		return processAttribute(graphObjects[element.tag], attribute, options);
+	} else if (element.tag === "$graph") {
+		return processAttribute("graph", attribute, options);
+	}
+};
+
+function processAttribute(forObject, attribute, options) {
+	var name = attribute.name;
+	if (name[0] !== "$") {
+		var engine = getEngine(options.wiki);
+		if (engine) {
+			var properties = engine.prototype.properties[forObject];
+			if (properties) {
+				var propertyInfo = properties[attribute.name];
+				if (propertyInfo) {
+					var propertyClass = PropertyTypes[propertyInfo.type];
+					if (propertyClass && propertyClass.type) {
+						return relinkUtils.getType(propertyClass.type);
 					}
 				}
 			}

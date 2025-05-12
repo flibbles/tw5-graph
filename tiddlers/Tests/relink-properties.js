@@ -93,7 +93,7 @@ it("does nothing when no engine installed", function() {
 	expect(wiki.getTiddlerText(title)).toEqual("addNode: {{from}}");
 });
 
-it("does nothing when engine not configured", function() {
+it("does nothing when engine incorrectly configured", function() {
 	wiki.addTiddler({title: engineConfig, text: "No-exists"});
 	wiki.addTiddler({title: title, type: dictType, text: "addNode: {{from}}"});
 	wiki.renameTiddler("from", "to");
