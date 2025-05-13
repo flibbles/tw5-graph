@@ -2,6 +2,7 @@
 	"description": "Testing documentation, and demo framework for tw5-relink",
 	"plugins": [
 		"flibbles/relink",
+		"flibbles/relink-fieldnames",
 		"tiddlywiki/jasmine"
 	],
 	"themes": [
