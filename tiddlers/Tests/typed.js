@@ -1,10 +1,11 @@
 /*\
 
-Tests the following suite of macro widgets:
+Tests the following suite of macro widgets and filters:
 
 $action.addtyped
 $action.removetyped
 $each.typed
+[gettyped[]]
 
 \*/
 
@@ -41,7 +42,9 @@ it("handles unspecified field types as list", function() {
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("A -value B value");
 	var listNode = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />\n");
-	expect(listNode.parentDomNode.innerHTML).toBe(links(["A", "-value", "B", "value"]));
+	var expected = ["A", "-value", "B", "value"];
+	expect(listNode.parentDomNode.innerHTML).toBe(links(expected));
+	expect(wiki.filterTiddlers("[[Target]gettyped[field]]")).toEqual(expected);
 	wiki.addTiddler({title: "Target", field: "A value 'value' B"});
 	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 	removeNode.invokeActions(removeNode, {});
@@ -56,6 +59,7 @@ it("handles unrecognized field types (by ignoring them)", function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("A B");
 	var listNode = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />\n");
 	expect(listNode.parentDomNode.innerHTML).toBe("");
+	expect(wiki.filterTiddlers("[[Target]gettyped[bizarre]]")).toEqual([]);
 	wiki.addTiddler({title: "Target", field: "value"});
 	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 	removeNode.invokeActions(removeNode, {});
@@ -69,7 +73,9 @@ it("handles list field types", function() {
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("[[A B]] -value value");
 	var listNode = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />\n");
-	expect(listNode.parentDomNode.innerHTML).toBe(links(["A B", "-value", "value"]));
+	var expected = ["A B", "-value", "value"];
+	expect(listNode.parentDomNode.innerHTML).toBe(links(expected));
+	expect(wiki.filterTiddlers("[[Target]gettyped[field]]")).toEqual(expected);
 	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value=value />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("[[A B]] -value");
@@ -82,7 +88,9 @@ it("handles title field types", function() {
 	addNode.invokeActions(addNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("this value");
 	var listNode = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target $field=field />\n");
-	expect(listNode.parentDomNode.innerHTML).toBe(links(["this value"]));
+	var expected = ["this value"];
+	expect(listNode.parentDomNode.innerHTML).toBe(links(expected));
+	expect(wiki.filterTiddlers("[[Target]gettyped[field]]")).toEqual(expected);
 	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value='this value' />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBeUndefined();
@@ -98,6 +106,9 @@ it("handles filter field types", function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]!is[system]] [{!!store}]");
 	var listNode = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$each.typed $tiddler=Target $field=field >\n\n<$text text={{!!title}}/>");
 	expect(listNode.parentDomNode.innerHTML).toBe("<p>A</p><p>Target</p><p>this value</p><p>Stored</p>");
+	// Now to test the filter operator
+	listNode = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$text text={{{ [[Target]gettyped[field]join[=]] }}} />");
+	expect(listNode.parentDomNode.innerHTML).toBe("<p>A=Target=this value=Stored</p>");
 	var removeNode = renderAction("<$action.removetyped $tiddler=Target $field=field $value='this value' />");
 	removeNode.invokeActions(removeNode, {});
 	expect(wiki.getTiddler("Target").fields.field).toBe("[all[]!is[system]] [{!!store}] -[[this value]]");
@@ -107,6 +118,7 @@ it("renders nothing when no $field value supplied", function() {
 	wiki.addTiddler({title: "Target"});
 	var widget = $tw.test.renderGlobal(wiki, "<$each.typed $tiddler=Target />\n");
 	expect(widget.parentDomNode.innerHTML).toBe(links([]));
+	expect(wiki.filterTiddlers("[[Target]gettyped[]]")).toEqual([]);
 });
 
 /*** Standard behavior between all fieldtypes ***/
@@ -214,6 +226,19 @@ $tw.utils.each($tw.wiki.filterTiddlers("[all[tiddlers+shadows]removeprefix[$:/pl
 		var widget = $tw.test.renderGlobal(wiki, `\\widget $.test()<$each.typed $tiddler=Target $field=field>(<$slot $name=ts-test $depth=2/>)
 			<$.test><$fill $name=ts-test>[{{!!title}}]`);
 		expect(widget.parentDomNode.innerHTML).toBe("<p>([value])</p>");
+	});
+
+	it("filters nothing with missing tiddler", function() {
+		expect(wiki.filterTiddlers("[[Missing]gettyped[field]]")).toEqual([]);
+	});
+
+	it("filters nothing with missing field", function() {
+		expect(wiki.filterTiddlers("[[Target]gettyped[missing]]")).toEqual([]);
+	});
+
+	it("filters nothing with blank field", function() {
+		wiki.addTiddler({title: "Empty", field: ""});
+		expect(wiki.filterTiddlers("[[Empty]gettyped[field]]")).toEqual([]);
 	});
 });
 
