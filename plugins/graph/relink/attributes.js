@@ -17,20 +17,23 @@ var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 var graphObjects = Object.create(null);
 
 $tw.modules.forEachModuleOfType("widget-subclass", function(subclass, module) {
+	var type = module.prototype.graphObjectType;
 	if (module.baseClass === "graphobject") {
-		graphObjects["$" + module.name] = module.prototype.graphObjectType;
+		graphObjects["$" + module.name] = function() { return type; };
 	}
 });
 
+graphObjects["$graph"] = function() { return "graph"; };
+
+graphObjects["$properties"] = function(element) {
+	var forAttr = element.attributes["$for"];
+	return (forAttr && forAttr.value) || "nodes";
+};
+
 exports.getHandler = function(element, attribute, options) {
-	if (element.tag === "$properties") {
-		var forAttr = element.attributes["$for"];
-		var forObject = (forAttr && forAttr.value) || "nodes";
-		return processAttribute(forObject, attribute, options);
-	} else if (graphObjects[element.tag]) {
-		return processAttribute(graphObjects[element.tag], attribute, options);
-	} else if (element.tag === "$graph") {
-		return processAttribute("graph", attribute, options);
+	var forFunc = graphObjects[element.tag];
+	if (forFunc) {
+		return processAttribute(forFunc(element), attribute, options);
 	}
 };
 
