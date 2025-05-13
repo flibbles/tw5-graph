@@ -39,7 +39,7 @@ it("reports and relinks field edge property files", function() {
 it("can relink both title and data of property file", function() {
 	wiki.addTiddler({ title: fromTitle, type: dictType, text: "delete: {{from}}"});
 	var report = wiki.getTiddlerRelinkReferences(fromTitle);
-	expect(report).toEqual({"from": ["#graph field edgetype: from", "delete: {{}}"]});
+	expect(report).toEqual({"from": ["delete: {{}}", "#graph field edgetype: from"]});
 	wiki.renameTiddler("from", "to");
 	expect(wiki.tiddlerExists(toTitle)).toBe(true);
 	expect(wiki.tiddlerExists(fromTitle)).toBe(false);

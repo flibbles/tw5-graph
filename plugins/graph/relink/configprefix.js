@@ -1,21 +1,20 @@
 /*\
-title: $:/plugins/flibbles/graph/relink/confignamespace.js
+title: $:/plugins/flibbles/graph/relink/configprefix.js
 type: application/javascript
-module-type: relinkoperator
+module-type: relinkprefix
 
 Takes care of relinking property data tiddlers
-in the $:/config/flibbles/graph namespace..
+in the $:/config/flibbles/graph namespace.
 
 \*/
 
 "use strict";
 
-exports.name = "graph-properties";
+exports.prefix = "$:/config/flibbles/graph/";
 
 var utils = require("../utils.js");
 var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
-var namespace = "$:/config/flibbles/graph/";
 var jsonType = "application/json";
 
 
@@ -66,24 +65,22 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 
 function forEachProperty(wiki, tiddler, callback) {
 	var title = tiddler.fields.title;
-	if ($tw.utils.startsWith(title, namespace)) {
-		var slashPos = title.indexOf("/", namespace.length);
-		if (slashPos >= 0) {
-			var objectType = title.substring(namespace.length, slashPos);
-			var engine = getEngine(wiki);
-			if (engine) {
-				var properties = engine.prototype.properties[objectType];
-				var data = wiki.getTiddlerData(title);
-				if (properties && data) {
-					for (var key in data) {
-						var propertyInfo = properties[key];
-						if (propertyInfo) {
-							var propertyClass = PropertyTypes[propertyInfo.type];
-							if (propertyClass && propertyClass.type) {
-								var relinker = relinkUtils.getType(propertyClass.type);
-								if (relinker) {
-									callback(key, data, relinker);
-								}
+	var slashPos = title.indexOf("/", exports.prefix.length);
+	if (slashPos >= 0) {
+		var objectType = title.substring(exports.prefix.length, slashPos);
+		var engine = getEngine(wiki);
+		if (engine) {
+			var properties = engine.prototype.properties[objectType];
+			var data = wiki.getTiddlerData(title);
+			if (properties && data) {
+				for (var key in data) {
+					var propertyInfo = properties[key];
+					if (propertyInfo) {
+						var propertyClass = PropertyTypes[propertyInfo.type];
+						if (propertyClass && propertyClass.type) {
+							var relinker = relinkUtils.getType(propertyClass.type);
+							if (relinker) {
+								callback(key, data, relinker);
 							}
 						}
 					}
