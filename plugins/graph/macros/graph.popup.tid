@@ -1,23 +1,49 @@
 \widget $graph.popup($ms:600)
-\whitespace trim
+
+\widget $graph.popup($ms:600)
 
 \procedure hoverAction()
-<$action-delay $state=<<delayState>> $ms=<<$ms>> >
-<$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)` />
-<$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
-</$action-delay>
+\whitespace trim
+<%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
+  <$action-delay $state=<<delayState>> $ms=<<$ms>> >
+    <$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)` />
+    <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
+  </$action-delay>
+<%endif%>
+<$action-deletetiddler $tiddler=<<blurringState>> />
 \end hoverAction
 
 \procedure blurAction()
+\whitespace trim
+<$action-delay $state=<<blurringState>> $ms=200 >
+  <$action-deletetiddler $tiddler=<<delayState>> />
+  <$action-popup $state=<<state>> />
+\end blurAction
+
+\procedure dragAction()
 <$action-deletetiddler $tiddler=<<delayState>> />
 <$action-popup $state=<<state>> />
-\end blurAction
+<$action-setfield $tiddler=<<draggingState>> text=dragging />
+\end dragAction
+
+\procedure freeAction()
+<$action-deletetiddler $tiddler=<<draggingState>> />
+\end freeAction
+
+\whitespace trim
 
 <$parameters $state=<<qualify "$:/state/graph/tooltip">> >
 
-<$vars delayState={{{ [<$state>addsuffix[-delay]] }}} >
+<$let state=<<$state>>
+	delayState=`$(state)$-delay`
+	blurringState=`$(state)$-interrupt`
+	draggingState=`$(state)$-dragging` >
 
-<$properties hover=<<hoverAction>> blur=<<blurAction>> >
+<$properties
+	hover=<<hoverAction>>
+	blur=<<blurAction>>
+	drag=<<dragAction>>
+	free=<<freeAction>> >
 
 <$slot $name="ts-raw" />
 
@@ -32,5 +58,4 @@
 
 <$transclude $tiddler=<<currentTooltip>> />
 
-</$slot></div></$vars></$reveal></$vars></$parameters>
 \end
