@@ -14,8 +14,8 @@ tags: $:/tags/SideBar
 </div>
 <$boundingbox
   class="graph-sidebar-enabled"
-  width="[<boundingLeft>max[0]multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
-  height="[<boundingTop>max[0]multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]">
+  width="[<windowWidth>subtract<boundingLeft>subtract[15]addsuffix[px]]"
+  height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
   <div class="graph-sidebar-banner">
     <$slot $name="banner">
       View:

@@ -26,9 +26,7 @@ var graphColors = {
 var GraphWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 	utils.registerForDestruction(this);
-	this.resizeInstance = this.resize.bind(this);
 	this.window = utils.window();
-	this.window.addEventListener("resize", this.resizeInstance);
 };
 
 /*
@@ -49,13 +47,16 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 		className += " graph-error";
 	}
 	this.graphElement.className = className;
+	var style = this.graphElement.style;
+	if (this.graphWidth) {
+		style.width = this.graphWidth;
+	}
+	if (this.graphHeight) {
+		style.height = this.graphHeight;
+	}
 	this.domNodes.push(this.graphElement);
-
 	parent.insertBefore(this.graphElement, nextSibling);
 	this.renderChildren(this.graphElement, null);
-	// Make sure this comes AFTER inserting graphElement into the tree,
-	// otherwise getBoundingClientRect() will be all zeros.
-	this.resize();
 
 	// Render and recenter the view
 	if(this.engine) {
@@ -84,7 +85,8 @@ Compute the internal state of the widget
 GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
 	this.engineValue = this.getEngineName();
-	this.executeDimensions();
+	this.graphWidth = this.getAttribute("$width");
+	this.graphHeight = this.getAttribute("$height");
 	this.executeColors();
 	var Engine = utils.getEngine(this.engineValue);
 	if (!Engine || this.errorState) {
@@ -113,29 +115,6 @@ GraphWidget.prototype.execute = function() {
 	}
 };
 
-GraphWidget.prototype.executeDimensions = function() {
-	var self = this;
-	this.widthFilter = this.wiki.compileFilter(this.getAttribute("$width", ""));
-	this.heightFilter = this.wiki.compileFilter(this.getAttribute("$height", ""));
-	this.dimensionWidget = this.wiki.makeWidget({tree: [{type: "widget", children: []}]}, {parentWidget: this});
-	this.dimensionWidget.execute();
-	// We set up the widget so it only gets values for these variables
-	// if needed. This keeps down unncessary calls to window and document,
-	// and makes the $graph widget usable on Node, if that ever comes up.
-	var variables = {
-		// It may be better to use document.body.clientWidth,
-		// which doesn't consider the scrollbar.
-		windowWidth: function() { return self.window.innerWidth.toString(); },
-		windowHeight: function() { return self.window.innerHeight.toString(); },
-		boundingLeft: function() { return self.graphElement.getBoundingClientRect().left.toString(); },
-		boundingTop: function() { return self.graphElement.getBoundingClientRect().top.toString(); },
-	};
-	for (var name in variables) {
-		this.dimensionWidget.setVariable(name);
-		Object.defineProperty(this.dimensionWidget.variables[name], "value", { get: variables[name] });
-	}
-};
-
 GraphWidget.prototype.executeColors = function() {
 	for (var color in graphColors) {
 		this.colorWidgets[color] = this.wiki.makeWidget({
@@ -154,7 +133,7 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 GraphWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
 		newEngineValue = this.getEngineName();
-	if(changedAttributes["$engine"] || (this.engineValue !== newEngineValue)) {
+	if(changedAttributes["$engine"] || changedAttributes["$width"] || changedAttributes["$height"] || (this.engineValue !== newEngineValue)) {
 		this.refreshSelf();
 		return true;
 	}
@@ -169,9 +148,6 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 			changed = true;
 		}
 	}
-	// We always try to resize.
-	// The $dimension filters might spit out something different.
-	this.resize();
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		objects = this.findGraphObjects();
@@ -224,21 +200,17 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.prototype.resize = function(event) {
-	var widget = this.dimensionWidget.children[0];
-	var newWidth = this.widthFilter(null, widget)[0] || "";
-	var newHeight = this.heightFilter(null, widget)[0] || "";
+GraphWidget.prototype.resize = function() {
 	var style = this.graphElement.style;
-	if (newWidth !== style.width) {
-		style.width = newWidth;
+	if (this.graphWidth) {
+		style.width = this.graphWidth;
 	}
-	if (newHeight !== style.height) {
-		style.height = newHeight;
+	if (this.graphHeight) {
+		style.height = this.graphHeight;
 	}
 };
 
 GraphWidget.prototype.destroy = function() {
-	this.window.removeEventListener("resize", this.resizeInstance);
 	if (this.engine) {
 		this.engine.destroy();
 	}

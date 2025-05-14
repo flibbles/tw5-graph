@@ -154,7 +154,6 @@ it("detects when to destroy itself", async function() {
 	await $tw.test.flushChanges();
 	$tw.test.utils.upkeep();
 	expect(destroy).toHaveBeenCalled();
-	expect(window().eventListeners.size).toBe(0);
 });
 
 /*** dimensions ***/
@@ -174,33 +173,9 @@ it("resizes on literal dimension changes", async function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:300");
 });
 
-it("resizes on filter dimension changes", async function() {
-	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "\\function .D() [{dimensions}]\n<$graph $height='[<.D>]' $width='[<.D>add[10]]'>\n");
-	await $tw.test.flushChanges();
-	expect(init).toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:37;height:27;");
-	wiki.addTiddler({title: "dimensions", text: "30"});
-	await $tw.test.flushChanges();
-	expect(update).not.toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:40;height:30;");
-});
-
 it("can remove dimension attributes", async function() {
 	wiki.addTiddler({title: "dimensions", text: "27"});
 	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}} />\n\n");
-	await $tw.test.flushChanges();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
-	wiki.addTiddler({title: "dimensions"});
-	await $tw.test.flushChanges();
-	// There will still be style="height:;width:;", but I don't know how to
-	// get rid of that.
-	expect(widgetNode.parentDomNode.innerHTML).not.toContain(":27;");
-});
-
-it("can have dimension attributes return nothing", async function() {
-	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph $height='[{dimensions}]' $width='[{dimensions}]' />\n");
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
 	wiki.addTiddler({title: "dimensions"});
@@ -218,41 +193,6 @@ it("does not write any style info if no dimensions supplied", function() {
 	expect(render("<$graph $width='' $height=''/>\n\n")).toBe('<div class="graph-canvas"></div>');
 	expect(render("<$graph $width=5px/>\n\n")).toBe('<div class="graph-canvas" style="width:5px;"></div>');
 	expect(render("<$graph $height=5px/>\n\n")).toBe('<div class="graph-canvas" style="height:5px;"></div>');
-	// Has a filter, but filter returns nothing
-	expect(render("<$graph $width='[match[x]]' $height='[match[x]]'/>\n")).toBe('<div class="graph-canvas"></div>');
-	expect(render("<$graph $width='[[]]' $height='[[]]'/>\n")).toBe('<div class="graph-canvas"></div>');
-});
-
-it("can use browser info for dimension attributes", function() {
-	var createElement = $tw.fakeDocument.createElement;
-	spyOn($tw.fakeDocument, "createElement").and.callFake(function() {
-		var element = createElement.apply(this, arguments);
-		element.getBoundingClientRect = () => ({top: 17, left: 13});
-		return element;
-	});
-	function test(text, expected) {
-		var output = wiki.renderText("text/html", "text/vnd.tiddlywiki", text);
-		expect(output).toContain(expected);
-	};
-	var win = window();
-	win.innerWidth = 53;
-	win.innerHeight = 34;
-	test("<$graph $width='[<windowWidth>]'/>\n", "width:53;");
-	test("<$graph $height='[<windowHeight>]'/>\n", "height:34;");
-	test("<$graph $width='[<boundingLeft>]'/>\n", "width:13;");
-	test("<$graph $height='[<boundingTop>]'/>\n", "height:17;");
-});
-
-it("handles resize events", function() {
-	var win = window();
-	win.innerWidth = 53;
-	win.innerHeight = 34;
-	var widgetNode = $tw.test.renderText(wiki, "<$graph $height='[<windowHeight>]' $width='[<windowWidth>]' />\n");
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:53;height:34;");
-	win.innerWidth = 7;
-	win.innerHeight = 11;
-	win.dispatchEvent({type: "resize"});
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:7;height:11;");
 });
 
 /*** color palette ***/
