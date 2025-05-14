@@ -25,6 +25,8 @@ action-delay works by creating a state tiddler which it monitors. If that state 
 * If the action-delay is called multiple times, it does not queue multiple performances of the followup actions, but rather "resets the countdown" and performs the actions once.
 * The actions can be aborted if no longer wanted simply by deleting that state tiddler.
 
+If no state tiddler is specified, then ''action-delay'' does not bother creating and monitoring one. It always executes.
+
 ! Examples
 
 <$graph.example
