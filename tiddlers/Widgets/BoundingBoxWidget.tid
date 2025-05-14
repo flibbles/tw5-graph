@@ -1,0 +1,48 @@
+title: BoundingBoxWidget
+tags: Widgets
+caption: boundingbox
+
+! Introduction
+
+The ''boundingbox'' widget is used to create a div of a calculated and dynamic size. This is used by TW5-graph to create the proper boundings for the Sidebar graph, but could be used for other purposes as well, if it were elaborated more.
+
+this widget will detected if the browser window is resized and adapt itself accordingly.
+
+! Content and Attributes
+
+All contents within ''boundingbox'' will be rendered as normal. To fill the full size allotted by this widget, internal content should use CSS directives `width: 100%` and `height: 100%'`, or perhaps some flex directives.
+
+|!Attribute |!Description |
+|width |Filter which calculates a css style directive for width of the DOM element |
+|height |Filter which calculates a css style directive for height of the DOM element |
+
+! Filter attributes
+
+The width and height attributes are executed as filters where the following variables are available:
+
+;boundingLeft
+: The location of the boundingbox's left border relative to the left side of the browser window
+;boundingTop
+: The location of the boundingbox's top border relative to the top side of the browser window
+;windowHeight
+: The height of the browser window
+;windowWidth
+: The width of the browser window
+
+These are very specific variables, and are exactly what is needed for the Sidebar. For instance:
+
+```
+<$boundingbox
+  width="[<boundingLeft>multiply[-1]add<windowWidth>subtract[15]addsuffix[px]]"
+  height="[<boundingTop>multiply[-1]add<windowHeight>subtract[15]addsuffix[px]]"
+>
+
+...
+</$boundingbox>
+```
+
+These settings will create a bounding box that extends all the way to the lower right hand side of the browser window, while leaving a 15 pixel buffer.
+
+If the screen is resized, these filters are recalculated, and the boundingbox is updated.
+
+There are no examples of this widget, because it has a very specific use, and you probably will not ever use this in its highly specialized form.
