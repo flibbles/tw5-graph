@@ -65,19 +65,37 @@ it("works with custom popup slot", async function() {
 });
 
 it("can be interrupted", async function() {
-	var text = "Text content";
-	wiki.addTiddler({title: "Target", text: text});
+	var expected = "Text content";
+	wiki.addTiddler({title: "Target", text: expected});
 	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toContain(expected);
 	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "nodes", id: "Target"});
 	// Flush once to make the action-delay trigger
-	await $tw.test.flushChanges();
 	// Flush again to propogate the changed state tiddlers
 	await $tw.test.flushChanges();
 	expect(wiki.tiddlerExists("State")).toBe(false);
 	expect(wiki.tiddlerExists("State-delay")).toBe(false);
-	expect(widget.parentDomNode.innerHTML).not.toContain(text);
+	expect(widget.parentDomNode.innerHTML).not.toContain(expected);
+});
+
+it("dragging removes popup and prevents return", async function() {
+	var expected = "Text content";
+	wiki.addTiddler({title: "Target", text: expected});
+	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
+	// Flush once to make the action-delay trigger
+	await $tw.test.flushChanges();
+	// Popup should now exist
+	expect(widget.parentDomNode.innerHTML).toContain(expected);
+	$tw.test.dispatchEvent(wiki, {type: "drag", objectType: "nodes", id: "Target"}, {x: 126, y: 151});
+	expect(wiki.tiddlerExists("State")).toBe(false);
+	expect(wiki.tiddlerExists("State-delay")).toBe(false);
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).not.toContain(expected);
 });
 
 });
