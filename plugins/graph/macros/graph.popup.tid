@@ -1,7 +1,5 @@
 \widget $graph.popup($ms:600)
 
-\widget $graph.popup($ms:600)
-
 \procedure hoverAction()
 \whitespace trim
 <%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
@@ -21,6 +19,7 @@
 \end blurAction
 
 \procedure dragAction()
+\whitespace trim
 <$action-deletetiddler $tiddler=<<delayState>> />
 <$action-popup $state=<<state>> />
 <$action-setfield $tiddler=<<draggingState>> text=dragging />
