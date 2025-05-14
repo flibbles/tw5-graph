@@ -1,0 +1,38 @@
+title: PropertiesPersistentWidget
+tags: Macros Widgets
+caption: properties.persistent
+
+! Introduction
+
+The ''properties.persistent'' widget can wrap nodes, and will take care of maintaining a record of their positions, as well as making those recorded positions available. These positions will be used whenever the graph is later loaded.
+
+This also introduces an "delete" action onto nodes, which will remove its recorded location, in addition to any other removal actions you assign elsewise.
+
+Node locations are stored in a data tiddler, with tiddler titles used as keys. Its values are "x,y" pairs that TW5-graph knows how to parse.
+
+! Contents and Attributes
+
+Any nodes defined within a ''properties.stack'' widget will get actions associated with them that take care of position persistence.
+
+|!Attribute | !Description |
+|$dataTiddler |Name of a tiddler which this widget will use to record node locations |
+
+<$doc.implementation />
+
+! Examples
+
+<$graph.example
+	description="properties.persistent with explicit nodes"
+	narrative="""<p>These nodes will remember their locations when you move them around. Then if you switch to another tab and come back, the graph will use those new locations.</p><p>In this case, we do a little more sorcery to help show the results. If a node has a fixed position, we'll color it and turn its physics off. You can "delete" the node, which erases its persistent position.</p><p>Go ahead! Drag some nodes around and experiment.</p>""">
+<$data title=Output
+	list="[[Da Vinci]] Rembrandt Picasso [[Van Gogh]] [[O'Keeffe]] Pissarro Michelangelo Manet"
+	text="""<$graph>
+  <$properties.persistent $dataTiddler="Ledger">
+    <$list filter="[list[]]" >
+      <$node $pos=<<pos>> $tiddler={{!!title}} label={{!!title}}
+      	color={{{ [<pos>!is[blank]then[teal]] }}}
+      	physics={{{ [<pos>is[blank]then[yes]else[no]] }}} />
+    </$list>
+  </$properties.persistent>
+</$graph>""" />
+</$graph.example>
