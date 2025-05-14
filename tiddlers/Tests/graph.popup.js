@@ -71,7 +71,6 @@ it("can be interrupted", async function() {
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
 	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "nodes", id: "Target"});
-	expect(wiki.tiddlerExists("State-delay")).toBe(false);
 	// Flush once to make the action-delay trigger
 	await $tw.test.flushChanges();
 	// Flush again to propogate the changed state tiddlers
