@@ -15,6 +15,7 @@ All contents within ''boundingbox'' will be rendered as normal. To fill the full
 |!Attribute |!Description |
 |width |Filter which calculates a css style directive for width of the DOM element |
 |height |Filter which calculates a css style directive for height of the DOM element |
+|class |optional class to be added to the resulting element, in addition to "boundingbox" |
 
 ! Filter attributes
 
