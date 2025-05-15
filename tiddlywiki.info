@@ -18,7 +18,7 @@
 				"text/plain",
 				"",
 				"publishFilter",
-				"-$:/DefaultTiddlers",
+				"-$:/DefaultTiddlers -[prefix[$:/state]]",
 			"--test"
 		],
 		"index": [
