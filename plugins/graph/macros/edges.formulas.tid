@@ -1,7 +1,7 @@
 \widget $edges.formulas($formulas:'[all[]]')
 <$parameters $$tiddler=<<currentTiddler>> >
 
-<$list variable=formulaName filter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]subfilter<$formulas>]">
+<$list variable=formulaName filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]] +[subfilter<$formulas>]">
 
 <$let
 	dataTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
