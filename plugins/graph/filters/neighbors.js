@@ -52,23 +52,27 @@ function getFormulaValues(tiddler, formulas, options) {
 
 var fieldsPrefix = "$:/config/flibbles/graph/edges/fields/";
 function getDefaultFields(wiki) {
-	var fields = [];
-	wiki.eachShadowPlusTiddlers(function(tiddler, title) {
-		if (title.startsWith(fieldsPrefix)) {
-			fields.push(title.substr(fieldsPrefix.length));
-		}
+	return wiki.getGlobalCache("graph-neighbors-fields", function() {
+		var fields = [];
+		wiki.eachShadowPlusTiddlers(function(tiddler, title) {
+			if (title.startsWith(fieldsPrefix)) {
+				fields.push(title.substr(fieldsPrefix.length));
+			}
+		});
+		return fields;
 	});
-	return fields;
 };
 
 var formulasPrefix = "$:/config/flibbles/graph/edges/formulas/";
 function getDefaultFormulas(wiki) {
-	var formulas = [];
-	wiki.eachShadowPlusTiddlers(function(tiddler, title) {
-		if (title.startsWith(formulasPrefix)) {
-			formulas.push(title.substr(formulasPrefix.length));
-		}
+	return wiki.getGlobalCache("graph-neighbors-formulas", function() {
+		var formulas = [];
+		wiki.eachShadowPlusTiddlers(function(tiddler, title) {
+			if (title.startsWith(formulasPrefix)) {
+				formulas.push(title.substr(formulasPrefix.length));
+			}
+		});
+		return formulas;
 	});
-	return formulas;
 };
 
