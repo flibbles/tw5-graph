@@ -31,11 +31,6 @@ function renderAction(text) {
 	return widgetNode;
 };
 
-function links(array, wrapper) {
-	wrapper = wrapper || "div";
-	return array.map(a => `<${wrapper}><a class="tc-tiddlylink tc-tiddlylink-missing" href="#${encodeURIComponent(a)}">${a}</a></${wrapper}>`).join("");
-};
-
 it("handles unspecified field types as list", function() {
 	wiki.addTiddler({title: "Target", field: "A -value B"});
 	var addNode = renderAction("<$action.addtyped $tiddler=Target $field=field $value=value />");
