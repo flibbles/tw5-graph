@@ -2,13 +2,11 @@ title: $:/plugins/flibbles/graph/templates/default-graph
 
 \whitespace trim
 
-<$let currentView={{{ [{!!title}split[/]butfirst[3]] }}}>
+<$let currentView=>
 <$graph>
-  <$properties $for=graph $dataTiddler=`$:/config/flibbles/graph/graph/view/$(currentView)$` />
-  <$properties $for=edges $dataTiddler=`$:/config/flibbles/graph/edges/view/$(currentView)$`>
-  <$properties $dataTiddler=`$:/config/flibbles/graph/nodes/view/$(currentView)$` doubleclick="""<$action-navigate $to=<<node>> />""">
-    <$properties.persistent $dataTiddler=<<currentTiddler>> >
-      <$properties.stack>
+  <$properties doubleclick="""<$action-navigate $to=<<node>> />""">
+    <$properties.configured $view={{{ [{!!title}split[/]butfirst[3]] }}}>
+      <$properties.persistent $dataTiddler=<<currentTiddler>> >
         <$nodes.writable $variable=node $field=filter>
           <$node $tiddler=<<node>>
             physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
@@ -20,7 +18,7 @@ title: $:/plugins/flibbles/graph/templates/default-graph
             $fields={{!!edges.fields}}
             $editable=yes />
         </$nodes.writable>
-      </$properties.stack>
-    </$properties.persistent>
+      </$properties.persistent>
+    </$properties.configured>
   </$properties>
 </$graph>

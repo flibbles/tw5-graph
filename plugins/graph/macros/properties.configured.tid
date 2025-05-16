@@ -1,0 +1,14 @@
+\widget $properties.configured($view)
+\whitespace trim
+
+<$properties $for=graph $dataTiddler=`$:/config/flibbles/graph/graph/view/$($view)$` />
+
+<$properties $for=edges $dataTiddler=`$:/config/flibbles/graph/edges/view/$($view)$`>
+
+<$properties $dataTiddler=`$:/config/flibbles/graph/nodes/view/$($view)$` >
+
+<$transclude $variable="$properties.stack" $fillignore=yes>
+
+<$slot $name=ts-raw />
+
+\end
