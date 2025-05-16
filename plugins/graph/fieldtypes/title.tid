@@ -13,11 +13,3 @@ title: $:/plugins/flibbles/graph/fieldtypes/title
   <$action-setfield $tiddler=<<$tiddler>> $field=<<$field>> />
 <%endif%>
 \end
-
-\whitespace trim
-
-<$list variable=<<$variable>> filter="[<$tiddler>get<$field>]" >
-  <$slot $name=ts-raw >
-    <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
-  </$slot>
-</$list>

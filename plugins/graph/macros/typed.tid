@@ -16,10 +16,3 @@
 <$transclude $variable=remove $tiddler=$tiddler $field=$field $value=$value $mode=inline />
 
 \end
-
-\widget $each.typed($variable:currentTiddler, $field, $defaultTemplate:"$:/plugins/flibbles/graph/templates/link")
-<$parameters $parseMode=$each.mode $$tiddler=<<currentTiddler>> >
-
-<$transclude $tiddler={{{ [<$field>match[]] ~[<$field>addprefix[$:/config/flibbles/relink/fields/]get[text]else[list]addprefix[$:/plugins/flibbles/graph/fieldtypes/]] }}} $mode=inline $fillignore=yes />
-
-\end

@@ -17,11 +17,3 @@ title: $:/plugins/flibbles/graph/fieldtypes/list
   <%endif%>
 <%endif%>
 \end
-
-\whitespace trim
-
-<$list variable=<<$variable>> filter="[<$tiddler>each:list-item<$field>]">
-  <$slot $name=ts-raw >
-    <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
-  </$slot>
-</$list>

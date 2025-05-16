@@ -7,13 +7,3 @@ title: $:/plugins/flibbles/graph/fieldtypes/filter
 \procedure remove()
 <$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
 \end
-
-\whitespace trim
-
-<$list variable=_filter filter="[<$tiddler>get<$field>]">
-  <$list variable=<<$variable>> filter="[subfilter<_filter>]" >
-    <$slot $name=ts-raw >
-      <$transclude $tiddler=<<$defaultTemplate>> $fillignore=yes />
-    </$slot>
-  </$list>
-</$list>

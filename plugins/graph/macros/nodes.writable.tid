@@ -23,11 +23,10 @@
 	addEdge="""<$action.addedge/>"""
 />
 
-<$transclude $variable="$each.typed"
-	$$tiddler=<<$tiddler>>
-	$$variable=<<$variable>>
-	$$field=<<$field>>
-	$$defaultTemplate="$:/plugins/flibbles/graph/templates/node"
-	$fillignore=yes />
+<$list variable=<<$variable>> filter="[<$tiddler>gettyped<$field>]">
+
+<$slot $name=ts-raw>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
 
 \end
