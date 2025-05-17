@@ -7,7 +7,7 @@
     <$action-createtiddler $basetitle=<<selection>> />
   <% endif %>
   <% if [<$field>!match[]] %>
-    <$action.addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
+    <$action-addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<selection>> />
   <% endif %>
   <$transclude $variable=recordPosition title=<<selection>> />
 </$action-modal>

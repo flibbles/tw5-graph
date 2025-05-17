@@ -6,7 +6,7 @@
 
 <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/SelectField">
 
-  <$action.addtyped $tiddler=<<$fromTiddler>> $field=<<selection>> $value=<<$toTiddler>> />
+  <$action-addtyped $tiddler=<<$fromTiddler>> $field=<<selection>> $value=<<$toTiddler>> />
 
 </$action-modal>
 <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />

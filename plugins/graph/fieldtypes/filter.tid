@@ -1,9 +1,0 @@
-title: $:/plugins/flibbles/graph/fieldtypes/filter
-
-\procedure add()
-<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $add=<<$value>> />
-\end
-
-\procedure remove()
-<$action-filterops $tiddler=<<$tiddler>> $field=<<$field>> $remove=<<$value>> $clean=yes />
-\end
