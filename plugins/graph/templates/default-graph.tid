@@ -1,4 +1,6 @@
+caption: Default editable graph
 title: $:/plugins/flibbles/graph/templates/default-graph
+tags: $:/tags/flibbles/graph/template
 
 \whitespace trim
 

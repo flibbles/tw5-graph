@@ -12,11 +12,26 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
         <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>
           <$text text={{!!title}} />
 \end
+
+\procedure templateSelector()
+\whitespace trim
+<$select field=template default="$:/plugins/flibbles/graph/templates/default-graph">
+  <$list filter="[[$:/tags/flibbles/graph/template]tagging[]]">
+    <option value={{!!title}}>
+      <$view field=caption>
+        <$view field=title />
+      </$view>
+    </option>
+  </$list>
+</$select>
+\end
+
 \whitespace trim
 
 <$let currentView={{{ [<currentTab>split[/]butfirst[3]] }}} >
 
 |tc-max-width tc-edit-max-width|k
+|Template |<<templateSelector>> |
 |Nodes |<$edit-text field=filter tag=textarea/> |
 |Label field |<$edit field="nodes.labelField"/> |
 |Edges, formulas |<<edgelist formulas>> |

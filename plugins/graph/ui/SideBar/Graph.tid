@@ -32,6 +32,6 @@ tags: $:/tags/SideBar
     </$slot>
   </div>
   <$tiddler tiddler=<<graph>> >
-    <$transclude $tiddler=<<defaultTemplate>> $mode=inline />
+    <$transclude $tiddler={{{ [{!!template}!is[blank]else<defaultTemplate>] }}} $mode=inline />
   </$tiddler>
 </$boundingbox>
