@@ -190,6 +190,24 @@ it('can handle changes to style properties', async function() {
 	expect(update).toHaveBeenCalledWith({nodes: {A: {layer: "3", special: "now"}, C: {layer: "2", special: "now"}}});
 });
 
+// Tests for bug where $properties remembers edges too long.
+it("can handle removing and modifying edges", async function() {
+	wiki.addTiddlers([
+		{title: "A", tags: "Node"},
+		{title: "B", tags: "Node"},
+		{title: "Value", text: "first"}
+	]);
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value={{Value}}><$list filter='[tag[Node]]'><$node/>");
+	wiki.deleteTiddler("B");
+	await $tw.test.flushChanges();
+	update.calls.reset();
+	wiki.addTiddler({title: "Value", text: "second"});
+	await $tw.test.flushChanges();
+	var objects = update.calls.first().args[0];
+	expect(objects).toEqual({nodes: {A: {value: "second"}}});
+});
+
 /*** $filter manipulation ***/
 
 it('updates when $filter output would be only change', async function() {
@@ -326,23 +344,16 @@ it("can switch dataTiddlers from a tiddler", async function() {
 	expect(objects.edges).toEqual({[edgeId]: {from: "A", to: "B", value: "new"}});
 });
 
-// Tests for bug where $properties remembers edges too long.
-it("can handle removing and modifying edges", async function() {
-	wiki.addTiddlers([
-		{title: "A", tags: "Node"},
-		{title: "B", tags: "Node"},
-		{title: "Value", text: "first"}
-	]);
-	await $tw.test.flushChanges();
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties value={{Value}}><$list filter='[tag[Node]]'><$node/>");
-	wiki.deleteTiddler("B");
-	await $tw.test.flushChanges();
-	update.calls.reset();
-	wiki.addTiddler({title: "Value", text: "second"});
-	await $tw.test.flushChanges();
-	var objects = update.calls.first().args[0];
-	expect(objects).toEqual({nodes: {A: {value: "second"}}});
+/*** $field attribute ***/
+
+it("can load properties from a dataTiddler's field", function() {
+	wiki.addTiddler({title: "Properties", type: "application/json", text: '{"value": "bad"}', field: '{"value": "good"}'});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {value: "good"}});
 });
+
+// TODO: Missing tiddler when taking from a field
 
 // TODO: When $properties $for=graph changes, minimize the amount of changing
 
