@@ -6,7 +6,7 @@
 			"isTiddlerFile": true,
 			"fields": {
 				"title": {
-					"source": "basename",
+					"source": "filename",
 					"prefix": "$:/plugins/flibbles/graph/widgets/"
 				},
 				"type": "application/javascript",
@@ -19,7 +19,7 @@
 			"isTiddlerFile": true,
 			"fields": {
 				"title": {
-					"source": "basename",
+					"source": "filename",
 					"prefix": "$:/plugins/flibbles/graph/widgets/subclass/"
 				},
 				"type": "application/javascript",
