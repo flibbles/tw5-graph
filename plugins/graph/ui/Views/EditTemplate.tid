@@ -28,6 +28,8 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 
 \whitespace trim
 
+! <$link />
+
 <$let currentView={{{ [<currentTab>split[/]butfirst[3]] }}} >
 
 |tc-max-width tc-edit-max-width|k

@@ -23,7 +23,7 @@ title: $:/plugins/flibbles/graph/views
   </$fill>
   <$fill $name=body>
     <$let currentTiddler=<<currentTab>> >
-      <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Views/EditTemplate" />
+      <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Views/EditTemplate" $mode=block />
     </$let>
   </$fill>
 </$transclude>
