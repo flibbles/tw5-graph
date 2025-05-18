@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/edge.js
-type: application/javascript
-module-type: widget-subclass
 
 Widget for creating edges within graphs.
 

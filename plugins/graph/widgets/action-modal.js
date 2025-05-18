@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/action-modal.js
-type: application/javascript
-module-type: widget
 
 Action widget that creates a modal to select an existing tiddler, or specify a new one. After dialog is confirmed, it will execute any nested actions it contains.
 

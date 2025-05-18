@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/action-typed.js
-type: application/javascript
-module-type: widget
 
 Creates two action widgets for adding and removing from typed fields.
 

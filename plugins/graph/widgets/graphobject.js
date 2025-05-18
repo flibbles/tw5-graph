@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/graphobject.js
-type: application/javascript
-module-type: widget
 
 Base-class widget that provides standard functionality for all "graph objects",
 such as nodes or edges.

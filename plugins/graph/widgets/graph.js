@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/graph.js
-type: application/javascript
-module-type: widget
 
 Widget for creating graphs.
 

@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/boundingbox.js
-type: application/javascript
-module-type: widget
 
 Widget for creating a DOM element which has strictly controlled dimensions,
 intended for a contained graph.

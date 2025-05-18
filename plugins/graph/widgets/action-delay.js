@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/action-delay.js
-type: application/javascript
-module-type: widget
 
 Action widget that introduces a delay before executing any nested actions it contains.
 

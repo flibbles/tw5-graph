@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/node.js
-type: application/javascript
-module-type: widget-subclass
 
 Widget for creating nodes within graphs.
 

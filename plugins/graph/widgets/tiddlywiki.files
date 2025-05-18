@@ -1,0 +1,30 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph/widgets/"
+				},
+				"type": "application/javascript",
+				"module-type": "widget"
+			}
+		},
+		{
+			"path": "./subclass",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph/widgets/subclass/"
+				},
+				"type": "application/javascript",
+				"module-type": "widget-subclass"
+			}
+		}
+	]
+}

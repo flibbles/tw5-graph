@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/widgets/properties.js
-type: application/javascript
-module-type: widget
 
 Widget for setting properties on graph objects.
 
