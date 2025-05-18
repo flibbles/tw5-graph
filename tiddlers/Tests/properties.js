@@ -353,6 +353,24 @@ it("can load properties from a dataTiddler's field", function() {
 	expect(objects.nodes).toEqual({N: {value: "good"}});
 });
 
+it("can ignore corrupt field properties", function() {
+	wiki.addTiddler({title: "Properties", field: '{"corrupt"'});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {}});
+});
+
+it("loads from currentTiddler when $field specified", async function() {
+	wiki.addTiddler({title: "Properties", field: '{"value": "first"}'});
+	var widget = $tw.test.renderText(wiki, "\\define currentTiddler() Properties\n<$graph><$properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {value: "first"}});
+	wiki.addTiddler({title: "Properties", field: '{"value": "second"}'});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.nodes).toEqual({N: {value: "second"}});
+});
+
 // TODO: Missing tiddler when taking from a field
 
 // TODO: When $properties $for=graph changes, minimize the amount of changing

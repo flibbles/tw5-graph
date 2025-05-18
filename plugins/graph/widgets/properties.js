@@ -24,10 +24,8 @@ Properties.prototype.render = function(parent, nextSibling) {
 Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
 	this.filter = this.getAttribute("$filter");
-	this.dataTiddler = this.getAttribute("$dataTiddler");
-	this.field = this.getAttribute("$field", "text");
-	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.styleObject = this.createStyle();
+	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.affectedObjects = Object.create(null);
 	this.knownObjects = {};
 	this.makeChildWidgets();
@@ -43,8 +41,6 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
-		this.dataTiddler = this.getAttribute("$dataTiddler");
-		this.field = this.getAttribute("$field", "text");
 		this.styleObject = this.createStyle();
 		var known = this.knownObjects[this.type];
 		for (var id in this.affectedObjects || known) {
@@ -89,6 +85,11 @@ Properties.prototype.refresh = function(changedTiddlers) {
 };
 
 Properties.prototype.createStyle = function() {
+	this.field = this.getAttribute("$field", "text");
+	this.dataTiddler = this.getAttribute("$dataTiddler");
+	if (!this.dataTiddler && this.field !== "text") {
+		this.dataTiddler = this.getVariable("currentTiddler");
+	}
 	var styleObject = Object.create(null);
 	if (this.dataTiddler) {
 		var data;
@@ -96,7 +97,11 @@ Properties.prototype.createStyle = function() {
 			data = this.wiki.getTiddlerData(this.dataTiddler);
 		} else {
 			data = this.wiki.getTiddler(this.dataTiddler).fields[this.field];
-			data = JSON.parse(data);
+			try {
+				data = JSON.parse(data);
+			} catch {
+				data = {};
+			}
 		}
 		for (var entry in data) {
 			// We only accept non-empty values

@@ -1,5 +1,14 @@
 title: $:/plugins/flibbles/graph/ui/Views/DefaultsTab
 
-<$let currentTiddler=<<currentTab>>>
+<$vars state=`$:/temp/flibbles/graph/$(currentTab)$/$(currentTiddler)$`>
 
-{{||$:/core/ui/ViewTemplate/body}}
+<$fieldtranscriber
+	state=<<state>>
+	type="application/json"
+	field=`graph.$(currentTab)$` />
+
+<$vars currentTiddler=<<state>>>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
+	type=<<currentTab>>
+	engine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} />

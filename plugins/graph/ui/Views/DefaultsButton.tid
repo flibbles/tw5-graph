@@ -1,3 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/Views/DefaultsButton
-
-<$text text={{{ [<currentTab>split[/]nth[5]] }}} />

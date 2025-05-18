@@ -42,8 +42,7 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 !!! Graph engine defaults
 
 <$transclude $variable=tabs
-	tabsList="[enlist[graph nodes edges]addprefix[$:/config/flibbles/graph/]addsuffix[/view/]addsuffix<currentView>]"
-	default=`$:/config/flibbles/graph/graph/view/$(currentView)$`
+	tabsList="graph nodes edges"
+	default=graph
 	template="$:/plugins/flibbles/graph/ui/Views/DefaultsTab"
-	buttonTemplate="$:/plugins/flibbles/graph/ui/Views/DefaultsButton"
 	state= "$:/state/flibbles/graph/views/editTemplate" />
