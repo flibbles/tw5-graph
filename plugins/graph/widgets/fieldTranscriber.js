@@ -36,7 +36,11 @@ ScriberWidget.prototype.execute = function() {
 	this.catchState = this.getAttribute("state");
 	this.catchField = this.getAttribute("field");
 	this.catchTiddler = this.getAttribute("tiddler") || (!this.hasParseTreeNodeAttribute("tiddler") && this.getVariable("currentTiddler"));
-	this.catchType = this.getAttribute("type", "text/plain");
+	this.catchType = this.getAttribute("type");
+	if (!Transcribers[this.catchType]) {
+		this.catchType = "text/plain";
+	}
+	this.transcriber = Transcribers[this.catchType];
 	this.prepState();
 };
 
@@ -46,14 +50,13 @@ ScriberWidget.prototype.refresh = function(changedTiddlers) {
 		this.refreshSelf();
 		return true;
 	}
-	if (changedTiddlers[this.catchState]) {
+	if (changedTiddlers[this.catchState] && this.catchField) {
 		// Our tracked state has changed. Time to transcribe.
 		var state = this.wiki.getTiddler(this.catchState);
 		if (state) {
 			var stateText = state.getFieldString("text");
 			if (this.stateText !== stateText) {
-				var transcriber = Transcribers[state.fields.type] || Transcribers["text/plain"];
-				var fieldText = transcriber.toField(stateText);
+				var fieldText = this.transcriber.toField(stateText);
 				if (fieldText !== this.fieldText) {
 					this.wiki.setText(this.catchTiddler, this.catchField, null, fieldText);
 					this.fieldText = stateText;
@@ -72,7 +75,7 @@ ScriberWidget.prototype.refresh = function(changedTiddlers) {
 };
 
 ScriberWidget.prototype.prepState = function() {
-	if (this.catchState) {
+	if (this.catchState && this.catchField) {
 		var tiddler = this.wiki.getTiddler(this.catchTiddler);
 		if (tiddler) {
 			var fieldText = tiddler.fields[this.catchField];
@@ -82,8 +85,7 @@ ScriberWidget.prototype.prepState = function() {
 					this.wiki.deleteTiddler(this.catchState);
 					this.stateText = undefined;
 				} else {
-					var transcriber = getTranscriber(this.catchType);
-					this.stateText = transcriber.fromField(fieldText);
+					this.stateText = this.transcriber.fromField(fieldText);
 					this.wiki.addTiddler({
 						title: this.catchState,
 						text: this.stateText,
@@ -95,10 +97,6 @@ ScriberWidget.prototype.prepState = function() {
 	}
 };
 
-function getTranscriber(type) {
-	return Transcribers[type] || Transcribers["text/plain"];
-};
-
 var Transcribers = {
 	"text/plain": {
 		toField: function(text) { return text; },
@@ -106,6 +104,9 @@ var Transcribers = {
 	},
 	"application/json": {
 		toField: function(text) {
+			if (!text) {
+				return "";
+			}
 			try {
 				return JSON.stringify(JSON.parse(text));
 			} catch {
@@ -113,6 +114,9 @@ var Transcribers = {
 			}
 		},
 		fromField: function(text) {
+			if (!text) {
+				return "";
+			}
 			try {
 				return JSON.stringify(JSON.parse(text), null, $tw.config.preferences.jsonSpaces);
 			} catch {
