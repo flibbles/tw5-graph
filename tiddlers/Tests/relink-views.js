@@ -6,16 +6,18 @@ Tests all relinking.
 
 describe("Relink views", function() {
 
+var language = require('$:/plugins/flibbles/relink/js/language.js');
 var dictType = "application/x-tiddler-dictionary";
 var jsonType = "application/json";
 var title = "$:/graph/view/test";
 var engineConfig = "$:/config/flibbles/graph/engine";
-var wiki, log;
+var wiki, log, failures;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
 	wiki.addTiddler({title: engineConfig, text: "Test"});
 	log = spyOn(console, "log");
+	failures = spyOn(language, "reportFailures");
 });
 
 it("reports json graph tiddlers", function() {
@@ -124,6 +126,40 @@ it("relinks property fields", function() {
 		text: '{\n    "to": "2,3"\n}',
 		"graph.graph": '{"addNode":"{{to}}"}',
 		"graph.nodes": '{"delete":"[[cap|to]]"}'});
+});
+
+it("relink handles impossibles", function() {
+	wiki.addTiddler({title: title,
+		type: jsonType,
+		"graph.graph": '{"addNode":"<$text text={{from}}/>"}',
+		"graph.nodes": '{"delete":"[[cap|from]]"}'});
+	wiki.renameTiddler("from", "t}}o");
+	expect(wiki.getTiddler(title).fields).toEqual({
+		title: title,
+		type: jsonType,
+		"graph.graph": '{"addNode":"<$text text={{from}}/>"}',
+		"graph.nodes": '{"delete":"[[cap|t}}o]]"}'});
+	expect(failures).toHaveBeenCalled();
+});
+
+// I do this for now in case of empty data-tiddlers never getting set,
+// but if I switch to a custom MIME type, this will have to change.
+it("relinks non-dataTiddler property fields", function() {
+	wiki.addTiddler({title: title, "graph.graph": '{"addNode":"{{from}}"}'});
+	wiki.renameTiddler("from", "to");
+	expect(wiki.getTiddler(title).fields).toEqual({
+		title: title, "graph.graph": '{"addNode":"{{to}}"}'});
+});
+
+it("relink ignores corrupt fields", function() {
+	wiki.addTiddler({title: title,
+		type: jsonType,
+		"graph.nodes": '{"delete":"{{from}}'});
+	wiki.renameTiddler("from", "to");
+	expect(wiki.getTiddler(title).fields).toEqual({
+		title: title,
+		type: jsonType,
+		"graph.nodes": '{"delete":"{{from}}'});
 });
 
 });
