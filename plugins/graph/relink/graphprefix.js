@@ -11,11 +11,29 @@ Such as the tiddlers in the $:/graph/ namespace.
 "use strict";
 
 exports.prefix = "$:/graph/";
+var utils = require("../utils.js");
+var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
+var fieldPrefix = "graph.";
+var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 exports.report = function(tiddler, callback, options) {
 	var data = options.wiki.getTiddlerDataCached(tiddler.fields.title, {});
 	for (var title in data) {
 		callback(title, data[title], {soft: true});
+	}
+	for (var field in tiddler.fields) {
+		if ($tw.utils.startsWith(field, fieldPrefix)) {
+			var type = field.substr(fieldPrefix.length);
+			forEachProperty(options.wiki, tiddler, type, function(key, data, relinker) {
+				relinker.report(data[key], function(title, blurb, info) {
+					var prefix = "#" + type + " - " + key;
+					if (blurb) {
+						prefix += ": " + blurb;
+					}
+					callback(title, prefix, info);
+				}, options);
+			});
+		}
 	}
 };
 
@@ -45,6 +63,64 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 		}
 		changes.text = {output: newText};
 	}
+	var changedField = {};
+	var impossibleFields = {};
+	for (var field in tiddler.fields) {
+		if ($tw.utils.startsWith(field, fieldPrefix)) {
+			var fieldData = undefined,
+				changed = false,
+				impossible = false;
+			var type = field.substr(fieldPrefix.length);
+			forEachProperty(options.wiki, tiddler, type, function(key, data, relinker) {
+				var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
+				if (lineEntry) {
+					changed = true;
+					if (lineEntry.output) {
+						data[key] = lineEntry.output;
+						fieldData = data;
+					}
+					impossible = lineEntry.impossible || impossible;
+				}
+			});
+			if (changed) {
+				changes[field] = {};
+				if (fieldData) {
+					var text = JSON.stringify(fieldData);
+					changes[field].output = text;
+				}
+				if (impossible) {
+					changes[field].impossible = true;
+				}
+			}
+		}
+	}
+};
+
+function forEachProperty(wiki, tiddler, type, callback) {
+	var engine = getEngine(wiki);
+	if (engine) {
+		var data;
+		try {
+			data = JSON.parse(tiddler.fields["graph." + type]);
+		} catch {
+			data = {};
+		}
+		var properties = engine.prototype.properties[type];
+		if (properties && data) {
+			for (var key in data) {
+				var propertyInfo = properties[key];
+				if (propertyInfo) {
+					var propertyClass = PropertyTypes[propertyInfo.type];
+					if (propertyClass && propertyClass.type) {
+						var relinker = relinkUtils.getType(propertyClass.type);
+						if (relinker) {
+							callback(key, data, relinker);
+						}
+					}
+				}
+			}
+		}
+	}
 };
 
 function isLegalDictionaryKey(title) {
@@ -62,4 +138,9 @@ function isLegalDictionaryKey(title) {
 
 	}
 	return found;
+};
+
+function getEngine(wiki) {
+	var value = wiki.getTiddlerText("$:/config/flibbles/graph/engine");
+	return utils.getEngine(value);
 };
