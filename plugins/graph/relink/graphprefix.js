@@ -11,10 +11,9 @@ Such as the tiddlers in the $:/graph/ namespace.
 "use strict";
 
 exports.prefix = "$:/graph/";
-var utils = require("../utils.js");
-var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
+
+var utils = require("./utils.js");
 var fieldPrefix = "graph.";
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 exports.report = function(tiddler, callback, options) {
 	var data = options.wiki.getTiddlerDataCached(tiddler.fields.title, {});
@@ -97,7 +96,7 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 };
 
 function forEachProperty(wiki, tiddler, type, callback) {
-	var engine = getEngine(wiki);
+	var engine = utils.getEngine(wiki);
 	if (engine) {
 		var data;
 		try {
@@ -109,14 +108,9 @@ function forEachProperty(wiki, tiddler, type, callback) {
 		if (properties && data) {
 			for (var key in data) {
 				var propertyInfo = properties[key];
-				if (propertyInfo) {
-					var propertyClass = PropertyTypes[propertyInfo.type];
-					if (propertyClass && propertyClass.type) {
-						var relinker = relinkUtils.getType(propertyClass.type);
-						if (relinker) {
-							callback(key, data, relinker);
-						}
-					}
+				var relinker = utils.getRelinker(propertyInfo);
+				if (relinker) {
+					callback(key, data, relinker);
 				}
 			}
 		}
@@ -138,9 +132,4 @@ function isLegalDictionaryKey(title) {
 
 	}
 	return found;
-};
-
-function getEngine(wiki) {
-	var value = wiki.getTiddlerText("$:/config/flibbles/graph/engine");
-	return utils.getEngine(value);
 };

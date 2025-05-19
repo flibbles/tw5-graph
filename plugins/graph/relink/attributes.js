@@ -11,9 +11,7 @@ Relinks attributes of $properties and other graph object widgets.
 
 exports.name = "graph";
 
-var utils = require("../utils.js");
-var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
+var utils = require("./utils.js");
 var graphObjects = Object.create(null);
 
 $tw.modules.forEachModuleOfType("widget-subclass", function(subclass, module) {
@@ -40,23 +38,13 @@ exports.getHandler = function(element, attribute, options) {
 function processAttribute(forObject, attribute, options) {
 	var name = attribute.name;
 	if (name[0] !== "$") {
-		var engine = getEngine(options.wiki);
+		var engine = utils.getEngine(options.wiki);
 		if (engine) {
 			var properties = engine.prototype.properties[forObject];
 			if (properties) {
 				var propertyInfo = properties[attribute.name];
-				if (propertyInfo) {
-					var propertyClass = PropertyTypes[propertyInfo.type];
-					if (propertyClass && propertyClass.type) {
-						return relinkUtils.getType(propertyClass.type);
-					}
-				}
+				return utils.getRelinker(propertyInfo);
 			}
 		}
 	}
-};
-
-function getEngine(wiki) {
-	var value = wiki.getTiddlerText("$:/config/flibbles/graph/engine");
-	return utils.getEngine(value);
 };

@@ -12,9 +12,7 @@ in the $:/config/flibbles/graph namespace.
 
 exports.prefix = "$:/config/flibbles/graph/";
 
-var utils = require("../utils.js");
-var relinkUtils = require("$:/plugins/flibbles/relink/js/utils.js");
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
+var utils = require("./utils.js");
 var jsonType = "application/json";
 
 
@@ -68,21 +66,16 @@ function forEachProperty(wiki, tiddler, callback) {
 	var slashPos = title.indexOf("/", exports.prefix.length);
 	if (slashPos >= 0) {
 		var objectType = title.substring(exports.prefix.length, slashPos);
-		var engine = getEngine(wiki);
+		var engine = utils.getEngine(wiki);
 		if (engine) {
 			var properties = engine.prototype.properties[objectType];
 			var data = wiki.getTiddlerData(title);
 			if (properties && data) {
 				for (var key in data) {
 					var propertyInfo = properties[key];
-					if (propertyInfo) {
-						var propertyClass = PropertyTypes[propertyInfo.type];
-						if (propertyClass && propertyClass.type) {
-							var relinker = relinkUtils.getType(propertyClass.type);
-							if (relinker) {
-								callback(key, data, relinker);
-							}
-						}
+					var relinker = utils.getRelinker(propertyInfo);
+					if (relinker) {
+						callback(key, data, relinker);
 					}
 				}
 			}
@@ -92,9 +85,4 @@ function forEachProperty(wiki, tiddler, callback) {
 
 function isLegalDictionaryValue(text) {
 	return text.indexOf("\n") < 0;
-};
-
-function getEngine(wiki) {
-	var value = wiki.getTiddlerText("$:/config/flibbles/graph/engine");
-	return utils.getEngine(value);
 };
