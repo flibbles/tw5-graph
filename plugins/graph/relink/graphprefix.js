@@ -23,7 +23,11 @@ exports.report = function(tiddler, callback, options) {
 	for (var field in tiddler.fields) {
 		if ($tw.utils.startsWith(field, fieldPrefix)) {
 			var type = field.substr(fieldPrefix.length);
-			forEachProperty(options.wiki, tiddler, type, function(key, data, relinker) {
+			var data;
+			try {
+				data = JSON.parse(tiddler.fields[field]);
+			} catch {}
+			utils.forEachPropertyIn(data, type, options.wiki, function(key, data, relinker) {
 				relinker.report(data[key], function(title, blurb, info) {
 					var prefix = "#" + type + " - " + key;
 					if (blurb) {
@@ -70,7 +74,11 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 				changed = false,
 				impossible = false;
 			var type = field.substr(fieldPrefix.length);
-			forEachProperty(options.wiki, tiddler, type, function(key, data, relinker) {
+			var data;
+			try {
+				data = JSON.parse(tiddler.fields[field]);
+			} catch {}
+			utils.forEachPropertyIn(data, type, options.wiki, function(key, data, relinker) {
 				var lineEntry = relinker.relink(data[key], fromTitle, toTitle, options);
 				if (lineEntry) {
 					changed = true;
@@ -89,28 +97,6 @@ exports.relink = function(tiddler, fromTitle, toTitle, changes, options) {
 				}
 				if (impossible) {
 					changes[field].impossible = true;
-				}
-			}
-		}
-	}
-};
-
-function forEachProperty(wiki, tiddler, type, callback) {
-	var engine = utils.getEngine(wiki);
-	if (engine) {
-		var data;
-		try {
-			data = JSON.parse(tiddler.fields["graph." + type]);
-		} catch {
-			data = {};
-		}
-		var properties = engine.prototype.properties[type];
-		if (properties && data) {
-			for (var key in data) {
-				var propertyInfo = properties[key];
-				var relinker = utils.getRelinker(propertyInfo);
-				if (relinker) {
-					callback(key, data, relinker);
 				}
 			}
 		}

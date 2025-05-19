@@ -66,20 +66,8 @@ function forEachProperty(wiki, tiddler, callback) {
 	var slashPos = title.indexOf("/", exports.prefix.length);
 	if (slashPos >= 0) {
 		var objectType = title.substring(exports.prefix.length, slashPos);
-		var engine = utils.getEngine(wiki);
-		if (engine) {
-			var properties = engine.prototype.properties[objectType];
-			var data = wiki.getTiddlerData(title);
-			if (properties && data) {
-				for (var key in data) {
-					var propertyInfo = properties[key];
-					var relinker = utils.getRelinker(propertyInfo);
-					if (relinker) {
-						callback(key, data, relinker);
-					}
-				}
-			}
-		}
+		var data = wiki.getTiddlerData(title);
+		utils.forEachPropertyIn(data, objectType, wiki, callback);
 	}
 };
 
