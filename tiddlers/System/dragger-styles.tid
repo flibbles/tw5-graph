@@ -52,6 +52,10 @@ a.graph-dragger.tc-tiddlylink {
   text-transform: uppercase;
 }
 
+a.graph-dragger.graph-dragger-engine.tc-tiddlylink {
+  padding: 1rem 2rem;
+}
+
 a.graph-dragger.tc-tiddlylink:hover {
 	text-decoration: none;
 }
@@ -59,4 +63,8 @@ a.graph-dragger.tc-tiddlylink:hover {
 .graph-dragger:active {
   box-shadow: inset 4.3px 4.3px 7px #b7b1b5;
   filter: drop-shadow(0 0 0 rgb(183, 177, 181));
+}
+
+.graph-dragger img {
+	width: 4em;
 }

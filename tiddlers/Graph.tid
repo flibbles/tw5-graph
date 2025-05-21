@@ -4,13 +4,13 @@ title: Graph
 
 <$tiddler tiddler=<<plugin>> >
 
-|!Version |{{!!version}} } |
+|!Version |{{!!version}} |
 |!Build date |<$view field=created format=date template="MMM DDth, YYYY" /> |
 |!TW5 compatibility |{{!!core-version}} |
 
 The TW5-Graph plugin is a TiddlyWiki plugin which provides an API for creating sophistocated graphs with a wide range of costumizable functionality.
 
-<<list-links filter: "[tag[Documentation]]" >>
+See the [[Documentation]] for detailed information.
 
 To report and issue, please visit <a href={{!!source}} class=tc-tiddlylink-external>the github page</a>.
 
@@ -20,6 +20,12 @@ Currently, this plugin is in an experimental stage, and its API is still subject
 
 @@text-align:center;
 <$link to=<<plugin>> class=graph-dragger>Drag n' Drop me!</$link>
+@@
+
+You will also need at least one graphing engine for TW5-Graph to use. Here is Vis-network, the recommended one. Just drag it onto your project too.
+
+@@text-align:center;
+<$link to="$:/plugins/flibbles/vis-network" class="graph-dragger graph-dragger-engine">{{$:/plugins/flibbles/vis-network/icon}}<br>Vis-Network</$link>
 @@
 
 </$tiddler>
