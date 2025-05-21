@@ -4,7 +4,7 @@ Tests the nodes.neighbors global widget.
 
 \*/
 
-fdescribe('nodes.neighbors \\widget', function() {
+describe('nodes.neighbors \\widget', function() {
 
 var wiki, init;
 

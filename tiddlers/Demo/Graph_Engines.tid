@@ -14,6 +14,12 @@ tags: Demo
  </$graph.popup>
 </$graph>
 
+TW-Graph is capable of using different underlying engines for creating graphs. [[Vis-network]] is the recommended engine, but other choices are possible, such as [[Orb]], though currently, it's implementation is incomplete. It's also possible create your own choices from other Javascript graphing engines on the internet. The [[Adapter API]] required to connect an engine to TW5-Graph is quite simple.
+
+Try changing the engine that this demo is using!
+
+<div class=graph-engine-button-list>
+
 <$list filter="[[graphengine]modules[]]">
 
 <$let name={{{ [all[current]moduleproperty[name]] }}} >
@@ -30,4 +36,3 @@ tags: Demo
 </$button></$let></$list>
 
 <$text text=<<name>> />
-TW-Graph is capable of using different underlying engines for creating graphs. [[Orb]] is the recommended engine, but there are other choices already available, such as [[Vis-network]]. It's also possible create your own choices from existing Javascript graphing engines on the internet.

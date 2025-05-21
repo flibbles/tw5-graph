@@ -10,6 +10,8 @@ For more details, visit the documentation at [[project page|https://flibbles.git
 
 Select a default from the multiple installed engines:
 
+<div class=graph-engine-button-list>
+
 <$list filter="[[graphengine]modules[]]">
 
 <$let name={{{ [all[current]moduleproperty[name]] }}} >

@@ -193,6 +193,11 @@ tags: $:/tags/Stylesheet
 
 /*** Engine toggle buttons ***/
 
+.graph-engine-button-list {
+	display: flex;
+	justify-content: center;
+}
+
 .graph-engine-button {
 	margin: 1em;
 	width: 7em;
