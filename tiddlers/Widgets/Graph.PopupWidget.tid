@@ -29,17 +29,19 @@ This slot has the variable <<.value currentTooltip>> available to it.
 	narrative= "Here is an example of how the graph.popup applies only to nodes it contains."
 	content="""<$graph>
   <$graph.popup $ms="1000">
-    <$nodes.for $filter="Zeus Odin" $labelField="title" />
+    <$node $tiddler=Zeus label=Zeus />
+    <$node $tiddler=Odin label=Odin />
   </$graph.popup>
-  <$nodes.for $filter="Freya Poseidon"/>
+  <$node $tiddler=Freya label=Freya color=teal />
 </$graph>"""/>
 
 <$graph.example
 	description= "Popup with slot"
 	narrative= "This example shows how to use custom template slot for the tooltip."
-	content=[[<$graph>
+	content='<$graph>
   <$graph.popup>
-    <$nodes.for $filter="Aphrodite Balder" $labelField="title" />
+    <$node $tiddler=Aphrodite label=Aphrodite />
+    <$node $tiddler=Balder label=Balder />
     <$fill $name="tooltip">
 
       <$tiddler tiddler=<<currentTooltip>> >
@@ -52,4 +54,4 @@ This slot has the variable <<.value currentTooltip>> available to it.
       </$tiddler>
     </$fill>
   </$graph.popup>
-</$graph>]]/>
+</$graph>'/>

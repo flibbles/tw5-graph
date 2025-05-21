@@ -1,0 +1,36 @@
+title: Orb
+tags: Plugins
+
+Orb is a TiddlyWiki plugin that wraps [[Memgraph's graph visualization library of the same name|https://github.com/memgraph/orb]]. This library, created by Memgraph, is a lean graphing library designed for efficiency.
+
+! Pros
+
+* Orb is lean and efficient---designed to handle handle thousands of nodes which would make other visualization engines choke.
+
+! Cons
+
+* To be lean, Orb stripped away a lot of stylizing options that exist in other visualization libraries.
+* It hasn't been actively developed since 2024.
+
+! Example
+
+
+<$graph.demo
+	description="Orb benchmark graph"
+	narrative="""Here is a stress test of orb's efficiency: a rendering tree of all shadow tiddlers within the $:/core plugin. This could take other visualization engine minutes to render."""
+	content="""\whitespace trim
+\procedure directory(prefix, source)
+  <$list variable=dir filter="[enlist<source>removeprefix<prefix>splitbefore[/]]">
+    <$vars currentTiddler=`$(prefix)$$(dir)$`>
+      <$edge $from=<<prefix>> $to={{!!title}} />
+      <%if [{!!title}is[shadow]] %>
+        <$node label=<<dir>> doubleclick="<$action-navigate />"/>
+      <% else %>
+        <$node label=<<dir>> size=0 />
+        <$transclude $variable=directory prefix={{!!title}} source={{{ [enlist<source>prefix{!!title}format:titlelist[]join[ ]] }}} />
+\end
+
+<$graph $engine=Orb $height=800px >
+  <$transclude $variable=directory source= {{{ [[$:/core]plugintiddlers[]format:titlelist[]join[ ]] }}}/>""" />
+
+<<graph>>

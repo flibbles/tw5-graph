@@ -3,7 +3,7 @@
 		{
 			"path": ".",
 			"filesRegExp": "^.*\\.tid$",
-			"isTiddlerFile": true,
+			"isTiddlerFile": false,
 			"fields": {
 				"title": {
 					"prefix": "$:/editions/tw5-graph/macros/",
