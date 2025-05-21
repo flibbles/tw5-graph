@@ -40,7 +40,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	this.execute();
 	this.graphElement = this.document.createElement("div");
 	var className = "graph-canvas";
-	if (!this.engine) {
+	if (!this.graphEngine) {
 		className += " graph-error";
 	}
 	this.graphElement.className = className;
@@ -56,18 +56,18 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	this.renderChildren(this.graphElement, null);
 
 	// Render and recenter the view
-	if(this.engine) {
-		this.engine.onevent = GraphWidget.prototype.handleEvent.bind(this);
+	if(this.graphEngine) {
+		this.graphEngine.onevent = GraphWidget.prototype.handleEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.getViewSettings() || {};
 		objects.graph = this.typecastProperties(this.properties, "graph");
 		try {
-			this.engine.init(this.graphElement, objects);
+			this.graphEngine.init(this.graphElement, objects);
 		} catch(e) {
 			// Technically, we should drop this engine without destroying it.
 			// It didn't successfully init, so it's not initialized.
 			// This means it's up to the engines to be "Strong Exception Safe".
-			this.engine = undefined;
+			this.graphEngine = undefined;
 			// Something went wrong. Rebuild this widget as an error displayer
 			console.error(e);
 			this.errorState = e.message || e.toString();
@@ -99,7 +99,7 @@ GraphWidget.prototype.execute = function() {
 			message = "Graph plugin configured to use missing '" + this.engineValue + "' engine. Fix this in plugin settings.";
 		}
 		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
-		this.engine = undefined;
+		this.graphEngine = undefined;
 	} else {
 		var graphPropertiesNode = {
 			type: "properties",
@@ -108,7 +108,7 @@ GraphWidget.prototype.execute = function() {
 		this.knownObjects = {};
 		this.knownProperties = {};
 		this.children = [this.makeChildWidget(graphPropertiesNode)];
-		this.engine = new Engine(this.wiki);
+		this.graphEngine = new Engine(this.wiki);
 	}
 };
 
@@ -160,12 +160,12 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 		}
 	}
 	if (changed) {
-		if (!this.engine) {
+		if (!this.graphEngine) {
 			// We were in an error state. Maybe we won't be after refreshing.
 			this.refreshSelf();
 		} else if (objects) {
 			try {
-				this.engine.update(objects);
+				this.graphEngine.update(objects);
 			} catch (e) {
 				// Something went wrong. Rebuild this widget as an error displayer
 				console.error(e);
@@ -180,8 +180,8 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 GraphWidget.prototype.refreshSelf = function() {
 	var nextSibling = this.findNextSiblingDomNode();
 	this.removeChildDomNodes();
-	if (this.engine) {
-		this.engine.destroy();
+	if (this.graphEngine) {
+		this.graphEngine.destroy();
 	}
 	this.render(this.parentDomNode, nextSibling);
 };
@@ -208,8 +208,8 @@ GraphWidget.prototype.resize = function() {
 };
 
 GraphWidget.prototype.destroy = function() {
-	if (this.engine) {
-		this.engine.destroy();
+	if (this.graphEngine) {
+		this.graphEngine.destroy();
 	}
 };
 
@@ -226,7 +226,7 @@ GraphWidget.prototype.getEngineName = function() {
 GraphWidget.prototype.getViewSettings = function() {
 	var newProperties = Object.create(null);
 	var self = this;
-	if (this.engine) {
+	if (this.graphEngine) {
 		for (var color in graphColors) {
 			var widget = this.colorWidgets[color];
 			var container = $tw.fakeDocument.createElement("div");
@@ -255,7 +255,7 @@ GraphWidget.prototype.getViewSettings = function() {
 
 GraphWidget.prototype.typecastProperties = function(properties, type) {//type, key, value) {
 	var output = Object.create(null);
-	var catalog = this.engine.properties;
+	var catalog = this.graphEngine.properties;
 	var category = (catalog && catalog[type]) || {};
 	for (var key in properties) {
 		var info = category[key];
