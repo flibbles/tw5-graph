@@ -1,7 +1,3 @@
-code-body: yes
-title: $:/editions/tw5-graph/graph.example
-tags: $:/tags/Global
-
 \whitespace trim
 \widget $graph.example(description, narrative, content, footer, header)
 

@@ -1,7 +1,3 @@
-code-body: yes
-title: $:/editions/tw5-graph/implementation
-tags: $:/tags/Global
-
 \whitespace trim
 
 \widget $implementation.block(code)

@@ -1,6 +1,4 @@
-code-body: yes
-title: $:/editions/tw5-graph/doc-styles
-tags: $:/tags/Stylesheet
+\rules only macrocallinline
 
 /*** doc-style ***/
 

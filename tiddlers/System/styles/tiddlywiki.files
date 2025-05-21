@@ -1,0 +1,17 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"prefix": "$:/editions/tw5-graph/styles/",
+					"source": "basename"
+				},
+				"tags": "$:/tags/Stylesheet",
+				"code-body": "yes"
+			}
+		}
+	]
+}

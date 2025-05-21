@@ -1,0 +1,17 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"prefix": "$:/editions/tw5-graph/macros/",
+					"source": "basename"
+				},
+				"tags": "$:/tags/Global",
+				"code-body": "yes"
+			}
+		}
+	]
+}

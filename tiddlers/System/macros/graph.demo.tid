@@ -1,7 +1,3 @@
-code-body: yes
-title: $:/editions/tw5-graph/graph.demo
-tags: $:/tags/Global
-
 \whitespace trim
 \widget $graph.demo(description, narrative, content, footer, header)
   \procedure .state-prefix() $:/state/editions/tw5-graph/

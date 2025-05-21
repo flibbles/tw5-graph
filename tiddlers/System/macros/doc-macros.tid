@@ -1,7 +1,3 @@
-code-body: yes
-title: $:/editions/tw5-graph/doc-macros
-tags: $:/tags/Global
-
 \whitespace trim
 
 \procedure .attr(_) <code class=doc-attr><<_>></code>
