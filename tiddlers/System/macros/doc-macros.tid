@@ -1,7 +1,7 @@
 \whitespace trim
 
+\procedure .graph() //TW5-Graph//
 \procedure .attr(_) <code class=doc-attr><<_>></code>
-\procedure .wid(_) <code class=doc-widget>$<<_>></code>
 \procedure .wid(_) <code class=doc-widget>$<<_>></code>
 \procedure .value(_) <code class=doc-value><<_>></code>
 

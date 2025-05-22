@@ -1,0 +1,11 @@
+tags: Documentation
+
+Besides a User Interface, <<.graph>> introduces an API which allows you to build custom content exactly to your specifications. It's created using a small set of core widgets, which act as building blocks to make more complicated macro widgets, which in turn are used to make views, templates, and on-the-fly graphs.
+
+! Core Widgets
+
+<<list-links "[tag[Core Widgets]]">>
+
+! Macro Widgets
+
+<<list-links "[tag[Macro Widgets]]">>

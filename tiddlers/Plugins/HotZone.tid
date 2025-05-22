@@ -1,0 +1,16 @@
+title: TopStoryView
+tags: Plugins [[3rd Party Plugins]]
+
+TW-HotZone Tiddler is an alternative to [[Focused Tiddler]]. It also sets the same tiddler with whatever tiddler is currently active. This one:
+
+```
+$:/temp/focussedTiddler
+```
+
+TW-HotZone is an older plugin, and some people have had trouble with it, but it still functions, and it Doesn't require the [[Chinese Public Library]] to install.
+
+See its [[source page|https://github.com/felixhayashi/TW5-HotZone]] for information on how to install it.
+
+!! TopStoryView
+
+After you've installed Focused Tiddler, you may want to install [[TopStoryView]] as well, as it helps make Focused Tiddler and HotZone work more effectively.

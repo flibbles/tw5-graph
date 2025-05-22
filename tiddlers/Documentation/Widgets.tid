@@ -1,4 +1,23 @@
+tags: API
 
-The //TW5-Graph// plugin consists of a collection of widgets, which act as building blocks to create more sophisticated graph rendering tools. These are the javascript widgets which all the more elaborate globals and functionality build upon.
+Besides a User Interface, <<.graph>> introduces an API which allows you to build custom content exactly to your specifications. It's created using a small set of core widgets, which act as building blocks to make more complicated macro widgets, which in turn are used to make views, templates, and on-the-fly graphs.
 
-<<list-links filter: "[tag[Widgets]]" >>
+<<.graph>> widgets follow a simple paradigm. If the widget is intended to be used inside of <<.wid graph>>, all its hard-coded attributes will start with a "$". Any widgets that accept attributes that don't start with a "$" will expect those attributes to be dynamic engine property values that the widget will pass along to the visualization engine.
+
+! Core Widgets
+
+Core Widgets are made from javascript. These are core building blocks of <<.graph>> that everything else builds from.
+
+<<list-links "[tag[Core Widgets]]">>
+
+! Macro Widgets
+
+Macro Widgets are made from wikitext. They always have a "." in their name. These make use of other core and macro widgets to perform more composite effects. Since they're macros, you can override them, or more wisely, you can copy their implementation and make your own macro widgets.
+
+<<list-links "[tag[Macro Widgets]]">>
+
+! Action Widgets
+
+<<.graph>> introduces many core and macro widgets which behave as actions. These actions are useful for graphing, but may also be useful in any context where actions can be used, such as with other TiddlyWiki widgets, like the <<.wid button>> widget.
+
+<<list-links "[tag[ActionWidgets]]">>

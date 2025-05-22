@@ -1,6 +1,6 @@
 \whitespace trim
 
-\widget $implementation.block(code)
+\widget $doc.codeblock(code)
 
 \function raw.caption() [all[current]get[caption]addprefix[<$]]
 \procedure raw.linkTemplate() <[[$$2$|$1$]]

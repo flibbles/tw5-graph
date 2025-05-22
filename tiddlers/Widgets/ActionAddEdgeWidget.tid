@@ -1,5 +1,5 @@
 title: ActionAddEdgeWidget
-tags: Macros ActionWidgets Widgets
+tags: ActionWidgets Widgets [[Macro Widgets]]
 caption: action.addedge
 
 \procedure edgePackage()
@@ -30,9 +30,7 @@ Instead of specifying a field through attributes, this will call up a modal to s
 |$fromTiddler |The tiddler whose field will be written to (defaults to value of fromTiddler variable, or the current tiddler) |
 |$toTiddler |The value to be written to that field (defaults to value of toTiddler variable, or the current tiddler) |
 
-! Implementation
-
-<$implementation.block code={{$:/plugins/flibbles/graph/globals/action.addedge}} />
+<$doc.implementation />
 
 ! Examples
 
