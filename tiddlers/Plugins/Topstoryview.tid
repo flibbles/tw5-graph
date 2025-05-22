@@ -1,0 +1,11 @@
+title: TopStoryView
+tags: Plugins [[3rd Party Plugins]]
+
+TopStoryView is a plugin which adds an alternative story view mode to TiddlyWiki---the //top// view.
+
+This view behaves as follows:
+
+* When opening new tiddlers, the story river scrolls until the title of that tiddler is at the top of your screen, thus making it the [[Focused Tiddler]].
+* It adds an invisible spacer to the bottom of your story river so that you scroll low enough that even your bottom-most tiddler can be displayed at the top of your river, and thus be the [[Focused Tiddler]].
+
+See [[the source page|https://github.com/felixhayashi/TW5-TopStoryView]] for more details on how to install and configure this plugin.

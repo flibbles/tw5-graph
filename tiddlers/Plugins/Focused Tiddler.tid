@@ -1,0 +1,16 @@
+title: Focused Tiddler
+tags: Plugins [[3rd Party Plugins]]
+
+Focused Tiddler is a plugin which detects which tiddler you're viewing and saves its title to the following:
+
+```
+$:/temp/focussedTiddler
+```
+
+The reason you might want this plugin is if you'd like to have a [[Live View]], a graph which dynamically shows connections for whatever that focused tiddler may be.
+
+Focused-tiddler is available through the [[CPL|Chinese Public Library]]. Its source code is available [[here|https://github.com/Gk0Wk/TiddlySeq/tree/master/src/focused-tiddler]].
+
+!! TopStoryView
+
+After you've installed Focused Tiddler, you may want to install [[TopStoryView]] as well, as it helps make Focused Tiddler and HotZone work more effectively.

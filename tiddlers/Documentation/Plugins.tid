@@ -1,0 +1,10 @@
+caption: Integration with other plugins
+list-after: Installation
+
+! Dependencies
+
+The only dependencies that TW5-Graph has is that it requires you to install at least one graphical visualization engine, because TW5-Graph is only a framework for graphing in Tiddlywiki. It has no graphing capability of it's own.
+
+You only need to install one. Currently [[Vis-network]] is the one most developed and feature-rich. However, if you wish, you //can// install multiple engines, and have different graphs in your project use different engines. But I suggest you do this only if you must. Each engine is large, and each one will bloat up your Tiddlywiki's size.
+
+<<list-links Dependencies>>
