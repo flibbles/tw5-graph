@@ -1,0 +1,9 @@
+title: TiddlyWiki
+
+\rules except wikilinks
+
+In its own words, TiddlyWiki is a "unique non-linear notebook for capturing, organizing, and sharing complex information. [ext[But don't take my word for it.|https://tiddlywiki.com]].
+
+It's open source, highly versatile, and has a thriving development community who are happy to help you as you learn.
+
+<<.graph>> is a plugin for TiddlyWiki to give it graphing capabilities.
