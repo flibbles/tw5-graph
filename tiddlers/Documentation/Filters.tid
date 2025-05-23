@@ -1,0 +1,11 @@
+tags: API
+
+<<.graph>> has a few filter operators and filter run prefixes which are useful for for graph creation.
+
+! Filter Operators
+
+<<list-links "[tag[Filter Operators]]">>
+
+! Filter Run Prefixes
+
+<<list-links "[tag[Filter Run Prefixes]]">>

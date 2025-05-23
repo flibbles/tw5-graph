@@ -16,13 +16,13 @@ title: TypedWidgets (Examples)
 
 	---
 	<$button>Add to <<field>>
-		<$action.addtyped $field=<<field>> $value={{State!!field}} />
+		<$action-addtyped $field=<<field>> $value={{State!!field}} />
 	</$button>
 	<$button>Remove from <<field>>
-		<$action.removetyped $field=<<field>> $value={{State!!field}} />
+		<$action-removetyped $field=<<field>> $value={{State!!field}} />
 	</$button>
 
-	<<field>>: <$each.typed $field=<<field>> > <$link/></$each.typed>
+	<<field>>: <$list filter="[{!!title}gettyped<field>]"> <$link></$list>
 </$list>""" />
 <$data title=Target />
 <$data title=State field=Target/>

@@ -1,0 +1,22 @@
+title: gettyped Operator (Examples)
+tags: [[Operator Examples]] [[Typed Tool]]
+caption: gettyped
+
+<$graph.example
+	description="gettyped vs. other operators"
+	narrative="Other filter operators can perform the same behavior as gettyped. The advantage of gettyped is that its behavior is dynamic depending on the field.">
+<$data
+	title=Output
+	list="Planck Bohr Curie"
+	link="David Hilbert"
+	filter="Anderson Bosch Sagan +[addprefix[Carl ]]"
+	text="""|$each.typed |$list |h
+|<$list filter="[{!!title}gettyped[link]]" /> |<$list filter="[{!!link}]" /> |
+|<$list filter="[{!!title}gettyped[list]]" /> |<$list filter="[list[!!list]]" /> |
+|<$list filter="[{!!title}gettyped[filter]]" /> |<$list filter="[subfilter{!!filter}]" /> |
+""" />
+<$data title="$:/config/flibbles/relink/fields/link"
+	caption="Relink config for 'link'"
+	text=title
+	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
+</$graph.example>

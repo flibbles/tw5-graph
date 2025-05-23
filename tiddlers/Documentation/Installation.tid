@@ -1,13 +1,33 @@
 tags: Documentation
 
-Currently, this plugin is in an experimental stage, and its API is still subject to change. But if you're willing to experiment with it and provide feedback, drag the following onto your Tiddlywiki project page and say "yes" to import.
+Installing <<.graph>> is simple, though it's different depending on whether you're working with a TiddlyWiki file, or if you're running Node.JS or some other server setup.
 
-@@text-align:center;
-<$link to="$:/plugins/flibbles/graph" class=graph-dragger>Drag n' Drop me!</$link>
-@@
+Because <<.graph>> uses a [[Frontend/Backend design|Frontend and backend]], you will need to install two plugins: <<.graph>> itself, and a plugin wrapping a graphing engine to go with it.
 
-You will also need at least one graphing engine for TW5-Graph to use. Here is Vis-network, the recommended one. Just drag it onto your project too.
+!! Standalone Tiddlywiki
 
-@@text-align:center;
-<$link to="$:/plugins/flibbles/vis-network" class="graph-dragger graph-dragger-engine">{{$:/plugins/flibbles/vis-network/icon}}<br>Vis-Network</$link>
-@@
+{{Install pills}}
+
+!! Node.JS
+
+TiddlyWiki details the instructions on how to install custom plugins on Node.JS [[right here|https://tiddlywiki.com/#Installing%20custom%20plugins%20on%20Node.js]]. You will need to perform this installation process for both <<.graph>>, whose source can be found <a target=_blank href={{$:/plugins/flibbles/graph!!source}}>here</a>, but also for one of the graphing libraries. Here are the repositories for the available graphing engines:
+
+<ul>
+<$list filter="[[graphengine]modules[]shadowsource[]]">
+<li><a class=tc-tiddlylink-external href={{!!source}} target=_blank><$view field=name><$view field=title/></$view></a></li>
+</$list>
+</ul>
+
+! Additional plugins
+
+After you've install those, there are other plugins you might consider installing as well.
+
+Namely, [[Relink]].
+
+It takes care of propagating any tiddler name changes you make across your graph configurations, as well as the rest of your wiki. It's //almost essential// for <<.graph>> in the same way it's //almost essential// for Tiddlywiki as a whole.
+
+There are [[other plugins|Plugins]] you might want as well, depending on what features you'd like, but none are essential, and you don't need to worry about them right away.
+
+! What's next?
+
+After you've installed <<.graph>> and a visualization engine for it to use, you can start learning about the [[Concepts]].

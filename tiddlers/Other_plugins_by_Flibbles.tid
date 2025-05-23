@@ -4,11 +4,11 @@ Other plugins I've developed for TiddlyWiki5.
 
 !! [[Relink|https://flibbles.github.io/tw5-relink/]]
 
-Automatically update all references to a tiddler whenever you rename it. //All// references.
+Automatically update all references to a tiddler whenever you rename it. //All// references. ''<<.graph>> fully integrates with [[Relink]]!''
 
 !! [[Uglify|https://flibbles.github.io/tw5-uglify/]]
 
-Scrunch TiddlyWiki down! Minify javascript and JSON to serve from Node.JS, shrink down your TiddlyWiki file, or compress your own plugins before publishing them.
+Scrunch TiddlyWiki down! Minify javascript and JSON to serve from Node.JS, shrink down your TiddlyWiki file, or compress your own plugins before publishing them. ''<<.graph>> is optimized to reap maximum benefit from [[Uglify]]!''
 
 !! [[XML|https://flibbles.github.io/tw5-xml/]]
 

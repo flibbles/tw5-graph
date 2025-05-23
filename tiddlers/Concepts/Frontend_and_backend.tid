@@ -1,0 +1,24 @@
+title: Frontend and backend
+
+<<.graph>> is composed of two parts. The front-end is the plugin itself, which connects TiddlyWiki to a backend. It provides an API and a UI for creating graphs and view.
+
+The back-end is any plugin which wraps a javascript visualization engine and has [[the module|graphengineadapter Module]] <<.graph>> uses to interact with it.
+
+Here is a graphical representation of <<.graph>>'s design:
+
+<$graph>
+  <$properties $for=edges arrows=to>
+    <$properties shape=diamond doubleclick="<$action-navigate $to=<<id>> />">
+      <$node $tiddler=TiddlyWiki label=Tiddlywiki $pos="100,0" />
+      <$node $tiddler=Graph label=TW5-Graph $pos="0,0" />
+      <$edge $from=Graph $to=TiddlyWiki />
+      <$vars total={{{ [[graphengine]modules[]shadowsource[]count[]] }}} gap=100>
+        <$list counter=count filter="[[graphengine]modules[]shadowsource[]]">
+          <$node label={{!!name}} x=-100 y={{{ [<total>add[1]divide[2]subtract<count>multiply<gap>] }}} shape=database />
+          <$edge $to=Graph/>
+        </$list>
+      </$vars>
+    </$properties>
+  </$properties>
+</$graph>
+

@@ -1,0 +1,13 @@
+title: Install pills
+
+Drag the following pill onto your wiki project to import it.
+
+@@text-align:center;
+<$link to="$:/plugins/flibbles/graph" class=graph-dragger>Drag n' Drop me!</$link>
+@@
+
+Now drag over a graphing engine for <<.graph>> to use. (There's only one for now.)
+
+@@text-align:center;
+<$link to="$:/plugins/flibbles/vis-network" class="graph-dragger graph-dragger-engine">{{$:/plugins/flibbles/vis-network/icon}}<br>Vis-Network</$link>
+@@

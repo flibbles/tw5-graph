@@ -7,14 +7,17 @@ title: Graph
 |!Version |{{!!version}} |
 |!Build date |<$view field=created format=date template="MMM DDth, YYYY" /> |
 |!TW5 compatibility |{{!!core-version}} |
+
+TW5-Graph is a TiddlyWiki plugin which allows for the creation of sophistocated graphs with a wide range of costumizable functionality.
+
+Currently, this plugin is in an experimental stage, and its API is still subject to change. But if you're willing to experiment with it and provide feedback, drag the following onto your Tiddlywiki project page and say "yes" to import.
+
+To report and issue, please visit <a href={{!!source}} class=tc-tiddlylink-external target=_blank>the github page</a>.
+
 </$tiddler>
 
-The TW5-Graph plugin is a TiddlyWiki plugin which provides an API for creating sophistocated graphs with a wide range of costumizable functionality.
+!! Quickstart
 
-See the [[Documentation]] for detailed information.
+{{Install pills}}
 
-To report and issue, please visit <a href={{!!source}} class=tc-tiddlylink-external>the github page</a>.
-
-!! To Install
-
-{{Installation}}
+After that, you can just poke around with it. It's fairly quick-start friendly. ''However, the [[Documentation]] provides a lot more information for you.''
