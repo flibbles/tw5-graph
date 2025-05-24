@@ -14,7 +14,7 @@
           <dd><$button set=<<.state>> setTo="">Hide</$button></dd>
         </dl>
         <<header>>
-        <$transclude $variable=content />
+        <$transclude $variable=content $mode=block/>
         <<footer>>
       <%else%>
         <dl>

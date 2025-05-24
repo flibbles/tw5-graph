@@ -86,14 +86,14 @@ it("can handle different currentTiddlers in run", function() {
 	expect(each).toHaveBeenCalledTimes(2);
 });
 
-it("currently does not expose any variables except currentTiddler", function() {
+it("currently does not expose any variables", function() {
 	// Once cache can support multiple variables, this test will have to go.
 	wiki.addTiddlers([
 		{title: "A"}, {title: "B"}, {title: "C"}]);
-	var filter = ":cache[all[tiddlers]addsuffix<value>]";
-	var widget = makeWidget({value: "B"});
+	var filter = ":cache[all[tiddlers]addsuffix<value>addprefix<currentTiddler>]";
+	var widget = makeWidget({value: "B", currentTiddler: "CT"});
 	expect(wiki.filterTiddlers(filter, widget)).toEqual(["A", "B", "C"]);
-	widget = makeWidget({value: "C"});
+	widget = makeWidget({value: "C", currentTiddler: "CT"});
 	expect(wiki.filterTiddlers(filter, widget)).toEqual(["A", "B", "C"]);
 	expect(each).toHaveBeenCalledTimes(1);
 });

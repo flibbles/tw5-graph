@@ -3,7 +3,8 @@
 	"plugins": [
 		"flibbles/relink",
 		"flibbles/relink-fieldnames",
-		"tiddlywiki/jasmine"
+		"tiddlywiki/jasmine",
+		"tiddlywiki/railroad"
 	],
 	"themes": [
 		"tiddlywiki/vanilla",

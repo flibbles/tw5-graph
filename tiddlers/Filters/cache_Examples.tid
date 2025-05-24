@@ -1,0 +1,11 @@
+title: Cache Filter Run Prefix (Examples)
+
+<$graph.demo
+	narrative="""This prefix is especially effective for gathering shadow tiddlers with certain prefixes. Caching a set of them in a function will allow that function to execute very quickly on all subsequent runs. In this example, all shadows and tiddlers are only trawled once."""
+	content="""\function shortcuts() :cache[all[shadows+tiddlers]prefix[$:/config/shortcuts]]
+
+!!! Shortcuts using ctrl key
+<<list-links "[function[shortcuts]search[ctrl-]]">>
+
+!!! Shortcuts using alt key
+<<list-links "[function[shortcuts]search[alt-]]">>""" />
