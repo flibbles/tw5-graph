@@ -1,39 +1,34 @@
 title: ActionRemoveTypedWidget
-tags: ActionWidgets Widgets [[Macro Widgets]]
-caption: action.removetyped
+tags: ActionWidgets Widgets [[Core Widgets]] [[Typed Tools]]
+caption: action-removetyped
 
 ! Introduction
 
-The ''action-removetyped'' widget removes a value from a tiddler's field in a way that's reflective of how that field is configured through [[Relink]]. This allows you to use this same action to dynamically remove values from a variety of different fields without worrying about that field's configured type.
+The <<.wid action-removetyped>> widget removes a value from a tiddler's field in a way that's reflective of how that field is configured through [[Relink]]. This allows you to use this same action to dynamically remove values from a variety of different fields without worrying about that field's configured type.
 
 If the value is not present in the field, the tiddler will not be touched.
 
 ! Contents and Attributes
 
-The content of an `<$action.removetyped>` widget is ignored.
+The content of an <<.wid action-removetyped>> widget is ignored.
 
 |!Attribute | !Description |
 |$tiddler |The tiddler whose field will be modified (defaults to the current tiddler) |
 |$field |The field which is to be modified |
 |$value |The value to remove to the field |
+|$timestamp |Specifies whether the timestamp of the target tiddler will be updated (''modified'' and ''modifier'', plus ''created'' and ''creator'' for newly created tiddlers). Can be "yes" (the default) or "no". |
+|$clean |Specifies whether if resulting field should be removed if it would be empty. Can be "yes" (the default) or "no". |
 
-
-<$doc.implementation />
-
-! Relink integration
-
-The action.removetyped widget takes advantage of any configuration present due to the [[Relink]] plugin. If Relink specifies a type for a field, this widget will automatically recognize that type and treat it appropriately.
-
-Even if you don't have Relink installed, this widget will know the type of several core fields. See [[Field Types]] for more information.
+{{Typed Tools}}
 
 ! Examples
 
 <$graph.example
-	description="action.removetyped with graphs"
-	narrative="This shows how the action.removetyped can be used to remove nodes from a graph.">
+	description="action-removetyped with graphs"
+	narrative="This shows how the action-removetyped can be used to remove nodes from a graph. Double click on nodes to remove them.">
 <$data title=Output
 	list="Planck Bohr Einstein Heisenberg Newton Yalow Curie"
-	text="""\procedure remove() <$action.removetyped $tiddler='Output' $field='list' $value=<<currentTiddler>> />
+	text="""\procedure remove() <$action-removetyped $tiddler='Output' $field='list' $value=<<id>> />
 
 <$graph>
 	<$list filter="[list[]]">
@@ -42,4 +37,4 @@ Even if you don't have Relink installed, this widget will know the type of sever
 </$graph>""" />
 </$graph.example>
 
-{{TypedWidgets (Examples)}}
+{{Typed Tools (Examples)}}

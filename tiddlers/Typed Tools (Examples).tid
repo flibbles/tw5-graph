@@ -1,8 +1,8 @@
-title: TypedWidgets (Examples)
+title: Typed Tools (Examples)
 
 <$graph.example
-	description="Typed widget suite"
-	narrative="This shows how the the suite of 'typed' widgets (<<.wid action.addtyped>>, <<.wid action.removetyped>>, and <<.wid each.typed>> work in concert with each other. All of them can manipulate fields depending on their type.">
+	description="Typed suite"
+	narrative="This shows how the the suite of 'typed' tools work together. All of them can manipulate fields depending on their type.">
 <$data title="$:/config/flibbles/relink/fields/link"
 	caption="Relink config for 'link'"
 	text=title
@@ -22,8 +22,9 @@ title: TypedWidgets (Examples)
 		<$action-removetyped $field=<<field>> $value={{State!!field}} />
 	</$button>
 
-	<<field>>: <$list filter="[{!!title}gettyped<field>]"> <$link></$list>
+	<<field>>: <$list filter="[{!!title}gettyped<field>]" join=" - "/>
 </$list>""" />
-<$data title=Target />
 <$data title=State field=Target/>
+<!-- The Target is needed so it appears in [!is[system]] -->
+<$data title=Target/>
 </$graph.example>

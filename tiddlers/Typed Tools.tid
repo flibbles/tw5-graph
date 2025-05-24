@@ -1,0 +1,13 @@
+title: Typed Tools
+
+! Relink integration
+
+This tool takes advantage of any configuration present due to the [[Relink]] plugin. If Relink specifies a type for a field, this will automatically recognize that type and treat it appropriately.
+
+Even if you don't have Relink installed, this tool will know the type of several core fields. See [[Field Types]] for more information.
+
+!! See also
+
+There is a suite of tools that work with typed fields.
+
+<<list-links "[tag[Typed Tools]]">>

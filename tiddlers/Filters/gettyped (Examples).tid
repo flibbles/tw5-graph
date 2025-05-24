@@ -3,20 +3,47 @@ tags: [[Operator Examples]] [[Typed Tool]]
 caption: gettyped
 
 <$graph.example
-	description="gettyped vs. other operators"
+	description="gettyped with graphs"
+	narrative="This shows how gettyped is useful for adding nodes nodes to a graph from fields without caring about the field's type.">
+<$data
+	title=Output
+	list="Planck Bohr Einstein Heisenberg Newton Yalow Curie"
+	link="George Gaylord Simpson"
+	text="""<$graph>
+	<$list filter="[all[current]gettyped[list]]">
+		<$node label={{!!title}} color=blue />
+	</$list>
+	<$list filter="[all[current]gettyped[link]]">
+		<$node label={{!!title}} color=green />
+	</$list>
+</$graph>""" />
+<$data title="$:/config/flibbles/relink/fields/link"
+	caption="Relink config for 'link'"
+	text=title
+	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
+</$graph.example>
+
+
+<$graph.example
+	description="gettyped vs. other filter operators"
 	narrative="Other filter operators can perform the same behavior as gettyped. The advantage of gettyped is that its behavior is dynamic depending on the field.">
 <$data
 	title=Output
 	list="Planck Bohr Curie"
 	link="David Hilbert"
 	filter="Anderson Bosch Sagan +[addprefix[Carl ]]"
-	text="""|$each.typed |$list |h
-|<$list filter="[{!!title}gettyped[link]]" /> |<$list filter="[{!!link}]" /> |
-|<$list filter="[{!!title}gettyped[list]]" /> |<$list filter="[list[!!list]]" /> |
-|<$list filter="[{!!title}gettyped[filter]]" /> |<$list filter="[subfilter{!!filter}]" /> |
-""" />
+	text="""\procedure F(filter)
+<$list filter=<<filter>> join="<br>"/>
+\end
+
+|gettyped |other operators |h
+|<<F "[{!!title}gettyped[link]]">> |<<F "[{!!link}]">> |
+|<<F "[{!!title}gettyped[list]]">> |<<F "[list[!!list]]">> |
+|<<F "[{!!title}gettyped[filter]]">> |<<F "[subfilter{!!filter}]">> |""" />
 <$data title="$:/config/flibbles/relink/fields/link"
 	caption="Relink config for 'link'"
 	text=title
 	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
 </$graph.example>
+
+{{Typed Tools (Examples)}}

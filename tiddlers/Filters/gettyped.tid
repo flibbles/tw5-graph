@@ -1,5 +1,5 @@
 title: gettyped Operator
-tags: [[Filter Operators]] Filters
+tags: [[Filter Operators]] Filters [[Typed Tools]]
 caption: gettyped
 
 |!purpose |select all values of a field in the input titles, depending on its type |
@@ -8,8 +8,8 @@ caption: gettyped
 |!output |the values of field <<.value F>> in each input title, depending on that field's type |
 
 
-Each input title is processed in turn, and the value of field <<.value F>> is examined. It return each value inside that field depending on how that field is configured for [[Relink]].
+Each input title is processed in turn, and the value of field <<.value F>> is examined. It return each value inside that field depending on how that field's type.
 
-Even if Relink isn't installed, any configuration will be respected, and field edges provide a means of setting this value through their own configuration section.
+{{Typed Tools}}
 
 [[Examples|gettyped Operator (Examples)]]
