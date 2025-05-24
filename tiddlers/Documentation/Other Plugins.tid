@@ -1,0 +1,12 @@
+tags: Installation
+list: Relink
+
+The following plugins are not required for <<.graph>> to function. However, they may be helpful.
+
+<$list filter="[tag[Plugins]!tag[Engine Plugins]]">
+
+! {{!!title}}
+
+!!!! <a href={{!!source}} target=_blank>source</a>
+
+{{}}

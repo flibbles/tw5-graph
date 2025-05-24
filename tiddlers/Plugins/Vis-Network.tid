@@ -1,5 +1,5 @@
-title: Vis-network
-tags: Plugins
+title: Vis-Network
+tags: Plugins Engines
 
 Vis-network is a TiddlyWiki plugin that wraps [[Vis-Network, a visualization library of the same name|https://visjs.github.io/vis-network/docs/network/]]. This library, created by Vis, displays networks of nodes and edges.
 

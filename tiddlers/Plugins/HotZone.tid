@@ -1,5 +1,6 @@
 title: TopStoryView
-tags: Plugins [[3rd Party Plugins]]
+tags: Plugins
+source: https://github.com/felixhayashi/TW5-HotZone
 
 TW-HotZone Tiddler is an alternative to [[Focused Tiddler]]. It also sets the same tiddler with whatever tiddler is currently active. This one:
 

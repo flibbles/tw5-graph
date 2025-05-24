@@ -1,5 +1,6 @@
 title: TopStoryView
-tags: [[3rd Party Plugins]]
+tags: Plugins
+source: https://github.com/felixhayashi/TW5-TopStoryView
 
 TopStoryView is a plugin which adds an alternative story view mode to TiddlyWiki---the //top// view.
 

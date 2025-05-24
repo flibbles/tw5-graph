@@ -1,5 +1,6 @@
 title: Relink
-tags: Plugins [[3rd Party Plugins]]
+tags: Plugins Flibbles
+source: https://github.com/flibbles/tw5-relink
 
 TW5-Relink is a plugin which manages renaming all occurrences of a tiddler in your wiki whenever you rename a tiddler. It's highly useful and very well made. (If I do say so myself. I made it.)
 

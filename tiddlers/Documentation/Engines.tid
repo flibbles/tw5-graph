@@ -1,29 +1,36 @@
 title: Engines
 tags: Installation
 
-\define properties(module, type) [[$module$]moduleproperty[properties]jsonextract[$(type)$]]
-
 Once you've installed <<.graph>>, you'll need to install at least one engine plugin. This is because <<.graph>> is [[designed to be only as the front end|Frontend and backend]]. It has no graphing capabilities of it's own. Currently [[Vis-network]] is the one most developed and feature-rich.
 
 Engine plugins work through a series of objects that <<.graph>> can declare through widgets (Namely, [[Graph|Graph object]], [[Nodes|Nodes object]], and [[Edges|Edges object]], though others can exist). Each of these types of objects accept [[Properties]] which are unique to the graphing engine, but engines share common properties. Here's the list:
 
 <table>
-<tr>
-<th align=left>Property</th>
-<$list filter="[[graphengine]modules[]shadowsource[]]">
-<th style="width:2em;padding:1px;"><$link to={{!!name}}><$transclude $tiddler=`$(currentTiddler)$/icon` /></$link></th>
-</$list>
-</tr>
-<$list variable=type filter="[[graphengine]modules[]moduleproperty[properties]jsonindexes[]unique[]] graph +[putfirst[]]">
-<tr><th colspan={{{ [[graphengine]modules[]count[]add[1]] }}} ><<type>></th></tr>
-<$list variable=property filter="[[graphengine]modules[]moduleproperty[properties]jsonextract<type>jsonindexes[]unique[]sort[]]">
-<tr><td><<property>></td>
-<$list filter="[[graphengine]modules[]]">
-<td><$list filter=`[{!!title}moduleproperty[properties]jsonextract[$(type)$]jsonindexes[]] +[match<property>]`>✓</$list></td>
-</$list>
-</tr>
-</$list>
-</$list>
+  <tr>
+    <th align=left>Property</th>
+    <$list filter="[[graphengine]modules[]shadowsource[]]">
+      <th style="width:2em;padding:1px;">
+        <$link to={{!!name}}>
+          <$transclude $tiddler=`$(currentTiddler)$/icon` />
+        </$link>
+      </th>
+    </$list>
+  </tr>
+  <$list variable=type filter="[[graphengine]modules[]moduleproperty[properties]jsonindexes[]unique[]] graph +[putfirst[]]">
+    <tr>
+      <th colspan={{{ [[graphengine]modules[]count[]add[1]] }}} ><<type>></th>
+    </tr>
+    <$list variable=property filter=":cache[[graphengine]modules[]moduleproperty[properties]] +[jsonextract<type>jsonindexes[]unique[]sort[]]">
+      <tr>
+        <td><<property>></td>
+        <$list filter="[[graphengine]modules[]]">
+          <td>
+            <$list filter=`[{!!title}] :cache[{!!title}moduleproperty[properties]jsonextract[$(type)$]jsonindexes[]] +[match<property>]`>✓</$list>
+          </td>
+        </$list>
+      </tr>
+    </$list>
+  </$list>
 </table>
 
 ! Multiple engines

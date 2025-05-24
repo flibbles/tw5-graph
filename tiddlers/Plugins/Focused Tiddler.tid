@@ -1,5 +1,6 @@
 title: Focused Tiddler
-tags: Plugins [[3rd Party Plugins]]
+tags: Plugins
+source: https://github.com/Gk0Wk/TiddlySeq/tree/master/src/focused-tiddler
 
 Focused Tiddler is a plugin which detects which tiddler you're viewing and saves its title to the following:
 

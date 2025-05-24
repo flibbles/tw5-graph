@@ -1,5 +1,5 @@
 title: Orb
-tags: Plugins [[Engine Plugins]]
+tags: Plugins Engines
 
 Orb is a TiddlyWiki plugin that wraps [[Memgraph's graph visualization library of the same name|https://github.com/memgraph/orb]]. This library, created by Memgraph, is a lean graphing library designed for efficiency.
 
