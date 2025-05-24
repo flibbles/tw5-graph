@@ -1,6 +1,7 @@
 title: Cache Filter Run Prefix (Examples)
 
 <$graph.demo
+	description=prefixes
 	narrative="""This prefix is especially effective for gathering shadow tiddlers with certain prefixes. Caching a set of them in a function will allow that function to execute very quickly on all subsequent runs. In this example, all shadows and tiddlers are only trawled once."""
 	content="""\function shortcuts() :cache[all[shadows+tiddlers]prefix[$:/config/shortcuts]]
 
@@ -9,3 +10,13 @@ title: Cache Filter Run Prefix (Examples)
 
 !!! Shortcuts using alt key
 <<list-links "[function[shortcuts]search[alt-]]">>""" />
+
+<!-- This demo depends on other variables being allowed, which I may do at some point. but not now.
+<$graph.demo
+	description=fibonacci
+	narrative="""We solve fibonacci numbers the inefficient way, but caching makes it efficient anyway. We pass each number to the filter as currentTiddler, and it caches the results under that number. This would take ages to run without caching."""
+	content="""\function fibonacci-cache() [all[]] :cache[function[fibonacci],<currentTiddler>]
+\function fibonacci(number) [<number>compare::lt[2]] ~[enlist[-1 -2]add<number>function[fibonacci-cache]sum[]]
+; 6
+: <<fibonacci 6>>""" />
+-->
