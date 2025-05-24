@@ -6,7 +6,7 @@ tags: Demo
   <$properties.stack>
    <$list filter="[tag[Deity]!is[system]!is[draft]]">
     <$node shape={{!!shape}} label={{!!title}} doubleclick="<$action-navigate/>"/>
-    <$edges.fields />
+    <$edges.all />
    </$list>
   </$properties.stack>
  </$graph.popup>

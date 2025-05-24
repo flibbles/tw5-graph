@@ -9,7 +9,7 @@ tags: Demo
 
 <$node label={{!!title}} doubleclick="<$action-navigate />"/>
 
-<$edges.fields />
+<$edges.all />
 
 </$list></$graph.popup></$graph>
 

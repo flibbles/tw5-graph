@@ -40,7 +40,7 @@ Instead of specifying a field through attributes, this will call up a modal to s
 	content="""<$graph addEdge="<$action.addedge />">
 	<$list filter="BranchA BranchB BranchC">
 		<$node label={{!!title}} />
-		<$edges.fields />
+		<$edges.all />
 	</$list>
 </$graph>""">
 <<edgePackage>>
@@ -51,7 +51,7 @@ Instead of specifying a field through attributes, this will call up a modal to s
 	narrative="This example show how this action can be used for more custom behavior. In this case, the action is tied to the double-click action, and all created edges all stem from 'Root'."
 	content="""<$graph>
 	<$node $tiddler=Root size=20 color=brown/>
-	<$edges.fields $tiddler=Root />
+	<$edges.all $tiddler=Root />
 	<$properties size=10 doubleclick="<$action.addedge $fromTiddler=Root/>">
 		<$list filter="BranchA BranchB BranchC">
 			<$node />

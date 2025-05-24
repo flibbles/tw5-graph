@@ -33,7 +33,7 @@ Even if you don't have Relink installed, this widget will know the type of sever
 
 <$graph>
 	<$node $tiddler="Output" color="brown"/>
-	<$edges.fields $tiddler="Output" $fields="list" />
+	<$edges.all $tiddler="Output" $fields="list" />
 	<$list filter="Planck Bohr Einstein Heisenberg Newton Yalow Curie">
 		<$node label={{!!title}} doubleclick=<<add>> />
 	</$list>

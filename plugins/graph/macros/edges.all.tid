@@ -1,15 +1,46 @@
 \widget $edges.all($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
+\whitespace trim
 <$parameters $$tiddler=<<currentTiddler>> >
 
-<$transclude $variable="$edges.fields"
-	$fillignore=yes
-	$$fields=<<$fields>>
-	$$editable=<<$editable>>
-	$$tiddler=<<$tiddler>> />
+<!-- First create edges for field types -->
 
-<$transclude $variable="$edges.formulas"
-	$fillignore=yes
-	$$formulas=<<$formulas>>
-	$$tiddler=<<$tiddler>> />
+<$list variable=fieldName filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]] +[subfilter<$fields>]">
 
+<$let
+	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
+	currentTiddler=<<$tiddler>> >
+
+<$properties $for=edges
+	$dataTiddler=<<dataTiddler>>
+	delete={{{ [<$editable>!match[no]then[<$action-removetyped $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
+
+
+<$list variable=toTiddler filter="[<$tiddler>gettyped<fieldName>]">
+
+<$slot $name=ts-raw>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge" $fillignore=yes />
+
+</$slot></$list></$properties></$let></$list>
+
+<!-- Now create edges for formula types -->
+
+<$list variable=formulaName filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]] +[subfilter<$formulas>]">
+
+<$let
+	dataTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
+	formula={{{ [<dataTiddler>get[filter]] }}} >
+
+<$properties $for=edges
+	$dataTiddler=<<dataTiddler>> >
+
+<$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
+
+<$tiddler tiddler=<<$tiddler>> >
+
+<$slot $name=ts-raw>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge" $fillignore=yes />
+
+</$slot></$tiddler></$list></$properties></$let></$list>
 \end
