@@ -18,14 +18,17 @@
 
   \procedure inner()
     \function colour(name) [<name>getvariable[]]
+      <$vars engine={{$:/config/flibbles/graph/engine}}>
     <$testcase>
-      <$data title=Description text=<<description>> />
-      <$data title=Narrative text=<<narrative>> />
-      <$data title=Output text=<<content>> />
-      <$data title="$:/config/flibbles/graph/engine" caption="Engine" text={{$:/config/flibbles/graph/engine}} />
-      <$data $tiddler="$:/plugins/flibbles/graph" />
-      <$slot $name=ts-raw $depth=3 />
+        <$data title=Description text=<<description>> />
+        <$data title=Narrative text=<<narrative>> />
+        <$data title=Output text=<<content>> />
+        <$data title="$:/plugins/flibbles/graph-example-framework" type="application/json" plugin-type="plugin"
+          text=```{"tiddlers":{"$:/config/flibbles/graph/engine":{"text":"$(engine)$"}}}``` />
+        <$data $tiddler="$:/plugins/flibbles/graph" />
+        <$slot $name=ts-raw $depth=3 />
     </$testcase>
+      </$vars>
   \end inner
 
   <$apply.colours>

@@ -29,7 +29,7 @@
 				"text/plain",
 				"",
 				"publishFilter",
-				"-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/UpgradeLibrary]]"
+				"-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/plugins/flibbles/relink]] -[prefix[$:/UpgradeLibrary]]"
 		]
 	}
 }

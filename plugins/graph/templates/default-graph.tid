@@ -13,7 +13,7 @@ tags: $:/tags/flibbles/graph/template
           <$node $tiddler=<<node>>
             physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
             $pos={{{ [{!!title}getindex<node>] }}}
-            label={{{ [<node>get{!!nodes.labelField}] }}} />
+            label={{{ [<node>get[caption]else<node>] }}} />
           <$edges.all
             $tiddler=<<node>>
             $formulas={{!!edges.formulas}}

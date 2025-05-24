@@ -7,7 +7,7 @@ While TiddlyMap had a live view present by default, TW5-Graph requires you to se
 
 Here's what you do.
 
-# First, install the 3rd party [[Focused Tiddler]] plugin (or the [[TW-HotZone]] plugin, although that plugin is older and unmaintained).
+# First, install the 3rd party [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
 # Create a new [[View]], let's call it "Live View", but any name will do.
 # Change its template to be a [[Crawler-graph]].
 # Set its "nodes" filter to be `[{$:/temp/focussedTiddler}]`
