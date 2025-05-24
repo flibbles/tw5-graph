@@ -19,7 +19,7 @@
 				"text/plain",
 				"",
 				"publishFilter",
-				"-$:/DefaultTiddlers -[prefix[$:/state]]",
+				"-$:/DefaultTiddlers -[prefix[$:/state]] -[!is[system]]",
 			"--test"
 		],
 		"index": [
