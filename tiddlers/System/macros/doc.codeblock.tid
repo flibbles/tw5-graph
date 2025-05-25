@@ -23,6 +23,8 @@
 \procedure fo.pattern() [all[current]get[caption]]
 \procedure fo.template() [[$2$|$1$]]
 
+<$macrocall $name=copy-to-clipboard-above-right src=<<code>> />
+
 <pre>
 
 <code>
