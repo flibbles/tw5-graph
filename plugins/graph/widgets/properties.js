@@ -85,28 +85,29 @@ Properties.prototype.refresh = function(changedTiddlers) {
 };
 
 Properties.prototype.createStyle = function() {
-	this.field = this.getAttribute("$field", "text");
+	this.field = this.getAttribute("$field");
 	this.dataTiddler = this.getAttribute("$tiddler");
-	if (!this.dataTiddler && this.field !== "text") {
+	if (!this.dataTiddler && this.field) {
 		this.dataTiddler = this.getVariable("currentTiddler");
 	}
 	var styleObject = Object.create(null);
 	if (this.dataTiddler) {
 		var data;
-		if (this.field === "text") {
+		if (!this.field || this.field === "text") {
 			data = this.wiki.getTiddlerData(this.dataTiddler);
 		} else {
-			data = this.wiki.getTiddler(this.dataTiddler).fields[this.field];
 			try {
+				data = this.wiki.getTiddler(this.dataTiddler).fields[this.field];
 				data = JSON.parse(data);
 			} catch {
 				data = {};
 			}
 		}
 		for (var entry in data) {
+			var datum = data[entry];
 			// We only accept non-empty values
-			if (data[entry]) {
-				styleObject[entry] = data[entry];
+			if (datum && typeof datum === "string") {
+				styleObject[entry] = datum;
 			}
 		}
 	}

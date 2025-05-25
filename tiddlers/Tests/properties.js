@@ -346,21 +346,48 @@ it("can switch dataTiddlers from a tiddler", async function() {
 
 /*** $field attribute ***/
 
-it("can load properties from a dataTiddler's field", function() {
+it("can load properties from a dataTiddler's $field", function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: '{"value": "bad"}', field: '{"value": "good"}'});
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {value: "good"}});
 });
 
-it("can ignore corrupt field properties", function() {
+it("ignores missing tiddler when loading from $field", function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Missing $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {}});
+});
+
+it("can ignore corrupt $field properties", function() {
 	wiki.addTiddler({title: "Properties", field: '{"corrupt"'});
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {}});
 });
 
-it("loads from currentTiddler when $field specified", async function() {
+it("can ignore missing $field properties", function() {
+	wiki.addTiddler({title: "Properties"});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {}});
+});
+
+it("can ignore blank $field properties", function() {
+	wiki.addTiddler({title: "Properties", field: ''});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {}});
+});
+
+it("can handle overly-complicated $field properties", function() {
+	wiki.addTiddler({title: "Properties", field: '{"value":{"object":3}}'});
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {}});
+});
+
+it("loads currentTiddler when $field specified", async function() {
 	wiki.addTiddler({title: "Properties", field: '{"value": "first"}'});
 	var widget = $tw.test.renderText(wiki, "\\define currentTiddler() Properties\n<$graph><$properties $field=field><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
@@ -371,7 +398,39 @@ it("loads from currentTiddler when $field specified", async function() {
 	expect(objects.nodes).toEqual({N: {value: "second"}});
 });
 
-// TODO: Missing tiddler when taking from a field
+it("loads currentTiddler when $field is explicitly text", async function() {
+	wiki.addTiddler({title: "Properties", type: "application/json", text: '{"value": "text"}'});
+	var widget = $tw.test.renderText(wiki, "\\define currentTiddler() Properties\n<$graph><$properties $field=text><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {value: "text"}});
+	wiki.addTiddler({title: "Properties", type: "application/json", text: '{"value": "second"}'});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.nodes).toEqual({N: {value: "second"}});
+});
+
+it("refreshes when $field changes", async function() {
+	wiki.addTiddler({title: "Properties",
+		type: "application/json",
+		text: '{"value": "text to never be picked up"}',
+		field1: '{"value": "first"}',
+		field2: '{"value": "second"}'});
+	wiki.addTiddler({title: "Field", text: "field1"});
+	var widget = $tw.test.renderText(wiki, "\\define currentTiddler() Properties\n<$graph><$properties $field={{Field}}><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {value: "first"}});
+	wiki.addTiddler({title: "Field", text: "field2"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	update.calls.reset();
+	expect(objects.nodes).toEqual({N: {value: "second"}});
+	wiki.addTiddler({title: "Field"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	// No value. Without a specified $tiddler, and now no field, the text
+	// should be ignored.
+	expect(objects.nodes).toEqual({N: {}});
+});
 
 // TODO: When $properties $for=graph changes, minimize the amount of changing
 
