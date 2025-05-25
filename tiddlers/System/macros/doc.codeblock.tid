@@ -2,15 +2,19 @@
 
 \widget $doc.codeblock(code)
 
-\function raw.caption() [all[current]get[caption]addprefix[<$]]
-\procedure raw.linkTemplate() <[[$$2$|$1$]]
-\function raw.link() [<raw.linkTemplate>substitute<currentTiddler>,{!!caption}]
+\function makeTemplate() [<template>substitute{!!title},{!!caption}]
+\function pattern() [subfilter<patternFilter>]
+\procedure subLink() [<accumulator>search-replace:g<pattern>,<makeTemplate>]
+\function apply.tag(tag, patternFilter, template) [all[]] :map[all[tiddlers]tag<tag>reduce<subLink>,{!!title}]
 
-\function trans.caption() [all[current]get[caption]addprefix[$variable="$]]
-\procedure trans.linkTemplate() $variable="[[$$2$|$1$]]
-\function trans.link() [<trans.linkTemplate>substitute<currentTiddler>,{!!caption}]
+\procedure raw.pattern() [all[current]get[caption]addprefix[<$]]
+\procedure raw.template() <[[$$2$|$1$]]
 
-\procedure addLink() [<accumulator>search-replace:g<raw.caption>,<raw.link>search-replace:g<trans.caption>,<trans.link>]
+\procedure trans.pattern() [all[current]get[caption]addprefix[$variable="$]]
+\procedure trans.template() $variable="[[$$2$|$1$]]
+
+\procedure frp.pattern() [all[current]get[caption]addsuffix[[]]
+\procedure frp.template() $variable="[[$2$|$1$]][
 
 <pre>
 
@@ -19,11 +23,8 @@
 <$vars input={{{ [<code>addprefix[\rules only prettylink
 ]] }}}>
 
-<$list filter="[all[tiddlers]tag[Widgets]reduce<addLink>,<input>]">
+<$list filter="[<input>apply.tag[Widgets],<raw.pattern>,<raw.template>apply.tag[Widgets],<trans.pattern>,<trans.template>apply.tag[Filter Run Prefixes],<frp.pattern>,<frp.template>]">
 
 <$transclude $variable=currentTiddler $mode=inline/>
 
-</$list></$vars></code></pre>
 \end
-
-This acts like a $codeblock widget, except that it makes links out of all documented widgets that occur in the code.
