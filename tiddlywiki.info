@@ -19,7 +19,7 @@
 				"text/plain",
 				"",
 				"publishFilter",
-				"-$:/DefaultTiddlers -[prefix[$:/state]] -[!is[system]]",
+				"-$:/DefaultTiddlers -[!is[system]] -[prefix[$:/state]] -[prefix[$:/graph/]] -[prefix[$:/editions/]] -[prefix[$:/themes/]!has[plugin-type]]",
 			"--test"
 		],
 		"index": [

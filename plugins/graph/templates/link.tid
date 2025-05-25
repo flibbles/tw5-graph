@@ -1,7 +1,0 @@
-title: $:/plugins/flibbles/graph/templates/link
-
-<$genesis $type={{{ [<$each.mode>match[inline]then[span]else[div]] }}}>
-
-<$link to={{{ [<$variable>getvariable[]] }}} />
-
-</$genesis>
