@@ -102,7 +102,7 @@ Properties.prototype.createStyle = function() {
 			data = this.wiki.getTiddlerData(this.dataTiddler);
 		} else {
 			try {
-				data = JSON.parse(this.rawData);
+				data = this.rawData? JSON.parse(this.rawData): {};
 			} catch {
 				data = {};
 			}
