@@ -38,7 +38,9 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
 	|| changedAttributes["$for"]
-	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
+	|| (this.dataTiddler
+		&& changedTiddlers[this.dataTiddler]
+		&& this.rawData !== getTiddlerString(this.wiki, this.dataTiddler, this.field))) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
 		this.styleObject = this.createStyle();
@@ -93,12 +95,14 @@ Properties.prototype.createStyle = function() {
 	var styleObject = Object.create(null);
 	if (this.dataTiddler) {
 		var data;
+		// We recall the actual raw data string so
+		// we can see whether it changes later on.
+		this.rawData = getTiddlerString(this.wiki, this.dataTiddler, this.field);
 		if (!this.field || this.field === "text") {
 			data = this.wiki.getTiddlerData(this.dataTiddler);
 		} else {
 			try {
-				data = this.wiki.getTiddler(this.dataTiddler).fields[this.field];
-				data = JSON.parse(data);
+				data = JSON.parse(this.rawData);
 			} catch {
 				data = {};
 			}
@@ -117,6 +121,11 @@ Properties.prototype.createStyle = function() {
 		}
 	}
 	return styleObject;
+};
+
+function getTiddlerString(wiki, title, field) {
+	var tiddler = wiki.getTiddler(title);
+	return tiddler && tiddler.getFieldString(field || "text");
 };
 
 Properties.prototype.updateGraphWidgets = function(parentCallback) {

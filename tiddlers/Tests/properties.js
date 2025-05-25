@@ -432,6 +432,36 @@ it("refreshes when $field changes", async function() {
 	expect(objects.nodes).toEqual({N: {}});
 });
 
+it("only refreshes when its target field changes", async function() {
+	var tiddler = {
+		title: "Properties",
+		text: "old",
+		type: "application/json",
+		text: '{"value":"oldGraph"}',
+		field: '{"value":"oldNode"}'};
+	wiki.addTiddler(tiddler);
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=graph $tiddler=Properties /><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
+	var objects = init.calls.first().args[1];
+	expect(objects).toEqual({
+		graph: {value: "oldGraph"},
+		nodes: {N: {value: "oldNode"}}});
+	// Now we change the text and make sure that the properties pointing
+	// at the field don't detect a change.
+	tiddler.text = '{"value":"newGraph"}';
+	wiki.addTiddler(tiddler);
+	await $tw.test.flushChanges();
+	var objects = update.calls.first().args[0];
+	expect(objects).toEqual({graph: {value: "newGraph"}});
+	// Now we see what happens when we update a field.
+	// Does the default text-pointing property remain unchanged?
+	update.calls.reset();
+	tiddler.field = '{"value":"newNode"}';
+	wiki.addTiddler(tiddler);
+	await $tw.test.flushChanges();
+	var objects = update.calls.first().args[0];
+	expect(objects).toEqual({nodes: {N: {value: "newNode"}}});
+});
+
 // TODO: When $properties $for=graph changes, minimize the amount of changing
 
 });
