@@ -1,0 +1,48 @@
+title: PropertiesConfiguredWidget
+tags: Widgets [[Macro Widgets]]
+caption: properties.configured
+
+! Introduction
+
+The <<.wid properties.stack>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Node Property Stack]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
+
+In theory, this widget could apply stacks of properties to edges or graphs too, but that sophisticated yet.
+
+The node property stack can be configured in the ''properties'' tab from the <$link to="$:/plugins/flibbles/graph"><<.graph>> configuration</$link>.
+
+! Contents and Attributes
+
+Any nodes defined within <<.wid properties.configured>> will inherit all properties relevant to them. Any graph containing this widget will also gain any such grpah properties.
+
+|!Attribute | !Description |
+|$view |Specify a view tiddler which may contain fields specifying properties for specific object types |
+
+<$doc.implementation />
+
+! Examples
+
+<$graph.example
+	description="node property stack"
+	narrative="""This demo site has several node properties configured in its settings. Here, all we have to do is wrap the nodes in <<.wid properties.configured>>, and those settings will apply to the correct nodes."""
+	content="""<$graph>
+  <$properties.stack>
+    <$list filter="[!is[system]]">
+      <$node label={{!!title}} />
+    </$list>
+  </$properties.stack>
+</$graph>""">
+<$data title="Charles Darwin" tags="Scientist Male Biologist" />
+<$data title="Barbara McClintock" tags="Scientist Female Biologist" />
+<$data title="Marie Curie" tags="Scientist Female Physicist" />
+<$data title="Isaac Newton" tags="Scientist Male Physicist" />
+<$data title="$:/config/flibbles/graph/nodes/stack/default" caption="Stack properties: default" filter="[tag[Scientist]]" type="application/json" text="""{
+    "shape": "triangle",
+    "color": "green"
+}""" />
+<$data title="$:/config/flibbles/graph/nodes/stack/female" caption="Stack properties: female" filter="[tag[Female]]" type="application/json" text="""{
+    "shape": "triangleDown"
+}""" />
+<$data title="$:/config/flibbles/graph/nodes/stack/physicist" caption="Stack properties: physicist" filter="[tag[Physicist]]" type="application/json" text="""{
+    "color": "red"
+}""" />
+</$graph.example>

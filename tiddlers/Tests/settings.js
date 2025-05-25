@@ -31,7 +31,7 @@ it("renders data tiddlers using viewTemplate", function() {
 });
 
 it("renders plugin tab", function() {
-	var widget = $tw.test.renderGlobal($tw.wiki, "{{$:/plugins/flibbles/graph/settings|edges}}");
+	var widget = $tw.test.renderGlobal($tw.wiki, "{{$:/plugins/flibbles/graph/properties|edges}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure we're getting those default object type categories
 	expect(html).toContain("Formulas");

@@ -4,7 +4,7 @@ Tests the properties.configured global widget.
 
 \*/
 
-describe('properties.stack \\widget', function() {
+describe('properties.configured \\widget', function() {
 
 var wiki, init;
 
