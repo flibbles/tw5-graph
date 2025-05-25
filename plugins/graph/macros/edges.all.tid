@@ -11,7 +11,7 @@
 	currentTiddler=<<$tiddler>> >
 
 <$properties $for=edges
-	$dataTiddler=<<dataTiddler>>
+	$tiddler=<<dataTiddler>>
 	delete={{{ [<$editable>!match[no]then[<$action-removetyped $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
 
 
@@ -32,7 +32,7 @@
 	formula={{{ [<dataTiddler>get[filter]] }}} >
 
 <$properties $for=edges
-	$dataTiddler=<<dataTiddler>> >
+	$tiddler=<<dataTiddler>> >
 
 <$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
 

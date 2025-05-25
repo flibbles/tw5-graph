@@ -35,7 +35,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
 	if (propertiesChanged(changedAttributes)
-	|| changedAttributes["$dataTiddler"]
+	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
 	|| changedAttributes["$for"]
 	|| (this.dataTiddler && changedTiddlers[this.dataTiddler])) {
@@ -86,7 +86,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 
 Properties.prototype.createStyle = function() {
 	this.field = this.getAttribute("$field", "text");
-	this.dataTiddler = this.getAttribute("$dataTiddler");
+	this.dataTiddler = this.getAttribute("$tiddler");
 	if (!this.dataTiddler && this.field !== "text") {
 		this.dataTiddler = this.getVariable("currentTiddler");
 	}

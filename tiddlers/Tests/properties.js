@@ -290,24 +290,24 @@ it("prevents unnecessary updates from $for=graph", async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
-/*** $dataTiddler attribute ***/
+/*** $tiddler attribute ***/
 
 it("can override properties from a tiddler", function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: JSON.stringify({value: "good", override: "baseValue"})});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties override=newValue><$node $tiddler=N />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties override=newValue><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {value: "good", override: "newValue"}});
 });
 
 it("can point to a nonexistent data tiddler", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties key=value><$node $tiddler=N />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties key=value><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {key: "value"}});
 });
 
 it("does not accept blank values from data tiddler", function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: JSON.stringify({value: "good", empty: ""})});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties><$node $tiddler=N />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {value: "good"}});
 });
@@ -315,7 +315,7 @@ it("does not accept blank values from data tiddler", function() {
 it("can change properties from a tiddler", async function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: JSON.stringify({value: "old"})});
 	await $tw.test.flushChanges();
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=edges $dataTiddler=Properties><$edge $from=A $to=B/><$node $tiddler=A /><$node $tiddler=B/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=edges $tiddler=Properties><$edge $from=A $to=B/><$node $tiddler=A /><$node $tiddler=B/>");
 	var objects = init.calls.first().args[1];
 	var edgeId = Object.keys(objects.edges)[0];
 	expect(objects.edges[edgeId]).toEqual({from: "A", to: "B", value: "old"});
@@ -332,7 +332,7 @@ it("can switch dataTiddlers from a tiddler", async function() {
 	wiki.addTiddler({title: "Properties2", type: "application/json", text: JSON.stringify({value: "new"})});
 	wiki.addTiddler({title: "Target", text: "Properties1"});
 	await $tw.test.flushChanges();
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=edges $dataTiddler={{Target}}><$edge $from=A $to=B/><$node $tiddler=A /><$node $tiddler=B/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=edges $tiddler={{Target}}><$edge $from=A $to=B/><$node $tiddler=A /><$node $tiddler=B/>");
 	var objects = init.calls.first().args[1];
 	var edgeId = Object.keys(objects.edges)[0];
 	expect(objects.edges[edgeId]).toEqual({from: "A", to: "B", value: "old"});
@@ -348,14 +348,14 @@ it("can switch dataTiddlers from a tiddler", async function() {
 
 it("can load properties from a dataTiddler's field", function() {
 	wiki.addTiddler({title: "Properties", type: "application/json", text: '{"value": "bad"}', field: '{"value": "good"}'});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties $field=field><$node $tiddler=N />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {value: "good"}});
 });
 
 it("can ignore corrupt field properties", function() {
 	wiki.addTiddler({title: "Properties", field: '{"corrupt"'});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $dataTiddler=Properties $field=field><$node $tiddler=N />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $tiddler=Properties $field=field><$node $tiddler=N />");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({N: {}});
 });

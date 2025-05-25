@@ -16,6 +16,8 @@ This widget introduces DOM elements into the graph, and should be used at the to
 |$ms |Milliseconds before popup appears (defaults to "600") |
 |$state |Optional name of a state tiddler which stores the popup coordinates and target |
 
+<$doc.implementation />
+
 !! "tooltip" slot
 
 The graph.popup widget supplies one optional slot, which if filled will be used to render the popup tooltip. Without this slot, the popup renders the hovered tiddler's rendered text content.

@@ -20,7 +20,7 @@ Alternatively, if the `<$properties>` widget specified properties for the graph 
 |!Attributes |!Description |
 |$for |Specifies the type of graph objects this widget applies to (defaults to "nodes") |
 |$filter |A filter to specify which contained objects this widget's properties should apply to |
-|$dataTiddler |The name of a data tiddler containing properties to import |
+|$tiddler |The name of a data tiddler containing properties to import |
 |//{attributes not starting with $}// |Any other attributes specify properties associated with the graph engine |
 
 !! `$for` Attribute

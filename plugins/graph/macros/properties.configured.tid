@@ -1,14 +1,22 @@
 \widget $properties.configured($view)
+\procedure $properties.stack.recurse(nth)
+\whitespace trim
+<%if [all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/nodes/stack/]sort[]nth<nth>addprefix[$:/config/flibbles/graph/nodes/stack/]] %>
+  <$properties $filter={{{ [<condition>get[filter]] }}} $tiddler=<<condition>> >
+    <$transclude $variable=$properties.stack.recurse $fillignore=yes nth={{{ [<nth>add[1]] }}} />
+  </$properties>
+<%else%>
+  <$slot $name=ts-raw />
+<%endif%>
+\end $properties.stack.recurse
 \whitespace trim
 
-<$properties $for=graph $field="graph.graph" />
+<$properties $tiddler=<<$view>> $field="graph.graph" $for=graph />
 
-<$properties $for=edges $field="graph.edges" >
+<$properties $tiddler=<<$view>> $field="graph.edges" $for=edges >
 
-<$properties $field="graph.nodes" >
+<$properties $tiddler=<<$view>> $field="graph.nodes" $for=nodes >
 
-<$transclude $variable="$properties.stack" $fillignore=yes>
-
-<$slot $name=ts-raw />
+<$transclude $variable=$properties.stack.recurse nth=1 $fillignore=yes />
 
 \end

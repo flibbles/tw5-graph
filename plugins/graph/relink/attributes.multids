@@ -11,6 +11,6 @@ $boundingbox/width: filter
 $edge/$from: title
 $edge/$to: title
 $node/$tiddler: title
-$properties/$dataTiddler: title
+$properties/$tiddler: title
 $properties/$field: fieldname
 $properties/$filter: filter
