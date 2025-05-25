@@ -29,10 +29,15 @@ The <<.attr $for>> attribute specifies what kind of graph objects within it shou
 
 !! Filtering
 
-When used with node objects, the properties widget can selectively apply itself to those nodes depending on whether they would pass the filter. Each node is inputted into the filter individually. It's considered applicable if that filter then returns anything. Like so:
+When used with node objects, the properties widget can selectively apply itself to those nodes depending on whether they would pass the filter. Each node is inputted into the filter individually.
+
+If the filter returns //anything// then the filter is applied, even if it returns something other than the inputted node's title. (Even if the output is an empty string!)
+
+It's considered applicable if that filter then returns anything.
 
 <$graph.example
-	description= "Selective property filtering"
+	description="Selective property filtering"
+	narrative="This shows how property filters can selectively apply properties. In each filter, nodes are passed individually as input. In this case, if those nodes have the given tag, the property is applied."
 	content= """<$graph>
   <$properties $filter="[tag[Greek]]" color="navy">
     <$properties $filter="[tag[Norse]]" color="maroon">
