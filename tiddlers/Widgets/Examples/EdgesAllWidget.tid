@@ -1,0 +1,86 @@
+title: EdgesAllWidget (Examples)
+
+<$graph.example
+	description="edges.all with $fields attribute"
+	narrative="This shows a typical usage of <<.wid edges.all>>. Lists and tags come preconfigured with the plugin, but this example also has custom settings for the <<.attr evolves>> field. Notice how the element nodes don't correspond to existing tiddlers. In that case, the widget ignores them and generates no edges.">
+<$data
+	title=Output
+	elements="Water Electric Fire"
+	text="""<$graph>
+	<$list filter="[tag[Pokemon]]">
+		<$node label={{!!title}} />
+		<$edges.all />
+	</$list>
+	<$list filter="[enlist{!!elements}]">
+		<$node label={{!!title}} shape="star" />
+	</$list>
+</$graph>""" />
+<$data title=Eevee tags="Pokemon" evolves="Vaporeon Jolteon Flareon"/>
+<$data title=Vaporeon tags="Pokemon Water" />
+<$data title=Jolteon tags="Pokemon Electric" />
+<$data title=Flareon  tags="Pokemon Fire" />
+<$data title=Charmander  tags="Pokemon Fire" evolves="Charmeleon" />
+<$data title=Charmeleon  tags="Pokemon Fire" evolves="Charizard" />
+<$data title=Charizard  tags="Pokemon Fire" />
+<$data title="$:/config/flibbles/graph/edges/fields/evolves" caption="//Evolves// field" type="application/json" text='{
+    "label": "evolves",
+    "arrows": "to"
+}' />
+</$graph.example>
+
+
+
+<$graph.example
+	description="edges.all with $formulas attribute"
+	narrative="""Formula edges are a way to generate edges for any given tiddler based on the output of a filter when that tiddler is passed to it. In this case, we rely on the pre-existing "links" formula, but we also define our own "bibliography" formula, which points to supplemental tiddlers.""">
+<$data
+	title=Output
+	text="""<$graph>
+	<$list filter="[tag[Author]]">
+		<$node label={{!!title}} />
+		<$edges.all />
+	</$list>
+	<$list filter="[tag[Bibliography]]">
+		<$node $tiddler=<<toTiddler>> label=bibliography size=5 />
+	</$list>
+</$graph>""" />
+<$data title="Robert Jordan" tags=Author text="Famed author of the Wheel of Time series. He never actually finished his series, and [[Brandon Sanderson]] had to finish it for him." />
+<$data title="Brandon Sanderson" tags=Author text="A prolific fantasy author who used to work a night auditor, where he used to work through the night. He's slowly working on his Stormlight Archive series. He'll probably finish it before passing away. We hope." />
+<$data title="Brandon Sanderson/bibliography" tags=Bibliography text="# Mistborn
+# The Stormlight Archive
+# The Reckoners
+# Rithmatist
+# White Sand" />
+<$data title="Robert Jordan/bibliography" tags=Bibliography text="# Wheel of Time series
+# Conan the Barbarian
+# Warrior of the Altaii" />
+<$data title="$:/config/flibbles/graph/edges/formulas/bibliography" caption="''//Bibliography// edge''" type="application/json" filter="[addsuffix[/bibliography]]" text='{
+    "arrows": "to"
+}' />
+</$graph.example>
+
+
+
+<$graph.example
+	description="edges.all with custom template"
+	narrative="This shows how <<.wid edges.all>> can have content which can do more than just generate an edge. In this case, it makes neighbor nodes for each edge. [[Note that there are more robust ways to make neighbor nodes.]]">
+<$data
+	title=Output
+	scientists="[[Albert Einstein]] [[Richard Feynman]] [[James Chadwick]] [[Hans Bethe]]"
+	administrators="[[Robert Oppenheimer]] [[Leslie Groves]]"
+	text="""<$graph>
+	<$node label="Manhattan Project" />
+	<$edges.all>
+		<$edge />
+		<$node $tiddler=<<toTiddler>> label=<<toTiddler>> size="5" color="gray" />
+	</$edges.all>
+</$graph>""" />
+<$data title="$:/config/flibbles/graph/edges/fields/scientists" caption="scientist field" type="application/json" text='{
+    "color": "blue",
+    "arrows": "to"
+}' />
+<$data title="$:/config/flibbles/graph/edges/fields/administrators" caption="administrator field" type="application/json" text='{
+    "color": "red",
+    "arrows": "to"
+}' />
+</$graph.example>

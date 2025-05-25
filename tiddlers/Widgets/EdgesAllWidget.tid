@@ -1,0 +1,60 @@
+title: EdgesAllWidget
+tags: Widgets [[Macro Widgets]]
+caption: edges.all
+
+\procedure categoryList(category)
+\whitespace trim
+<$vars prefix=`$:/config/flibbles/graph/edges/$(category)$/`>
+<table>
+<$list filter="[[$:/plugins/flibbles/graph]plugintiddlers[]prefix<prefix>]">
+<tr>
+<th align=left><$text text={{{ [{!!title}removeprefix<prefix>] }}} /></th>
+<td align=left><$transclude $field=description/></td>
+\end
+
+! Introduction
+
+TODO: This needs to be readjusted
+
+The <<.wid edges.fields>> widget provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured formula.
+
+Fields are parsed using their [[Relink settings]], which can also be configured through the edge settings as well, in case Relink is not installed.
+
+! Contents and Attributes
+
+The content of an `<$edges.fields>` widget is an optional template used for ever edge which would be otherwise generated. Without this template, <$transclude $variable=.value _={{$:/plugins/flibbles/graph/edgeTemplate}} /> is used. In other words, a simple edge is made.
+
+Within the widget block, <<.wid edges.fields>> defines the tiddler <<.value toTiddler>> for each iterated field list-item.
+
+|!Attribute | !Description |
+|$tiddler |The tiddler whose fields are used to create edges (defaults to "[all[]]") |
+|$formulas |Filter to decide which formulas to render (defaults to all formulas configured in TW5-graph property settings |
+|$fields |Filter to decide which fields to render (defaults to all fields configured in TW5-graph property settings |
+|$editable |If 'yes', any created field edges will be deletable, which will modify the corresponding fields (defaults to 'no') |
+
+<$doc.implementation />
+
+! $fields
+
+The <<.attr $fields>> attributes can specify which configured field edges should be considered. This is a filter attribute which is passed a list of all configured fields in the TW5-graph settings.
+
+<<categoryList fields>>
+
+By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Here are some example ways this attribute may be useful
+
+; [all[]] -list -tag
+: Use all configured fields except for "list" and "tag"
+; list
+: Generate edges only for the the "list" field
+; [all[]] otherField
+: Uses all configured fields, and also the unconfigured "otherField". (Unconfigured fields are treated as a list field.)
+
+! $formulas
+
+The <<.attr $formula>> attribute specifies which formulas to use. Otherwise, it works exactly like the <<.attr $fields>> attribute does. By default, <<.graph>> has the following formulas defined:
+
+<<categoryList formulas>>
+
+By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Refer to <<.attr $field>> above for examples on how to include or exclude formulas.
+
+[[Examples|EdgesAllWidget (Examples)]]

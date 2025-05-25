@@ -1,5 +1,5 @@
 title: $:/config/flibbles/graph/edges/formulas/links
-description: The tiddler contains a transclusion of another resource.
+description: The tiddler contains a links of another resource.
 filter: [links[]]
 type: application/json
 
