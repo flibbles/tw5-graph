@@ -236,7 +236,7 @@ tags: $:/tags/Stylesheet
 	justify-content: flex-end;
 }
 
-.graph-wizard .graph-sampler .tc-reveal {
+.graph-wizard .graph-sampler div.tc-reveal {
 	height: 400px;
 	overflow: scroll;
 }
