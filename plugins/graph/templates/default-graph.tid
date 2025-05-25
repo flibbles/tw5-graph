@@ -4,23 +4,31 @@ tags: $:/tags/flibbles/graph/template
 
 \whitespace trim
 
-<$let currentView=>
 <$graph>
-  <$properties doubleclick="""<$action-navigate $to=<<node>> />""">
-    <$properties.configured $view={{{ [{!!title}split[/]butfirst[3]] }}}>
-      <$properties.persistent $dataTiddler=<<currentTiddler>> >
-        <$nodes.writable $variable=node $field=filter>
-          <$node $tiddler=<<node>>
-            physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
-            $pos={{{ [{!!title}getindex<node>] }}}
-            label={{{ [<node>get[caption]else<node>] }}} />
-          <$edges.all
-            $tiddler=<<node>>
-            $formulas={{!!edges.formulas}}
-            $fields={{!!edges.fields}}
-            $editable=yes />
-        </$nodes.writable>
-      </$properties.persistent>
-    </$properties.configured>
+  <$properties doubleclick="<$action-navigate $to=<<node>> />">
+    <$let
+      defaultEdgeFilter="[all[]]"
+      fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
+      formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
+      <$properties.configured $view={{!!title}} >
+        <%if [{!!filter}is[blank]] %>
+          <$node $tiddler="$:/plugins/flibbles/graph" />
+          <$node label="Click on me to configure this graph" />
+        <%endif%>
+        <$properties.persistent $dataTiddler=<<currentTiddler>> >
+          <$nodes.writable $variable=node $field=filter>
+            <$node $tiddler=<<node>>
+              physics={{{ [{!!title}getindex<node>then[no]else[yes]] }}}
+              $pos={{{ [{!!title}getindex<node>] }}}
+              label={{{ [<node>get[caption]else<node>] }}} />
+            <$edges.all
+              $tiddler=<<node>>
+              $formulas=<<formulasFilter>>
+              $fields=<<fieldsFilter>>
+              $editable=yes />
+          </$nodes.writable>
+        </$properties.persistent>
+      </$properties.configured>
+    </$let>
   </$properties>
 </$graph>

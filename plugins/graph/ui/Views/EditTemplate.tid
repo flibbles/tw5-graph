@@ -1,13 +1,13 @@
 title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 
-\procedure edgelist(category)
+\procedure edgelist(category, default)
 \whitespace trim
 <$vars fieldName=`edges.$(category)$`>
-  <$edit field=<<fieldName>> />
+  <$edit-text field=<<fieldName>> placeholder=<<default>> />
   <br>
   <span class="graph-views-edgelist">
-    <$vars masterFilter="[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]removeprefix<category>removeprefix[/]sort[]]"
-           customFilter={{{ [{!!title}get<fieldName>]}}} >
+    <$vars masterFilter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]sort[]]"
+           customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
       <$list filter=<<masterFilter>> join=", ">
         <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>
           <$text text={{!!title}} />
@@ -26,18 +26,14 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 </$select>
 \end
 
-\whitespace trim
+! <$link><$text text={{{ [{!!title}removeprefix[$:/graph/view/]] }}} /></$link>
 
-! <$link />
-
-<$let currentView={{{ [<currentTab>split[/]butfirst[3]] }}} >
+Template: <<templateSelector>>
 
 |tc-max-width tc-edit-max-width|k
-|Template |<<templateSelector>> |
 |Nodes |<$edit-text field=filter tag=textarea/> |
-|Label field |<$edit field="nodes.labelField"/> |
-|Edges, formulas |<<edgelist formulas>> |
-|Edges, fields |<<edgelist fields>> |
+|Edges, formulas |<<edgelist formulas "[all[]]">> |
+|Edges, fields |<<edgelist fields "[all[]]">> |
 
 !!! Graph engine defaults
 

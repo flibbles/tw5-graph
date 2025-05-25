@@ -1,6 +1,3 @@
 title: $:/graph/view/Default
 filter: [tag[Deity]!is[system]!is[draft]]
-edges.formulas: [all[]]
-edges.fields: [all[]]
-nodes.labelField: title
 type: application/json
