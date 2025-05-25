@@ -7,14 +7,21 @@
 \procedure subLink() [<accumulator>search-replace:g<pattern>,<makeTemplate>]
 \function apply.tag(tag, patternFilter, template) [all[]] :map[all[tiddlers]tag<tag>reduce<subLink>,{!!title}]
 
+<!-- Called Widgets: <$$1$ ... -->
 \procedure raw.pattern() [all[current]get[caption]addprefix[<$]]
 \procedure raw.template() <[[$$2$|$1$]]
 
+<!-- Transcluded Widgets: <$transclude $variable="$1$" ... -->
 \procedure trans.pattern() [all[current]get[caption]addprefix[$variable="$]]
 \procedure trans.template() $variable="[[$$2$|$1$]]
 
+<!-- Filter Run Prefix: :$1$[...] -->
 \procedure frp.pattern() [all[current]get[caption]addsuffix[[]]
 \procedure frp.template() $variable="[[$2$|$1$]][
+
+<!-- Filter Operator: [$1$[]] -->
+\procedure fo.pattern() [all[current]get[caption]]
+\procedure fo.template() [[$2$|$1$]]
 
 <pre>
 
@@ -23,7 +30,12 @@
 <$vars input={{{ [<code>addprefix[\rules only prettylink
 ]] }}}>
 
-<$list filter="[<input>apply.tag[Widgets],<raw.pattern>,<raw.template>apply.tag[Widgets],<trans.pattern>,<trans.template>apply.tag[Filter Run Prefixes],<frp.pattern>,<frp.template>]">
+<$list filter="[<input>]
++[apply.tag[Widgets],<raw.pattern>,<raw.template>]
++[apply.tag[Widgets],<trans.pattern>,<trans.template>]
++[apply.tag[Filter Run Prefixes],<frp.pattern>,<frp.template>]
++[apply.tag[Filter Operators],<fo.pattern>,<fo.template>]
+">
 
 <$transclude $variable=currentTiddler $mode=inline/>
 
