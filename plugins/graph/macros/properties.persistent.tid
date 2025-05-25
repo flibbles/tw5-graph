@@ -4,12 +4,15 @@
 \function pos() [<$dataTiddler>getindex{!!title}]
 
 \procedure recordPosition(title)
-<$action-setfield $tiddler=<<$dataTiddler>> $index=<<title>> $value=`$(x)$,$(y)$`/>
+<$action-setfield
+  $tiddler=<<$dataTiddler>>
+  $index=<<title>>
+  $value=`$(x)$,$(y)$`/>
 \end recordPosition
-\procedure actionFree() <$transclude $variable=recordPosition title=<<id>> />
-\procedure actionDelete() <$action-setfield $tiddler=<<$dataTiddler>> $index=<<id>> />
 
-<$properties free=<<actionFree>> delete=<<actionDelete>> >
+<$properties
+  free="<$transclude $variable=recordPosition title=<<id>> />"
+  delete="<$action-setfield $tiddler=<<$dataTiddler>> $index=<<id>> />" >
 
 <$slot $name=ts-raw />
 
