@@ -1,0 +1,26 @@
+caption: Live graph
+title: $:/plugins/flibbles/graph/templates/live-graph
+tags: $:/tags/flibbles/graph/template
+
+\whitespace trim
+
+\procedure gotoAction() <$action-setfield $tiddler=<<state>> $value=<<id>> />
+
+<$graph maxVelocity=5>
+  <$properties $for=nodes doubleclick=<<gotoAction>> >
+    <$properties.configured $view={{{ [{!!title}split[/]butfirst[3]] }}} >
+      <$vars
+          state="$:/state/flibbles/graph/doc/live"
+          focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}] }}} >
+        <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<id>> />"/>
+        <$edges.all $tiddler=<<focusTiddler>> />
+        <$properties color=gray>
+          <$nodes.neighbors $filter="[<focusTiddler>]">
+            <$node label={{!!title}} />
+            <$edges.all />
+          </$nodes.neighbors>
+        </$properties>
+      </$vars>
+    </$properties>
+  </$properties>
+</$graph>
