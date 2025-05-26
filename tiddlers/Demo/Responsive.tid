@@ -1,0 +1,23 @@
+title: Highly responsive graphs!
+tags: Demo
+
+{{$:/graph/Pantheon||$:/plugins/flibbles/graph/templates/standard-graph}}
+
+<$list variable=type filter="graph nodes edges">
+
+<$fieldtranscriber state=`$:/state/pantheon/$(type)$` tiddler="$:/graph/Pantheon" field=`graph.$(type)$` type="application/json" />
+
+</$list>
+
+<<.graph>> updates on-the-fly to //any// changes you make. It's kind of fun, actually.
+<br>Play with some of these settings below.
+<br>Also, you add and remove nodes and edges in the graph above.
+
+|tc-max-width tc-edit-max-width|k
+|!Graph Physics |<$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=yes /> |
+|!Node Color | <$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input tiddler="$:/state/pantheon/nodes" index=color type=color /> |
+|!Node Shape | <$select tiddler="$:/state/pantheon/nodes" index=shape ><$list filter="[[graphengine]modules[]] :filter[moduleproperty[name]match{$:/config/flibbles/graph/engine}] +[moduleproperty[properties]jsonget[nodes],[shape],[values]]"><option><$text text=<<currentTiddler>> /></option></$list></$select> |
+|!Father-son Edges |<$checkbox tiddler="$:/graph/Pantheon" field="edges.fields" checked="" unchecked="[all[]] -father" /> |
+|!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
+
+//All// graph settings are dynamic. And there are many more. Open [[this view|$:/graph/Pantheon]] to see all of them.
