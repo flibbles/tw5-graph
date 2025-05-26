@@ -1,5 +1,5 @@
 \whitespace trim
-\widget $graph.demo(description, narrative, content, footer, header)
+\widget $doc.demo(description, narrative, content, footer, header)
   \procedure .state-prefix() $:/state/editions/tw5-graph/
   <<narrative>>
   <div class="doc-example">

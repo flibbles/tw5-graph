@@ -16,7 +16,7 @@ Orb is a TiddlyWiki plugin that wraps [[Memgraph's graph visualization library o
 ! Example
 
 
-<$graph.demo
+<$doc.demo
 	description="Orb benchmark graph"
 	narrative="""Here is a stress test of orb's efficiency: a rendering tree of all shadow tiddlers within the $:/core plugin. This could take other visualization engine minutes to render."""
 	content="""\whitespace trim
