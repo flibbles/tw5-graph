@@ -2,4 +2,4 @@ title: $:/plugins/flibbles/graph/ViewTemplateBodyFilter/view
 list-before: $:/config/ViewTemplateBodyFilters/code-body
 tags: $:/tags/ViewTemplateBodyFilter
 
-[prefix[$:/graph/]then[$:/plugins/flibbles/graph/ui/ViewTemplate/view]]
+[{!!title}] [get[draft.of]] +[prefix[$:/graph/]then[$:/plugins/flibbles/graph/ui/ViewTemplate/view]]
