@@ -10,8 +10,9 @@ tags: Demo
 </$list>
 
 <<.graph>> updates on-the-fly to //any// changes you make. It's kind of fun, actually.
-<br>Play with some of these settings below.
-<br>Also, you add and remove nodes and edges in the graph above.
+
+* Play with some of these settings below.
+* Also, you add and remove nodes and edges in the graph above.
 
 |tc-max-width tc-edit-max-width|k
 |!Graph Physics |<$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=yes /> |
@@ -20,4 +21,4 @@ tags: Demo
 |!Father-son Edges |<$checkbox tiddler="$:/graph/Pantheon" field="edges.fields" checked="" unchecked="[all[]] -father" /> |
 |!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
 
-//All// graph settings are dynamic. And there are many more. Open [[this view|$:/graph/Pantheon]] to see all of them.
+//All// graph settings are dynamic. And there are many more. Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/views]] and fiddle with the Pantheon view to play with all of them.
