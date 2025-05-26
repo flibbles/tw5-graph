@@ -26,7 +26,7 @@ This slot has the variable <<.value currentTooltip>> available to it.
 
 ! Example
 
-<$graph.example
+<$doc.example
 	description= "Basic popup"
 	narrative= "Here is an example of how the graph.popup applies only to nodes it contains."
 	content="""<$graph>
@@ -37,7 +37,7 @@ This slot has the variable <<.value currentTooltip>> available to it.
   <$node $tiddler=Freya label=Freya color=teal />
 </$graph>"""/>
 
-<$graph.example
+<$doc.example
 	description= "Popup with slot"
 	narrative= "This example shows how to use custom template slot for the tooltip."
 	content='<$graph>

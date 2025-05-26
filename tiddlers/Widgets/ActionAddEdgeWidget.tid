@@ -34,7 +34,7 @@ Instead of specifying a field through attributes, this will call up a modal to s
 
 ! Examples
 
-<$graph.example
+<$doc.example
 	description="Standard use"
 	narrative="This example show how this action's default behavior when connecting nodes with a graph engines's native manipulation tools."
 	content="""<$graph addEdge="<$action.addedge />">
@@ -44,9 +44,9 @@ Instead of specifying a field through attributes, this will call up a modal to s
 	</$list>
 </$graph>""">
 <<edgePackage>>
-</$graph.example>
+</$doc.example>
 
-<$graph.example
+<$doc.example
 	description="Custom use"
 	narrative="This example show how this action can be used for more custom behavior. In this case, the action is tied to the double-click action, and all created edges all stem from 'Root'."
 	content="""<$graph>
@@ -59,4 +59,4 @@ Instead of specifying a field through attributes, this will call up a modal to s
 	</$properties>
 </$graph>""">
 <<edgePackage>>
-</$graph.example>
+</$doc.example>

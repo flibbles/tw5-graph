@@ -29,7 +29,7 @@ If no state tiddler is specified, then ''action-delay'' does not bother creating
 
 ! Examples
 
-<$graph.example
+<$doc.example
 	description="Delay on node hover"
 	narrative="This example will create a popup if you hover over the node long enough. If you stop hovering, it will delete the associated state field, which will abort the coming action call."
 	content="""<$graph>

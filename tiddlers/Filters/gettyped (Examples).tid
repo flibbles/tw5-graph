@@ -2,7 +2,7 @@ title: gettyped Operator (Examples)
 tags: [[Operator Examples]] [[Typed Tool]]
 caption: gettyped
 
-<$graph.example
+<$doc.example
 	description="gettyped with graphs"
 	narrative="This shows how gettyped is useful for adding nodes nodes to a graph from fields without caring about the field's type.">
 <$data
@@ -21,10 +21,10 @@ caption: gettyped
 	caption="Relink config for 'link'"
 	text=title
 	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
-</$graph.example>
+</$doc.example>
 
 
-<$graph.example
+<$doc.example
 	description="gettyped vs. other filter operators"
 	narrative="Other filter operators can perform the same behavior as gettyped. The advantage of gettyped is that its behavior is dynamic depending on the field.">
 <$data
@@ -44,6 +44,6 @@ caption: gettyped
 	caption="Relink config for 'link'"
 	text=title
 	notes="This config tiddler is a relink directive specifying that the 'link' field is a type of title field." />
-</$graph.example>
+</$doc.example>
 
 {{Typed Tools (Examples)}}

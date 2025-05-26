@@ -9,7 +9,7 @@ tags: API
 Exactly like you would when transcluding other tiddlers with templates.
 
 
-<$graph.example
+<$doc.example
 	description="Simple template example"
 	narrative="Here's an example that applies two filters to the same view. One is a graph filter, the other is a simple tiddler that makes a table out of the view."
 	content="""{{View||TableTemplate}}
@@ -37,7 +37,7 @@ Exactly like you would when transcluding other tiddlers with templates.
     </tr>
   </$list>
 </table>""" />
-</$graph.example>
+</$doc.example>
 
 Graph templates don't have to be applied to views. You can easily create graph templates that can be applied to any ol' tiddler. You could even add a graph template to the <<tag $:/tags/ViewTemplate>> so that //every// tiddler in the story river has its own graph.
 

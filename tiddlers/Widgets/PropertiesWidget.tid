@@ -35,7 +35,7 @@ If the filter returns //anything// then the filter is applied, even if it return
 
 It's considered applicable if that filter then returns anything.
 
-<$graph.example
+<$doc.example
 	description="Selective property filtering"
 	narrative="This shows how property filters can selectively apply properties. In each filter, nodes are passed individually as input. In this case, if those nodes have the given tag, the property is applied."
 	content= """<$graph>
@@ -53,7 +53,7 @@ It's considered applicable if that filter then returns anything.
 If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object. This means it uses all variables as defined for the object widget.
 
 
-<$graph.example
+<$doc.example
 	description= "Scope of property actions"
 	narrative= "Here the value of <<.value currentTiddler>> is different for each <<.wid node>>, even though they'll inherit the same hover action."
 	footer= "Value of $:/state/properties-example: {{$:/state/properties-example}}"

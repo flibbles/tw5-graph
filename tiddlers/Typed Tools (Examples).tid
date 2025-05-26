@@ -1,6 +1,6 @@
 title: Typed Tools (Examples)
 
-<$graph.example
+<$doc.example
 	description="Typed suite"
 	narrative="This shows how the the suite of 'typed' tools work together. All of them can manipulate fields depending on their type.">
 <$data title="$:/config/flibbles/relink/fields/link"
@@ -27,4 +27,4 @@ title: Typed Tools (Examples)
 <$data title=State field=Target/>
 <!-- The Target is needed so it appears in [!is[system]] -->
 <$data title=Target/>
-</$graph.example>
+</$doc.example>

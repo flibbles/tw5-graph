@@ -1,6 +1,6 @@
 title: EdgesAllWidget (Examples)
 
-<$graph.example
+<$doc.example
 	description="edges.all with $fields attribute"
 	narrative="This shows a typical usage of <<.wid edges.all>>. Lists and tags come preconfigured with the plugin, but this example also has custom settings for the <<.attr evolves>> field. Notice how the element nodes don't correspond to existing tiddlers. In that case, the widget ignores them and generates no edges.">
 <$data
@@ -26,11 +26,11 @@ title: EdgesAllWidget (Examples)
     "label": "evolves",
     "arrows": "to"
 }' />
-</$graph.example>
+</$doc.example>
 
 
 
-<$graph.example
+<$doc.example
 	description="edges.all with $formulas attribute"
 	narrative="""Formula edges are a way to generate edges for any given tiddler based on the output of a filter when that tiddler is passed to it. In this case, we rely on the pre-existing "links" formula, but we also define our own "bibliography" formula, which points to supplemental tiddlers.""">
 <$data
@@ -57,11 +57,11 @@ title: EdgesAllWidget (Examples)
 <$data title="$:/config/flibbles/graph/edges/formulas/bibliography" caption="''//Bibliography// edge''" type="application/json" filter="[addsuffix[/bibliography]]" text='{
     "arrows": "to"
 }' />
-</$graph.example>
+</$doc.example>
 
 
 
-<$graph.example
+<$doc.example
 	description="edges.all with custom template"
 	narrative="This shows how <<.wid edges.all>> can have content which can do more than just generate an edge. In this case, it makes neighbor nodes for each edge. [[Note that there are more robust ways to make neighbor nodes.]]">
 <$data
@@ -83,4 +83,4 @@ title: EdgesAllWidget (Examples)
     "color": "red",
     "arrows": "to"
 }' />
-</$graph.example>
+</$doc.example>

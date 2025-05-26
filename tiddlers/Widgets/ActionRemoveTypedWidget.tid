@@ -23,7 +23,7 @@ The content of an <<.wid action-removetyped>> widget is ignored.
 
 ! Examples
 
-<$graph.example
+<$doc.example
 	description="action-removetyped with graphs"
 	narrative="This shows how the action-removetyped can be used to remove nodes from a graph. Double click on nodes to remove them.">
 <$data title=Output
@@ -35,6 +35,6 @@ The content of an <<.wid action-removetyped>> widget is ignored.
 		<$node label={{!!title}} doubleclick=<<remove>> />
 	</$list>
 </$graph>""" />
-</$graph.example>
+</$doc.example>
 
 {{Typed Tools (Examples)}}

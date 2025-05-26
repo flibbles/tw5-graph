@@ -20,7 +20,7 @@ The content of an <<.wid action-addtyped>> widget is ignored.
 
 ! Examples
 
-<$graph.example
+<$doc.example
 	description="action-addtyped with graphs"
 	narrative="This shows how the action-addtyped can be used to add edges from a graph. Double click on nodes to add them."
 	content="""\procedure add() <$action-addtyped $tiddler='Output' $field='list' $value=<<id>> />

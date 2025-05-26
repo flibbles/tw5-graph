@@ -21,7 +21,7 @@ Any nodes defined within <<.wid properties.configured>> will inherit all propert
 
 ! Examples
 
-<$graph.example
+<$doc.example
 	description="node property stack"
 	narrative="""This demo site has several node properties configured in its settings. Here, all we have to do is wrap the nodes in <<.wid properties.configured>>, and those settings will apply to the correct nodes."""
 	content="""<$graph>
@@ -45,4 +45,4 @@ Any nodes defined within <<.wid properties.configured>> will inherit all propert
 <$data title="$:/config/flibbles/graph/nodes/stack/physicist" caption="Stack properties: physicist" filter="[tag[Physicist]]" type="application/json" text="""{
     "color": "red"
 }""" />
-</$graph.example>
+</$doc.example>
