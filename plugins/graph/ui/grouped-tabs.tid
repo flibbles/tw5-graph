@@ -93,7 +93,9 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 \procedure grouped-tabs-tab-list()
 \whitespace trim
 <$list variable=currentGroup filter=<<groupsList>> >
-  <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
+  <%if [<currentGroup>!is[blank]] %>
+    <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
+  <%endif%>
   <$list variable=currentTab filter=<<tabsList>> >
     <$transclude $variable=grouped-tabs-tab $fillignore=yes/>
   </$list>
@@ -104,7 +106,7 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 </$list>
 \end
 
-\parameters (tabsList, groupsList, state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, class:"tc-vertical", retain)
+\parameters (tabsList, groupsList:"[[]]", state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, class:"tc-vertical", retain)
 
 <$qualify title=<<state>> name=qualifiedState>
   <$let tabsState={{{ [<explicitState>minlength[1]] ~[<qualifiedState>] }}}>

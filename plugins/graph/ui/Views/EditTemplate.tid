@@ -26,7 +26,7 @@ title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
 </$select>
 \end
 
-! <$link><$text text={{{ [{!!title}removeprefix[$:/graph/view/]] }}} /></$link>
+! <$link><$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} /></$link>
 
 Template: <<templateSelector>>
 

@@ -1,12 +1,11 @@
 title: $:/plugins/flibbles/graph/views
 
 \whitespace trim
-\define groupPrefix() $:/graph/$(currentGroup)$/
+\procedure viewList() :cache[all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/Default]]
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
-	groupsList="[all[shadows+tiddlers]removeprefix[$:/graph/]splitbefore[/]removesuffix[/]unique[]] view +[putfirst[]]"
-	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>else[$:/graph/view/Default]]"
-	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/view/Default]] }}}
+	tabsList=<<viewList>>
+	default={{{ [subfilter<viewList>] }}}
 	state="$:/state/flibbles/graph/views"
 >
   <$fill $name=addActions>
@@ -19,7 +18,7 @@ title: $:/plugins/flibbles/graph/views
     <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
   </$fill>
   <$fill $name=button>
-    <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
+    <$text text={{{ [<currentTab>removeprefix[$:/graph/]] }}} />
   </$fill>
   <$fill $name=body>
     <$let currentTiddler=<<currentTab>> >
