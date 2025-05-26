@@ -1,4 +1,4 @@
-\widget $graph.popup($ms:600 $msLinger:0)
+\widget $properties.popup($ms:600 $msLinger:0)
 
 \procedure hoverAction()
 \whitespace trim

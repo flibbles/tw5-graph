@@ -2,14 +2,14 @@ title: Graph Engines
 tags: Demo
 
 <$graph>
- <$graph.popup>
+ <$properties.popup>
   <$properties.stack>
    <$list filter="[tag[Deity]!is[system]!is[draft]]">
     <$node shape={{!!shape}} label={{!!title}} doubleclick="<$action-navigate/>"/>
     <$edges.all />
    </$list>
   </$properties.stack>
- </$graph.popup>
+ </$properties.popup>
 </$graph>
 
 TW-Graph is capable of using different underlying engines for creating graphs. [[Vis-network]] is the recommended engine, but other choices are possible, such as [[Orb]], though currently, it's implementation is incomplete. It's also possible create your own choices from other Javascript graphing engines on the internet. The [[Adapter|graphengine Module]] required to connect an engine to TW5-Graph is quite simple.

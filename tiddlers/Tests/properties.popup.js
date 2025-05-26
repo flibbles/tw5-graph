@@ -1,10 +1,10 @@
 /*\
 
-Tests the graph.popup widget macro.
+Tests the properties.popup widget macro.
 
 \*/
 
-describe('GraphPopup \\widget', function() {
+describe('PropertiesPopup \\widget', function() {
 
 var wiki, oldPopup;
 
@@ -31,7 +31,7 @@ afterAll(function() {
 it("works with default popup slot", async function() {
 	var expected = '<div class="graph-drop-down"><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", text: "Text content"});
-	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
+	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
 	// Doesn't really matter what it is, only that it's been set
@@ -53,7 +53,7 @@ it("works with default popup slot", async function() {
 it("works with custom popup slot", async function() {
 	var expected = '<div class="graph-drop-down"><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", caption: "Text content"});
-	var text =  "<$graph><$graph.popup $ms=0>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<currentTooltip>> >\n\n{{!!caption}}";
+	var text =  "<$graph><$properties.popup $ms=0>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<currentTooltip>> >\n\n{{!!caption}}";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
 	// Flush once to make the action-delay trigger
@@ -71,7 +71,7 @@ it("works with custom popup slot", async function() {
 it("can be interrupted", async function() {
 	var expected = "Text content";
 	wiki.addTiddler({title: "Target", text: expected});
-	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
+	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
 	await $tw.test.flushChanges();
@@ -91,7 +91,7 @@ it("can be interrupted", async function() {
 it("dragging removes popup and prevents return", async function() {
 	var expected = "Text content";
 	wiki.addTiddler({title: "Target", text: expected});
-	var text =  "<$graph>\n\n<$graph.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
+	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 13, yView: 17});
 	// Flush once to make the action-delay trigger

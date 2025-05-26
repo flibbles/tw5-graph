@@ -3,7 +3,7 @@ tags: Demo
 
 <$graph>
 
-<$graph.popup state=`$:/state/$(engine)$`>
+<$properties.popup state=`$:/state/$(engine)$`>
 
 <$list filter="[tag[Deity]!is[system]!is[draft]]">
 
@@ -11,7 +11,7 @@ tags: Demo
 
 <$edges.all />
 
-</$list></$graph.popup></$graph>
+</$list></$properties.popup></$graph>
 
 TW-Graph fully respects your TiddlyWiki color palette, so even if you throw together a quick data visualization, you can trust it will match with your wiki's theme.
 
