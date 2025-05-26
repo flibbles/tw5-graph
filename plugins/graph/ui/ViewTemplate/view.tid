@@ -2,9 +2,7 @@ title: $:/plugins/flibbles/graph/ui/ViewTemplate/view
 
 \whitespace trim
 
-<$set name=template value={{!!template}} emptyValue="$:/plugins/flibbles/graph/templates/default-graph">
-
-<$transclude $tiddler=<<template>> >
+<$transclude $tiddler={{{ [{!!template}!is[blank]] ~[[$:/tags/flibbles/graph/template]tagging[]] }}} >
 
 <$transclude tiddler="$:/language/MissingTiddler/Hint"/>
 

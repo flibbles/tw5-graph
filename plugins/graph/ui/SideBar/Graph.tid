@@ -3,8 +3,10 @@ caption: Graph
 tags: $:/tags/SideBar
 
 \whitespace trim
-\parameters (state: "$:/state/flibbles/graph/sidebar", defaultView: "$:/graph/view/Default", defaultTemplate: "$:/plugins/flibbles/graph/templates/default-graph")
-<$parameters graph={{{ [<state>get[text]else<defaultView>] }}} >
+\parameters (state: "$:/state/flibbles/graph/sidebar", defaultView: "$:/graph/view/Default")
+<$parameters
+  graph={{{ [<state>get[text]else<defaultView>] }}}
+  defaultTemplate={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
 
 <div class="graph-sidebar-disabled graph-error">
 <!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,

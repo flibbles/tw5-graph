@@ -1,5 +1,5 @@
-caption: Default editable graph
-title: $:/plugins/flibbles/graph/templates/default-graph
+caption: Standard editable graph
+title: $:/plugins/flibbles/graph/templates/standard-graph
 tags: $:/tags/flibbles/graph/template
 
 \whitespace trim
