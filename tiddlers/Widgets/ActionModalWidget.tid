@@ -4,7 +4,7 @@ caption: action-modal
 
 ! Introduction
 
-The ''action-modal'' widget provides a mean to activate a tiddler as a modal, and then use an output variable from that modal to execute its contained actions. This makes action-modal effective for executing actions which require additional input.
+The <<.wid action-modal>> widget provides a mean to activate a tiddler as a modal, and then use an output variable from that modal to execute its contained actions. This makes action-modal effective for executing actions which require additional input.
 
 ! Contents and Attributes
 

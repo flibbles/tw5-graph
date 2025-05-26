@@ -4,7 +4,7 @@ caption: properties.popup
 
 ! Introduction
 
-The graph.popup widget is a macro-defined widget which introduces a popup feature into a graph, for all nodes that it contains. By default, the popup features the rendered contents of the node's corresponding text.
+The <<.wid properties.popup>> widget is a macro-defined widget which introduces a popup feature into a graph, for all nodes that it contains. By default, the popup features the rendered contents of the node's corresponding text.
 
 ! Content and Attributes
 
@@ -20,7 +20,7 @@ This widget introduces DOM elements into the graph, and should be used at the to
 
 !! "tooltip" slot
 
-The graph.popup widget supplies one optional slot, which if filled will be used to render the popup tooltip. Without this slot, the popup renders the hovered tiddler's rendered text content.
+The <<.wid properties.popup>> widget supplies one optional slot, which if filled will be used to render the popup tooltip. Without this slot, the popup renders the hovered tiddler's rendered text content.
 
 This slot has the variable <<.value currentTooltip>> available to it.
 
@@ -28,12 +28,12 @@ This slot has the variable <<.value currentTooltip>> available to it.
 
 <$doc.example
 	description= "Basic popup"
-	narrative= "Here is an example of how the graph.popup applies only to nodes it contains."
+	narrative= "Here is an example of how the properties.popup applies only to nodes it contains."
 	content="""<$graph>
-  <$graph.popup $ms="1000">
+  <$properties.popup $ms="1000">
     <$node $tiddler=Zeus label=Zeus />
     <$node $tiddler=Odin label=Odin />
-  </$graph.popup>
+  </$properties.popup>
   <$node $tiddler=Freya label=Freya color=teal />
 </$graph>"""/>
 
@@ -41,7 +41,7 @@ This slot has the variable <<.value currentTooltip>> available to it.
 	description= "Popup with slot"
 	narrative= "This example shows how to use custom template slot for the tooltip."
 	content='<$graph>
-  <$graph.popup>
+  <$properties.popup>
     <$node $tiddler=Aphrodite label=Aphrodite />
     <$node $tiddler=Balder label=Balder />
     <$fill $name="tooltip">
@@ -55,5 +55,5 @@ This slot has the variable <<.value currentTooltip>> available to it.
         """
       </$tiddler>
     </$fill>
-  </$graph.popup>
+  </$properties.popup>
 </$graph>'/>

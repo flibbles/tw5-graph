@@ -16,7 +16,7 @@ The content of an <<.wid action-removetyped>> widget is ignored.
 |$tiddler |The tiddler whose field will be modified (defaults to the current tiddler) |
 |$field |The field which is to be modified |
 |$value |The value to remove to the field |
-|$timestamp |Specifies whether the timestamp of the target tiddler will be updated (''modified'' and ''modifier'', plus ''created'' and ''creator'' for newly created tiddlers). Can be "yes" (the default) or "no". |
+|$timestamp |Specifies whether the timestamp of the target tiddler will be updated (<<.field modified>> and <<.field modifier>>, plus <<.field created>> and <<.field creator>> for newly created tiddlers). Can be "yes" (the default) or "no". |
 |$clean |Specifies whether if resulting field should be removed if it would be empty. Can be "yes" (the default) or "no". |
 
 {{Typed Tools}}

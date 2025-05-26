@@ -4,7 +4,7 @@ caption: properties.persistent
 
 ! Introduction
 
-The ''properties.persistent'' widget can wrap nodes, and will take care of maintaining a record of their positions, as well as making those recorded positions available. These positions will be used whenever the graph is later loaded.
+The <<.wid properties.persistent>> widget can wrap nodes, and will take care of maintaining a record of their positions, as well as making those recorded positions available. These positions will be used whenever the graph is later loaded.
 
 This also introduces an "delete" action onto nodes, which will remove its recorded location, in addition to any other removal actions you assign elsewise.
 
@@ -12,7 +12,7 @@ Node locations are stored in a data tiddler, with tiddler titles used as keys. I
 
 ! Contents and Attributes
 
-Any nodes defined within a ''properties.stack'' widget will get actions associated with them that take care of position persistence.
+Any nodes defined within a <<.wlink Properties.ConfiguredWidget>> widget will get actions associated with them that take care of position persistence.
 
 |!Attribute | !Description |
 |$dataTiddler |Name of a tiddler which this widget will use to record node locations |
