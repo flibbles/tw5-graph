@@ -10,6 +10,8 @@
 
 <%if [<.state>get[text]match[show]] %>
 
+<%if [{!!title}tag[Widgets]] %>
+
 <$let
 	caption={{{ [<tiddler>get[caption]] }}}
 	keyword=`$(caption)$(`
@@ -19,4 +21,15 @@
 
 <$doc.codeblock code=<<section>> />
 
+</$let>
+
+<%elseif [{!!title}tag[Templates]] %>
+
+<$doc.codeblock code={{{ [{!!name}addprefix[$:/plugins/flibbles/graph/templates/]get[text]] }}} />
+
+<%else%>
+
+Unknown API type.
+
+<%endif%>
 \end
