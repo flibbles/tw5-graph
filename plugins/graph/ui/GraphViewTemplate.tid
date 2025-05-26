@@ -1,0 +1,11 @@
+title: $:/plugins/flibbles/graph/ui/GraphViewTemplate
+
+\whitespace trim
+
+<$set name=template value={{!!template}} emptyValue="$:/plugins/flibbles/graph/templates/default-graph">
+
+<$transclude $tiddler=<<template>> >
+
+<$transclude tiddler="$:/language/MissingTiddler/Hint"/>
+
+</$transclude>
