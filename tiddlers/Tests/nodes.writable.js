@@ -32,7 +32,16 @@ it("generates a modal when addNode is called", async function() {
 	expect(wiki.getTiddler("Target").fields.list).toEqual(["newTiddler"]);
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update).toHaveBeenCalledWith({nodes: {newTiddler: {}}});
+	expect(update).toHaveBeenCalledWith({nodes: {newTiddler: {delete: true}}});
+});
+
+it("can delete an existing node", async function() {
+	wiki.addTiddler({title: "Target", list: "myNode"});
+	var text = "<$graph><$nodes.writable $tiddler=Target $field=list/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki,
+		{objectType: "nodes", type: "delete", id: "myNode"});
+	expect(wiki.getTiddler("Target").fields.list).toBeUndefined();
 });
 
 it("works with custom content block", function() {

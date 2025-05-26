@@ -22,6 +22,7 @@ exports.properties = {
 		size: {type: "number", min: 0},
 		label: {type: "string"},
 		hidden: {type: "boolean"},
+		physics: {type: "boolean"},
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},

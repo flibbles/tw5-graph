@@ -23,6 +23,8 @@
 	addEdge="""<$action.addedge/>"""
 />
 
+<$properties delete="<$action-removetyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<id>> />">
+
 <$list variable=<<$variable>> filter="[<$tiddler>gettyped<$field>]">
 
 <$slot $name=ts-raw>
