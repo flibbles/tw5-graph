@@ -14,17 +14,15 @@ caption: edges.all
 
 ! Introduction
 
-TODO: This needs to be readjusted
-
-The <<.wid edges.fields>> widget provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured formula.
+<<.wid edges.all>> provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured formula.
 
 Fields are parsed using their [[Relink settings]], which can also be configured through the edge settings as well, in case Relink is not installed.
 
 ! Contents and Attributes
 
-The content of an `<$edges.fields>` widget is an optional template used for ever edge which would be otherwise generated. Without this template, <$transclude $variable=.value _={{$:/plugins/flibbles/graph/edgeTemplate}} /> is used. In other words, a simple edge is made.
+The content of an <<.wid edges.all>> widget is an optional template used for ever edge which would be otherwise generated. Without this template, <$transclude $variable=.value _={{$:/plugins/flibbles/graph/edgeTemplate}} /> is used. In other words, a simple edge is made.
 
-Within the widget block, <<.wid edges.fields>> defines the tiddler <<.value toTiddler>> for each iterated field list-item.
+Within the widget block, <<.wid edges.all>> defines the tiddler <<.value toTiddler>> for each iterated field list-item.
 
 |!Attribute | !Description |
 |$tiddler |The tiddler whose fields are used to create edges (defaults to "[all[]]") |

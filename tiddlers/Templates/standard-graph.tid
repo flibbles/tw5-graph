@@ -9,7 +9,8 @@ It has the following simple characteristics:
 * By default, all nodes respond to double-clicking by opening themselves in the story river.
 * Double clicking on empty space starts a dialog for adding (and creating if necessary) tiddlers to the graph.
 * If a nodes has been manually placed, then this template uses that position when placing the node, otherwise the node's location is random, and it will be free floating.
-** //Note: ''Vis-Network'' has a unique characteristic where it will ignore all nodes' positions if less than half of them are assigned. It will instead use its in-built Kamada Kawai algorithm to place all nodes.//
+** //Note: ''Vis-Network'' has a unique characteristic where it will ignore all nodes' positions if less than half of them are assigned. It will instead use its in-built Kamada---Kawai algorithm to place all nodes.//
+* If its node filter is empty, it will display a //starter// node you can click on to open configuration.
 
 ! Styling
 

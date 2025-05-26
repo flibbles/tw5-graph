@@ -49,7 +49,7 @@ Graph templates don't have to be applied to views. You can easily create graph t
 
 Since a [[View]] is nothing more than a set of information describing settings, properties, and positions, it requires a template. If you haven't assigned one, and you're not transcluding with a template, <<.graph>> renders the view with the [[Standard Editable Graph Template]].
 
-If you want to change the default template for //all// views that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tiddler $:/tags/flibbles/graph/template>>.
+If you want to change the default template for //all// views that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tid $:/tags/flibbles/graph/template>>.
 
 !! Built-in templates
 
