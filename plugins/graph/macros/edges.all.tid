@@ -19,7 +19,9 @@
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge" $fillignore=yes />
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
+	$mode=inline
+	$fillignore=yes />
 
 </$slot></$list></$properties></$let></$list>
 
@@ -40,7 +42,9 @@
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge" $fillignore=yes />
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
+	$mode=inline
+	$fillignore=yes />
 
 </$slot></$tiddler></$list></$properties></$let></$list>
 \end

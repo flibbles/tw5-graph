@@ -106,6 +106,14 @@ it("makes dataTiddler available for all edge types", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=fieldA=links=links</p>");
 });
 
+it("does not introduce whitespace with default block", function() {
+	wiki.addTiddlers([
+		{title: "Target", text: "[[X]] [[Y]] [[Z]]", list: "A B C"}]);
+	var text = "<$edges.all $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("");
+});
+
 /*** Field specific tests ***/
 
 it("uses all fieldTyped edges when no fields specified", function() {
