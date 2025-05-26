@@ -1,4 +1,4 @@
-title: EdgesAllWidget
+title: Edges.AllWidget
 tags: Widgets [[Macro Widgets]]
 caption: edges.all
 
@@ -55,4 +55,4 @@ The <<.attr $formula>> attribute specifies which formulas to use. Otherwise, it 
 
 By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Refer to <<.attr $field>> above for examples on how to include or exclude formulas.
 
-[[Examples|EdgesAllWidget (Examples)]]
+[[Examples|Edges.AllWidget (Examples)]]
