@@ -17,3 +17,5 @@
 <$slot $name=ts-raw />
 
 \end
+
+\relink $properties.persistent $dataTiddler:title

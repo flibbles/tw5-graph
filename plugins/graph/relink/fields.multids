@@ -1,0 +1,5 @@
+title: $:/config/flibbles/relink/fields/
+
+template: title
+edges.fields: filter
+edges.formulas: filter

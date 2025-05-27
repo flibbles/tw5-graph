@@ -11,3 +11,5 @@
 
 </$slot></$list>
 \end
+
+\relink $nodes.neighbors $filter:filter

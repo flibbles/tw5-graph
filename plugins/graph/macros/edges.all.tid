@@ -48,3 +48,5 @@
 
 </$slot></$tiddler></$list></$properties></$let></$list>
 \end
+
+\relink $edges.all $formulas:filter $fields:filter $tiddler:title

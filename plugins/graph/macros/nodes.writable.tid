@@ -32,3 +32,5 @@
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
 
 \end
+
+\relink $nodes.writable $field:fieldname $tiddler:title

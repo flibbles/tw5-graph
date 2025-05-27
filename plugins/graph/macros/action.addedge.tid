@@ -12,3 +12,5 @@
 <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
 
 \end
+
+\relink $action.addedge $fromTiddler:title $oTiddler:title

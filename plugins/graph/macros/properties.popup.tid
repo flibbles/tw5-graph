@@ -58,3 +58,5 @@
 <$transclude $tiddler=<<currentTooltip>> />
 
 \end
+
+\relink $properties.popup $state:title

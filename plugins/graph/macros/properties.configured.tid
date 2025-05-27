@@ -20,3 +20,5 @@
 <$transclude $variable=$properties.stack.recurse nth=1 $fillignore=yes />
 
 \end
+
+\relink $properties.configured $view:title

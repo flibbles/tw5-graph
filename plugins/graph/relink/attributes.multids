@@ -10,6 +10,9 @@ $boundingbox/length: filter
 $boundingbox/width: filter
 $edge/$from: title
 $edge/$to: title
+$fieldtranscriber/state: title
+$fieldtranscriber/field: fieldname
+$fieldtranscriber/tiddler: title
 $node/$tiddler: title
 $properties/$tiddler: title
 $properties/$field: fieldname
