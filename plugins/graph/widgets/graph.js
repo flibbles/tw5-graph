@@ -82,6 +82,7 @@ Compute the internal state of the widget
 GraphWidget.prototype.execute = function() {
 	this.colorWidgets = {};
 	this.engineValue = this.getEngineName();
+	this.setVariable("graphengine", this.engineValue);
 	this.graphWidth = this.getAttribute("$width");
 	this.graphHeight = this.getAttribute("$height");
 	this.executeColors();

@@ -344,6 +344,19 @@ it("does not refresh explicit engine if global changes", async function() {
 	expect(init).not.toHaveBeenCalled();
 });
 
+it("sets the graphengine property for all internal widgets", async function() {
+	wiki.addTiddler({title: "Engine", text: "Test"});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine={{Engine}} >\n\n=<<graphengine>>=\n");
+	expect(widget.parentDomNode.innerHTML).toContain("=Test=");
+	wiki.addTiddler({title: "Engine", text: "Also"});
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toContain("=Also=");
+	wiki.addTiddler({title: "Engine"});
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toContain("=Test=");
+	// TODO: What happens if an unknown engine is inputted?
+});
+
 /*** Typecasting ***/
 
 it("converts numbers", function() {
