@@ -4,23 +4,23 @@
 
 \function makeTemplate() [<template>substitute{!!title},{!!caption}]
 \function pattern() [subfilter<patternFilter>]
-\procedure subLink() [<accumulator>search-replace:g<pattern>,<makeTemplate>]
+\procedure subLink() [<accumulator>search-replace:g:regexp<pattern>,<makeTemplate>]
 \function apply.tag(tag, patternFilter, template) [all[]] :map[all[tiddlers]tag<tag>reduce<subLink>,{!!title}]
 
 <!-- Called Widgets: <$$1$ ... -->
-\procedure raw.pattern() [all[current]get[caption]addprefix[<$]]
+\procedure raw.pattern() [all[current]get[caption]escaperegexp[]addprefix[<\$]addsuffix[\b]]
 \procedure raw.template() <[[$$2$|$1$]]
 
 <!-- Transcluded Widgets: <$transclude $variable="$1$" ... -->
-\procedure trans.pattern() [all[current]get[caption]addprefix[$variable="$]]
+\procedure trans.pattern() [all[current]get[caption]escaperegexp[]addprefix[\$variable="\$]]
 \procedure trans.template() $variable="[[$$2$|$1$]]
 
 <!-- Filter Run Prefix: :$1$[...] -->
-\procedure frp.pattern() [all[current]get[caption]addsuffix[[]]
+\procedure frp.pattern() [all[current]get[caption]escaperegexp[]addsuffix[\[]]
 \procedure frp.template() $variable="[[$2$|$1$]][
 
 <!-- Filter Operator: [$1$[]] -->
-\procedure fo.pattern() [all[current]get[caption]]
+\procedure fo.pattern() [all[current]get[caption]escaperegexp[]]
 \procedure fo.template() [[$2$|$1$]]
 
 <$macrocall $name=copy-to-clipboard-above-right src=<<code>> />
