@@ -1,0 +1,22 @@
+title: Graph Properties
+tags: Concepts
+
+Graph properties are properties you attach to graph objects such as nodes, edges, or the graph itself. Common examples might be <<.val color>>, or <<.val shape>>, or <<.val physics>>. You can assign graph properties to objects through attributes to the corresponding graph object widget. For instance, to attach a shape to a node:
+
+```
+<$node shape="hexagon" />
+```
+
+Graph properties can also be set through a <<.wlink PropertiesWidget>> widget to apply to all objects inside the widget of a particular graph type. <<.wid properties>> can also import properties from data tiddlers.
+
+Here's the most important thing to understand about graph properties
+
+''<<.graph>> has no idea what graph properties exist.'' Meaning it has no concept of colors or shapes or physics.
+
+That's because graph properties are defined by visualization libraries like [[Vis-Network]], and <<.graph>> merely scans those modules and presents them to you in a table when you're configuring views and property sets, or writing out attributes. <<.graph>> then takes whatever properties you configure and blindly passes them to the engine.
+
+This also means that the graph properties you see in the tables may be different depending on what engine you have active.
+
+! The "$"
+
+You can always tell when you're dealing with a graph property in a graph object widget because they are attributes that never start with a "$". If an attribute //does// start with a "$", then it's an attribute that <<.graph>> explicitly handles, and you'll find it documented in this documentation.
