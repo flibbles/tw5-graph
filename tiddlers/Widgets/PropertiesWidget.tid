@@ -4,7 +4,7 @@ caption: properties
 
 ! Introduction
 
-The properties widget provides an alternative means to apply properties to the graph and to graph objects instead of applying the properties as attributes directly to those widgets. This provides several versatile uses:
+The <<.wid properties>> widget provides an alternative means to apply properties to the graph and to graph objects instead of applying the properties as attributes directly to those widgets. This provides several versatile uses:
 
 * Encapsulating features for more modular addition to graphs, such as suites of actions or properties
 * Selectively applying properties to swaths of graph objects fitting certain criteria
@@ -13,19 +13,29 @@ The properties widget provides an alternative means to apply properties to the g
 
 ! Content and Attributes
 
-The contents of a `<$properties>` widget are rendered as normal, but any contained graph objects will inherit the widgets properties, assuming they fit its criteria.
+The contents of a <<.wid properties>> widget are rendered as normal, but any contained graph objects of the correct type will inherit this widget's properties, assuming they fit its criteria.
 
-Alternatively, if the `<$properties>` widget specified properties for the graph using <<.attr $for>>, then its properties apply the the graph widget //containing// the properties widget, rather than any graph widget the properties widget may contain.
+If a graph object is nested within two or more <<.wid properties>> widgets which would both apply the same property to that object, the property of the inner-most <<.wid properties>> widget takes precedence. (//Except in the case of action properties. See below for how action properties work.//)
 
 |!Attributes |!Description |
 |$for |Specifies the type of graph objects this widget applies to (defaults to "nodes") |
 |$filter |A filter to specify which contained objects this widget's properties should apply to |
-|$tiddler |The name of a data tiddler containing properties to import |
+|$tiddler |The name of a data tiddler containing properties to import (defaults to the current tiddler if <<.attr $field>> is set) |
+|$field |The field to examine for properties when usinging <<.attr $tiddler>> (defaults to `text`) |
 |//{attributes not starting with $}// |Any other attributes specify properties associated with the graph engine |
+
 
 !! `$for` Attribute
 
 The <<.attr $for>> attribute specifies what kind of graph objects within it should inerit this widget's properties. Common options are <<.value nodes>> and <<.value edges>>, but other kinds of graph objects would be supported if defined.
+
+!! Loading properties from tiddlers
+
+While <<.wid properties>> allows you to specify graph properties as attributes, the <<.attr $tiddler>> and <<.attr $field>> attributes also allows you to import properties from data tiddlers, or from fields of any tiddlers.
+
+When specifying only a <<.attr $tiddler>>, this widget will expect that tiddler to be a data tiddler, and it will read from its text.
+
+When specifying a <<.attr $field>> other than <<.field text>>, that field must contain JSON content.
 
 !! Filtering
 
@@ -35,34 +45,16 @@ If the filter returns //anything// then the filter is applied, even if it return
 
 It's considered applicable if that filter then returns anything.
 
-<$doc.example
-	description="Selective property filtering"
-	narrative="This shows how property filters can selectively apply properties. In each filter, nodes are passed individually as input. In this case, if those nodes have the given tag, the property is applied."
-	content= """<$graph>
-  <$properties $filter="[tag[Greek]]" color="navy">
-    <$properties $filter="[tag[Norse]]" color="maroon">
-      <$properties $filter="[tag[Ruler]]" shape="star">
-        <$nodes.for $filter="Odin Thor Zeus Apollo" $labelField=title />
-      </$properties>
-    </$properties>
-  </$properties>
-</$graph>""" />
+! Action properties
 
-!! Action scope
+If a <<.wid properties>> widget defines action properties for graph objects like nodes or edges, those actions are executed when the event corresponding to the property fires for that object.
 
-If a properties widget is used to define action properties for graph objects like nodes or edges, the actions within the attribute are executed within the same scope as the corresponding object. This means it uses all variables as defined for the object widget.
+If multiple <<.wid properties>> apply an action property to the same object, //all// actions will be executed, but the inner-most action properties are executed first.
 
+This is unlike other property types, where only the inner most property applies to the graph object.
 
-<$doc.example
-	description= "Scope of property actions"
-	narrative= "Here the value of <<.value currentTiddler>> is different for each <<.wid node>>, even though they'll inherit the same hover action."
-	footer= "Value of $:/state/properties-example: {{$:/state/properties-example}}"
-	content="""<$graph>
-  <$properties hover="<$action-setfield $tiddler='$:/state/properties-example' text=`$(currentTiddler)$ hovered` />">
-    <$list filter="Odin Thor Zeus">
-      <$node label={{!!title}} />
-    </$list>
-  </$properties>
-</$graph>"""/>
+!!! Variable scope
 
-Likewise, when a properties widget specifies properties for its containing graph, it uses the scope of that graph widget, not itself.
+When action properties are executed, they are done so within the scope of the graph object they apply to. This means that if an action property applies to several nodes in a list, the <<.value currentTiddler>> variable will equal whatever it equals for the node the triggers.
+
+[[Examples|PropertiesWidget (Examples)]]

@@ -1,0 +1,14 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"fields": {
+				"title": {
+					"source": "basename",
+					"suffix": "Widget (Examples)"
+				}
+			}
+		}
+	]
+}

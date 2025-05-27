@@ -1,0 +1,38 @@
+title: PropertiesWidget (Examples)
+
+<$doc.example
+	description= "Scope of property actions"
+	narrative= "This shows how actions are executed within the scope of the triggering graph object. These nodes all have different <<.value currentTiddler>> values, even though the <<.wid properties>> widget defining the action doesn't have any <<.value currentTiddler>>.
+
+Hovering these nodes will record different values.
+
+Current value: {{Value}}"
+	content="""<$graph>
+  <$properties hover="<$action-setfield $tiddler=Value text=`$(currentTiddler)$ hovered` />">
+    <$list filter="[[D'Artagnan]] Porthos Aramis Athos">
+      <$node label={{!!title}} />
+    </$list>
+  </$properties>
+</$graph>"""/>
+
+<$doc.example
+	description="Selective property filtering"
+	narrative="This shows how property filters can selectively apply properties. In each filter, nodes are passed individually as input. In this case, if those nodes have the given tag, the property is applied."
+	content= """<$graph>
+  <$properties $filter="[tag[Big]]" size=40>
+  <$properties $filter="[search:title[Black]]" color=black>
+  <$properties $filter="[search:title[Blue]]" color=blue>
+  <$properties $filter="[search:title[Coonhound]]" shape=hexagon>
+      <$list filter="[tag[Dog]]">
+        <$node label={{!!title}} />
+      </$list>
+  </$properties>
+  </$properties>
+  </$properties>
+  </$properties>
+</$graph>""">
+<$data title="Black Russian Terrier" tags="Big Dog"/>
+<$data title="Blue Heeler" tags="Small Dog"/>
+<$data title="Black and Tan Coonhound" tags="Small Dog"/>
+<$data title="Blue Tick Coonhound" tags="Small Dog"/>
+</$doc.example>
