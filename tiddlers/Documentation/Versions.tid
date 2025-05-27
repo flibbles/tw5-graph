@@ -1,0 +1,27 @@
+title: Versions
+caption: Release Notes
+tags: Documentation
+list-after: 
+
+\whitespace trim
+\procedure versionList() :cache[all[tiddlers]removeprefix[Version ]removesuffix[.0]!nsort[created]]
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	tabsList=<<versionList>>
+	default={{{ [subfilter<versionList>] }}} >
+
+<$fill $name=button><$text text=`v$(currentTab)$` /></$fill>
+
+<$fill $name=body>
+
+!! <$text text=`Version $(currentTab)$` />
+
+<$vars prefix=`Version $(currentTab)$` >
+
+<$list filter="[prefix<prefix>nsort[created]]">
+
+!!! <$text text={{{[all[current]removeprefix[Version ]addprefix[v]]}}} />
+
+!!!!! <$view field="created" format="date" template="MMM DDth, YYYY" />
+
+<$transclude />
