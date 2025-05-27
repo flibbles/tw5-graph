@@ -1,0 +1,20 @@
+title: Write custom graphs using wikitext!
+tags: Demo
+
+<<.graph>> relies on a toolkit of widgets to describe graphs, which allows you to build incredibly unique graphs to suit your needs. The following code is a simple example of all you might need to make a graph.
+
+<$doc.demo
+	description="simple example"
+	narrative="The following code is a simple example of all you might need to make a graph."
+	content="""<$graph>
+  <$properties.configured>
+    <$list filter="[tag[Norse]]">
+      <$node label={{!!title}} />
+      <$edges.all $fields="[all[]]" />
+    </$list>
+  </$properties.configured>
+</$graph>""" />
+
+However, TW5-Graph is also built with a system of premade templates, views, and configuration menus, so that you can design and manipulate graphs without ever touching wikitext.
+
+See the [[Documentation]] to learn more about <<.graph>>'s [[API]].
