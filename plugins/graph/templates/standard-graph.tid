@@ -5,7 +5,7 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$graph>
-  <$properties physics=yes doubleclick="<$action-navigate $to=<<node>> />">
+  <$properties physics=yes doubleclick="<$action-navigate $to=<<id>> />">
     <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
       <$let
         defaultEdgeFilter="[all[]]"
@@ -13,8 +13,7 @@ tags: $:/tags/flibbles/graph/template
         formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
         <$properties.configured $view={{!!title}} >
           <%if [{!!filter}is[blank]] %>
-            <$node $tiddler="$:/plugins/flibbles/graph" />
-            <$node label="Click on me to configure this graph" />
+            <$node $tiddler="$:/plugins/flibbles/graph" label="Double click me to begin configuring TW5-graph" size=35 shape=hexagon />
           <%endif%>
           <$properties.persistent $dataTiddler=<<currentTiddler>> >
             <$nodes.writable $variable=node $field=filter>
