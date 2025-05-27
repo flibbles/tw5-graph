@@ -4,7 +4,7 @@ caption: properties.configured
 
 ! Introduction
 
-The <<.wid properties.stack>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Node Property Stack]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
+The <<.wid properties.configured>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Node Property Stack]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
 
 In theory, this widget could apply stacks of properties to edges or graphs too, but that sophisticated yet.
 
@@ -25,11 +25,11 @@ Any nodes defined within <<.wid properties.configured>> will inherit all propert
 	description="node property stack"
 	narrative="""This demo site has several node properties configured in its settings. Here, all we have to do is wrap the nodes in <<.wid properties.configured>>, and those settings will apply to the correct nodes."""
 	content="""<$graph>
-  <$properties.stack>
+  <$properties.configured>
     <$list filter="[!is[system]]">
       <$node label={{!!title}} />
     </$list>
-  </$properties.stack>
+  </$properties.configured>
 </$graph>""">
 <$data title="Charles Darwin" tags="Scientist Male Biologist" />
 <$data title="Barbara McClintock" tags="Scientist Female Biologist" />
