@@ -1,4 +1,4 @@
-title: Highly responsive graphs!
+title: Responds in Real Time
 tags: Demo
 
 {{$:/graph/Pantheon||$:/plugins/flibbles/graph/templates/standard-graph}}

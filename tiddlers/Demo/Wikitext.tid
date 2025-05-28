@@ -1,4 +1,4 @@
-title: Write custom graphs using wikitext!
+title: Write Custom Graphs using Wikitext
 tags: Demo
 
 <<.graph>> relies on a toolkit of widgets to describe graphs, which allows you to build incredibly unique graphs to suit your needs. The following code is a simple example of all you might need to make a graph.
