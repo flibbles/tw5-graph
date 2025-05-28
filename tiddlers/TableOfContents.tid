@@ -1,0 +1,11 @@
+caption: {{$:/language/SideBar/Contents/Caption}}
+list:
+list-before:
+tags: $:/tags/SideBar
+title: TableOfContents
+
+<div class="tc-table-of-contents">
+
+<<toc-selective-expandable 'Documentation'>>
+
+</div>
