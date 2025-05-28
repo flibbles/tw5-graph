@@ -5,23 +5,4 @@ tags: Demo
 
 In fact, any Javascript visualization engine in the world could be used. They need only be wrapped up in a TiddlyWiki plugin that implements one simple [[module|graphengine Module]].
 
-Try changing the engine that this demo is using!
-
-<div class=graph-engine-button-list>
-
-<$list filter="[[graphengine]modules[]]">
-
-<$let name={{{ [all[current]moduleproperty[name]] }}} >
-
-<$button class=graph-engine-button selectedClass=active set="$:/config/flibbles/graph/engine" setTo=<<name>> >
-
-<div class=graph-icon>
-
-<$transclude $tiddler={{{ [all[current]shadowsource[]addsuffix[/icon]is[shadow]] }}} />
-
-</div>
-<$text text=<<name>> />
-
-</$button></$let></$list>
-
-<$text text=<<name>> />
+{{$:/plugins/flibbles/graph/ui/Settings/Engine|Try changing the engine that this demo is using!}}

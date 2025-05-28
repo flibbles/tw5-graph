@@ -2,25 +2,4 @@ title: $:/plugins/flibbles/graph/readme
 
 //tw5-graph// is a plugin which provides a toolkit of widgets to interact with graph visualization software. This plugin does not include any visualization libraries itself. It must be coupled with a library plugin that acts as an engine.
 
-For more details, visit the documentation at [[project page|https://flibbles.github.io/tw5-graph]].
-
-!! Configuration
-
-<% if [[graphengine]modules[]count[]compare:number:gt[1]] %>
-
-Select a default from the multiple installed engines:
-
-<div class=graph-engine-button-list>
-
-<$list filter="[[graphengine]modules[]]">
-
-<$let name={{{ [all[current]moduleproperty[name]] }}} >
-
-<$button class=graph-engine-button selectedClass=active set="$:/config/flibbles/graph/engine" setTo=<<name>> >
-
-<div class=graph-icon>
-
-<$transclude $tiddler={{{ [all[current]shadowsource[]addsuffix[/icon]is[shadow]] }}} />
-
-</div>
-<$text text=<<name>> />
+[ext[Project page is available on github.|https://github.com/flibbles/tw5-graph]]

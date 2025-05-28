@@ -2,7 +2,11 @@ title: $:/plugins/flibbles/graph/settings
 tags: [[$:/tags/ControlPanel/SettingsTab]]
 caption: Graph
 
-\procedure settingsTabs() :cache[[$:/tags/flibbles/graph/settingsTab]tagging[]]
+\procedure filterTab() [!has[filter]] ~[subfilter{!!filter}]
+\procedure settingsTabs() [[$:/tags/flibbles/graph/settingsTab]tagging[]filter<filterTab>]
+
+See the [ext[project website|https://flibbles.github.io/tw5-graph]] for complete documentation.
+
 <$transclude $variable=tabs
 	tabsList=<<settingsTabs>>
 	default={{{ [subfilter<settingsTabs>] }}}
