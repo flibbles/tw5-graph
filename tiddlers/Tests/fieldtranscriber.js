@@ -150,6 +150,21 @@ it("manages json tiddlers", async function() {
 	expect(wiki.getTiddler("Target").getFieldString("field")).toBe('{"key":"value","also":"value"}');
 });
 
+// Fixes issue where JSON would mess up switching into an empty {}, where
+// field and text are identical, to back to a state where pretty-printing
+// makes them non-identical.
+it("can toggle from empty to pretty content", async function() {
+	var json = '{"key":"value"}';
+	wiki.addTiddler({title: "Target", field: json});
+	$tw.test.renderText(wiki, `<$fieldtranscriber state='${state}' tiddler=Target field=field type='application/json' />`);
+	wiki.addTiddler({title: state, text: '{}'});
+	await $tw.test.flushChanges();
+	expect(wiki.getTiddler("Target").getFieldString("field")).toBe('{}');
+	wiki.addTiddler({title: state, text: '{\n    "key": "value"\n}'});
+	await $tw.test.flushChanges();
+	expect(wiki.getTiddler("Target").getFieldString("field")).toBe(json);
+});
+
 it("json does not back write, even if it'd be different", async function() {
 	wiki.addTiddler({title: "Target", field: "{    }"});
 	$tw.test.renderText(wiki, `<$fieldtranscriber state='${state}' tiddler=Target field=field type='application/json' />`);

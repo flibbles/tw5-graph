@@ -33,14 +33,14 @@ ScriberWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 ScriberWidget.prototype.execute = function() {
-	this.catchState = this.getAttribute("state");
-	this.catchField = this.getAttribute("field");
-	this.catchTiddler = this.getAttribute("tiddler") || (!this.hasParseTreeNodeAttribute("tiddler") && this.getVariable("currentTiddler"));
-	this.catchType = this.getAttribute("type");
-	if (!Transcribers[this.catchType]) {
-		this.catchType = "text/plain";
+	this.scribeState = this.getAttribute("state");
+	this.scribeField = this.getAttribute("field");
+	this.scribeTiddler = this.getAttribute("tiddler") || (!this.hasParseTreeNodeAttribute("tiddler") && this.getVariable("currentTiddler"));
+	this.scribeType = this.getAttribute("type");
+	if (!Transcribers[this.scribeType]) {
+		this.scribeType = "text/plain";
 	}
-	this.transcriber = Transcribers[this.catchType];
+	this.transcriber = Transcribers[this.scribeType];
 	this.prepState();
 };
 
@@ -50,46 +50,47 @@ ScriberWidget.prototype.refresh = function(changedTiddlers) {
 		this.refreshSelf();
 		return true;
 	}
-	if (changedTiddlers[this.catchState] && this.catchField) {
+	if (changedTiddlers[this.scribeState] && this.scribeField) {
 		// Our tracked state has changed. Time to transcribe.
-		var state = this.wiki.getTiddler(this.catchState);
+		var state = this.wiki.getTiddler(this.scribeState);
 		if (state) {
 			var stateText = state.getFieldString("text");
 			if (this.stateText !== stateText) {
 				var fieldText = this.transcriber.toField(stateText);
 				if (fieldText !== this.fieldText) {
-					this.wiki.setText(this.catchTiddler, this.catchField, null, fieldText);
-					this.fieldText = stateText;
+					this.wiki.setText(this.scribeTiddler, this.scribeField, null, fieldText);
+					this.fieldText = fieldText;
+					this.stateText = stateText;
 				}
 			}
 		} else {
-			this.wiki.setText(this.catchTiddler, this.catchField, null, undefined);
+			this.wiki.setText(this.scribeTiddler, this.scribeField, null, undefined);
 			this.fieldText = undefined;
 			this.stateText = undefined;
 		}
 	}
-	if (changedTiddlers[this.catchTiddler]) {
+	if (changedTiddlers[this.scribeTiddler]) {
 		this.prepState();
 	}
 	return this.refreshChildren(changedTiddlers);
 };
 
 ScriberWidget.prototype.prepState = function() {
-	if (this.catchState && this.catchField) {
-		var tiddler = this.wiki.getTiddler(this.catchTiddler);
+	if (this.scribeState && this.scribeField) {
+		var tiddler = this.wiki.getTiddler(this.scribeTiddler);
 		if (tiddler) {
-			var fieldText = tiddler.fields[this.catchField];
+			var fieldText = tiddler.fields[this.scribeField];
 			if (this.fieldText !== fieldText) {
 				this.fieldText = fieldText;
 				if (fieldText === undefined) {
-					this.wiki.deleteTiddler(this.catchState);
+					this.wiki.deleteTiddler(this.scribeState);
 					this.stateText = undefined;
 				} else {
 					this.stateText = this.transcriber.fromField(fieldText);
 					this.wiki.addTiddler({
-						title: this.catchState,
+						title: this.scribeState,
 						text: this.stateText,
-						type: this.catchType
+						type: this.scribeType
 					});
 				}
 			}
