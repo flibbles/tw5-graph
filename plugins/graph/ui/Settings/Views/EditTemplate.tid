@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/ui/Views/EditTemplate
+title: $:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate
 
 \procedure edgelist(category, default)
 \whitespace trim
@@ -40,5 +40,5 @@ Template: <<templateSelector>>
 <$transclude $variable=tabs
 	tabsList="graph nodes edges"
 	default=graph
-	template="$:/plugins/flibbles/graph/ui/Views/DefaultsTab"
+	template="$:/plugins/flibbles/graph/ui/Settings/Views/DefaultsTab"
 	state= "$:/state/flibbles/graph/views/editTemplate" />

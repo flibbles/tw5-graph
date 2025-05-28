@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/ui/Views/DefaultsTab
+title: $:/plugins/flibbles/graph/ui/Settings/Views/DefaultsTab
 
 <$vars state=`$:/temp/flibbles/graph/$(currentTab)$/$(currentTiddler)$`>
 
