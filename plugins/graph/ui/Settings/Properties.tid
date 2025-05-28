@@ -1,4 +1,6 @@
-title: $:/plugins/flibbles/graph/properties
+title: $:/plugins/flibbles/graph/ui/Settings/Properties
+tags: $:/tags/flibbles/graph/settingsTab
+caption: Properties
 
 \parameters (default:nodes)
 
@@ -6,5 +8,5 @@ title: $:/plugins/flibbles/graph/properties
 	tabsList="[all[shadows+tiddlers]removeprefix[$:/plugins/flibbles/graph/presettypes/]splitbefore[/]removesuffix[/]unique[]sort[]]"
 	default=<<default>>
 	state="$:/state/graph/settings/"
-	template="$:/plugins/flibbles/graph/ui/Settings/ObjectsTypeTemplate"
+	template="$:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate"
 />

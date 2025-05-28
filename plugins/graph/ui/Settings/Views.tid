@@ -1,6 +1,7 @@
 title: $:/plugins/flibbles/graph/views
 tags: $:/tags/flibbles/graph/settingsTab
 caption: Views
+list-before: 
 
 \whitespace trim
 \procedure viewList() :cache[all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/Default]]

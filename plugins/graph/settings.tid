@@ -1,0 +1,9 @@
+title: $:/plugins/flibbles/graph/settings
+tags: [[$:/tags/ControlPanel/SettingsTab]]
+caption: Graph
+
+\procedure settingsTabs() :cache[[$:/tags/flibbles/graph/settingsTab]tagging[]]
+<$transclude $variable=tabs
+	tabsList=<<settingsTabs>>
+	default={{{ [subfilter<settingsTabs>] }}}
+	state="$:/state/flibbles/graph/settings" />
