@@ -1,7 +1,7 @@
 \widget $nodes.neighbors($filter)
 \whitespace trim
 
-<$vars regexp={{{ [subfilter<$filter>escaperegexp[]join[|]addprefix[^]addsuffix[$]] }}}>
+<$vars regexp={{{ [subfilter<$filter>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
 
 <$list filter="[all[]!search:title:regexp<regexp>] :filter[neighbors[]search:title:regexp<regexp>] [subfilter<$filter>neighbors[]!search:title:regexp<regexp>] +[unique[]]">
 
