@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/ui/Wizard/Output
+title: $:/plugins/flibbles/graph/ui/Settings/Wizard/Output
 
 <$set name=graph-type value={{{ [<state>addsuffix[/type]get[text]else[nodes]addprefix[/type/]addprefix<state>] }}}>
 
