@@ -3,6 +3,7 @@
 	"plugins": [
 		"flibbles/relink",
 		"flibbles/relink-fieldnames",
+		"flibbles/vis-network",
 		"tiddlywiki/jasmine",
 		"tiddlywiki/railroad"
 	],
@@ -13,22 +14,14 @@
 	"build": {
 		"test": [
 			"--output", "./docs/",
-			"--rendertiddler",
-				"$:/core/save/all",
-				"test.html",
-				"text/plain",
-				"",
+			"--rendertiddler", "$:/core/save/all", "test.html", "text/plain", "",
 				"publishFilter",
 				"-$:/DefaultTiddlers -[!is[system]] -[prefix[$:/state]] -[prefix[$:/graph/]] -[prefix[$:/editions/]] -[prefix[$:/themes/]!has[plugin-type]] -[prefix[$:/config/]!match[$:/config/flibbles/graph/engine]]",
 			"--test"
 		],
 		"index": [
 			"--output", "./docs/",
-			"--rendertiddler",
-				"$:/core/save/all",
-				"index.html",
-				"text/plain",
-				"",
+			"--rendertiddler", "$:/core/save/all", "index.html", "text/plain", "",
 				"publishFilter",
 				"-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/plugins/flibbles/relink]] -[prefix[$:/UpgradeLibrary]]"
 		]
