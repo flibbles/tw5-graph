@@ -1,0 +1,14 @@
+title: Tutorials
+tags: Documentation
+
+<<.graph>> is designed to accomodate both people who just want a simple visualization of their tiddlers, and also those who need to construct sophisticated graphs with custom behavior, and those who simply want to quick visualizations of their data.
+
+For that reason, there are two tutorials that approach <<.graph>> in two directions. Both are quick and simple, designed to get you started.
+
+!!! [[Top-Down Tutorial: Sidebar and Editable graphs|Top-Down Tutorial]]
+
+This walkthrough focuses on showing you how to use the SideBar to make interactive graphs that show connection between your tiddlers, such as links, tags, list fields, or more.
+
+!!! Bottom-Up Tutorial: Wikitext and Widgets
+
+Starting with a "Hello World", this introduces you to the toolkits which <<.graph>> has so that you can craft unique graphs using wikitext and filters.
