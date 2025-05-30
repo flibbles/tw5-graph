@@ -12,7 +12,7 @@ caption: Views
 >
   <$fill $name=addActions>
     <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewView">
-      <$vars newTitle=`$:/graph/$(currentGroup)$/$(selection)$`>
+      <$vars newTitle=`$:/graph/$(selection)$`>
         <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
         <$action-setfield $tiddler=<<qualifiedState>> text=<<newTitle>> />
       </$vars>
