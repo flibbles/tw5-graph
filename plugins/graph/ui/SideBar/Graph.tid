@@ -24,7 +24,9 @@ tags: $:/tags/SideBar
       <$select tiddler=<<state>> default=<<defaultView>> >
         <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultView>]"  >
           <option value=<<currentTiddler>> >
-            <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
+            <$view field=caption>
+              <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
+            </$view>
           </option>
         </$list>
       </$select>
