@@ -26,5 +26,19 @@ caption: Views
     <$let currentTiddler=<<currentTab>> >
       <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate" $mode=block />
     </$let>
+
+    <$button>
+
+      <$vars viewName={{{ [<currentTab>removeprefix[$:/graph/]] }}}>
+        <$action-confirm $message=`Are you sure you wish to delete '$(viewName)$'`>
+          <%if [{$:/state/flibbles/graph/sidebar}match<currentTab>] %>
+            <$action-deletetiddler $tiddler="$:/state/flibbles/graph/sidebar"/>
+          <%endif%>
+          <$action-deletetiddler $tiddler=<<currentTab>>/>
+        </$action-confirm>
+      </$vars>
+
+      Delete View
+    </$button>
   </$fill>
 </$transclude>
