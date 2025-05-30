@@ -29,7 +29,7 @@ tags: $:/tags/SideBar
         </$list>
       </$select>
       <$button to="$:/plugins/flibbles/graph/settings">
-        {{$:/core/images/menu-button}}
+        {{$:/core/images/options-button}}
       </$button>
     </$slot>
   </div>
