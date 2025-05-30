@@ -13,7 +13,7 @@ Note: If you don't want to bother yet installing <<.graph>>, you can follow alon
 <$button actions="""
 	<$action-deletetiddler $tiddler="$:/graph/Default"/>
 	<$action-setfield $tiddler="$:/state/tab/sidebar--595412856" text="$:/plugins/flibbles/graph/ui/SideBar"/>
-	<$action-setfield $tiddler="$:/state/flibbles/graph/sidebar" text="$:/graph/Default" />
+	<$action-setfield $tiddler="$:/config/flibbles/graph/sidebar" text="$:/graph/Default" />
 	""" >
 
 Act like a fresh install

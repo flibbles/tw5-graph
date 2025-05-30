@@ -3,7 +3,7 @@ tags: $:/tags/flibbles/graph/settingsTab
 caption: Views
 
 \whitespace trim
-\procedure viewList() :cache[all[shadows+tiddlers]insertafter{$:/state/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
+\procedure viewList() :cache[all[shadows+tiddlers]insertafter{$:/config/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
 	tabsList=<<viewList>>
@@ -31,8 +31,8 @@ caption: Views
 
       <$vars viewName={{{ [<currentTab>removeprefix[$:/graph/]] }}}>
         <$action-confirm $message=`Are you sure you wish to delete '$(viewName)$'`>
-          <%if [{$:/state/flibbles/graph/sidebar}match<currentTab>] %>
-            <$action-deletetiddler $tiddler="$:/state/flibbles/graph/sidebar"/>
+          <%if [{$:/config/flibbles/graph/sidebar}match<currentTab>] %>
+            <$action-deletetiddler $tiddler="$:/config/flibbles/graph/sidebar"/>
           <%endif%>
           <$action-deletetiddler $tiddler=<<currentTab>>/>
         </$action-confirm>
