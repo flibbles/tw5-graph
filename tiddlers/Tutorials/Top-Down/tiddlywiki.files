@@ -1,0 +1,15 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": false,
+			"fields": {
+				"tags": "[[Top-Down Tutorial]]",
+				"title": {
+					"source": "basename"
+				}
+			}
+		}
+	]
+}

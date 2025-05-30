@@ -10,4 +10,4 @@ Settings page for TW5-Graph. See the [ext[project website|https://flibbles.githu
 <$transclude $variable=tabs
 	tabsList=<<settingsTabs>>
 	default={{{ [subfilter<settingsTabs>] }}}
-	state="$:/state/flibbles/graph/settings" />
+	explicitState="$:/state/flibbles/graph/settings" />

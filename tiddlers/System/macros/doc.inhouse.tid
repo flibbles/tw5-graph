@@ -1,0 +1,8 @@
+\widget $doc.inhouse()
+\whitespace trim
+
+<div class='doc-inhouse'>
+
+<$slot $name=ts-raw />
+
+\end

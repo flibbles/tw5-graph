@@ -22,7 +22,7 @@ tags: $:/tags/SideBar
     <$slot $name="banner">
       View:
       <$select tiddler=<<state>> default=<<defaultView>> >
-        <$list filter="[prefix[$:/graph/]else<defaultView>]"  >
+        <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultView>]"  >
           <option value=<<currentTiddler>> >
             <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
           </option>

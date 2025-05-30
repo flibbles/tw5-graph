@@ -1,20 +1,29 @@
 title: Top-Down Tutorial
 tags: Tutorials
+list: [[Click on Me]] 
 
 So you've just installed <<.graph>> into your project. Great! But you're not sure what you're looking at. I bet you've got some of your tiddlers on that graph, and maybe show the relationship between those tiddlers, like their tags, and links, list fields.
 
-Let's get started!
+Let's do that!
 
-Note: If you haven't installed <<.graph>>, you can follow along with this tutorial within this demo site instead. Just click the following button so that this site will switch over to what you'd ordinarilly see with a fresh install of <<.graph>>
+<$doc.inhouse>
+
+Note: If you don't want to bother yet installing <<.graph>>, you can follow along with this tutorial right here in this demo. Just click the following button, and the demo will present you exactly what a fresh install would.
 
 <$button actions="""
-	<$action-setfield $tiddler="$:/state/tab/sidebar--595412856" text="$:/plugins/flibbles/graph/ui/SideBar">
+	<$action-deletetiddler $tiddler="$:/graph/Default"/>
+	<$action-setfield $tiddler="$:/state/tab/sidebar--595412856" text="$:/plugins/flibbles/graph/ui/SideBar"/>
 	<$action-setfield $tiddler="$:/state/flibbles/graph/sidebar" text="$:/graph/Default" />
-	""" />
+	""" >
 
 Act like a fresh install
 </$button>
 
-!! 1. Click on Me
+Also, so you know: whenever you see text in colored blocks like this, that information is specific for if you're following along in this demo site.
+</$doc.inhouse>
 
-In the sidebar of your wiki, you'll see a new "Graph" tab. Click on that.
+<$list counter=counter filter="[tag[Top-Down Tutorial]]">
+
+! <<counter>>: <$view field=title/>
+
+{{}}

@@ -1,0 +1,28 @@
+We need to have a view of //something//, so let's tell our view what to show. There's a setting called "Nodes" in the table of available options. It had a //big// text box for you to fill in, and right now, it's empty. Type "anything" in there. Literally. "Anything".  Now you'll have a node called "anything" in the big sidebar graph. You double-click on it. It'll open a tiddler called "Anything".
+
+Here's an even easier way to add nodes to your graph. Double click //anywhere// in the big open space in the sidebar graph. See that popup? Type in a tiddler, or a fine one, and click "Okay". Now you have //another// node. And you'll notice that the "Nodes" setting in your view's configuration now shows //two// titles.
+
+!!! Adding many nodes
+
+So far, adding nodes is straight forward, but you probably don't want to add all the nodes you want one at a time. Luckily, that "Nodes" setting is actually a [[filter setting|Filters]]. Delete what you've already put in that field.
+
+...Now, let's type in something //fun//:
+
+```
+[range[100]]
+```
+
+Neat, huh? That filter returns numbers 1 through 100, so you'll get a node for each. ''Don't use a number much larger than 100. It'll start freezing up your browser if you do. Graphing is expensive!''
+
+Now let's put in something //useful//. What that is will depend on your wiki. Maybe you want to graph some tiddlers of yours that share a common tag (`[tag[Common tag]]`), or maybe your wiki is small enough that you can graph everything (`[all[]]`).
+
+Whatever you type in, the nodes will spring out within your graph.
+
+<$doc.inhouse>
+
+If you're running through this tutorial on the demo site, you can use `[tag[Norse]]`, which includes a set of pre-made tiddlers prepared for this demo. If you'd like, the following button will automatically set "Nodes" for you.
+
+<$button actions="""<$action-setfield $tiddler="$:/graph/Default" filter="[tag[Norse]]"/>""">
+
+Use `[tag[Norse]]`
+</$button></$doc.inhouse>

@@ -69,5 +69,16 @@
 }
 
 .doc-examples-hard-breaks .doc-example-result li {
-    white-space: pre-wrap;
+	white-space: pre-wrap;
+}
+
+.doc-inhouse {
+	background-color: <<colour message-background>>;
+	color: <<colour message-foreground>>;
+	border: 1px solid <<colour message-border>>;
+	padding: 4px;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin-left: 1em;
+	margin-right: 1em;
 }

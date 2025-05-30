@@ -13,7 +13,11 @@ tags: $:/tags/flibbles/graph/template
         formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
         <$properties.configured $view={{!!title}} >
           <%if [{!!filter}is[blank]] %>
-            <$node $tiddler="$:/plugins/flibbles/graph" label="Double click me to begin configuring TW5-graph" size=35 shape=hexagon />
+            <$node $tiddler="$:/plugins/flibbles/graph/settings"
+              label="Double click me to configure this graph"
+              size=35
+              shape=hexagon
+              doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" /><$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text=<<currentTiddler>> />""" />
           <%endif%>
           <$properties.persistent $dataTiddler=<<currentTiddler>> >
             <$nodes.writable $variable=node $field=filter>

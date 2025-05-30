@@ -3,7 +3,7 @@ tags: $:/tags/flibbles/graph/settingsTab
 caption: Views
 
 \whitespace trim
-\procedure viewList() :cache[all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/Default]]
+\procedure viewList() :cache[all[shadows+tiddlers]insertafter{$:/state/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
 	tabsList=<<viewList>>
