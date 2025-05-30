@@ -1,14 +1,13 @@
 /*\
 
-EditCatcherWidget for transcribing the text of one tiddlerx
-into the field of another.
+EditCatcherWidget for transcribing the text of one data tiddler
+into the field of another. and vice-versa.
 
 \*/
 
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
-var utils = require("../utils.js");
 
 var ScriberWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
