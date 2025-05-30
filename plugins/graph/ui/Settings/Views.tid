@@ -20,7 +20,9 @@ caption: Views
     <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
   </$fill>
   <$fill $name=button>
-    <$text text={{{ [<currentTab>removeprefix[$:/graph/]] }}} />
+    <$view tiddler=<<currentTab>> field=caption>
+      <$text text={{{ [<currentTab>removeprefix[$:/graph/]] }}} />
+    </$view>
   </$fill>
   <$fill $name=body>
     <$let currentTiddler=<<currentTab>> >
