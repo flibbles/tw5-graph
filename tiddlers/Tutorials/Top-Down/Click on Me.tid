@@ -6,7 +6,7 @@ There are other tabs in the <<.graph>> settings, but lets not worry about them f
 
 !!! Creating new views
 
-If you want your view to have a different name, or you just want to make more views, look for the vertical list of tabs along the left side. At the bottom, there will be a {{$:/core/images/new-button}} button at the bottom. Click that and type in the name of the view you want to create.
+If you want your view to have a different name, or you just want to make more views, look for the vertical list of tabs along the left side. At the bottom, there will be a <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button at the bottom. Click that and type in the name of the view you want to create.
 
 <$doc.inhouse>
 

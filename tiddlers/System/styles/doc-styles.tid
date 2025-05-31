@@ -82,3 +82,8 @@
 	margin-left: 1em;
 	margin-right: 1em;
 }
+
+.doc-inhouse button {
+	display: block;
+	margin: auto;
+}

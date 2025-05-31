@@ -1,0 +1,42 @@
+You've probably noticed that after you've typed in a fset of nodes for our view to display, there are already a lot of edges connecting your nodes together. That's because <<.graph>> views automatically show relationships between tiddlers unless you specify otherwise.
+
+Let's specify otherwise.
+
+Underneath the "Nodes" textbox we filled out earlier, you'll see two other text boxes labeled Edges, fields" and "Edges, formulas". These two categories derive edges by looking at each node individually.
+
+There are some preconfigured types here which you'll see listed directly underneath their corresponding text-field.
+
+!!! Edges, fields
+
+Field edges look at a tiddler's fields to make edges. Two are configured by default.
+
+|!list |This makes edges for each title in a tiddler's <<.field list>> field. |
+|!tags |This does the same, but for the <<.field tags>> field. |
+
+!!! Edges, formulas
+
+This category makes edges by running each tiddler through custom formulas (i.e. filters). Two types are premade.
+
+|!links |This type makes an edge for every wikilink inside a tiddler's body. |
+|!transcludes |This makes edges for every transclusion in a tiddler's body. |
+
+There are ways to add more types, but for now, let's look at how to enable or disable the existing types already there.
+
+!! Filtering edge types
+
+By default, //all// edge types are enabled. That's what the `[all[]]` value means in the text box, which basically means, "Yes, please, to everything" in filter-speak.
+
+# Let's get rid of <<.field list>> edges, and just have <<.field tag>> edges represented instead. So let's replace `[all[]]` that's already there with `[all[]] -list`, which is filter-speak for "everything, except lists". If you do it right, you'll see "list" beneath that text box gray out, and all "list" edges will instantly disappear from your graph.
+#* //Note: You could also replace `[all[]]` with `tags`, which is filter-speak for "only tags", and this works too, but if you ever later add other field-edge types, they will be disabled by default.//
+# Now let's get rid of //all// formula-type edges, because we want our graph not to make edges based on the contents of our tiddlers' bodies. So in the "Edges, formulas" text box, replace the `[all[]]` with `--`, which is a filter-speak short hand for "[[Nothing, please]]". Now all those "links to" edges will disappear.
+
+Now we've got a graph that shows our nodes, and all the tagging relationships between them. Let's move on.
+
+<$doc.inhouse>
+
+If you're following along on this site, you can use this button to fill out edge-type forms as described.
+
+<$button actions="""<$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list" edges.formulas="--" />""">
+
+Set the edge-type forms
+</$button>

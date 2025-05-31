@@ -1,6 +1,6 @@
 title: Top-Down Tutorial
 tags: Tutorials
-list: [[Click on Me]] 
+list: [[Click on Me]] [[Adding Nodes]] [[Configuring Edge Types]]
 
 So you've just installed <<.graph>> into your project. Great! But you're not sure what you're looking at. I bet you've got some of your tiddlers on that graph, and maybe show the relationship between those tiddlers, like their tags, and links, list fields.
 

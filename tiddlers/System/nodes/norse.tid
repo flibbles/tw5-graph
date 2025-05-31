@@ -1,7 +1,0 @@
-title: $:/config/flibbles/graph/nodes/stack/norse
-filter: [tag[Norse]]
-type: application/json
-
-{
-	"color": "#8b0000"
-}

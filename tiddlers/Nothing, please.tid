@@ -1,0 +1,7 @@
+title: Nothing, please
+
+Okay, fine!
+
+The filter `--` doesn't actually mean "Nothing, please." It technically means "Take all the filter results we have so far (which is nothing), and remove the '-' result", which //effectively means// "Nothing, please".
+
+And `--` makes for a really concise shorthand.
