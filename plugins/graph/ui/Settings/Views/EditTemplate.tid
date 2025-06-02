@@ -37,8 +37,23 @@ Template: <<templateSelector>>
 
 !!! Graph engine defaults
 
-<$transclude $variable=tabs
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
 	tabsList="graph nodes edges"
 	default=graph
-	template="$:/plugins/flibbles/graph/ui/Settings/Views/DefaultsTab"
-	state= "$:/state/flibbles/graph/views/editTemplate" />
+	class=""
+	state= "$:/state/flibbles/graph/views/editTemplate">
+
+<$fill $name=body>
+
+<$vars state=`$:/temp/flibbles/graph/$(currentTab)$/$(currentTiddler)$`>
+
+<$fieldtranscriber
+	state=<<state>>
+	type="application/json"
+	field=`graph.$(currentTab)$` />
+
+<$vars currentTiddler=<<state>>>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
+	type=<<currentTab>>
+	engine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} />
