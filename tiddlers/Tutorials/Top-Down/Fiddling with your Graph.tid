@@ -1,0 +1,23 @@
+At this point, you should have a graph showing your nodes, with the connections you want represented. There's a lot more to unpack with configuring your graph, but let's take a moment to explore what we can do to your graph itself.
+
+!! Moving and placing nodes
+
+By now, you've probably noticed that your graph is rather "loose". Your nodes drift around and shift. And your graph looks different every time you re-load it.
+
+The physics is //cute//, but realistically, you'll probably want to fix the location of your nodes. Worry not. If you drag a node to somewhere, it will //fix in place//. It's location will get recorded in your view, and it will remember that location next time the graph loads.
+
+Note: //Vis-Network// has an interesting "feature". If less than half of your nodes have recorded locations, it will treat those locations merely as suggestions, and place your nodes however it wants. <<.graph>> does not bother preventing this behavior, because Vis-Network does this on purpose to optimize its node-placing algorithm. After you've placed half your nodes, this will stop happening.
+
+!! Adding and Removing nodes
+
+We've already covered this earlier, but it's worth repeating. If you double-click on the empty space of your graph, you'll get a prompt that will allow you to add a new node to the graph exactly where you clicked. It will create the corresponding tiddler too, if it doesn't exist.
+
+This may be your preferred way to build graphs, rather than write a filter describing tiddlers. But you //can// mix and match the two. <<.graph>> can //safely// add nodes to your nodes filter.
+
+If you're using Vis-Network, you can remove nodes through the buttons that engine provides you along the top of the graph. Doing so will //safely// remove your nodes from your filter. This does ''not'' delete your tiddler.
+
+!! Adding and removing edges
+
+Using those edit buttons, you can draw edges between nodes by clicking and dragging, and then using the super-quick modal that pops up. You can use this this easy means to create new "field edges" such as the <<.field list>> or <<.field tags>> (or any field really, although if you draw an edge for a field your graph doesn't show, it won't show up!)
+
+You can't add or remove "formula fields" this way. Nothing will happen, because those are created procedurely. (<<.graph>> can't know what to do if you asked it to add a "link".)

@@ -99,10 +99,7 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
   <$list variable=currentTab filter=<<tabsList>> >
     <$transclude $variable=grouped-tabs-tab $fillignore=yes/>
   </$list>
-  <$button class="group-tab-new">
-    {{$:/core/images/new-button}}
-    <$slot $name=addActions />
-  </$button>
+  <$slot $name=addButton />
 </$list>
 \end
 

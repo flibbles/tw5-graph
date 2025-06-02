@@ -7,6 +7,10 @@
 			"fields": {
 				"tags": "[[Top-Down Tutorial]]",
 				"title": {
+					"prefix": "Top-Down: ",
+					"source": "basename"
+				},
+				"caption": {
 					"source": "basename"
 				}
 			}

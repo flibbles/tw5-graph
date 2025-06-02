@@ -10,14 +10,17 @@ caption: Views
 	default={{{ [subfilter<viewList>] }}}
 	state="$:/state/flibbles/graph/views"
 >
-  <$fill $name=addActions>
-    <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewView">
-      <$vars newTitle=`$:/graph/$(selection)$`>
-        <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
-        <$action-setfield $tiddler=<<qualifiedState>> text=<<newTitle>> />
-      </$vars>
-    </$action-modal>
-    <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+  <$fill $name=addButton>
+    <$button class="group-tab-new">
+      {{$:/core/images/new-button}}
+      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewView">
+        <$vars newTitle=`$:/graph/$(selection)$`>
+          <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
+          <$action-setfield $tiddler=<<qualifiedState>> text=<<newTitle>> />
+        </$vars>
+      </$action-modal>
+      <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+    </$button>
   </$fill>
   <$fill $name=button>
     <$view tiddler=<<currentTab>> field=caption>

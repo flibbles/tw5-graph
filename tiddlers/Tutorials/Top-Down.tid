@@ -1,29 +1,18 @@
 title: Top-Down Tutorial
 tags: Tutorials
-list: [[Click on Me]] [[Adding Nodes]] [[Configuring Edge Types]]
+list: [[Top-Down: Introduction]] [[Top-Down: Click on Me]] [[Top-Down: Adding Nodes]] [[Top-Down: Configuring Edge Types]] [[Top-Down: Fiddling with your Graph]]
 
-So you've just installed <<.graph>> into your project. Great! But you're not sure what you're looking at. I bet you've got some of your tiddlers on that graph, and maybe show the relationship between those tiddlers, like their tags, and links, list fields.
+<$transclude
+	$tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	tabsList="[tag[Top-Down Tutorial]]"
+    default="Top-Down/Introduction" >
 
-Let's do that!
+<$fill $name=body>
 
-<$doc.inhouse>
+! <$view tiddler=<<currentTab>> field=title/>
 
-Note: If you don't want to bother yet installing <<.graph>>, you can follow along with this tutorial right here in this demo. Just click the following button, and the demo will present you exactly what a fresh install would.
+<$transclude $tiddler=<<currentTab>> />
 
-<$button actions="""
-	<$action-deletetiddler $tiddler="$:/graph/Default"/>
-	<$action-setfield $tiddler="$:/state/tab/sidebar--595412856" text="$:/plugins/flibbles/graph/ui/SideBar"/>
-	<$action-setfield $tiddler="$:/config/flibbles/graph/sidebar" text="$:/graph/Default" />
-	""" >
+</$fill>
+</$transclude>
 
-Act like a fresh install
-</$button>
-
-Also, so you know: whenever you see text in colored blocks like this, that information is specific for if you're following along in this demo site.
-</$doc.inhouse>
-
-<$list counter=counter filter="[tag[Top-Down Tutorial]]">
-
-! <<counter>>: <$view field=title/>
-
-{{}}
