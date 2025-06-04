@@ -11,6 +11,7 @@ exports.name = "Test";
 
 exports.properties = {
 	graph: {
+		focus: {type: "actions"},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
 		addNode: {type: "actions", variables: ['x', 'y']},
@@ -59,7 +60,6 @@ exports.destroy = function() {
 // This method does a lot of sanity checking to make sure all our tests
 // conform to common engine standards.
 exports.dispatchEvent = function(params, variables) {
-	variables = variables || {};
 	var category = this.properties[params.objectType];
 	if (!category) {
 		throw new Error("Graph event dispatched without object Type");

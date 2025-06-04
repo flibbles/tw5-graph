@@ -98,7 +98,6 @@ test.actionToBeCalled = function() {
 
 test.dispatchEvent = function(wiki, params, variables, callback) {
 	var event = createEvent(params.type);
-	variables = variables || {};
 	var spy;
 	if (test.actionMethod.calls) {
 		spy = test.actionMethod;

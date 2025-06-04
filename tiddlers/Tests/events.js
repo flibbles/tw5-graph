@@ -81,6 +81,14 @@ it('can ignore events for unknown object types', function() {
 	// No test here, just shouldn't throw an exception
 });
 
+it("can handle no-argument events like focus", function() {
+	var widget = $tw.test.renderText(wiki, '<$graph focus="<$action-test call=this/>"/>');
+	var objects = init.calls.first().args[1];
+	expect(objects.graph).toEqual({focus: true});
+	$tw.test.dispatchEvent(wiki, { type: "focus", objectType: "graph" });
+	expect($tw.test.actionMethod.calls.allArgs()).toEqual([ [{call: "this"}] ]);
+});
+
 it("can send graph events to all $for=graph", function() {
 	var widget = $tw.test.renderText(wiki, `<$graph>
 		<$properties $for=graph addNode='<$action-test call=this />'/>
