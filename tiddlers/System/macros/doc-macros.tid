@@ -5,7 +5,7 @@
 \procedure .field(_) <code class=doc-field><<_>></code>
 \procedure .tid(_) <code class=doc-tiddler><$text text=<<_>>/></code>
 \procedure .wid(_) <code class=doc-widget>$<<_>></code>
-\procedure .value(_) <code class=doc-value><<_>></code>
+\procedure .value(_) <code class=doc-value><$text text=<<_>> /></code>
 \procedure .var(_) <code class=doc-var><<_>></code>
 
 \procedure .wlink(to) <$link to=<<to>> ><$transclude $variable=.wid _={{{ [<to>get[caption]] }}} /></$link>

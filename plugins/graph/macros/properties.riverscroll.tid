@@ -17,3 +17,5 @@
 
 <%endif%>
 \end
+
+\relink $properties.riverscroll $state:title
