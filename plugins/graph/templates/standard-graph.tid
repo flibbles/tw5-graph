@@ -5,6 +5,7 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$graph>
+  <$properties.riverscroll />
   <$properties physics=yes doubleclick="<$action-navigate $to=<<id>> />">
     <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
       <$let

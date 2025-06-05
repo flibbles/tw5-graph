@@ -12,6 +12,8 @@ exports.name = "Test";
 exports.properties = {
 	graph: {
 		focus: {type: "actions"},
+		blur: {type: "actions"},
+		zoom: {type: "boolean"},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
 		addNode: {type: "actions", variables: ['x', 'y']},
