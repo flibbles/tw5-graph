@@ -1,0 +1,32 @@
+title: Properties.RiverscrollWidget
+tags: Widgets [[Macro Widgets]]
+caption: properties.riverscroll
+
+! Introduction
+
+The <<.wid properties.riverscroll>> widget introduces some convenient scroll behaivor for graphs. Effectively, if a graph is in the river, its ability to capture scroll-wheel inputs is disabled until the user focuses the graph (either by clicking on it, tapping it, or tabbing over to it). It disables once focus is lost.
+
+However, if the graph is in the sidebar, scrolling will always be enabled.
+
+! Contents and Attributes
+
+Any nodes defined within a <<.wid properties.riverscroll>> widget are ignored.
+
+|!Attribute | !Description |
+|$state |Default state prefix this widget uses to manage focus state (defaults to <<.value $:/state/flibbles/graph/riverscroll>>) |
+
+<$doc.implementation />
+
+! Examples
+
+<$doc.example
+	description="Simple riverscroll behavior"
+	narrative="You cannot scroll in this graph until you click on it. Clicking elsewhere will make it unscrollable again.">
+<$data title=Output
+	text="""<$graph>
+  <$properties.riverscroll />
+  <$node $tiddler=Watson label=Watson/>
+  <$node $tiddler=Crick label=Crick/>
+  <$edge $from=Watson $to=Crick label=Genetics/>
+</$graph>""" />
+</$doc.example>
