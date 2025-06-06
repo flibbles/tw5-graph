@@ -1,34 +1,4 @@
 \widget $properties.popup($ms:600 $msLinger:0)
-
-\procedure hoverAction()
-\whitespace trim
-<%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
-  <$action-delay $state=<<delayState>> $ms=<<$ms>> >
-    <$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)` />
-    <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
-  </$action-delay>
-<%endif%>
-<$action-deletetiddler $tiddler=<<blurringState>> />
-\end hoverAction
-
-\procedure blurAction()
-\whitespace trim
-<$action-delay $state=<<blurringState>> $ms=<<$msLinger>> >
-  <$action-deletetiddler $tiddler=<<delayState>> />
-  <$action-popup $state=<<state>> />
-\end blurAction
-
-\procedure dragAction()
-\whitespace trim
-<$action-deletetiddler $tiddler=<<delayState>> />
-<$action-popup $state=<<state>> />
-<$action-setfield $tiddler=<<draggingState>> text=dragging />
-\end dragAction
-
-\procedure freeAction()
-<$action-deletetiddler $tiddler=<<draggingState>> />
-\end freeAction
-
 \whitespace trim
 
 <$parameters $state=<<qualify "$:/state/graph/tooltip">> >
@@ -39,10 +9,23 @@
 	draggingState=`$(state)$-dragging` >
 
 <$properties
-	hover=<<hoverAction>>
-	blur=<<blurAction>>
-	drag=<<dragAction>>
-	free=<<freeAction>> >
+  hover="""\whitespace trim
+    <%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
+      <$action-delay $state=<<delayState>> $ms=<<$ms>> >
+        <$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)`/>
+        <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
+      </$action-delay>
+    <%endif%>
+    <$action-deletetiddler $tiddler=<<blurringState>> />"""
+  blur="""\whitespace trim
+    <$action-delay $state=<<blurringState>> $ms=<<$msLinger>> >
+      <$action-deletetiddler $tiddler=<<delayState>> />
+      <$action-popup $state=<<state>> />"""
+  drag="""\whitespace trim
+    <$action-deletetiddler $tiddler=<<delayState>> />
+    <$action-popup $state=<<state>> />
+    <$action-setfield $tiddler=<<draggingState>> text=dragging />"""
+  free='<$action-deletetiddler $tiddler=<<draggingState>> />' >
 
 <$slot $name="ts-raw" />
 
