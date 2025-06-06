@@ -138,6 +138,35 @@ it("takes deletion of field as cue to delete state", async function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("value");
 });
 
+/*** Inner content ***/
+
+it("sets a generated state variable for inner content", async function() {
+	wiki.addTiddler({title: "Target", field: "myValue"});
+	var widget = $tw.test.renderText(wiki, `<$fieldtranscriber tiddler=Target field=field>\n\n<$text text={{{ [<state>get[text]] }}} />\n`);
+	expect(widget.parentDomNode.innerHTML).toBe("myValue");
+	var states = wiki.filterTiddlers("[text[myValue]prefix[$:/temp/]]");
+	expect(states.length).toBe(1);
+});
+
+it("allows children update", async function() {
+	wiki.addTiddler({title: "Target", field: "myValue"});
+	wiki.addTiddler({title: "Other", text: "first"});
+	var widget = $tw.test.renderText(wiki, `<$fieldtranscriber tiddler=Target field=field>\n\n<$text text={{Other}} />\n`);
+	expect(widget.parentDomNode.innerHTML).toBe("first");
+	wiki.addTiddler({title: "Other", text: "second"});
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toBe("second");
+});
+
+it("handles field/tiddler conflicts with generated state", async function() {
+	wiki.addTiddler({"field/value": "A", title: "target"});
+	wiki.addTiddler({"field": "B", title: "value/target"});
+	var widget = $tw.test.renderText(wiki, `<$fieldtranscriber field="field/value" tiddler="target">\n\n<$text text={{{ [<state>get[text]] }}} />\n\n</$fieldtranscriber><$fieldtranscriber field="field" tiddler="value/target">\n\n<$text text={{{ [<state>get[text]] }}} />\n`);
+	// We give the first scribe a chance to see the second scribe's write.
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toBe("AB");
+});
+
 /*** JSON fields ***/
 
 it("manages json tiddlers", async function() {

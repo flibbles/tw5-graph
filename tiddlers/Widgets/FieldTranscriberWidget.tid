@@ -1,0 +1,52 @@
+title: FieldTranscriberWidget
+tags: Widgets [[Core Widgets]]
+caption: fieldtranscriber
+
+! Introduction
+
+The <<.wid fieldtranscriber>> widget maintains parity between a tiddler's field, and the body of another tiddler (usually a state tiddler). This is useful for using tiddlywiki's input widget, such as <<.wid button>> or <<.wid range>>, to record their data into json fields. That's normally not possible, but this widget allows you to point them to the indexes of a temporary tiddler, and those will get transcribed into the paired field of your target tiddler.
+
+Likewise, this widget also updates the state tiddler if the field changes. That way, any input widgets pointing to the data tiddler will properly update their visible state.
+
+To use this, you need only create a <<.wid fieldtranscriber>> alongside whatever widgets your using to write to the corresponding state tiddler. When this widget instantiates, it will make sure that state tiddler properly reflects your given field as it currently is.
+
+! Content and Attributes
+
+The content of the <<.wid fieldtranscriber>> widget is rendered as normal, with the variable <<.var state>> set to the temporary tiddler used to hold the text to transcribe.
+
+|!Attribute |!Description |
+|tiddler |Tiddler whose field is synchronized with the state tiddler (defaults to the current tiddler) |
+|field |The field of the tiddler which will be synchronized with the state tiddler. |
+|state |Optional explicit title of a state tiddler whose body is synchronized with the tiddler's field. This title will be used exactly, and will not be qualified. |
+|type |The type of data being transcribed. See below for supported types. (defaults to <<.value text/plain>>) |
+
+! Types
+
+Fieldtranscriber supports a few types.
+
+;text/plain
+: This is the default type. When transcribing to a plaintext field, <<.wid fieldtranscriber>> will transcribe the contents between body and field as-is. It will preserve all whitespace, even newline characters.
+;application/json
+: When transcribing json, the <<.wid fieldtranscriber>> will pretty-print the state body, as it would be in any json data tiddler, but it will strip all whitespace from the corresponding json field. If either the field or text is corrupted, it transcribes `{}` to the corresponding destination.
+
+Any unknown types get treated as <<.value text/plain>>.
+
+!Examples
+
+<$doc.example
+	description="FieldTranscriber with JSON"
+	narrative="This is a common use-case. Transcribing json from a data tiddler written to by input widgets. Useful for packing a lot of state into a field.
+
+In effect, you get input widgets that can correspond to properties in a json field.">
+<$data
+	title=Output
+	text="""<$fieldtranscriber field="profile" type="application/json">
+
+|!Name |<$edit-text tiddler=<<state>> index="name" tag="input" type="text"/>|
+|!Age |<$range tiddler=<<state>> index="age" min="0" max="100"/>|
+
+<$text text={{!!profile}} />
+
+</$fieldtranscriber>""" />
+</$doc.example>
+

@@ -45,12 +45,9 @@ Template: <<templateSelector>>
 
 <$fill $name=body>
 
-<$vars state=`$:/temp/flibbles/graph/$(currentTab)$/$(currentTiddler)$`>
-
 <$fieldtranscriber
-	state=<<state>>
 	type="application/json"
-	field=`graph.$(currentTab)$` />
+	field=`graph.$(currentTab)$`>
 
 <$vars currentTiddler=<<state>>>
 

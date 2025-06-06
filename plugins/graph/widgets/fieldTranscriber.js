@@ -32,15 +32,20 @@ ScriberWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 ScriberWidget.prototype.execute = function() {
-	this.scribeState = this.getAttribute("state");
 	this.scribeField = this.getAttribute("field");
 	this.scribeTiddler = this.getAttribute("tiddler") || (!this.hasParseTreeNodeAttribute("tiddler") && this.getVariable("currentTiddler"));
 	this.scribeType = this.getAttribute("type");
+	this.scribeState = this.getAttribute("state");
+	if (!this.scribeState) {
+		this.scribeState = "$:/temp/flibbles/graph/fieldtranscriber/" + encodeURIComponent(this.scribeField) + "/" + this.scribeTiddler;
+	}
 	if (!Transcribers[this.scribeType]) {
 		this.scribeType = "text/plain";
 	}
+	this.setVariable("state", this.scribeState);
 	this.transcriber = Transcribers[this.scribeType];
 	this.prepState();
+	this.makeChildWidgets();
 };
 
 ScriberWidget.prototype.refresh = function(changedTiddlers) {
