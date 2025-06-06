@@ -4,7 +4,7 @@ Tests the properties.riverscroll global widget.
 
 \*/
 
-fdescribe('properties.riverscroll \\widget', function() {
+describe('properties.riverscroll \\widget', function() {
 
 var wiki, update, window, init;
 
