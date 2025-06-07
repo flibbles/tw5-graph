@@ -261,7 +261,7 @@ GraphWidget.prototype.typecastProperties = function(properties, type) {//type, k
 	for (var key in properties) {
 		var info = category[key];
 		if (info && PropertyTypes[info.type]) {
-			var value = PropertyTypes[info.type].toProperty(info, properties[key]);
+			var value = PropertyTypes[info.type].toProperty(info, properties[key], {wiki: this.wiki});
 			if (value !== null) {
 				output[key] = value;
 			}

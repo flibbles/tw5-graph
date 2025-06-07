@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/propertytypes/string.js
-type: application/javascript
-module-type: graphpropertytype
 
 Defines behavior for string types in graph engine properties.
 

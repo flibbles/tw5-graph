@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/propertytypes/number.js
-type: application/javascript
-module-type: graphpropertytype
 
 Defines behavior for number types in graph engine properties.
 

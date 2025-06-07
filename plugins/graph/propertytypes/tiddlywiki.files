@@ -1,0 +1,17 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"source": "filename",
+					"prefix": "$:/plugins/flibbles/graph/propertytypes/"
+				},
+				"type": "application/javascript",
+				"module-type": "graphpropertytype"
+			}
+		}
+	]
+}

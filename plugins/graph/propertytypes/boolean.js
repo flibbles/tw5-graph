@@ -1,7 +1,4 @@
 /*\
-title: $:/plugins/flibbles/graph/propertytypes/boolean.js
-type: application/javascript
-module-type: graphpropertytype
 
 Defines behavior for boolean types in graph engine properties.
 
