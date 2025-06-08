@@ -39,7 +39,7 @@ exports.toProperty = function(info, value, options) {
 					*/
 				} else {
 					// .svg .tid .xml etc.
-					src = "data:" + deserializerType + "," + encodeURIComponent(text);
+					src = "data:" + deserializerType + ";" + encoding + "," + encodeURIComponent(text);
 				}
 			} else if(_canonical_uri) {
 				switch(deserializerType) {
@@ -56,6 +56,14 @@ exports.toProperty = function(info, value, options) {
 				// No idea if I should support this or not
 				//this.wiki.getTiddlerText(this.imageSource);
 			}
+		} else {
+			// We assume it is wikitext trying to make an svg
+			var body = options.wiki.renderTiddler("text/html", value, {parseAsInline: true});
+			if (body.indexOf("xmlns=") < 0) {
+				// wikitext svg does not need namespacing, but data URIs do
+				body = body.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+			}
+			src = "data:image/svg+xml," + encodeURIComponent(body);
 		}
 	}
 	return src;
