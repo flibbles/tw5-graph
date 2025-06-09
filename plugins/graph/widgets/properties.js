@@ -7,6 +7,7 @@ Widget for setting properties on graph objects.
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
+var utils = require("../utils.js");
 var Engines = $tw.modules.getModulesByTypeAsHashmap("graphengine");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
@@ -36,7 +37,8 @@ Properties.prototype.execute = function() {
 Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
-	if (propertiesChanged(this, changedAttributes, changedTiddlers)
+	if (propertiesChanged(changedAttributes)
+	|| utils.refreshProperties(this.styleObject, this, this.type, changedTiddlers)
 	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
 	|| changedAttributes["$for"]
@@ -210,27 +212,10 @@ Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
 	}
 };
 
-function propertiesChanged(widget, changedAttributes, changedTiddlers) {
+function propertiesChanged(changedAttributes) {
 	for (var name in changedAttributes) {
 		if (name.charAt(0) !== "$") {
 			return true;
-		}
-	}
-	// No properties have overtly changed, but maybe they changed covertly...
-	var engineName = widget.getVariable("graphengine");
-	var engine = Engines[engineName];
-	if (engine) {
-		var properties = engine.properties[widget.type];
-		for (var attribute in widget.styleObject) {
-			if (!$tw.utils.startsWith(attribute, "$")) {
-				var info = properties[attribute];
-				var type = PropertyTypes[info && info.type];
-				if (type && type.refresh) {
-					if (type.refresh(info, widget.styleObject[attribute], changedTiddlers, {wiki: widget.wiki})) {
-						return true;
-					}
-				}
-			}
 		}
 	}
 	return false;

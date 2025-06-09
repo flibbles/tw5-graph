@@ -10,6 +10,7 @@ Utility methods used by the graphing widgets.
 "use strict";
 
 var Engines = $tw.modules.createClassesFromModules("graphengine");
+var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 /*
 Returns the window for flibbles/graph to use. I do this so that the testing
@@ -31,6 +32,30 @@ exports.getEngine = function(name) {
 		return engineMap[entry];
 	}
 	return null;
+};
+
+/*
+Checks if any property in an object needs to check for refresh, and returns
+true if any do need to refresh.
+*/
+exports.refreshProperties = function(properties, widget, type, changedTiddlers) {
+	var engineName = widget.getVariable("graphengine");
+	var engine = Engines[engineName];
+	if (engine) {
+		var propInfos = engine.prototype.properties[type];
+		for (var name in properties) {
+			var info = propInfos[name];
+			var type = PropertyTypes[info && info.type];
+			if (type && type.refresh) {
+				if (type.refresh(info,
+						properties[name],
+						changedTiddlers, {wiki: widget.wiki})) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 };
 
 // Aren't we all eventually garbage?

@@ -8,8 +8,7 @@ such as nodes or edges.
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
-var Engines = $tw.modules.getModulesByTypeAsHashmap("graphengine");
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
+var utils = require("../utils.js");
 
 var ObjectWidget = function(parseTreeNode, options) {};
 
@@ -29,22 +28,9 @@ ObjectWidget.prototype.refresh = function(changedTiddlers) {
 		return true;
 	}
 	// No properties have overtly changed, but maybe they changed covertly...
-	var engineName = this.getVariable("graphengine");
-	var engine = Engines[engineName];
-	if (engine) {
-		var properties = engine.properties[this.graphObjectType];
-		for (var attribute in this.attributes) {
-			if (!$tw.utils.startsWith(attribute, "$")) {
-				var info = properties[attribute];
-				var type = PropertyTypes[info && info.type];
-				if (type && type.refresh) {
-					if (type.refresh(info, this.attributes[attribute], changedTiddlers, {wiki: this.wiki})) {
-						this.refreshSelf();
-						return true;
-					}
-				}
-			}
-		}
+	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
+		this.refreshSelf();
+		return true;
 	}
 	return this.refreshChildren(changedTiddlers);
 };
