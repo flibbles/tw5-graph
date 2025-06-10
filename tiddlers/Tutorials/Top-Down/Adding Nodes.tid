@@ -22,7 +22,7 @@ Whatever you type in, the nodes will spring out within your graph.
 
 If you're running through this tutorial on the demo site, you can use `[tag[Norse]]`, which includes a set of pre-made tiddlers prepared for this demo. If you'd like, the following button will automatically set "Nodes" for you.
 
-<$button actions="""<$action-setfield $tiddler="$:/graph/Default" filter="[tag[Norse]]"/>""">
+<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" filter="[tag[Norse]]"/>""">
 
 Use `[tag[Norse]]`
 </$button></$doc.inhouse>

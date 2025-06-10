@@ -36,7 +36,7 @@ Now we've got a graph that shows our nodes, and all the tagging relationships be
 
 If you're following along on this site, you can use this button to fill out edge-type forms as described.
 
-<$button actions="""<$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list" edges.formulas="--" />""">
+<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list" edges.formulas="--" />""">
 
 Set the edge-type forms
 </$button>

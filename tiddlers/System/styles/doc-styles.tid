@@ -2,7 +2,6 @@
 
 /*** doc-style ***/
 
-.doc-button,
 .doc-tab,
 .doc-tag,
 .doc-tiddler,
@@ -83,7 +82,7 @@
 	margin-right: 1em;
 }
 
-.doc-inhouse button {
+.doc-inhouse button.doc-button {
 	display: block;
 	margin: auto;
 }

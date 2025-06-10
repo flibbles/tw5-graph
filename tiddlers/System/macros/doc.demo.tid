@@ -5,20 +5,8 @@
   <div class="doc-example">
     <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
     <$codeblock code=<<content>> />
-    <!-- We set the transclusion variable below so that qualifiers can get
-         different values when multiple examples are on the same page. -->
-    <$vars .state=`$(.state-prefix)$(currentTiddler)$/$(description)$`
-           transclusion=<<description>> >
-      <%if [<.state>get[text]match[show]] %>
-        <dl>
-          <dd><$button set=<<.state>> setTo="">Hide</$button></dd>
-        </dl>
-        <<header>>
-        <$transclude $variable=content $mode=block/>
-        <<footer>>
-      <%else%>
-        <dl>
-          <dd><$button set=<<.state>> setTo="show">Try it</$button></dd>
-        </dl>
-      <%endif%>
+    <$doc.show show="Try it" salt=<<description>> >
+      <<header>>
+      <$transclude $variable=content $mode=block/>
+      <<footer>>
 \end

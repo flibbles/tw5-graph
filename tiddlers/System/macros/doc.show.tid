@@ -1,0 +1,12 @@
+\widget $doc.show(show:Show, hide:Hide, salt)
+\whitespace trime
+<$qualify name=".state" title=`$:/state/editions/tw5-graph/show/$(salt)$`>
+  <%if [<.state>get[text]match[show]] %>
+    <dl>
+      <dd><$button set=<<.state>> setTo=""><<hide>></$button></dd>
+    </dl>
+    <$slot $name=ts-raw />
+  <%else%>
+    <dl>
+      <dd><$button set=<<.state>> setTo="show"><<show>></$button></dd>
+\end
