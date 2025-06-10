@@ -4,8 +4,10 @@ list-before:
 tags: $:/tags/SideBar
 title: TableOfContents
 
+\parameters (macro:toc-selective-expandable)
+
 <div class="tc-table-of-contents">
 
-<<toc-selective-expandable 'Documentation'>>
+<$transclude $variable=<<macro>> tag=Documentation exclude="[tag[Tutorials]tagging[]]" />
 
 </div>
