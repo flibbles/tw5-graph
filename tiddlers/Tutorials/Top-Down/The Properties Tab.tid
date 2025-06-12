@@ -1,0 +1,28 @@
+You've probably figured out that you can change your edges for your view with that edge tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
+
+!! The "Properties" tab
+
+This tab is along the top of the Control Panel you've been working with, as appose to the "View" tab we've been looking at so far.
+
+<$doc.inhouse>
+
+<$button class=doc-button actions="""
+	<$action-navigate='$:/plugins/flibbles/graph/settings"/>
+	<$action-setfield $tiddler='$:/config/flibbles/graph/settings' text='$:/plugins/flibbles/graph/ui/Settings/Properties'/>
+""" >
+
+Switch to "Properties" tab.
+</$button></$doc.inhouse>
+
+Another line of tabs! The choices are <<.value edges>> and <<.value nodes>>. Let's look at <<.value edges>>. Along the side is now a vertical tab list for all those edge types we specified earlier. This is where we can set the graph properties for specific types of edges ''across all views''.
+
+Let's get to work.
+
+# First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge". Set "arrows" to <<.value to>>, and you'll see all your tag fields update.
+# Next, you might remember that we added our own custom field to the "edges, fields" textbox. <$doc.inhouse>For the demo, that was <<.field slayed>></$doc.inhouse>, since it didn't have a corresponding edge-type, those edges had no special styling.
+#* Let's click the <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button the "Fields" grouping to create a new field-edge type, and when prompted, type in your field name <$doc.inhouse>(<<.field slayed>> in the demo's case)</$doc.inhouse>. Now we have a new type to style.
+#* Let's check the box next to "dashes" to make those types of edges dashed. That should be good enough for now.
+
+There you have it! Now you know how to style edges based on their types.
+
+Now onto nodes, 

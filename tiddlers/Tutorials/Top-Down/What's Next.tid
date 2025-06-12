@@ -1,0 +1,13 @@
+At this point, you know all the basics, and now you're ready to create the standard graph views as you want.
+
+!! But what about non-standard graphs?
+
+Ah, yes. You may have noticed on the view configuration page that there was one dropdown list at the top which we never talked about. The "Template" dropdown, which was set to <<.value "Standard editable graph">>.
+
+Turns out, there are many different kinds of graphs, all defined using templates that rely on the widgets provided by <<.graph>>. For instance, the Live graph is a graph which dynamically changes depending on state that you set.
+
+...And that's it for right now.
+
+You are able to build your own templates, or your own widget macros, or your own on-the-fly graphs. This more advanced than using views, but definitely gives you the ultimate freedom to make the graph you need.
+
+For that, you might be interested in the [[Bottom-Up tutorial|Bottom-Up]].

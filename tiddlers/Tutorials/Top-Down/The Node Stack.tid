@@ -1,0 +1,37 @@
+Nodes can be stylized by type just like edges can, but it's a little different.
+
+Let's click over to the "nodes" tab, and you'll see... //nothing//! Just a vertical tab to the left that contains "Stack" and a <<.plus>> button. That's because you don't have any node types yet.
+
+!! What is the stack
+
+The stack is a bunch of property types which apply to all nodes in a view, depending on whether any given node fits that type's filter criteria.
+
+It's probably easier to show you.
+
+Click on that <<.plus>> and type in a name for a new type. <$doc.inhouse>If you can't think of a name, let's say <<.value heroes>>.</$doc.inhouse> Now you get a new property table, along with a description of the stack, and a "Filter" field.
+
+Whatever filter you input describes what nodes these properties will apply to. If you put `[all[]]`, these properties will apply to all nodes. If you put `[tag[Hero]]`, it will apply to all nodes tagged with <<tag Hero>>. That's it.
+
+<$doc.inhouse>
+
+!! Applying some settings
+
+If you're on the demo, let's spruce these nodes up a bit.
+
+# If you haven't, create a node type set called <<.value heroes>>. We'll set the filter to `[tag[Hero]]`, and then change the "shape" to <<.value Star>>.
+
+<$button class=doc-button actions="""
+	<$action-setfield $tiddler='$:/config/flibbles/graph/nodes/heroes' text='{
+    "shape": "star"
+}'/>""" >
+
+Or do it all automatically.
+</$button></$doc.inhouse>
+
+!! What if properties overlap? //(Node-stack order)//
+
+You mean, what if you have two node types that assign different values to the same property, and there are nodes that fall under both types' criteria?
+
+That's why it's called the Node Stack! They apply in order, with the later (lower on the list to the side) overriding the priorities. This is a feature you can take advantage of, with some nodes inheriting some properties of broader types, and then overriding specifics with more narrow-focused types.
+
+To rearrange the stack order, just drag the node type tabs around in the vertical tab list.

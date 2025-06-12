@@ -75,6 +75,9 @@
 	background-color: <<colour message-background>>;
 	color: <<colour message-foreground>>;
 	border: 1px solid <<colour message-border>>;
+}
+
+div.doc-inhouse {
 	padding: 4px;
 	padding-left: 1em;
 	padding-right: 1em;
@@ -85,4 +88,9 @@
 .doc-inhouse button.doc-button {
 	display: block;
 	margin: auto;
+}
+
+.doc-navigation {
+	display: flex;
+	justify-content: space-between;
 }

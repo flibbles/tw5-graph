@@ -1,0 +1,50 @@
+By now, you can create a graph with the nodes you want, connected by the edges you choose. But what you've got is a plain-looking graph with only circle-shaped nodes of a single color. Let's style it!
+
+There are many ways to style graphs. Either by effecting all objects of a given view, or objects of a certain type across many views, etc... But let's just focus on configuring all the objects of our current view.
+
+If we look back at our view configuration tiddler, there's an entire section right beneath the settings we've been working called "Graph engine defaults". It contains three tabs, "graph", "nodes", and "edges", and each of those is a table of properties.
+
+!! What are Properies
+
+Properties are ''engine-specific'' so what you see will depend on which engine you installed. <<.graph>> knows nothing about these properties itself. All it does is report to you what properties are available, and send what you specify back to the engine.
+
+This tutorial will assume you're working with "Vis-Network", but most engines will have the same properties
+
+Note: //You'll also see that the tables in each graph have two sections. The <<.value Style>> properties, which are shown by default, and the <<.value Actions>> properties, which are hidden by default. Action properties are more advanced, and we'll deal with them later.//
+
+!! Turning off physics
+
+How about we turn the physics off for our graph? We don't want any free floating nodes.
+
+# Make sure you're looking at the <<.value graph>> tab, because this is a property that affects the entire graph.
+# Uncheck the checkbox across from "zoom"
+
+You'll notice two things. All the nodes in your graph no longer float around, also a a little trashcan icon appeared in the same line with that checkbox, and even if you re-check the box, that icon remains. That's because this graph property is now "set". We'll talk more about what that means when we talk about the node property stack in a later section, but for now, know that you can click that "trashcan" to "unset" a property and return it to its default.
+
+!! Customizing node appearance
+
+Let's click over to the "nodes" tab. These are properties that will apply to all your nodes, rather than to your graph as a whole.
+
+# Let's change the shape of all your nodes. Find the <<.value shape>> dropdown and select <<.value box>>. That will change all your nodes to be boxes with their labels inside.
+# Now let's change the color of all our view nodes by clicking on the black bar beside <<.value color>>. I think a nice dark red should do. Fitting for the mythological beings.
+
+!! Moving on
+
+You've probably noticed there's also an "edges" tab. You can play with it, (in fact, you'll probably want to turn off "physics" for edges too, or they'll look strange as you move around the nodes), but there's a little more to understand before customizing edges. For one, you may have noticed your edges already vary in color depending on what type of edge they are. They've already got style!
+
+We'll address that in the next tutorial, but first, try exploring the other properties you see. There are many ways to customize graphs.
+
+<$doc.inhouse>
+
+Here's a button that'll apply all the suggested changes to your graph in this demo, and navigate you back to the view configuration page, in case you're lost.
+
+<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" graph.graph='{"physics":"no"}' graph.nodes='{"shape":"box","color":"#a51d2d"}'/>""">
+
+Set graph and node properties.
+</$button>
+
+<$doc.show show="Show View Settings">
+
+{{$:/graph/Default||$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate}}
+</$doc.show>
+
