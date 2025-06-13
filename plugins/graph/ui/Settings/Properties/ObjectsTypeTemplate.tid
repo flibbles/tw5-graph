@@ -14,6 +14,7 @@ title: $:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate
 	tabsList="[all[shadows+tiddlers]prefix<groupPrefix>]"
 	default={{{ [all[shadows+tiddlers]prefix[$:/graph/]else[$:/graph/core/Default]] }}}
 	state=`$:/state/flibbles/graph/settings/$(currentType)$`
+	orderFilter="[<currentGroup>addprefix<presetPrefix>get[orderable]match[yes]then<currentGroup>addprefix<configPrefix>]"
 >
   <$fill $name=addButton>
     <$button class="group-tab-new">

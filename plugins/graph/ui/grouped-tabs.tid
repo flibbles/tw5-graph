@@ -1,57 +1,12 @@
 title: $:/plugins/flibbles/graph/ui/grouped-tabs
-
-<!--
-\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
-\function master.list(tiddler) [all[shadows+tiddlers]sort[]prefix<tiddler>sort.by<tiddler>] -[<tiddler>]
-
-\define list-links-draggable-drop-actions()
-<$action-listops $tiddler=<<targetTiddler>> $field=<<targetField>> $filter="[master.list<targetTiddler>] +[insertbefore<actionTiddler>,<currentTiddler>]"/>
-\end
-
-\whitespace trim
-\procedure list-links-draggable(tiddler,field:"list",emptyMessage,type:"ul",subtype:"li",class:"",itemTemplate)
-\whitespace trim
-<span class="tc-links-draggable-list">
-  <$vars targetTiddler=<<tiddler>> targetField=<<field>>>
-    <$genesis $type=<<__type__>> class=<<class>>>
-      <$list filter=`[master.list<tiddler>]` emptyMessage=<<__emptyMessage__>>>
-        <$droppable
-          actions=<<list-links-draggable-drop-actions>>
-          tag=<<subtype>>
-          enable=<<tv-enable-drag-and-drop>>
-        >
-          <div class="tc-droppable-placeholder"/>
-          <div>
-            <$transclude tiddler=<<itemTemplate>> >
-              <$link to={{!!title}}>
-                <$let tv-wikilinks="no">
-                  <$transclude field="caption">
-                    <$view field="title"/>
-                  </$transclude>
-                </$let>
-              </$link>
-            </$transclude>
-          </div>
-        </$droppable>
-      </$list>
-      <$tiddler tiddler="">
-        <$droppable
-          actions=<<list-links-draggable-drop-actions>>
-          tag="div"
-          enable=<<tv-enable-drag-and-drop>> >
-          <div class="tc-droppable-placeholder">
-            {{$:/core/images/blank}}
-          </div>
-          <div style="height:0.5em;"/>
-        </$droppable>
-\end
--->
+code-body: yes
 
 \procedure grouped-tabs-button()
 \whitespace trim
 <$button
   set=<<tabsState>>
   setTo=<<currentTab>>
+  dragTiddler=<<currentTab>>
   default=<<default>>
   selectedClass="tc-tab-selected"
   tooltip={{!!tooltip}}
@@ -90,20 +45,50 @@ title: $:/plugins/flibbles/graph/ui/grouped-tabs
 </$list>
 \end
 
+\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
+\function master.list(tiddler) [subfilter<tabsList>sort.by<tiddler>]
+
+\procedure grouped-tabs-drop-actions()
+<$action-log
+	actionTiddler=<<actionTiddler>>
+	currentTab=<<currentTiddler>>
+/>
+<$action-listops
+  $tiddler=<<orderTiddler>>
+  $field=list
+  $filter="[master.list<orderTiddler>] +[insertbefore<actionTiddler>,<currentTab>]"/>
+\end
+
 \procedure grouped-tabs-tab-list()
 \whitespace trim
 <$list variable=currentGroup filter=<<groupsList>> >
-  <%if [<currentGroup>!is[blank]] %>
-    <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
-  <%endif%>
-  <$list variable=currentTab filter=<<tabsList>> >
-    <$transclude $variable=grouped-tabs-tab $fillignore=yes/>
-  </$list>
-  <$slot $name=addButton />
+  <$let orderTiddler={{{ [<currentGroup>subfilter<orderFilter>] }}}
+        orderable={{{ [<orderTiddler>!is[blank]then[yes]else[no]] }}} >
+    <%if [<currentGroup>!is[blank]] %>
+      <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
+    <%endif%>
+
+    <$list variable=currentTab filter="[subfilter<tabsList>sort.by<orderTiddler>]" >
+      <$droppable
+          actions=<<grouped-tabs-drop-actions>>
+          enable=<<orderable>> >
+        <div class="tc-droppable-placeholder"/>
+        <$transclude $variable=grouped-tabs-tab $fillignore=yes/>
+      </$droppable>
+    </$list>
+    <$tiddler tiddler="">
+      <$droppable
+          actions=<<grouped-tabs-drop-actions>>
+          enable=<<orderable>> >
+        <div class="tc-droppable-placeholder"/>
+        <$slot $name=addButton />
+      </$droppable>
+    </$tiddler>
+  </$let>
 </$list>
 \end
 
-\parameters (tabsList, groupsList:"[[]]", state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, class:"tc-vertical", retain)
+\parameters (tabsList, groupsList:"[[]]", state:"$:/state/flibbles/graph/grouped-tab", explicitState, default, class:"tc-vertical", retain, orderFilter)
 
 <$qualify title=<<state>> name=qualifiedState>
   <$let tabsState={{{ [<explicitState>minlength[1]] ~[<qualifiedState>] }}}>
