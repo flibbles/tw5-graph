@@ -6,11 +6,12 @@ Tests the properties.configured global widget.
 
 describe('properties.configured \\widget', function() {
 
-var wiki, init;
+var wiki, init, update;
+var stackPrefix = "$:/config/flibbles/graph/nodes/stack/";
 
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
-	({init} = $tw.test.setSpies());
+	({init, update} = $tw.test.setSpies());
 	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
 	wiki.addTiddlers(Object.values(pluginInfo.tiddlers));
 	wiki.addTiddler($tw.wiki.getTiddler("$:/core/config/GlobalImportFilter"));
@@ -21,7 +22,7 @@ beforeEach(async function() {
 
 function nodeConfig(name, filter, properties) {
 	return {
-		title: "$:/config/flibbles/graph/nodes/stack/" + name,
+		title: stackPrefix + name,
 		text: JSON.stringify(properties),
 		filter: filter,
 		type: "application/json"};
@@ -39,6 +40,40 @@ it("applies stack in order", function() {
 	expect(init.calls.first().args[1].nodes).toEqual({
 		X: {last: "B", value: "this"},
 		XY: {last: "A", value: "this"}});
+});
+
+it("can use custom stack order", async function() {
+	wiki.addTiddlers([
+		nodeConfig("typeA", "[match[X]]", {A: "A", AB: "A", AC: "A"}),
+		nodeConfig("typeB", "[match[X]]", {B: "B", AB: "B", BC: "B"}),
+		nodeConfig("typeC", "[match[X]]", {C: "C", BC: "C", AC: "C"})]);
+	var text = "<$graph><$properties.configured><$node $tiddler=X/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(init.calls.first().args[1].nodes).toEqual({
+		X: {A: "A", B: "B", C: "C", AB: "B", AC: "C", BC: "C"}});
+	// Now we start customizing the order
+	wiki.addTiddler({title: "$:/config/flibbles/graph/nodes/stack",
+		list: [stackPrefix + "typeB"]});
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({
+		X: {A: "A", B: "B", C: "C", AB: "A", AC: "C", BC: "C"}});
+	// Now fully customize
+	update.calls.reset();
+	wiki.addTiddler({title: "$:/config/flibbles/graph/nodes/stack",
+		list: [stackPrefix + "typeC", stackPrefix + "typeB", stackPrefix + "typeA"]});
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({
+		X: {A: "A", B: "B", C: "C", AB: "A", AC: "A", BC: "B"}});
+});
+
+it("ignores deleted stack types in custom sorting", function() {
+	wiki.addTiddler(nodeConfig("also"));
+	wiki.addTiddler(nodeConfig("present"));
+	wiki.addTiddler({title: "$:/config/flibbles/graph/nodes/stack",
+		list: [stackPrefix + "missing", stackPrefix + "present"]});
+	var text = "<$properties.configured>\n\n<$text text={{{ [subfilter<node.stack>join[ ]] }}} />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe(stackPrefix + "present " + stackPrefix + "also");
 });
 
 it("can render inline fills", function() {
