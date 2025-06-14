@@ -1,0 +1,13 @@
+title: $:/plugins/flibbles/graph/images/drag
+tags: $:/tags/Image
+
+\whitespace trim
+\parameters (size:"22pt")
+<svg width=<<size>> height=<<size>> class="tc-draggable-button tc-image-button" viewBox="0 0 30 30">
+<circle r=3 cx=10 cy=5 />
+<circle r=3 cx=10 cy=15 />
+<circle r=3 cx=10 cy=25 />
+<circle r=3 cx=20 cy=5 />
+<circle r=3 cx=20 cy=15 />
+<circle r=3 cx=20 cy=25 />
+</svg>

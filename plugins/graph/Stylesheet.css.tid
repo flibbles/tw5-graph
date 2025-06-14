@@ -268,6 +268,21 @@ tags: $:/tags/Stylesheet
 	border-top-left-radius: 1em;
 }
 
+.tc-tab-buttons.tc-vertical button.group-tab-button {
+	display: flex;
+	padding-left: 0px;
+}
+
+button.group-tab-button > svg {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+button.group-tab-button > span {
+	margin-left: 5px;
+	flex-grow: 1;
+}
+
 .tc-tab-buttons.tc-vertical button.group-tab-new {
 	border-bottom-left-radius: 1em;
 	border-bottom-right-radius: 1em;

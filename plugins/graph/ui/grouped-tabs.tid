@@ -4,6 +4,7 @@ code-body: yes
 \procedure grouped-tabs-button()
 \whitespace trim
 <$button
+  class="group-tab-button"
   set=<<tabsState>>
   setTo=<<currentTab>>
   dragTiddler=<<currentTab>>
@@ -13,14 +14,19 @@ code-body: yes
   role="switch"
   data-tab-title=<<currentTab>>
 >
+  <%if [<orderable>match[yes]] %>
+    {{$:/plugins/flibbles/graph/images/drag}}
+  <%endif%>
   <$tiddler tiddler=<<save-currentTiddler>>>
-    <$set name="tv-wikilinks" value="no">
-      <$slot $name=button>
-        <$transclude tiddler=<<currentTab>> field="caption">
-          <$macrocall $name="currentTab" $type="text/plain" $output="text/plain"/>
-        </$transclude>
-      </$slot>
-    </$set>
+    <$vars tv-wikilinks="no">
+      <span>
+        <$slot $name=button>
+          <$transclude tiddler=<<currentTab>> field="caption">
+            <$macrocall $name="currentTab" $type="text/plain" $output="text/plain"/>
+          </$transclude>
+        </$slot>
+      </span>
+    </$vars>
   </$tiddler>
 </$button>
 \end
@@ -45,7 +51,7 @@ code-body: yes
 </$list>
 \end
 
-\function sort.by(tiddler) [list<tiddler>] =[all[]] +[unique[]]
+\function sort.by(tiddler) [<tiddler>each:list-item[list]] =[all[]] +[unique[]]
 \function master.list(tiddler) [subfilter<tabsList>sort.by<tiddler>]
 
 \procedure grouped-tabs-drop-actions()
@@ -67,7 +73,6 @@ code-body: yes
     <%if [<currentGroup>!is[blank]] %>
       <div class="group-tab-header"><$text text={{{ [<currentGroup>titlecase[]] }}} /></div>
     <%endif%>
-
     <$list variable=currentTab filter="[subfilter<tabsList>sort.by<orderTiddler>]" >
       <$droppable
           actions=<<grouped-tabs-drop-actions>>
