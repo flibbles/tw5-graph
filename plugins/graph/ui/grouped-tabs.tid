@@ -51,8 +51,7 @@ code-body: yes
 </$list>
 \end
 
-\function sort.by(tiddler) [<tiddler>each:list-item[list]] =[all[]] +[unique[]]
-\function master.list(tiddler) [subfilter<tabsList>sort.by<tiddler>]
+\function sort.by(tiddler) [<tiddler>each:list-item[list]is[tiddler]] =[all[]] +[unique[]]
 
 \procedure grouped-tabs-drop-actions()
 <$action-log
@@ -62,7 +61,7 @@ code-body: yes
 <$action-listops
   $tiddler=<<orderTiddler>>
   $field=list
-  $filter="[master.list<orderTiddler>] +[insertbefore<actionTiddler>,<currentTab>]"/>
+  $filter="[subfilter<tabsList>sort.by<orderTiddler>] +[insertbefore<actionTiddler>,<currentTab>]"/>
 \end
 
 \procedure grouped-tabs-tab-list()
