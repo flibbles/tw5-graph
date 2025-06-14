@@ -1,4 +1,4 @@
-In the sidebar of your wiki, you'll see a new "Graph" tab. Click on that, and it will show you the //Sidebar Graph//. And inside of it, you'll see a single node which tells you to "Double click me to configure this graph." This is what the standard graph shows when it's not configured. Let's double-click on it.
+In the sidebar of your wiki, you'll see a new "Graph" tab. Click on that, and it will show you the //Sidebar Graph//. And inside of it, you'll see a single node in the shape of an options gear which tells you to "Double click me to configure this graph." This is what the standard graph shows when it's not configured. Let's double-click on it.
 
 The tiddler that just popped up is the <<.graph>> settings page, and its tabs are open to the configuration for the "Default" view, which is the name of the empty view we're looking at.
 
