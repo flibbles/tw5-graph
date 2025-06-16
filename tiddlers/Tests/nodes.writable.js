@@ -91,4 +91,26 @@ it("without $field, does not render its block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p></p>");
 });
 
+it("integrates with properties.persistent", async function() {
+	wiki.addTiddler({title: "Target", list: "A"});
+	var text = "<$graph><$properties.persistent $dataTiddler=Ledger><$nodes.writable $tiddler=Target $field=list>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "addNode"}, {x: "37", y: "43"});
+	expect($tw.modal.display).toHaveBeenCalled();
+	$tw.rootWidget.dispatchEvent({type: "tm-modal-finish", param: "newTiddler"});
+	expect(wiki.tiddlerExists("newTiddler")).toBe(true);
+	expect(wiki.getTiddler("Target").fields.list).toEqual(["A", "newTiddler"]);
+	expect(wiki.getTiddlerData("Ledger")).toEqual({newTiddler: "37,43"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	var nodes = update.calls.first().args[0].nodes;
+	expect(Object.keys(nodes)).toEqual(["newTiddler"]);
+	expect(nodes.newTiddler.x).toEqual(37);
+	expect(nodes.newTiddler.y).toEqual(43);
+	// Now we delete it
+	$tw.test.dispatchEvent(wiki, {objectType: "nodes", id: "newTiddler", type: "delete"});
+	expect(wiki.getTiddler("Target").fields.list).toEqual(["A"]);
+	expect(wiki.getTiddlerData("Ledger")).toEqual({});
+});
+
 });
