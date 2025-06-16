@@ -27,3 +27,12 @@ If <<attr $to>> is not set, or either node that the edge connects to is missing 
 ! Edge Properties
 
 The available edge properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.
+
+!!! Action properties
+
+All action properties, whether defined by this edge or a containing <<.wlink PropertiesWidget>>, will execute with the following variables defined as available context:
+
+|!Variables |!Description |
+|`id` |The id the target edge, likely auto-generated |
+|`fromTiddler` |The title of the tiddler from which this node originates |
+|`toTiddler` |The title of the tiddler to which this node points |

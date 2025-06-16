@@ -29,3 +29,10 @@ If no X, Y, or $pos is specified, a node's initial placement is decided by the e
 ! Node Properties
 
 The available node properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.
+
+!!! Action properties
+
+All action properties, whether defined by this node or a containing <<.wlink PropertiesWidget>>, will execute with the following variables defined as available context:
+
+|!Variables |!Description |
+|`id` |The title of the tiddler the target node corresponds to. |

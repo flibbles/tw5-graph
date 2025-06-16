@@ -55,6 +55,6 @@ This is unlike other property types, where only the inner most property applies 
 
 !!! Variable scope
 
-When action properties are executed, they are done so within the scope of the graph object they apply to. This means that if an action property applies to several nodes in a list, the <<.value currentTiddler>> variable will equal whatever it equals for the node the triggers.
+When action properties are executed, they are done so within the scope of the properties widget they're defined in. This means that if an action property applies to several nodes in a list, the <<.value currentTiddler>> variable will not equal whatever it should for each individual node. However, the execution context for graph objects will always define some variables you can use to specify those objects.
 
 [[Examples|PropertiesWidget (Examples)]]

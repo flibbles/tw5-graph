@@ -90,9 +90,13 @@ it("can handle no-argument events like focus", function() {
 });
 
 it("can send graph events to all $for=graph", function() {
-	var widget = $tw.test.renderText(wiki, `<$graph>
-		<$properties $for=graph addNode='<$action-test call=this />'/>
-		<$properties $for=graph addNode='<$action-test call=that />'/>
+	var widget = $tw.test.renderText(wiki, `<$vars value=root><$graph addNode='<$action-test call=<<value>> />'>
+		<$vars value=this>
+			<$properties $for=graph addNode='<$action-test call=<<value>> />'/>
+		</$vars>
+		<$vars value=that>
+			<$properties $for=graph addNode='<$action-test call=<<value>> />'/>
+		</$vars>
 		<$properties $for=nodes X=whatever>
 			<$properties $for=graph addNode='<$action-test call=other />'/>
 		</$properties>
@@ -105,11 +109,12 @@ it("can send graph events to all $for=graph", function() {
 		type: "addNode",
 		objectType: "graph"
 	}, {x: 3, y: 5});
-	expect($tw.test.actionMethod).toHaveBeenCalledTimes(3);
+	expect($tw.test.actionMethod).toHaveBeenCalledTimes(4);
 	expect($tw.test.actionMethod.calls.allArgs()).toEqual([
 		[{call: "this"}],
 		[{call: "that"}],
-		[{call: "other"}]]);
+		[{call: "other"}],
+		[{call: "root"}]]);
 });
 
 it("can send property events to all along chain", function() {
