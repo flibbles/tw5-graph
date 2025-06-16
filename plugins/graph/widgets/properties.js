@@ -187,11 +187,12 @@ Properties.prototype.collectGraphProperties = function(properties) {
 };
 
 Properties.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
-	if (graphEvent.objectType === this.type && this.affectedObjects[graphEvent.id]) {
+	if (graphEvent.objectType === this.type
+	&& this.affectedObjects[graphEvent.id]) {
 		var actions = this.styleObject[graphEvent.type];
 		if (actions) {
 			variables.targetTiddler = graphEvent.id;
-			triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
+			this.invokeActionString(actions, this, graphEvent.event, variables);
 			return true;
 		}
 	}

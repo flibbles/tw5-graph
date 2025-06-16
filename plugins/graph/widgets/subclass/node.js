@@ -27,6 +27,10 @@ NodeWidget.execute = function() {
 	this.makeChildWidgets();
 };
 
+NodeWidget.addActionContext = function(variables) {
+	variables.id = this.id;
+};
+
 NodeWidget.setCustomProperties = function(properties) {
 	if (this.pos) {
 		var points = this.pos.split(",");

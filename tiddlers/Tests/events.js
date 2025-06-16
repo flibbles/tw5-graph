@@ -114,10 +114,12 @@ it("can send graph events to all $for=graph", function() {
 
 it("can send property events to all along chain", function() {
 	var widget = $tw.test.renderText(wiki, `<$graph>
+		<$vars X=outer Y=outer Z=outer>
 		<$properties delete='<$action-test call=<<X>> />'>
 		<$properties $filter="[!match[A]]" delete='<$action-test call=NO />'>
+		<$vars X=inner Y=inner Z=inner>
 		<$properties delete='<$action-test call=<<Y>> />'>
-			<$vars X=outer Y=inner Z=core>
+		<$vars X=core Y=core Z=core>
 				<$node $tiddler=A delete='<$action-test call=<<Z>> />'/>`);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {delete: true}});

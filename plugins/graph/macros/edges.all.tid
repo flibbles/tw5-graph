@@ -12,7 +12,7 @@
 
 <$properties $for=edges
 	$tiddler=<<dataTiddler>>
-	delete={{{ [<$editable>!match[no]then[<$action-removetyped $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
+	delete={{{ [<$editable>!match[no]then[<$action-removetyped $tiddler=<<fromTiddler>> $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
 
 
 <$list variable=toTiddler filter="[<$tiddler>gettyped<fieldName>]">

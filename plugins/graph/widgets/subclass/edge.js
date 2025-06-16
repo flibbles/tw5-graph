@@ -35,6 +35,12 @@ EdgeWidget.execute = function() {
 	this.makeChildWidgets();
 };
 
+EdgeWidget.addActionContext = function(variables) {
+	variables.id = this.id;
+	variables.fromTiddler = this.fromTiddler;
+	variables.toTiddler = this.toTiddler;
+};
+
 EdgeWidget.setCustomProperties = function(properties) {
 	if (this.fromTiddler) {
 		properties.from = this.fromTiddler;

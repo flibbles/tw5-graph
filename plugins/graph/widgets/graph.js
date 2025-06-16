@@ -346,18 +346,22 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 			this.invokeActionString(actions, this, graphEvent.event, variables);
 		}
 	} else {
-		variables = variables || {};
-		variables.id = graphEvent.id;
 		var category = this.knownObjects[graphEvent.objectType];
-		var object = category && category[graphEvent.id];
-		// Make sure it's an objects we actually know about
-		var focus = object;
-		while (object && object !== this) {
-			if (object.catchGraphEvent) {
-				// Start at the object. Go up, finding any $style to handle this
-				object.catchGraphEvent(graphEvent, focus, variables);
+		if (category) {
+			var object = category && category[graphEvent.id];
+			variables = variables || {};
+			// We let the graph object assign some state, such as the id of the
+			// targeted node, or the nodes of the targeted edge.
+			object.addActionContext(variables);
+			// Make sure it's an objects we actually know about
+			var focus = object;
+			while (object && object !== this) {
+				if (object.catchGraphEvent) {
+					// Start at the object. Go up, finding $style to handle this
+					object.catchGraphEvent(graphEvent, focus, variables);
+				}
+				object = object.parentWidget;
 			}
-			object = object.parentWidget;
 		}
 	}
 };
