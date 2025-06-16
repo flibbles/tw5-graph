@@ -23,7 +23,7 @@
 	addEdge="""<$action.addedge/>"""
 />
 
-<$properties delete="<$action-removetyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<id>> />">
+<$properties delete="<$action-removetyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<nodeTiddler>> />">
 
 <$list variable=<<$variable>> filter="[<$tiddler>gettyped<$field>]">
 

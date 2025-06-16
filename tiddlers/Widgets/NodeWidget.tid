@@ -35,4 +35,4 @@ The available node properties the widget can configure depends on which engine y
 All action properties, whether defined by this node or a containing <<.wlink PropertiesWidget>>, will execute with the following variables defined as available context:
 
 |!Variables |!Description |
-|`id` |The title of the tiddler the target node corresponds to. |
+|`nodeTiddler` |The title of the tiddler the target node corresponds to. |

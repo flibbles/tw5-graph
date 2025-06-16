@@ -8,7 +8,7 @@ Here is a graphical representation of <<.graph>>'s design:
 
 <$graph>
   <$properties $for=edges arrows=to>
-    <$properties shape=diamond doubleclick="<$action-navigate $to=<<id>> />">
+    <$properties shape=diamond doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
       <$node $tiddler=TiddlyWiki label=Tiddlywiki $pos="100,0" />
       <$node $tiddler=Graph label=TW5-Graph $pos="0,0" />
       <$edge $from=Graph $to=TiddlyWiki />

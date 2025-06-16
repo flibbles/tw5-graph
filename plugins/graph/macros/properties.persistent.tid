@@ -11,8 +11,8 @@
 \end recordPosition
 
 <$properties
-  free="<$transclude $variable=recordPosition title=<<id>> />"
-  delete="<$action-setfield $tiddler=<<$dataTiddler>> $index=<<id>> />" >
+  free="<$transclude $variable=recordPosition title=<<nodeTiddler>> />"
+  delete="<$action-setfield $tiddler=<<$dataTiddler>> $index=<<nodeTiddler>>/>">
 
 <$slot $name=ts-raw />
 

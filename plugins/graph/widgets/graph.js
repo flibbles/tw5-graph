@@ -347,8 +347,8 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 		}
 	} else {
 		var category = this.knownObjects[graphEvent.objectType];
-		if (category) {
-			var object = category && category[graphEvent.id];
+		var object = category && category[graphEvent.id];
+		if (object) {
 			variables = variables || {};
 			// We let the graph object assign some state, such as the id of the
 			// targeted node, or the nodes of the targeted edge.

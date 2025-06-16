@@ -6,7 +6,7 @@ tags: $:/tags/flibbles/graph/template
 
 <$graph>
   <$properties.riverscroll />
-  <$properties physics=yes doubleclick="<$action-navigate $to=<<id>> />">
+  <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
     <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
       <$let
         defaultEdgeFilter="[all[]]"

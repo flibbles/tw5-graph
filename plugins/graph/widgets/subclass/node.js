@@ -28,7 +28,7 @@ NodeWidget.execute = function() {
 };
 
 NodeWidget.addActionContext = function(variables) {
-	variables.id = this.id;
+	variables.nodeTiddler = this.id;
 };
 
 NodeWidget.setCustomProperties = function(properties) {

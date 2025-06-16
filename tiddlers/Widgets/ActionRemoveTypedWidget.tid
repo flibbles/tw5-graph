@@ -28,7 +28,7 @@ The content of an <<.wid action-removetyped>> widget is ignored.
 	narrative="This shows how the action-removetyped can be used to remove nodes from a graph. Double click on nodes to remove them.">
 <$data title=Output
 	list="Planck Bohr Einstein Heisenberg Newton Yalow Curie"
-	text="""\procedure remove() <$action-removetyped $tiddler='Output' $field='list' $value=<<id>> />
+	text="""\procedure remove() <$action-removetyped $tiddler='Output' $field='list' $value=<<nodeTiddler>> />
 
 <$graph>
 	<$list filter="[list[]]">
