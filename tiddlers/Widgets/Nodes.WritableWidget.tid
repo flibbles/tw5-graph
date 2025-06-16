@@ -1,0 +1,80 @@
+title: Nodes.WritableWidget
+tags: Widgets [[Macro Widgets]]
+caption: nodes.writable
+
+! Introduction
+
+The <<.wid nodes.writable>> widget introduces adding and deleting of nodes to a graph. It works by specifying the field of a tiddler. It will create a node for every tiddler described in that field, and it will also modify that field if any nodes are added or removed from your graph.
+
+With this widget in your graph, it will activate any native "add/remove node" feature of your graph's engine, as well as enable doubleclick-to-add. Adding will summon a popup to specify a tiddler name.
+
+If the tiddler does not exist, it is created.<br>
+If a tiddler is removed from the graph, it is ''not'' deleted from your wiki.
+
+! Contents and Attributes
+
+The contents of this widget are rendered for every list-item described inside the specified field. If you do not supply a content, then by default, it will create a node for every list-item.
+
+|!Attribute | !Description |
+|$tiddler |Name of a tiddler whose field this widget will look to (defaults to the currentTiddler) |
+|$field |Name of a field to read and write to |
+|$variable |Name for a varaible in which the title of each listed tiddler is stored. Defaults to <<.var currentTiddler>> |
+
+<$doc.implementation />
+
+!!! Interaction with <<.wid properties.persistent>>
+
+If you have <<.wid nodes.writable>> inside of a <<.wlink Properties.PersistentWidget>>, they will integrate automatically. When you create a tiddler, it will be written both to <<.wid node.writable>>'s field, and to the data store used by <<.wid properties.persistent>>.
+
+Likewise, it will also be removed from both if you delete a node from your graph.
+
+!!! Writable nodes with non-writable nodes.
+
+You might want your graph to be able to add and delete nodes, but also be able to procedurally generate nodes as well from something other than <<.wid node.writable>>'s source. You can do that. Just put other nodes outside of the widget.
+
+You will probably never want //two// <<.wid node.writable>> widgets in your graph. Although they can properly take responsibility of removing their nodes, //adding// nodes will add nodes to both widget's respective fields.
+
+! Examples
+
+<$doc.example
+	description="common usage"
+	narrative="""Here's an example of <<.wid nodes.writable>> working together with <<.wid properties.persistent>>, which is an incredibly common usecase. The standard graph does this. Go ahead and add and remove some nodes.""">
+<$data title=Output
+	list="Plato Aristotle Socrates"
+	text="""<$graph>
+  <$properties.persistent $dataTiddler="Ledger">
+    <$nodes.writable $field="list" />
+  </$properties.persistent>
+</$graph>""" />
+</$doc.example>
+
+<$doc.example
+	description="custom widget content"
+	narrative="""You can put content into <<.wid nodes.writable>> to get behavior other than creating a default node. In this case, we'll make supplemental nodes for each one the widget imports/creates.""">
+<$data title=Output
+	list="[[Victor Hugo]] [[Jules Verne]] [[Alexandre Dumas]]"
+	text="""<$graph>
+  <$nodes.writable $field="list">
+    <$node label={{!!title}} />
+    <$list variable=section filter="Books History Also">
+      <$node $tiddler=`$(currentTiddler)$/$(section)$` size=8 label=<<section>> />
+      <$edge $to=`$(currentTiddler)$/$(section)$` />
+    </$list>
+  </$nodes.writable>
+</$graph>""" />
+</$doc.example>
+
+
+<$doc.example
+	description="multiple node sources"
+	narrative="""Here's an example of mixing writable with non-writable nodes. Deleting the procedural nodes does nothing.""">
+<$data title=Output
+	list="Jefferson Washington Adams"
+	text="""<$graph>
+  <$nodes.writable $field="list" />
+  <$list filter="[range[10]]">
+    <$node size=7 color=gray />
+  </$list>
+</$graph>""" />
+</$doc.example>
+
