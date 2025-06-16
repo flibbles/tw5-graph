@@ -1,9 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/Settings/Wizard/Table
-
-\whitespace trim
-
-<$tiddler tiddler=`$(state)$/type/$(currentTab)$`>
-
-<$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
-	type=<<currentTab>>
-	engine=<<engine>> />
