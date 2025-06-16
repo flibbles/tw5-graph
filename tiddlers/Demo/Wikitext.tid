@@ -10,7 +10,7 @@ tags: Demo
   <$properties.configured>
     <$list filter="[tag[Norse]]">
       <$node label={{!!title}} />
-      <$edges.all $fields="[all[]]" />
+      <$edges.typed $fields="[all[]]" />
     </$list>
   </$properties.configured>
 </$graph>""" />

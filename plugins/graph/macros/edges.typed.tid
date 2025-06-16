@@ -1,4 +1,4 @@
-\widget $edges.all($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
+\widget $edges.typed($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
 \whitespace trim
 <$parameters $$tiddler=<<currentTiddler>> >
 
@@ -49,4 +49,4 @@
 </$slot></$tiddler></$list></$properties></$let></$list>
 \end
 
-\relink $edges.all $formulas:filter $fields:filter $tiddler:title
+\relink $edges.typed $formulas:filter $fields:filter $tiddler:title

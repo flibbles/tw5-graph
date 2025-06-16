@@ -24,7 +24,7 @@ tags: $:/tags/flibbles/graph/template
               <$node $tiddler=<<node>>
                 $pos={{{ [{!!title}getindex<node>] }}}
                 label={{{ [<node>get[caption]else<node>] }}} />
-              <$edges.all
+              <$edges.typed
                 $tiddler=<<node>>
                 $formulas=<<formulasFilter>>
                 $fields=<<fieldsFilter>>

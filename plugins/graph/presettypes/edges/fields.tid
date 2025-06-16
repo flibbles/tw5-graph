@@ -11,7 +11,7 @@ title: $:/plugins/flibbles/graph/presettypes/edges/fields
 </$select>
 \end
 
-"Fields" presets define the edge properties for edges corresponding to tiddler fields. These types of edges can be easily added to a node using the <<.link EdgesAllWidget>> widget, or the more inclusive `$edges.all` widget, which encompasses all other types of preset edge types.
+"Fields" presets define the edge properties for edges corresponding to tiddler fields. These types of edges can be easily added to a node using the <<.link EdgesAllWidget>> widget, or the more inclusive `$edges.typed` widget, which encompasses all other types of preset edge types.
 
 <$vars fieldName={{{ [<currentTiddler>removeprefix[$:/config/flibbles/graph/edges/fields/]] }}}>
 

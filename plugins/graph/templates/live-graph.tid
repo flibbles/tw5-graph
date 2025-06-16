@@ -13,11 +13,11 @@ tags: $:/tags/flibbles/graph/template
           state="$:/state/flibbles/graph/doc/live"
           focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}] }}} >
         <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<id>> />"/>
-        <$edges.all $tiddler=<<focusTiddler>> />
+        <$edges.typed $tiddler=<<focusTiddler>> />
         <$properties color=gray>
           <$nodes.neighbors $filter="[<focusTiddler>]">
             <$node label={{!!title}} />
-            <$edges.all />
+            <$edges.typed />
           </$nodes.neighbors>
         </$properties>
       </$vars>

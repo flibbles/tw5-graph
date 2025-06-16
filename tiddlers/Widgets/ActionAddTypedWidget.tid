@@ -27,7 +27,7 @@ The content of an <<.wid action-addtyped>> widget is ignored.
 
 <$graph>
 	<$node $tiddler="Output" color="brown"/>
-	<$edges.all $tiddler="Output" $fields="list" />
+	<$edges.typed $tiddler="Output" $fields="list" />
 	<$list filter="Planck Bohr Einstein Heisenberg Newton Yalow Curie">
 		<$node label={{!!title}} doubleclick=<<add>> />
 	</$list>

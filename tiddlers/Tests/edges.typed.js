@@ -1,10 +1,10 @@
 /*\
 
-Tests the edges.all macro widget.
+Tests the edges.typed macro widget.
 
 \*/
 
-describe('edges.all \\widget', function() {
+describe('edges.typed \\widget', function() {
 
 var wiki, init;
 
@@ -47,7 +47,7 @@ it("passes along filter arguments to internal macros", function() {
 		fieldConfig("fieldA", {}),
 		fieldConfig("fieldB", {}),
 		{title: "Target", fieldA: "A", fieldB: "B", text: "[[L]] {{T}}"}]);
-	var text = "<$edges.all $formulas=links $fields=fieldB $tiddler=Target><<toTiddler>>";
+	var text = "<$edges.typed $formulas=links $fields=fieldB $tiddler=Target><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>BL</p>");
 });
@@ -55,7 +55,7 @@ it("passes along filter arguments to internal macros", function() {
 it("defaults to defaultTiddler", function() {
 	wiki.addTiddlers([
 		{title: "Target", text: "[[L]]"}]);
-	var text = "\\define currentTiddler() Target\n<$edges.all><<toTiddler>>";
+	var text = "\\define currentTiddler() Target\n<$edges.typed><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>L</p>");
 });
@@ -65,7 +65,7 @@ it("passes along edit argument to internal macros", function() {
 		fieldConfig("fieldA", {}),
 		{title: "$:/config/TimestampDisable", text: "yes"},
 		{title: "from", fieldA: "field"}]);
-	var text = "<$graph><$edges.all $tiddler=from $editable=yes/>"+nodesFor("from", "field");
+	var text = "<$graph><$edges.typed $tiddler=from $editable=yes/>"+nodesFor("from", "field");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var edges = $tw.test.latestEngine.objects.edges;
 	var id = Object.keys(edges)[0];
@@ -78,7 +78,7 @@ it("makes edges for both types by default", function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {value: "A"}),
 		{title: "from", fieldA: "field", text: "[[link]] {{transclude}}"}]);
-	var text = "<$graph><$edges.all $tiddler=from/>" + nodesFor("from", "field", "link", "transclude");
+	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "field", "link", "transclude");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -92,7 +92,7 @@ it("has even depth with its blocks", function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {}),
 		{title: "Target", fieldA: "A", text: "[[L]]"}]);
-	var text = "\\widget $.test() <$edges.all $tiddler=Target><$slot $name=ts-raw $depth=2/>\n<$.test><<toTiddler>>";
+	var text = "\\widget $.test() <$edges.typed $tiddler=Target><$slot $name=ts-raw $depth=2/>\n<$.test><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>AL</p>");
 });
@@ -101,7 +101,7 @@ it("makes dataTiddler available for all edge types", function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {}),
 		{title: "Target", fieldA: "A", text: "[[L]] [[R]]"}]);
-	var text = "<$edges.all $tiddler=Target>=<$text text={{{ [<dataTiddler>split[/]last[]] }}}/>";
+	var text = "<$edges.typed $tiddler=Target>=<$text text={{{ [<dataTiddler>split[/]last[]] }}}/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=fieldA=links=links</p>");
 });
@@ -109,7 +109,7 @@ it("makes dataTiddler available for all edge types", function() {
 it("does not introduce whitespace with default block", function() {
 	wiki.addTiddlers([
 		{title: "Target", text: "[[X]] [[Y]] [[Z]]", list: "A B C"}]);
-	var text = "<$edges.all $tiddler=Target />\n";
+	var text = "<$edges.typed $tiddler=Target />\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("");
 });
@@ -122,7 +122,7 @@ it("uses all fieldTyped edges when no fields specified", function() {
 		fieldConfig("fieldB", {value: "B"}),
 		relinkConfig("fieldA", "title"),
 		{title: "from", fieldA: "to this", fieldB: "to this"}]);
-	var text = "<$graph><$edges.all $tiddler=from/>" + nodesFor("from", "to", "this", "to this");
+	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "to", "this", "to this");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -138,7 +138,7 @@ it("handles non-fieldTyped edges when specified", function() {
 		fieldConfig("fieldB", {value: "B"}),
 		relinkConfig("fieldA", "title"),
 		{title: "from", fieldA: "to this", fieldB: "to this", fieldC: "C D"}]);
-	var text = "<$graph><$edges.all $fields='fieldB fieldC' $tiddler=from/>" + nodesFor("from", "to", "this", "to this", "C", "D");
+	var text = "<$graph><$edges.typed $fields='fieldB fieldC' $tiddler=from/>" + nodesFor("from", "to", "this", "to this", "C", "D");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.values(objects.edges)).toEqual([
@@ -152,7 +152,7 @@ it("can have custom edge fill", function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {}),
 		{title: "from", fieldA: "to"}]);
-	var text = "<$edges.all $tiddler=from>X-<<toTiddler>>";
+	var text = "<$edges.typed $tiddler=from>X-<<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>X-to</p>");
 });
@@ -161,7 +161,7 @@ it("currentTiddler remains unchanged for $fields filter", function() {
 	wiki.addTiddlers([
 		{title: "Info", choice: "fieldB"},
 		{title: "from", fieldA: "bad", fieldB: "good"}]);
-	var text = "\\define currentTiddler() Info\n<$edges.all $fields='[<currentTiddler>get[choice]]' $tiddler=from><<toTiddler>>";
+	var text = "\\define currentTiddler() Info\n<$edges.typed $fields='[<currentTiddler>get[choice]]' $tiddler=from><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>good</p>");
 });
@@ -172,7 +172,7 @@ it("can delete edges", function() {
 		relinkConfig("fieldA", "title"),
 		{title: "$:/config/TimestampDisable", text: "yes"},
 		{title: "from", fieldA: "to there"}]);
-	var text = "<$graph><$edges.all $editable=yes $tiddler=from/>" + nodesFor("from", "to there");
+	var text = "<$graph><$edges.typed $editable=yes $tiddler=from/>" + nodesFor("from", "to there");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var edges = $tw.test.latestEngine.objects.edges;
 	var id = Object.keys(edges)[0];
@@ -185,7 +185,7 @@ it("can update edges when type is changed", async function() {
 	wiki.addTiddlers([
 		fieldConfig("fieldA", {value: "A"}),
 		{title: "from", fieldA: "[[to there]]"}]);
-	var text = "<$graph><$edges.all $tiddler=from/>" + nodesFor("from", "to there");
+	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "to there");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	await $tw.test.flushChanges();
 	var edges = $tw.test.latestEngine.objects.edges;
@@ -204,7 +204,7 @@ it("can update edges when type is changed", async function() {
 it("can make link and transclude edges for graphs", function() {
 	wiki.addTiddlers([
 		{title: "from", text: "[[toLink1]] [[toLink2]] {{toTransclude}}"}]);
-	var text = "<$graph><$edges.all $tiddler=from/>" + nodesFor("from", "toLink1", "toLink2", "toTransclude");
+	var text = "<$graph><$edges.typed $tiddler=from/>" + nodesFor("from", "toLink1", "toLink2", "toTransclude");
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(init).toHaveBeenCalledTimes(1);
 	var objects = init.calls.first().args[1];
@@ -216,19 +216,19 @@ it("can make link and transclude edges for graphs", function() {
 
 it("can use a custom non-graph block", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.all $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink=toTransclude</p>");
 });
 
 it("can hand-pick formulas", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.all $formulas=links $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas=links $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink</p>");
 });
 
 it("can hand-remove formulas", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.all $formulas='[all[]] -links' $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas='[all[]] -links' $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toTransclude</p>");
 });
 
@@ -236,7 +236,7 @@ it("only passes current target to formula filters", function() {
 	wiki.addTiddlers([
 		{title: "Target", text: "[[toLink]] {{toTransclude}}"},
 		{title: "Target2", text: "[[other]] {{bad}}"}]);
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.all $formulas=links $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas=links $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink</p>");
 });
 
@@ -245,13 +245,13 @@ it("preserves currentTiddler when running formula filter", function() {
 		formulaConfig("myField", "[{!!myField}]"),
 		{title: "Target", myField: "bad"},
 		{title: "Template", myField: "good"}]);
-	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.all $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.typed $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=good</p>");
 });
 
 it("uses currentTiddler as default", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$edges.all>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$edges.typed>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink=toTransclude</p>");
 });
 
