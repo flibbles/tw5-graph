@@ -170,7 +170,6 @@ it("can handle local variables in $filter", async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
-//TODO: If $filter changes, it should only change what filter results change.
 it('can handle changes to style properties', async function() {
 	wiki.addTiddler({title: "Special", text: "then"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -221,7 +220,7 @@ it("can handle removing and modifying edges", async function() {
 
 it('updates when $filter output would be only change', async function() {
 	wiki.addTiddler({title: "List", tags: "A B"});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/>");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter='[all[]] :filter[tagging[]match[List]]'><$node $tiddler=A/><$node $tiddler=B/><$node $tiddler=C/><$node $tiddler=untouched/>");
 	await $tw.test.flushChanges();
 	// The fun thing about this update is it will not flag any widgets as
 	// changed from the usual methods. We must realize that A and C are swapped
@@ -231,7 +230,7 @@ it('updates when $filter output would be only change', async function() {
 	expect(update).toHaveBeenCalledWith({nodes: {A: {}, C: {value: "X"}}});
 });
 
-it("udates when indirect $filter changes", async function() {
+it("updates when indirect $filter changes", async function() {
 	wiki.addTiddler({title: "Filter", text: "[match[A]]"});
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties value=X $filter={{Filter}}><$node $tiddler=A/><$node $tiddler=B/>");
 	await $tw.test.flushChanges();
@@ -268,6 +267,8 @@ it("updates when indirect $filter is added", async function() {
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledWith({nodes: {B: {}}});
 });
+
+/*** $for=graph situations ***/
 
 it("can add to graph sequentially", function() {
 	var widget = $tw.test.renderText(wiki, `<$graph root=yes>
@@ -470,7 +471,5 @@ it("only refreshes when its target field changes", async function() {
 	var objects = update.calls.first().args[0];
 	expect(objects).toEqual({nodes: {N: {value: "newNode"}}});
 });
-
-// TODO: When $properties $for=graph changes, minimize the amount of changing
 
 });
