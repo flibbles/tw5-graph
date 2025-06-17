@@ -24,13 +24,11 @@ test.setGlobals = async function(wiki) {
 	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
 	wiki.addTiddlers(Object.values(pluginInfo.tiddlers));
 	wiki.addTiddler($tw.wiki.getTiddler("$:/core/config/GlobalImportFilter"));
-	// TODO: I'd love to not have to do this, but I need a getGraphObjects
-	// that works and doesn't go out of date when I make core plugin changes.
-
 	// If I don't do this, then all those imported tiddlers will force a
 	// refresh for any test I run. It will also cause any graph objects
 	// to be destroyed AFTER any test with a graph is run.
-	await $tw.test.flushChanges();
+	// NOTE: It seems I no longer have to do this???
+	//await $tw.test.flushChanges();
 };
 
 Object.defineProperty(test, 'adapterAlso', {
