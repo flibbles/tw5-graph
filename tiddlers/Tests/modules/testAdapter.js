@@ -27,6 +27,7 @@ exports.properties = {
 		hidden: {type: "boolean"},
 		image: {type: "image"},
 		physics: {type: "boolean"},
+		shape: {type: "enum", values: ["box", "circle", "star"]},
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},
