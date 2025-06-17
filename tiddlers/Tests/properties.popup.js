@@ -10,13 +10,8 @@ var wiki, oldPopup;
 
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
-	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
-	wiki.addTiddlers(Object.values(pluginInfo.tiddlers));
-	wiki.addTiddler($tw.wiki.getTiddler("$:/core/config/GlobalImportFilter"));
 	$tw.test.setSpies();
-	// TODO: I'd love to not have to do this, but I need a getGraphObjects
-	// that works and doesn't go out of date when I make core plugin changes.
-	await $tw.test.flushChanges();
+	await $tw.test.setGlobals(wiki);
 });
 
 beforeAll(function() {

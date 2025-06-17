@@ -14,16 +14,11 @@ var title = "$:/graph/test";
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
 	({init, update} = $tw.test.setSpies());
-	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
-	wiki.addTiddlers(Object.values(pluginInfo.tiddlers));
-	wiki.addTiddler($tw.wiki.getTiddler("$:/core/config/GlobalImportFilter"));
 	// Spy on the modal
 	oldModal = $tw.modal;
 	$tw.modal = modal = new $tw.utils.Modal(wiki);
 	spyOn($tw.modal, "display");
-	// TODO: I'd love to not have to do this, but I need a getGraphObjects
-	// that works and doesn't go out of date when I make core plugin changes.
-	await $tw.test.flushChanges();
+	await $tw.test.setGlobals(wiki);
 });
 
 it("physics only applies to non-recorded nodes", function() {

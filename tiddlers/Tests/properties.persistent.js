@@ -11,12 +11,7 @@ var wiki, init;
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
 	({init} = $tw.test.setSpies());
-	var pluginInfo = $tw.wiki.getPluginInfo("$:/plugins/flibbles/graph");
-	wiki.addTiddlers(Object.values(pluginInfo.tiddlers));
-	wiki.addTiddler($tw.wiki.getTiddler("$:/core/config/GlobalImportFilter"));
-	// TODO: I'd love to not have to do this, but I need a getGraphObjects
-	// that works and doesn't go out of date when I make core plugin changes.
-	await $tw.test.flushChanges();
+	await $tw.test.setGlobals(wiki);
 });
 
 it("creates ledger if it does not exist", function() {
