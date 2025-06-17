@@ -119,9 +119,6 @@ it('does not send update if no graph objects changed', async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
-// TODO: Only edges
-// TODO: No edges
-
 /*** garbage handling ***/
 
 it("detects when to destroy itself", async function() {
@@ -253,7 +250,6 @@ it("conveys graph, node, and font colors to the engines", async function() {
 
 /*** $engine attribute ***/
 
-// TODO: Also make it not refresh if global setting gets set, but doesn't change outcome? Maybe too much?
 it("uses first available engine if none specified", function() {
 	var First = function() {};
 	First.prototype.init = function(){};
@@ -354,7 +350,10 @@ it("sets the graphengine property for all internal widgets", async function() {
 	wiki.addTiddler({title: "Engine"});
 	await $tw.test.flushChanges();
 	expect(widget.parentDomNode.innerHTML).toContain("=Test=");
-	// TODO: What happens if an unknown engine is inputted?
+	// Now what happens if an unknown engine is inputted?
+	wiki.addTiddler({title: "Engine", text: "No-exists"});
+	await $tw.test.flushChanges();
+	expect(widget.parentDomNode.innerHTML).toContain("library not found");
 });
 
 /*** Typecasting ***/
