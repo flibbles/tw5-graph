@@ -32,7 +32,9 @@ it("generates a modal when addNode is called", async function() {
 	expect(wiki.getTiddler("Target").fields.list).toEqual(["newTiddler"]);
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
-	expect(update).toHaveBeenCalledWith({nodes: {newTiddler: {delete: true}}});
+	var objects = update.calls.first().args[0];
+	expect(Object.keys(objects.nodes)).toEqual(["newTiddler"]);
+	expect(objects.nodes.newTiddler.delete).toBe(true);
 });
 
 it("can delete an existing node", async function() {

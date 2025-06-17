@@ -23,9 +23,11 @@ $tw.modules.forEachModuleOfType("widget-subclass", function(subclass, module) {
 
 graphObjects["$graph"] = function() { return "graph"; };
 
+// Current behavior is if $for is specified, but it's empty or wrong, then
+// this widget gets ignored for relinking, just as it gets ignored by graphs.
 graphObjects["$properties"] = function(element) {
 	var forAttr = element.attributes["$for"];
-	return (forAttr && forAttr.value) || "nodes";
+	return forAttr !== undefined? forAttr.value: "nodes";
 };
 
 exports.getHandler = function(element, attribute, options) {

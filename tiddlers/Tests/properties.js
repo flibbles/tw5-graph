@@ -124,6 +124,15 @@ it('refreshes properly if $for changes when not filtering', async function() {
 	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "B", to: "A"}]);
 });
 
+it("treats empty $for as an indication to ignore widget", async function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for='' color=blue><$node $tiddler=A/>");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {}});
+	// We flush changes, because an error might actually occur during refresh
+	// when we look in the adapter for for non-existent object types.
+	await $tw.test.flushChanges();
+});
+
 it('treats empty attributes as non-existent', function() {
 	var widget = $tw.test.renderText(wiki, "<$graph><$properties yes=value no={{!!nofield}}><$node $tiddler=target />");
 	var objects = init.calls.first().args[1];

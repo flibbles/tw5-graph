@@ -43,14 +43,16 @@ exports.refreshProperties = function(properties, widget, type, changedTiddlers) 
 	var engine = Engines[engineName];
 	if (engine) {
 		var propInfos = engine.prototype.properties[type];
-		for (var name in properties) {
-			var info = propInfos[name];
-			var type = PropertyTypes[info && info.type];
-			if (type && type.refresh) {
-				if (type.refresh(info,
-						properties[name],
-						changedTiddlers, {wiki: widget.wiki})) {
-					return true;
+		if (propInfos) {
+			for (var name in properties) {
+				var info = propInfos[name];
+				var type = PropertyTypes[info && info.type];
+				if (type && type.refresh) {
+					if (type.refresh(info,
+							properties[name],
+							changedTiddlers, {wiki: widget.wiki})) {
+						return true;
+					}
 				}
 			}
 		}

@@ -18,7 +18,7 @@ The contents of a <<.wid properties>> widget are rendered as normal, but any con
 If a graph object is nested within two or more <<.wid properties>> widgets which would both apply the same property to that object, the property of the inner-most <<.wid properties>> widget takes precedence. (//Except in the case of action properties. See below for how action properties work.//)
 
 |!Attributes |!Description |
-|$for |Specifies the type of graph objects this widget applies to (defaults to "nodes") |
+|$for |Specifies the type of graph objects this widget applies to (defaults to "nodes" if not specified) |
 |$filter |A filter to specify which contained objects this widget's properties should apply to |
 |$tiddler |The name of a data tiddler containing properties to import (defaults to the current tiddler if <<.attr $field>> is set) |
 |$field |The field to examine for properties when usinging <<.attr $tiddler>> (defaults to `text`) |

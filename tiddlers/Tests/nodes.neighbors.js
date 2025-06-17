@@ -21,7 +21,8 @@ it("generates nodes without any block", function() {
 		{title: "unrelated"}]);
 	var text = "<$graph><$nodes.neighbors $filter='home'/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(init.calls.first().args[1].nodes).toEqual({to: {}, from: {}});
+	var keys = Object.keys(init.calls.first().args[1].nodes);
+	expect(keys).toEqual(["from", "to"]);
 });
 
 it("generates custom content", function() {

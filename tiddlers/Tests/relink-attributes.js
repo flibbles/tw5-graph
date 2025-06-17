@@ -17,8 +17,6 @@ beforeEach(function() {
 	log = spyOn(console, "log");
 });
 
-// TODO: $for="" should be treated as nodes
-
 it("reports and relinks $properties without $for", function() {
 	wiki.addTiddler({title: title, text: "<$properties delete='{{from}}'/>"});
 	var report = wiki.getTiddlerRelinkReferences("Test");
@@ -45,11 +43,11 @@ it("ignores $properties with weird $for", function() {
 });
 
 it("ignores $properties with empty $for", function() {
-	var text =  "<$properties $for={{For!!field}} addNode='{{from}}'/>";
+	var text =  "<$properties $for={{For!!noexist}} addNode='{{from}}' delete='{{from}}'/>";
 	wiki.addTiddler({title: "For", text: "text"});
 	wiki.addTiddler({title: title, text: text});
 	var report = wiki.getTiddlerRelinkReferences("Test");
-	expect(report).toEqual({For: ["<$properties $for={{!!field}} />"]});
+	expect(report).toEqual({For: ["<$properties $for={{!!noexist}} />"]});
 	wiki.renameTiddler("from", "to");
 	expect(wiki.getTiddlerText(title)).toBe(text);
 });
