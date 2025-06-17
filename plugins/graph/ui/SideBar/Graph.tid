@@ -30,7 +30,9 @@ tags: $:/tags/SideBar
           </option>
         </$list>
       </$select>
-      <$button to="$:/plugins/flibbles/graph/settings">
+      <$button to="$:/plugins/flibbles/graph/settings" actions="""
+          <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" />
+          <$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
         {{$:/core/images/options-button}}
       </$button>
     </$slot>

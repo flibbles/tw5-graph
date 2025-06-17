@@ -68,7 +68,6 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	}
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.
-	// TODO: A full refresh is not required, even if the filter changes
 	if (changedAttributes["$filter"]) {
 		this.filter = this.getAttribute("$filter");
 		this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };

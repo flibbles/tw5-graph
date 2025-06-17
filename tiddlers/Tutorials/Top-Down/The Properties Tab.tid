@@ -7,7 +7,7 @@ This tab is along the top of the Control Panel you've been working with, as appo
 <$doc.inhouse>
 
 <$button class=doc-button actions="""
-	<$action-navigate='$:/plugins/flibbles/graph/settings"/>
+	<$action-navigate to='$:/plugins/flibbles/graph/settings"/>
 	<$action-setfield $tiddler='$:/config/flibbles/graph/settings' text='$:/plugins/flibbles/graph/ui/Settings/Properties'/>
 """ >
 
