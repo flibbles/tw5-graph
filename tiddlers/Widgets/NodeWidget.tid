@@ -14,7 +14,7 @@ All node widgets correspond to a tiddler. This tiddler does not have to exist.
 
 |!Attribute |!Description |
 |$tiddler |The tiddler this node corresponds to (defaults to the [[current tiddler|Current Tiddler]]) |
-|$pos |A [[Coordinate]] which indicates a starting location |
+|$pos |A [[Position]] value which indicates a starting location |
 |//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as properties of this node |
 |!Below are commonly-used properties used by all engines. |<|
 |color |Sets the color of the node. If not set, takes color from current palette. |
@@ -28,7 +28,7 @@ If no X, Y, or $pos is specified, a node's initial placement is decided by the e
 
 ! Node Properties
 
-The available node properties the widget can configure depends on which engine you're using. [[You can see here for more details,]] or you can use the [[Build-A-Graph wizard]] that comes with the plugin, which dynamically determines what options are available, and provides an interface for specifying and previewing them.
+The available node properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for nodes. [[You can see here for more details.]]
 
 !!! Action properties
 

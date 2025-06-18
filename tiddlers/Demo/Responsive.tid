@@ -1,11 +1,13 @@
 title: Responds in Real Time
 tags: Demo
 
+\procedure graph() $:/graph/Pantheon
+
 {{$:/graph/Pantheon||$:/plugins/flibbles/graph/templates/standard-graph}}
 
 <$list variable=type filter="graph nodes edges">
 
-<$fieldtranscriber state=`$:/state/pantheon/$(type)$` tiddler="$:/graph/Pantheon" field=`graph.$(type)$` type="application/json" />
+<$fieldtranscriber state=`$:/state/pantheon/$(type)$` tiddler=<<graph>> field=`graph.$(type)$` type="application/json" />
 
 </$list>
 
@@ -18,7 +20,9 @@ tags: Demo
 |!Graph Physics |<$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=yes /> |
 |!Node Color | <$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input tiddler="$:/state/pantheon/nodes" index=color type=color /> |
 |!Node Shape | <$select tiddler="$:/state/pantheon/nodes" index=shape ><$list filter="[[graphengine]modules[]] :filter[moduleproperty[name]match{$:/config/flibbles/graph/engine}] +[moduleproperty[properties]jsonget[nodes],[shape],[values]]"><option><$text text=<<currentTiddler>> /></option></$list></$select> |
-|!Father-son Edges |<$checkbox tiddler="$:/graph/Pantheon" field="edges.fields" checked="" unchecked="[all[]] -father" /> |
+|!Father-son Edges |<$checkbox tiddler=<<graph>> field="edges.fields" checked="" unchecked="[all[]] -father" /> |
 |!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
 
-//All// graph settings are dynamic. And there are many more. Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/views]] and fiddle with the Pantheon view to play with all of them.
+//All// graph settings are dynamic. And there are many more.
+<$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/views--1382248499" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
+Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/ui/Settings/Views]] and fiddle with the Pantheon view to play with all of them.

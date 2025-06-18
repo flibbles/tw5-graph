@@ -1,0 +1,11 @@
+title: TiddlyMap
+
+\rules except wikilinks
+
+TiddlyMap is the spiritual predecessor to <<.graph>>. It's a fantastic [[TiddlyWiki]] plugin which provides graph visualization using the [[Vis-Network]] library. It has been serving the TiddlyWiki community for over a decade.
+
+However, it is no longer being maintained, hence the creation of <<.graph>>, which is a redesign from the ground up not only to fill the shoes of TiddlyMap, but also to expand upon it by being more flexible, more hackable, and more lightweight.
+
+You can visit [[the source page|https://github.com/felixhayashi/TW5-TiddlyMap]] here if you're curious about it, and its [[demo page is available here|https://tiddlymap.org/]].
+
+If there are any features of TiddlyMap which you relied upon and would like to see in <<.graph>>, feel free to open a feature request on the <a href={{$:/plugins/flibbles/graph!!source}} class=tc-tiddlylink-external target=_blank><<.graph>> github page</a>.

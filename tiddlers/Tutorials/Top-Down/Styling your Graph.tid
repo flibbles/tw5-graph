@@ -25,11 +25,11 @@ You'll notice two things. All the nodes in your graph no longer float around, al
 
 Let's click over to the "nodes" tab. These are properties that will apply to all your nodes, rather than to your graph as a whole.
 
-# Let's change the color of all our view nodes by clicking on the black bar beside <<.value color>>. I think a nice dark red should do. Fitting for the mythological beings.
+# Let's change the color of all our view nodes by clicking on the black bar beside <<.prop color>>. I think a nice dark red should do. Fitting for the mythological beings.
 
 !! Moving on
 
-You've probably noticed there's also an "edges" tab. You can play with it, (in fact, you'll probably want to turn off "physics" for edges too, or they'll look strange as you move around the nodes), but there's a little more to understand before customizing edges. For one, you may have noticed your edges already vary in color depending on what type of edge they are. They've already got style!
+You've probably noticed there's also an "edges" tab. You can play with it, (in fact, you'll probably want to turn off <<.prop physics>> for edges too, or they'll look strange as you move around the nodes), but there's a little more to understand before customizing edges. For one, you may have noticed your edges already vary in color depending on what type of edge they are. They've already got style!
 
 We'll address that in the next tutorial, but first, try exploring the other properties you see. There are many ways to customize graphs.
 

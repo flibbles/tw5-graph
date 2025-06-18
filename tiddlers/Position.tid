@@ -1,0 +1,5 @@
+title: Position
+
+A position indicates a coordinate location using numbers concatenated with commas, such as <<.value 23.5,-12.88>>. The advantage to using these is that since they're a single string value, they can be stored and accessed under a single entry within [[Data Tiddlers|https://tiddlywiki.com/#DataTiddlers]]. They can be fed directly to the <<.attr $pos>> attribute of <<.wlink NodeWidget>> widgets.
+
+Their format is simple: `$(x)$,$(y)$`.

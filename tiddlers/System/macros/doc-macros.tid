@@ -8,6 +8,7 @@
 \procedure .wid(_) <code class=doc-widget>$<<_>></code>
 \procedure .value(_) <code class=doc-value><$text text=<<_>> /></code>
 \procedure .var(_) <code class=doc-var><<_>></code>
+\procedure .prop(_) <code class=doc-prop><$text text=<<_>> /></code>
 
 \procedure .wlink(to) <$link to=<<to>> ><$transclude $variable=.wid _={{{ [<to>get[caption]] }}} /></$link>
 

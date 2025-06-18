@@ -11,6 +11,7 @@
 .doc-var,
 .doc-widget,
 .doc-attr,
+.doc-prop,
 .doc-param {
 	background-color: <<color background>>;
 	border: none;

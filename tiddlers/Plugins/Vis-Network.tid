@@ -16,9 +16,9 @@ While it hasn't seen any active development since 2023, it's still a very solid 
 * It's got bugs. The Tiddlywiki plugin wrapping Vis-network does its best to work around them when it can, but some are unavoidable, and since this library isn't being developed, those bugs are here to stay.
 * It's slow. Compared to other visualization libraries, Vis-Network can become laggy with only a few hundred nodes and edges.
 
-! TiddlyMap
+!! TiddlyMap
 
-This is the same plugin which is a dependency for Tiddlymap. While it's gone through a lot of changes to be an options for TW5-Graph, this plugin can still act as TiddlyMap's dependency if you so choose. You can have both TW5-Graph and Tiddlymap functioning in your wiki at once, if that aids in migrating over.
+This is the same plugin which is a dependency for [[TiddlyMap]]. While it's gone through a lot of changes to be an optional engine for <<.graph>>, this plugin can still act as TiddlyMap's dependency if you so choose. You can even have both TW5-Graph and Tiddlymap functioning in your wiki at once, if that aids in migrating over.
 
 ! Installation
 

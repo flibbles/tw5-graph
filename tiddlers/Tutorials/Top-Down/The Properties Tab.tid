@@ -18,10 +18,10 @@ Another line of tabs! The choices are <<.value edges>> and <<.value nodes>>. Let
 
 Let's get to work.
 
-# First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge". Set "arrows" to <<.value to>>, and you'll see all your tag fields update.
+# First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge". Set <<.prop arrows>> to <<.value to>>, and you'll see all your tag fields update.
 # Next, you might remember that we added our own custom field to the "edges, fields" textbox. <$doc.inhouse>For the demo, that was <<.field slayed>>.</$doc.inhouse> Since it didn't have a corresponding edge-type, those edges had no special styling.
 #* Let's click the <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button the "Fields" grouping to create a new field-edge type, and when prompted, type in your field name <$doc.inhouse>(<<.field slayed>> in the demo's case)</$doc.inhouse>. Now we have a new type to style.
-#* Let's check the box next to "dashes" to make those types of edges dashed. That should be good enough for now.
+#* Let's check the box next to <<.prop dashes>> to make those types of edges dashed. That should be good enough for now.
 
 There you have it! Now you know how to style edges based on their types.
 

@@ -26,10 +26,10 @@ To rearrange the stack order, just drag the node type tabs around in the vertica
 
 If you're on the demo, let's spruce these nodes up a bit.
 
-# If you haven't, create a node type set called <<.value creatures>>. We'll set the filter to `[tag[Creature]]`, and then change the "shape" to <<.value box>>. This will change their appearance to neatly contain their labels.
-# Let's do something special for the heroes in our graph. Create a node type called <<.value heroes>>. Set the filter to `[tag[Heroes]]`, and then set the <<.value image>> property to `hero.svg`, which is the title of an svg tiddler already included with the demo. This will use that image as the icon in place of an image.
-# Some of those creatures are actually creature categories. Let's differentiate the. Create a type called <<.value categories>>. We'll set the filter to `[tagging[]]`, because the filters work by passing each node individually into the filter and seeing if anything comes out, and since these categories tag the creatures, they'll pass. Now we'll set the "shape" to <<.value star>>.
-#* Whoops!! Nothing happened. That's because our category nodes also match with our "creature" type, which is also setting the "shape" property, and it's showing up //lower// than "category", it's setting take precedent. No biggie. We can just drag "category" below "creature" in the tabs list to the left.
+# If you haven't, create a node type set called <<.value creatures>>. We'll set the filter to `[tag[Creature]]`, and then change the <<.prop shape>> to <<.value box>>. This will change their appearance to neatly contain their labels.
+# Let's do something special for the heroes in our graph. Create a node type called <<.value heroes>>. Set the filter to `[tag[Heroes]]`, and then set the <<.prop image>> property to `hero.svg`, which is the title of an svg tiddler already included with the demo. This will use that image as the icon in place of an image.
+# Some of those creatures are actually creature categories. Let's differentiate the. Create a type called <<.value categories>>. We'll set the filter to `[tagging[]]`, because the filters work by passing each node individually into the filter and seeing if anything comes out, and since these categories tag the creatures, they'll pass. Now we'll set the <<.prop shape>> to <<.value star>>.
+#* Whoops!! Nothing happened. That's because our category nodes also match with our "creature" type, which is also setting the <<.prop shape>> property, and it's showing up //lower// than "category", it's setting take precedent. No biggie. We can just drag "category" below "creature" in the tabs list to the left.
 
 <$button class=doc-button actions="""
 \procedure type(name, filter, body) <$action-setfield $tiddler=`$:/config/flibbles/graph/nodes/stack/$(name)$` type="application/json" filter=<<filter>> text=<<body>> />
