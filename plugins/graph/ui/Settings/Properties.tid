@@ -2,10 +2,12 @@ title: $:/plugins/flibbles/graph/ui/Settings/Properties
 tags: $:/tags/flibbles/graph/settingsTab
 caption: Properties
 
-\parameters (default:nodes)
+\function .tabs() :cache[all[shadows+tiddlers]removeprefix[$:/plugins/flibbles/graph/presettypes/]splitbefore[/]removesuffix[/]unique[]sort[]]
+
+<$parameters default=<<.tabs>> >
 
 <$transclude $variable=tabs
-	tabsList="[all[shadows+tiddlers]removeprefix[$:/plugins/flibbles/graph/presettypes/]splitbefore[/]removesuffix[/]unique[]sort[]]"
+	tabsList="[function[.tabs]]"
 	default=<<default>>
 	state="$:/state/graph/settings/"
 	template="$:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate"

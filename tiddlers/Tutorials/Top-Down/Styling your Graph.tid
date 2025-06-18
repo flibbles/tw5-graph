@@ -25,8 +25,7 @@ You'll notice two things. All the nodes in your graph no longer float around, al
 
 Let's click over to the "nodes" tab. These are properties that will apply to all your nodes, rather than to your graph as a whole.
 
-# Let's change the shape of all your nodes. Find the <<.value shape>> dropdown and select <<.value box>>. That will change all your nodes to be boxes with their labels inside.
-# Now let's change the color of all our view nodes by clicking on the black bar beside <<.value color>>. I think a nice dark red should do. Fitting for the mythological beings.
+# Let's change the color of all our view nodes by clicking on the black bar beside <<.value color>>. I think a nice dark red should do. Fitting for the mythological beings.
 
 !! Moving on
 
@@ -38,7 +37,7 @@ We'll address that in the next tutorial, but first, try exploring the other prop
 
 Here's a button that'll apply all the suggested changes to your graph in this demo, and navigate you back to the view configuration page, in case you're lost.
 
-<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" graph.graph='{"physics":"no"}' graph.nodes='{"shape":"box","color":"#a51d2d"}'/>""">
+<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" graph.graph='{"physics":"no"}' graph.nodes='{"color":"#a51d2d"}'/>""">
 
 Set graph and node properties.
 </$button>
@@ -47,4 +46,3 @@ Set graph and node properties.
 
 {{$:/graph/Default||$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate}}
 </$doc.show>
-
