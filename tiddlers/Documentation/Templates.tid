@@ -1,6 +1,6 @@
 tags: API
 
-<<.graph>> makes use of templates as a means of treating [[Views]] as the source of a graph, while using a template to describe how that view should be displayed, very much in line with TiddlyWiki's //Philosophy of Tiddlers// that information should be kept small and reusable. And graph templating does indeed work very much the same way that tiddler templating works.
+<<.graph>> makes use of templates as a means of treating [[Views|View]] as the source of a graph, while using a template to describe how that view should be displayed, very much in line with TiddlyWiki's //Philosophy of Tiddlers// that information should be kept small and reusable. And graph templating does indeed work very much the same way that tiddler templating works.
 
 ```
 {{MyView||MyTemplate}}
