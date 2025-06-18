@@ -1,3 +1,8 @@
+\procedure actions-optional()
+<$action-navigate $to="$:/plugins/flibbles/graph/settings"/>
+<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Properties"/>
+\end
+
 You've probably figured out that you can change your edges for your view with that edge tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
 
 !! The "Properties" tab
@@ -6,10 +11,7 @@ This tab is along the top of the Control Panel you've been working with, as appo
 
 <$doc.inhouse>
 
-<$button class=doc-button actions="""
-	<$action-navigate $to="$:/plugins/flibbles/graph/settings"/>
-	<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Properties"/>
-""" >
+<$button class=doc-button actions=<<actions-optional>> >
 
 Switch to "Properties" tab.
 </$button></$doc.inhouse>

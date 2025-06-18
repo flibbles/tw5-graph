@@ -1,3 +1,13 @@
+\procedure actions()
+\procedure prefix() $:/config/flibbles/graph/nodes/stack
+\procedure type(name, filter, body) <$action-setfield $tiddler=`$(prefix)$/$(name)$` type="application/json" filter=<<filter>> text=<<body>> />
+
+<<type categories "[tagging[]]" '{"shape": "star"}'>>
+<<type creatures "[tag[Creature]]" '{"shape": "box"}'>>
+<<type heroes "[tag[Hero]]" '{"image": "hero.svg"}'>>
+<$action-setfield $tiddler=<<prefix>> list=`$(prefix)$/creatures $(prefix)$/categories`/>
+\end
+
 Nodes can be stylized by type just like edges can, but it's a little different.
 
 Let's click over to the "nodes" tab, and you'll see... //nothing//! Just a vertical tab to the left that contains "Stack" and a <<.plus>> button. That's because you don't have any node types yet.
@@ -31,13 +41,7 @@ If you're on the demo, let's spruce these nodes up a bit.
 # Some of those creatures are actually creature categories. Let's differentiate the. Create a type called <<.value categories>>. We'll set the filter to `[tagging[]]`, because the filters work by passing each node individually into the filter and seeing if anything comes out, and since these categories tag the creatures, they'll pass. Now we'll set the <<.prop shape>> to <<.value star>>.
 #* Whoops!! Nothing happened. That's because our category nodes also match with our "creature" type, which is also setting the <<.prop shape>> property, and it's showing up //lower// than "category", it's setting take precedent. No biggie. We can just drag "category" below "creature" in the tabs list to the left.
 
-<$button class=doc-button actions="""
-\procedure type(name, filter, body) <$action-setfield $tiddler=`$:/config/flibbles/graph/nodes/stack/$(name)$` type="application/json" filter=<<filter>> text=<<body>> />
-
-<<type creatures "[tag[Creature]]" '{"shape": "box"}'>>
-<<type heroes "[tag[Hero]]" '{"image": "hero.svg"}'>>
-<<type categories "[tagging[]]" '{"shape": "star"}'>>
-""" >
+<$button class=doc-button actions=<<actions>> >
 
 Or do it all automatically.
 </$button></$doc.inhouse>

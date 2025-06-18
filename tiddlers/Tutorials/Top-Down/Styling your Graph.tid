@@ -1,3 +1,5 @@
+\procedure actions() <$action-setfield $tiddler="$:/graph/Default" graph.graph='{"physics":"no"}' graph.nodes='{"color":"#a51d2d"}'/>
+
 By now, you can create a graph with the nodes you want, connected by the edges you choose. But what you've got is a plain-looking graph with only circle-shaped nodes of a single color. Let's style it!
 
 There are many ways to style graphs. Either by effecting all objects of a given view, or objects of a certain type across many views, etc... But let's just focus on configuring all the objects of our current view.
@@ -37,7 +39,7 @@ We'll address that in the next tutorial, but first, try exploring the other prop
 
 Here's a button that'll apply all the suggested changes to your graph in this demo, and navigate you back to the view configuration page, in case you're lost.
 
-<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" graph.graph='{"physics":"no"}' graph.nodes='{"color":"#a51d2d"}'/>""">
+<$button class=doc-button actions=<<actions>> >
 
 Set graph and node properties.
 </$button>

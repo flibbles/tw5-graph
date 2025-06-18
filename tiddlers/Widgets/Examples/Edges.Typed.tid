@@ -1,5 +1,3 @@
-title: Edges.TypedWidget (Examples)
-
 <$doc.example
 	description="edges.typed with $fields attribute"
 	narrative="This shows a typical usage of <<.wid edges.typed>>. Lists and tags come preconfigured with the plugin, but this example also has custom settings for the <<.attr evolves>> field. Notice how the element nodes don't correspond to existing tiddlers. In that case, the widget ignores them and generates no edges.">

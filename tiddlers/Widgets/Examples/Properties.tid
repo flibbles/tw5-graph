@@ -1,5 +1,3 @@
-title: PropertiesWidget (Examples)
-
 <$doc.example
 	description= "Scope of property actions"
 	narrative= "This shows how actions are executed within the scope of the triggering graph object. These nodes all have different <<.value currentTiddler>> values, even though the <<.wid properties>> widget defining the action doesn't have any <<.value currentTiddler>>.

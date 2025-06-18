@@ -1,3 +1,6 @@
+\procedure actions() <$action-setfield $tiddler="$:/graph/Default" filter="[tag[Myth]]"/>
+\end
+
 We need to have a view of //something//, so let's tell our view what to show. There's a setting called "Nodes" in the table of available options. It had a //big// text box for you to fill in, and right now, it's empty. Type "anything" in there. Literally. "Anything".  Now you'll have a node called "anything" in the big sidebar graph. You double-click on it. It'll open a tiddler called "Anything".
 
 Here's an even easier way to add nodes to your graph. Double click //anywhere// in the big open space in the sidebar graph. See that popup? Type in a tiddler, or a fine one, and click "Okay". Now you have //another// node. And you'll notice that the "Nodes" setting in your view's configuration now shows //two// titles.
@@ -22,7 +25,7 @@ Whatever you type in, the nodes will spring out within your graph.
 
 If you're running through this tutorial on the demo site, you can use `[tag[Myth]]`, which includes a set of pre-made tiddlers prepared for this demo. If you'd like, the following button will automatically set "Nodes" for you.
 
-<$button class=doc-button actions="""<$action-setfield $tiddler="$:/graph/Default" filter="[tag[Myth]]"/>""">
+<$button class=doc-button actions=<<actions>> >
 
 Use `[tag[Myth]]`
 </$button></$doc.inhouse>
