@@ -15,18 +15,19 @@
 	delete={{{ [<$editable>!match[no]then[<$action-removetyped $tiddler=<<fromTiddler>> $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
 
 
-<$list variable=toTiddler counter=count filter="[<$tiddler>gettyped<fieldName>]">
+<$list variable=toTiddler counter=index filter="[<$tiddler>gettyped<fieldName>]">
+
+<$vars id=`$:/edge/fields/$($tiddler)$
+$(fieldName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
-	id=`$:/edge/fields/$($tiddler)$
-$(fieldName)$
-$(count)$`
+	id=<<id>>
 	$mode=inline
 	$fillignore=yes />
 
-</$slot></$list></$properties></$let></$list>
+</$slot></$vars></$list></$properties></$let></$list>
 
 <!-- Now create edges for formula types -->
 
@@ -39,20 +40,21 @@ $(count)$`
 <$properties $for=edges
 	$tiddler=<<dataTiddler>> >
 
-<$list variable=toTiddler counter=count filter="[<$tiddler>subfilter<formula>]">
+<$list variable=toTiddler counter=index filter="[<$tiddler>subfilter<formula>]">
 
 <$tiddler tiddler=<<$tiddler>> >
+
+<$vars id=`$:/edge/formulas/$($tiddler)$
+$(formulaName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
-	id=`$:/edge/formulas/$($tiddler)$
-$(formulaName)$
-$(count)$`
+	id=<<id>>
 	$mode=inline
 	$fillignore=yes />
 
-</$slot></$tiddler></$list></$properties></$let></$list>
+</$slot></$vars></$tiddler></$list></$properties></$let></$list>
 \end
 
 \relink $edges.typed $formulas:filter $fields:filter $tiddler:title

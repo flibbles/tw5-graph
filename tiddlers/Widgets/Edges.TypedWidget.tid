@@ -32,6 +32,14 @@ Within the widget block, <<.wid edges.typed>> defines the tiddler <<.value toTid
 
 <$doc.implementation />
 
+! Variables
+
+The content of the <<.wid edges.typed>> widget is executed for each edge type. The following availables are available in each iteration of the content.
+
+|!Variables |!Description |
+|`id` |A unique id to be used in the $id attribute of <<.wid edge>> if you wish. |
+|`dataTiddler` |The title of the data tiddler from which the edge type gets its properties. May not exist for custom-added $field edges |
+
 ! $fields
 
 The <<.attr $fields>> attributes can specify which configured field edges should be considered. This is a filter attribute which is passed a list of all configured fields in the TW5-graph settings.

@@ -127,6 +127,12 @@ it("makes unique ids for edges", function() {
 		{from: "Target", to: "Target", value: "3"},
 		{from: "Target", to: "Target", value: "3"},
 		{from: "Target", to: "Target", value: "4"}]);
+	// Now let's make sure that the blocks get access to these unique ids
+	widget = $tw.test.renderGlobal(wiki, "<$edges.typed $tiddler=Target>\n\n<$text text=<<id>> />\n\n<br>\n");
+	var output = widget.parentDomNode.innerHTML;
+	var expected = Object.keys(objects.edges);
+	expected.push(""); // We add one more because we have a superfluous <br> at the end.
+	expect(output.split("<br>")).toEqual(expected);
 });
 
 /*** Field specific tests ***/
