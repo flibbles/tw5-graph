@@ -1,0 +1,3 @@
+The "title" field type treats the entire field as the title of a tiddler. It requires no escaping or wrapping inside of double brackets. When [[Typed Tools]] manipulate a "title" field, they'll always treat it as a single value.
+
+When the <<<<.wlink ActionAddTypedWidget>> is told to add a value to a "title" field, it does so by replacing the existing value.

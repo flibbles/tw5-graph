@@ -1,0 +1,22 @@
+title: Field Types
+tags: Concepts
+
+Tiddlers have fields. Some fields can have types. In core TiddlyWiki, most fields are simple string fields, except for the <<.field tags>> and <<.field list>> field, which are interpreted as [[title lists]].
+
+<<.graph>>, and also //Relink//, expand on this idea by introducing other types that fields can be, allowing you to configure new fields, and treating these fields specially when it comes to [[Typed Tools]]. 
+
+For instance, you can use the <<.wid ActionAddTypedWidget>> to add a value to a tiddler's <<.field list>> field, and since it's a "title list", the action knows to append that value to the field's existing value. If, however, you use that widget on a field specified as a filter type, it would instead modify the existing value as though it were a filter.
+
+The following field types are available for <<.graph>>:
+
+<dl>
+<$list filter="[tag[Field Types]]">
+<dt><$text text={{!!caption}} /></dt>
+<dd><$transclude $mode=block/></dd>
+</$list>
+</dl>
+
+
+!! Relink
+
+When fields are configured as types, the [[Relink]] plugin is able to relink any renamed tiddlers inside of that field appropriately. configure the field type for a [[Field edge type]], it will also properly configure it for relink, because they will share the same configuration tiddler.

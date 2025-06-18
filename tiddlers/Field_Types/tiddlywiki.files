@@ -1,0 +1,19 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": false,
+			"fields": {
+				"caption": {
+					"source": "basename"
+				},
+				"title": {
+					"source": "basename",
+					"suffix": " FieldType"
+				},
+				"tags": "[[Field Types]]"
+			}
+		}
+	]
+}

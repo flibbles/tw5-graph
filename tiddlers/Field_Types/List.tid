@@ -1,0 +1,3 @@
+"List" field types are treated as [[TiddlyWiki title lists|https://tiddlywiki.com/#Title%20List]]. These are space-separated lists of titles, where titles with spaces in them are wrapped in double-brackets. They are not intended to contain duplicates.
+
+By default, <<.field list>> and <<.field tags>> fields are configured as lists. However, //any field// which is not explicitly configured will be treated as a "list" field by the [[Typed Tools]].

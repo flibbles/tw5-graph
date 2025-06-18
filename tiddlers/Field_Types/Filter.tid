@@ -1,0 +1,5 @@
+The "filter" field type treats a field as a filter. When adding or removing from that field with [[Typed Tools]], the tools will run the filter and determine how best manipulate the filter to get the best result. It is always safe, and filter fields can contain any mixture of titles or complicated filter runs as you want.
+
+When the tools interpret the filter, they do so using the title of the tiddler containing the field as the [[Current Tiddler]], and with all non-shadow tiddlersas input, as is default TiddlyWiki behavior.
+
+By default, the <<.field filter>> field is configured as a filter, even though it doesn't initially have a corresponding [[Field Edge-type]].
