@@ -1,0 +1,15 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"source": "basename"
+				},
+				"tags": "API"
+			}
+		}
+	]
+}

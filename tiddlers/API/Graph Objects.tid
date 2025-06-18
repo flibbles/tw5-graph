@@ -1,0 +1,11 @@
+Graphs are defined by a collection of graph objects. The Graph itself is a singular object, defined by the <<.wlink GraphWidget>> widget. Inside of it, you would describe the graph through numerous other objects like nodes and edges, which are defined with the <<.wlink NodeWidget>> and <<.wlink EdgeWidget>> respectively.
+
+Graph objects can be configured with [[Graph Properties]], which are defined by [[engine plugins|Engines]], and thus what properties are available may be different depending on what engine you're using.
+
+<<.graph>> defines widgets to declare the three core graph object:
+
+<<list-links "[tag[Graph Objects]]">>
+
+However, it's possible for an engine to define graph objects of their own (like maybe <<.value Axis>>, <<.value DataPoint>>, or <<.value Legend>>). These engines would just need to create a widget to go along with the new object type which inherits from the <<.wlink GraphObjectWidget>> base widget.
+
+Currently, none do.

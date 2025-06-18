@@ -1,7 +1,7 @@
 title: Field Types
 tags: Concepts
 
-Tiddlers have fields. Some fields can have types. In core TiddlyWiki, most fields are simple string fields, except for the <<.field tags>> and <<.field list>> field, which are interpreted as [[title lists]].
+Tiddlers have fields. Some fields can have types. In core TiddlyWiki, most fields are simple string fields.
 
 <<.graph>>, and also //Relink//, expand on this idea by introducing other types that fields can be, allowing you to configure new fields, and treating these fields specially when it comes to [[Typed Tools]]. 
 

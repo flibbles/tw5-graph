@@ -1,0 +1,7 @@
+Graphs are made up of multiple node objects. Each one is defined by the use of the <<.wlink NodeWidget>> widget. The kinds of [[properties|Graph Properties]] that nodes have will define the behavior and style of individual nodes, such as setting their color, or what happens when you interact with them.
+
+All node objects will correspond to a tiddler in your wiki. This tiddler must be unique, but it does not have to exist.
+
+There is a single pre-defined type of node object used by [[View]]:
+
+<<list-links "[tag<currentTiddler>]">>

@@ -1,0 +1,3 @@
+The graph is a singular object. There is only one graph object in a graph (obviously), and it's defined by the root <<.wlink GraphWidget>> widget. The kind of [[properties|Graph Properties]] it takes define the graph's behavior as a whole, such as physics settings, or hierarchy layouts.
+
+Currently, there are no different categories of graphs, or graph types. There is just //the graph//.

@@ -23,7 +23,7 @@ Whatever you type in, the nodes will spring out within your graph.
 
 <$doc.inhouse>
 
-If you're running through this tutorial on the demo site, you can use `[tag[Myth]]`, which includes a set of pre-made tiddlers prepared for this demo. If you'd like, the following button will automatically set "Nodes" for you.
+If you're running through this tutorial on the demo site, you can use `[tag[Myth]]`, which includes a set of pre-made tiddlers regarding [[Giants, Monsters, & Dragons]] in Greek mythology. If you'd like, the following button will automatically set "Nodes" for you.
 
 <$button class=doc-button actions=<<actions>> >
 

@@ -1,5 +1,3 @@
-tags: API
-
 <<.graph>> has a few filter operators and filter run prefixes which are useful for for graph creation.
 
 If you're unsure what filters are, they're a compact way of describing a set of tiddlers. [[There's a lot of explanation on them at the TiddlyWiki site|https://tiddlywiki.com/#Filters]].

@@ -3,7 +3,7 @@ tags: Installation
 
 Once you've installed <<.graph>>, you'll need to install at least one engine plugin. This is because <<.graph>> is [[designed to be only as the front end|Frontend and backend]]. It has no graphing capabilities of it's own. Currently [[Vis-network]] is the one most developed and feature-rich.
 
-Engine plugins work through a series of objects that <<.graph>> can declare through widgets (Namely, [[Graph|Graph object]], [[Nodes|Nodes object]], and [[Edges|Edges object]], though others can exist). Each of these types of objects accept [[Properties]] which are unique to the graphing engine, but engines share common properties. Here's the list:
+Engine plugins work through a series of [[Graph Objects]] that <<.graph>> can declare through widgets (Namely, [[Graph|Graph GraphObject]], [[Nodes|Nodes GraphObject]], and [[Edges|Edges GraphObject]], though others can exist). Each of these types of objects accept [[Properties|Graph Properties]] which are unique to the graphing engine, but engines share common properties. Here's the list:
 
 <table>
   <tr>

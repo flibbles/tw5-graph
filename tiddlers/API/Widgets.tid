@@ -1,5 +1,3 @@
-tags: API
-
 Besides a User Interface, <<.graph>> introduces an API which allows you to build custom content exactly to your specifications. It's created using a small set of core widgets, which act as building blocks to make more complicated macro widgets, which in turn are used to make views, templates, and on-the-fly graphs.
 
 <<.graph>> widgets follow a simple paradigm. If the widget is intended to be used inside of <<.wid graph>>, all its hard-coded attributes will start with a "$". Any widgets that accept attributes that don't start with a "$" will expect those attributes to be dynamic engine property values that the widget will pass along to the visualization engine.
