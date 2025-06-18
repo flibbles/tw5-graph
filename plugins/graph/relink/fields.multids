@@ -1,5 +1,10 @@
 title: $:/config/flibbles/relink/fields/
 
+# This configuration already exists in Relink. We duplicate it here in case
+# anyone runs tw5-graph without relink installed. We'll still recognize filter.
+filter: filter
+
+# These, however, are unique to TW5-Graph
 template: title
 edges.fields: filter
 edges.formulas: filter

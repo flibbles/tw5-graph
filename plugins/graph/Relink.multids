@@ -1,5 +1,0 @@
-title: $:/config/flibbles/relink/
-
-# This configuration already exists in Relink. We duplicate it here in case
-# anyone runs tw5-graph without relink installed. We'll stil recognize filter.
-fields/filter: filter
