@@ -109,6 +109,26 @@ it("does not introduce whitespace with default block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("");
 });
 
+it("makes unique ids for edges", function() {
+	wiki.addTiddlers([
+		fieldConfig("A", {value: "1"}),
+		fieldConfig("B", {value: "2"}),
+		relinkConfig("A", "filter"),
+		formulaConfig("A", "[all[]] =[all[]]", {value: "3"}),
+		formulaConfig("B", "[all[]]", {value: "4"}),
+		{title: "Target", "A": "Target =Target", "B": "Target"}]);
+	var text = "<$graph><$edges.typed $tiddler=Target />" + nodesFor("Target");
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "Target", to: "Target", value: "1"},
+		{from: "Target", to: "Target", value: "1"},
+		{from: "Target", to: "Target", value: "2"},
+		{from: "Target", to: "Target", value: "3"},
+		{from: "Target", to: "Target", value: "3"},
+		{from: "Target", to: "Target", value: "4"}]);
+});
+
 /*** Field specific tests ***/
 
 it("uses all fieldTyped edges when no fields specified", function() {

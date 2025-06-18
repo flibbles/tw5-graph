@@ -13,6 +13,7 @@ The node widget does not create any DOM nodes.
 All node widgets correspond to a tiddler. This tiddler does not have to exist.
 
 |!Attribute |!Description |
+|$id |The unique id for this tiddler. You can leave it blank, and it will be auto generated. |
 |$from |The tiddler whose node this edge stems from (defaults to the [[current tiddler|Current Tiddler]]) |
 |$to |The tiddler whose node this edge goes to. This must be set. |
 |//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as properties of this edge |

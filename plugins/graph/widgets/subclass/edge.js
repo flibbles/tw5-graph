@@ -22,11 +22,12 @@ EdgeWidget.graphObjectType = "edges";
 EdgeWidget.execute = function() {
 	this.id = this.getAttribute("$id");
 	if (!this.id) {
-		// We do this so we don't increment unecessarily, and maybe reuse
+		// We do this instead of using getAttribute's default arg
+		// so we don't increment unecessarily, and maybe reuse
 		// the same auto-id if this edge refreshes Self. This'll give better
 		// results when updating the graph. It's a CHANGED edge, not a new one.
 		this.counter = this.counter || nextId++;
-		this.id = "edgeid-" + this.counter;
+		this.id = "$:/edge/" + this.counter;
 	}
 	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));

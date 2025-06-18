@@ -1,3 +1,4 @@
 title: $:/plugins/flibbles/graph/templates/edge
 
-<$edge/>
+\parameters (id)
+<$edge $id=<<id>> />

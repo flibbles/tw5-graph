@@ -15,11 +15,14 @@
 	delete={{{ [<$editable>!match[no]then[<$action-removetyped $tiddler=<<fromTiddler>> $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
 
 
-<$list variable=toTiddler filter="[<$tiddler>gettyped<fieldName>]">
+<$list variable=toTiddler counter=count filter="[<$tiddler>gettyped<fieldName>]">
 
 <$slot $name=ts-raw>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
+	id=`$:/edge/fields/$($tiddler)$
+$(fieldName)$
+$(count)$`
 	$mode=inline
 	$fillignore=yes />
 
@@ -36,13 +39,16 @@
 <$properties $for=edges
 	$tiddler=<<dataTiddler>> >
 
-<$list variable=toTiddler filter="[<$tiddler>subfilter<formula>]">
+<$list variable=toTiddler counter=count filter="[<$tiddler>subfilter<formula>]">
 
 <$tiddler tiddler=<<$tiddler>> >
 
 <$slot $name=ts-raw>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
+	id=`$:/edge/formulas/$($tiddler)$
+$(formulaName)$
+$(count)$`
 	$mode=inline
 	$fillignore=yes />
 
