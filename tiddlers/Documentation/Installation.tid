@@ -26,7 +26,7 @@ Namely, [[Relink]].
 
 It takes care of propagating any tiddler name changes you make across your graph configurations, as well as the rest of your wiki. It's //almost essential// for <<.graph>> in the same way it's //almost essential// for Tiddlywiki as a whole.
 
-There are [[other plugins|Plugins]] you might want as well, depending on what features you'd like, but none are essential, and you don't need to worry about them right away.
+There are [[other plugins|Other Plugins]] you might want as well, depending on what features you'd like, but none are essential, and you don't need to worry about them right away.
 
 ! What's next?
 
