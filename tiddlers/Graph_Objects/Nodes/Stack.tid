@@ -1,0 +1,15 @@
+In The <<.graph>> GUI, you can define a class of node properties which can selectively apply to nodes based on whether that node's corresponding tiddler title produces results when passed through a filter.
+
+For instance, if you have a stack node type called <<.value Felines>>, and it is configured with the filter <<.value "[tag[Feline]]">>, then all tiddlers in your [[views|View]] (or contained within <<.wlink Nodes.ConfiguredWidget>> which are tagged with <<tag Feline>>, will inherit the properties defined in the <<.value Felines>> stack node type. Any tiddlers that don't have that tag will not be changed.
+
+!! Why is it called Stack?
+
+Because order matters.
+
+If two or more stack node types would change the same property on a node, then the one farther down in the stack take priority.
+
+You can manage the order of the stack by going to the [[Node Stack Configuration page]] and dragging the vertical tabs along the left-hand side to whatever order you want.
+
+Here is a transclusion of the Properties tab in <$link to="$:/plugins/flibbles/graph/settings">the <<.graph>> settings</$link>
+
+{{$:/plugins/flibbles/graph/ui/Settings/Properties|nodes}}

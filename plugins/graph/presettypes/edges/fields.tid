@@ -15,4 +15,4 @@ title: $:/plugins/flibbles/graph/presettypes/edges/fields
 
 <$vars fieldName={{{ [<currentTiddler>removeprefix[$:/config/flibbles/graph/edges/fields/]] }}}>
 
-Edge type: <<typeSelector>>
+Field type: <<typeSelector>>
