@@ -1,0 +1,13 @@
+title: Uglify
+tags: Plugins Flibbles
+source: https://flibbles.github.io/tw5-uglify/
+
+TW5-Uglify is a plugin that can minify all the tiddlers in other plugins. This can be very useful for <<.graph>>, because <<.graph>>'s release does not minify any of its javascript or wikitext. However, it is optimized and tested against TW5-Uglify.
+
+It's very simple to use, and if the size of <<.graph>> or any of its engine plugins is a problem, I strongly recommend using this over other options (not just because I wrote it).
+
+If you have a tiddlywiki file you'd like you compress, then after you've installed <<.graph>>, you can drop your file on the [[Uglify Wizard|https://flibbles.github.io/tw5-uglify/uglified.html]], which will spit out your wiki with all plugins neatly compressed.
+
+If you are running a server, install Uglify from its [[project site|https://github.com/flibbles/tw5-uglify]], then install the plugin in your project just like you would any other project. Voila. Your server will now serve compressed plugins without any extra steps.
+
+[[Visit the Uglify demo site for more information|https://flibbles.github.io/tw5-uglify/]]

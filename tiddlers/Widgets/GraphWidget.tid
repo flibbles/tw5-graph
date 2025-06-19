@@ -18,7 +18,7 @@ The graph widget will discover any graph object widgets within its contents and 
 
 ! Engine
 
-The graph widget requires a [[Graph Visualization plugin]] to be installed. If one is installed, the widget will automatically use that to render itself. If multiple engines are installed, you can specify which one to use with the $engine attribute. If that's not set, the widget will use the default specified by [[$:/config/flibbles/graph/engine]], which you can set from the plugin configuration. If //that// isn't set, the graph engine uses the first one available.
+The graph widget requires a [[Graph Visualization plugin|Engines]] to be installed. If one is installed, the widget will automatically use that to render itself. If multiple engines are installed, you can specify which one to use with the $engine attribute. If that's not set, the widget will use the default specified by [[$:/config/flibbles/graph/engine]], which you can set from the plugin configuration. If //that// isn't set, the graph engine uses the first one available.
 
 ! Graph Properties
 

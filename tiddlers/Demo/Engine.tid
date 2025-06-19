@@ -1,7 +1,7 @@
 title: Support for Different Visualization Engines
 tags: Demo
 
-<<.graph>> is capable of using different underlying visualization engines for creating graphs. [[Vis-network]] is the recommended engine for now, but other choices are possible, such as [[Orb]], though currently, it's implementation is incomplete.
+<<.graph>> is capable of using different underlying visualization engines for creating graphs. [[Vis-Network]] is the recommended engine for now, but other choices are possible, such as [[Orb]], though currently, it's implementation is incomplete.
 
 In fact, any Javascript visualization engine in the world could be used. They need only be wrapped up in a TiddlyWiki plugin that implements one simple [[module|graphengine Module]].
 

@@ -13,3 +13,7 @@ Without Relink, these references might fall out of sync, as would any references
 !! Relink-fieldnames
 
 Relink has a supplemental plugin called Relink-fieldnames which allows you to rename fields, if those fields correspond to existing tiddlers. If you have this installed, TW5-Graph will integrate with that as well, and update its field edge configuration.
+
+!! Field type settings
+
+Both Relink and <<.graph>> can consider [[fields as types|Field Types]]. To be convenient, <<.graph>> uses the same configuration files namespaced with `$:/config/flibbles/relink/fields/` so that setting the type in one plugin sets it in the other.

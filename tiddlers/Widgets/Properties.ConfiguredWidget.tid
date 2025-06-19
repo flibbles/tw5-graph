@@ -4,7 +4,7 @@ caption: properties.configured
 
 ! Introduction
 
-The <<.wid properties.configured>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Node Property Stack]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
+The <<.wid properties.configured>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Stack NodeType]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
 
 In theory, this widget could apply stacks of properties to edges or graphs too, but that sophisticated yet.
 

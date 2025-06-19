@@ -41,7 +41,7 @@ Graph templates don't have to be applied to views. You can easily create graph t
 
 !! Assigning templates
 
-[[Views]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a view, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a view, which you can set to any tiddler you want.
+[[Views|View]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a view, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a view, which you can set to any tiddler you want.
 
 !! Default rendering
 

@@ -16,7 +16,7 @@ caption: edges.typed
 
 <<.wid edges.typed>> provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured formula.
 
-Fields are parsed using their [[Relink settings]], which can also be configured through the edge settings as well, in case Relink is not installed.
+Fields are parsed using their [[Relink settings|Relink]], which can also be configured through the edge settings as well, in case Relink is not installed.
 
 ! Contents and Attributes
 

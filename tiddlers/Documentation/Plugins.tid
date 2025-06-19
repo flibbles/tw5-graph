@@ -1,11 +1,14 @@
+caption: Other Plugins
 tags: Installation
-list: Relink
+list: Relink Uglify
 
 The following plugins are not required for <<.graph>> to function. However, they may be helpful.
 
-<$list filter="[tag[Plugins]!tag[Engine Plugins]]">
+<$list filter="[tag[Plugins]!tag[Engines]]">
 
-! {{!!title}}
+---
+
+! <$link to={{!!title}} />
 
 !!!! <a href={{!!source}} target=_blank>source</a>
 

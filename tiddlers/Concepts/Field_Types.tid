@@ -19,4 +19,4 @@ The following field types are available for <<.graph>>:
 
 !! Relink
 
-When fields are configured as types, the [[Relink]] plugin is able to relink any renamed tiddlers inside of that field appropriately. configure the field type for a [[Field edge type]], it will also properly configure it for relink, because they will share the same configuration tiddler.
+When fields are configured as types, the [[Relink]] plugin is able to relink any renamed tiddlers inside of that field appropriately. configure the field type for a [[Fields EdgeType]], it will also properly configure it for relink, because they will share the same configuration tiddler.

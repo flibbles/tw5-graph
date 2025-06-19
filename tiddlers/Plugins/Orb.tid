@@ -9,7 +9,7 @@ Orb is a TiddlyWiki plugin that wraps [[Memgraph's graph visualization library o
 
 ! Cons
 
-* ''Currently I haven't finished polishing this!'' I focused on [[Vis-network]] first as part of TW5-Graph's first release. The plugin is very buggy and limited.
+* ''Currently I haven't finished polishing this!'' I focused on [[Vis-Network]] first as part of TW5-Graph's first release. The plugin is very buggy and limited.
 * To be lean, Orb stripped away a lot of stylizing options that exist in other visualization libraries.
 * It hasn't been actively developed since 2024.
 
