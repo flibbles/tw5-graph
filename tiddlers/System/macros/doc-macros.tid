@@ -2,6 +2,8 @@
 
 \procedure .graph() //TW5-Graph//
 \procedure .plus() <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button>
+\procedure .gear() <$button class=tc-btn-invisible>{{$:/core/images/options-button}}</$button>
+
 \procedure .attr(_) <code class=doc-attr><<_>></code>
 \procedure .field(_) <code class=doc-field><<_>></code>
 \procedure .tid(_) <code class=doc-tiddler><$text text=<<_>>/></code>

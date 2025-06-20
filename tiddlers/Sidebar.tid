@@ -1,0 +1,16 @@
+title: Sidebar
+tags: GUI
+
+<<.graph>> introduces a new tab to the TiddlyWiki sidebar called "graph", and this is the primary way interact with graphs without resorting to any wikitext. It shows [[views|View]], and along the top it has a banner bar with a "View" dropdown where you can select the view it shows. By default, it will contain the "Default" view, which will initially be empty apart from a prompt to configure it.
+
+!! Making more views
+
+Beside that "View" dropdown is a button with the <<.gear>> icon. This will take you to the configuration page for your current view, and from that page, you'll have tabs that take you to all <<.graph>> configuration.
+
+If you want to create another view, click the <<.plus>> tab along the left of that configuration page, beneath all the existing views.
+
+!! Standard graph template
+
+By default, the views created in this way will all use the [[Standard Editable Graph Template]], which provides a rich set of common functionality to your views, such as the ability to add/remove/move nodes and edges, as well as some light physics, node hovering, and styling using the API's [[Graph Objects and related types|Graph Objects]].
+
+The standard graph will behave slightly differently in the sidebar vs. when you [[render it in a tiddler|Graph.ViewWidget]]. For instance, graph's in the TiddlyWiki story river will not capture mouse scroll events unless the graph is currently focused (clicked on). This way, it won't interfere with river scrolling. However, in the sidebar, it will always capture scroll wheel events for zooming.

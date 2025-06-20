@@ -1,0 +1,37 @@
+title: graphengine Module
+tags: Modules
+
+The `graphengine` module is the connection point between <<.graph>> with a [[visualizations engine|Engines]]. It's a module that defines a few simple exported methods.
+
+''I do not recommend implementing your own graphengine module at this time, as some of its API is still subject to change.''
+
+```
+/* This gets called once when a graph is instantiated.
+ *
+ * Parameters:
+ *   element
+ *     a DOM element into which the graph engine should deposit its graphing
+ *     elements, likely a <canvas>. Any elements already inside this element
+ *     should be preserved and placed after any graphical the engine might
+ *     introduce so that those elements may overlay on top.
+ *   objects
+ *     All initial graph objects defining a graph in this form:
+ *     {
+ *         "graph": {
+ *             ...(key-value pairs of graph properties) },
+ *         "nodes": {
+ *             "nodeId": {
+ *                 ...(key-value pairs of properties for that node) },
+ *             ...(other node objects) },
+ *         "edges": {
+ *             "edgeId": {
+ *                 "from": "nodeId",
+ *                 "to": "nodeId",
+ *                 ...(other key-value pairs) },
+ *             ...(other edge objects) },
+ *         ...(other graph object types, if they exist) }
+ */
+exports.init = function(element, objects) { };
+
+// There is more, but I will document it later as the API solidifies.
+```

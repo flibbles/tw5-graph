@@ -4,7 +4,7 @@ caption: boundingbox
 
 ! Introduction
 
-The <<.wid boundingbox>> widget is used to create a div of a calculated and dynamic size. This is used by TW5-graph to create the proper boundings for the Sidebar graph, but could be used for other purposes as well, if it were elaborated more.
+The <<.wid boundingbox>> widget is used to create a div of a calculated and dynamic size. This is used by TW5-graph to create the proper boundings for the [[Sidebar graph|Sidebar]], but could be used for other purposes as well, if it were elaborated more.
 
 this widget will detected if the browser window is resized and adapt itself accordingly.
 
@@ -30,7 +30,7 @@ The width and height attributes are executed as filters where the following vari
 ;windowWidth
 : The width of the browser window
 
-These are very specific variables, and are exactly what is needed for the Sidebar. For instance:
+These are very specific variables, and are exactly what is needed for the [[Sidebar]]. For instance:
 
 ```
 <$boundingbox

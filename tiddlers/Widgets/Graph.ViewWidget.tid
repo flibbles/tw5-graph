@@ -4,7 +4,7 @@ caption: graph.view
 
 ! Introduction
 
-The <<.wid graph.view>> widget is a macro-defined widget which provides simple way to render [[views|View]] in contexts other than the [[SideBar]]. For instance, while you can see a view entitled "Foxes" in the Sidebar by selecting <<.value Foxes>> from the "View:" dropdown along the Sidebar banner, you could look at the exact same view in a tiddler with the following wikitext: `<$graph.view $tiddler="$:/graph/Foxes" />`.
+The <<.wid graph.view>> widget is a macro-defined widget which provides simple way to render [[views|View]] in contexts other than the [[Sidebar]]. For instance, while you can see a view entitled "Foxes" in the Sidebar by selecting <<.value Foxes>> from the "View:" dropdown along the Sidebar banner, you could look at the exact same view in a tiddler with the following wikitext: `<$graph.view $tiddler="$:/graph/Foxes" />`.
 
 !! `$:/graph/` namespace
 
