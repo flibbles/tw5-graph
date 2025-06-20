@@ -4,6 +4,7 @@
 			"path": ".",
 			"filesRegExp": "^.*\\.tid$",
 			"isTiddlerFile": true,
+			"searchSubdirectories": true,
 			"fields": {
 				"title": {
 					"source": "basename"
@@ -14,6 +15,7 @@
 			"path": ".",
 			"filesRegExp": "^.*\\.svg$",
 			"isTiddlerFile": false,
+			"searchSubdirectories": true,
 			"fields": {
 				"title": {
 					"source": "filename"

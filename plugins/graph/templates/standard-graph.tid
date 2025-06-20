@@ -23,7 +23,8 @@ tags: $:/tags/flibbles/graph/template
             <$nodes.writable $variable=node $field=filter>
               <$node $tiddler=<<node>>
                 $pos={{{ [{!!title}getindex<node>] }}}
-                label={{{ [<node>get[caption]else<node>] }}} />
+                label={{{ [<node>get[caption]else<node>] }}}
+                image={{{ [<node>get[icon]] }}} />
               <$edges.typed
                 $tiddler=<<node>>
                 $formulas=<<formulasFilter>>

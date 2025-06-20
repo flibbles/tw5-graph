@@ -1,0 +1,12 @@
+title: $:/graph/Alchemy
+filter: [tag[Alchemy]!is[draft]]
+type: application/json
+edges.fields: relates
+graph.edges: {"smooth":"no","color":"#00000020","dashes":"yes"}
+
+{
+    "Earth": "100,0",
+    "Air": "-100,0",
+    "Fire": "0,-100",
+    "Water": "0,100"
+}

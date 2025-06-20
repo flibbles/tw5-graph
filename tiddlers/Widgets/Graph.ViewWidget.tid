@@ -26,13 +26,13 @@ At its heart, this widget effectively acts as a glorified transclusion. While it
 
 <$doc.demo
 	description= "Widget transclusion"
-	content="""<$graph.view $tiddler="$:/graph/Example" $template="$:/plugins/flibbles/graph/templates/standard-graph" />""" />
+	content="""<$graph.view $tiddler="$:/graph/Alchemy" $template="$:/plugins/flibbles/graph/templates/standard-graph" />""" />
 
 Is functionally the same as this:
 
 <$doc.demo
 	description= "Wikitext transclusion"
-	content="""{{$:/graph/Example||$:/plugins/flibbles/graph/templates/standard-graph}}""" />
+	content="""{{$:/graph/Alchemy||$:/plugins/flibbles/graph/templates/standard-graph}}""" />
 
 Although obviously this widget provides other attributes and functionality, as well as respecting the <<.field template>> field of the targetted tiddler when no template is specified.
 
