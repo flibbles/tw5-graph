@@ -276,4 +276,10 @@ it("uses currentTiddler as default", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink=toTransclude</p>");
 });
 
+it("only produces one link for 1+ links in tiddler", function() {
+	wiki.addTiddler({title: "Target", text: "[[toLink]] [[toLink]]"});
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Target\n<$edges.typed>=<<toTiddler>>");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink</p>");
+});
+
 });
