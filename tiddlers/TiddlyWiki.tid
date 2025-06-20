@@ -1,4 +1,6 @@
 title: TiddlyWiki
+icon: $:/core/icon
+tags: Introduction
 
 \rules except wikilinks
 
