@@ -1,0 +1,12 @@
+\widget $graph.view($tiddler:"$:/graph/Default")
+\whitespace trim
+<$parameters $$template={{{ [<$tiddler>get[template]else[$:/plugins/flibbles/graph/templates/standard-graph]] }}}>
+
+<$vars currentTiddler=<<$tiddler>> >
+
+<$transclude $tiddler=<<$template>> />
+
+</$vars></$parameters>
+\end
+
+\relink $graph.view $tiddler

@@ -1,0 +1,65 @@
+title: Graph.ViewWidget
+tags: Widgets [[Macro Widgets]]
+caption: graph.view
+
+! Introduction
+
+The <<.wid graph.view>> widget is a macro-defined widget which provides simple way to render [[views|View]] in contexts other than the [[SideBar]]. For instance, while you can see a view entitled "Foxes" in the Sidebar by selecting <<.value Foxes>> from the "View:" dropdown along the Sidebar banner, you could look at the exact same view in a tiddler with the following wikitext: `<$graph.view $tiddler="$:/graph/Foxes" />`.
+
+!! `$:/graph/` namespace
+
+The reason for the `$:/graph/` namespace is because all views available to the sidebar (and configurable in the <<.graph>> settings) have that prefix, though it's usually hidden. The reason it must be typed into the <<.attr $tiddler>> attribute of this widget is because it's capable to rendering //any// tiddler as a view, not just Sidebar views.
+
+! Content and Attributes
+
+This widget currently ignores any inner content.
+
+|!Attribute |!Description |
+|$tiddler |The title of a tiddler to render as a view (defaults to `$:/graph/Default` if not specified) |
+|$template |Optional template to override whatever graph template the view would ordinarily use |
+
+<$doc.implementation />
+
+! Transclusion
+
+At its heart, this widget effectively acts as a glorified transclusion. While it has other features, this:
+
+<$doc.demo
+	description= "Widget transclusion"
+	content="""<$graph.view $tiddler="$:/graph/Example" $template="$:/plugins/flibbles/graph/templates/standard-graph" />""" />
+
+Is functionally the same as this:
+
+<$doc.demo
+	description= "Wikitext transclusion"
+	content="""{{$:/graph/Example||$:/plugins/flibbles/graph/templates/standard-graph}}""" />
+
+Although obviously this widget provides other attributes and functionality, as well as respecting the <<.field template>> field of the targetted tiddler when no template is specified.
+
+! Example
+
+<$doc.example
+	description= "Basic usage"
+	narrative= """This shows how to use the widget to render a view as-is, but also using a custom template, which isn't actually a graph template. It creates a table!"""
+	content="""<$graph.view $tiddler="MyView" />
+
+<$graph.view $tiddler="MyView" $template="Table View" />
+""">
+<$data title="MyView" text="""{
+    "Denial": "-125,-60",
+    "Anger": "-75,20",
+    "Bargaining": "0,50",
+    "Depression": "75,20",
+    "Acceptance": "125,-60"
+}"""
+type="application/json"
+filter="Denial Anger Bargaining Depression Acceptance" />
+<$data title="Table View" text="""<table>
+  <$list variable="entry" filter="[subfilter{!!filter}]">
+    <tr>
+      <th><$text text=<<entry>> /></th>
+      <td><$text text={{{ [{!!title}getindex<entry>] }}} /></td>
+    </tr>
+  </$list>
+</table>""" />
+</$doc.example>
