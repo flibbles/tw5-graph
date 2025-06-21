@@ -97,6 +97,8 @@ tags: $:/tags/Stylesheet
 	position: absolute;
 	z-index: 1000;
 	border: 1px solid <<colour dropdown-border>>;
+	color: <<colour foreground>>;
+	fill: <<colour foreground>>;
 	background-color: <<colour dropdown-background>>;
 	padding: 7px 0 7px 0;
 	margin: 4px 0 0 0;
@@ -127,6 +129,10 @@ tags: $:/tags/Stylesheet
 
 .graph-drop-down p {
 	padding: 0 14px 0 14px;
+}
+
+.graph-drop-down a.tc-tiddlylink {
+	color: <<colour tiddler-link-foreground>>;
 }
 
 .graph-drop-down svg {
@@ -182,7 +188,7 @@ tags: $:/tags/Stylesheet
 	border-bottom: 1px solid <<colour dropdown-tab-background-selected>>;
 }
 
-.tc-drop-down-bullet {
+.graph-drop-down .tc-drop-down-bullet {
 	display: inline-block;
 	width: 0.5em;
 }

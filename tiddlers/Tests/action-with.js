@@ -19,7 +19,7 @@ beforeEach(function() {
 	});
 });
 
-it("works", async function() {
+it("works", function() {
 	var widgetNode = $tw.test.renderText(wiki,"<$graph zoom='<$action-with $offset=test><$action-test X=<<test-posx>> Y=<<test-posy>> />' />\n");
 	// This should be the graph element
 	var element = widgetNode.parentDomNode.children[0];

@@ -30,6 +30,7 @@ afterAll(function() {
 });
 
 // TODO: Seems to goof up when switching from one node to another quickly
+// TODO: Need to test the whole quadrant thing
 
 it("works with default popup slot", async function() {
 	var expected = '<div class="graph-drop-down"><p>Text content</p></div>';
