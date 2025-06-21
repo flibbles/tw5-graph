@@ -55,7 +55,7 @@
   text="(0,0,0,0)"
   state=<<$state>>
   positionAllowNegative=yes
-  class="graph-drop-down tc-popup tc-popup-keep"
+  class="graph-popup tc-popup tc-popup-keep"
   style=`width:300px;max-height:200px;$(lr)$:$(x)$px;$(tb)$:$(y)$px;`>
 
 <$vars currentTooltip={{{ [<$state>get[target]] }}}>
