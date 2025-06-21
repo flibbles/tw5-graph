@@ -94,12 +94,15 @@ tags: $:/tags/Stylesheet
 /*** Popup tweaks ***/
 
 .graph-drop-down {
+	position: absolute;
+	z-index: 1000;
 	border: 1px solid <<colour dropdown-border>>;
 	background-color: <<colour dropdown-background>>;
 	padding: 7px 0 7px 0;
 	margin: 4px 0 0 0;
 	text-shadow: none;
 	line-height: 1.4;
+	overflow: scroll;
 }
 
 .graph-drop-down .tc-drop-down {

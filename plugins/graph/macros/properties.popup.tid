@@ -14,10 +14,15 @@
       <$action-delay $state=<<delayState>> $ms=<<$ms>> >
         <$action-with $offset="mouse" $canvas=canvas>
           <$vars
-              X={{{ [<mouse-posx>multiply[2]compare:number:gt<canvas-width>then[-310]else[10]add<mouse-posx>] }}}
-              Y={{{ [<mouse-posy>multiply[2]compare:number:gt<canvas-height>then[-210]else[10]add<mouse-posy>] }}} >
-            <$action-popup $state=<<$state>> $coords=`($(X)$,$(Y)$,0,0)`/>
-            <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
+              lr={{{ [<mouse-posx>multiply[2]compare:number:gt<canvas-width>then[right]else[left]] }}}
+              tb={{{ [<mouse-posy>multiply[2]compare:number:gt<canvas-height>then[bottom]else[top]] }}} >
+            <$action-popup $state=<<$state>> $coords="(0,0,0,0)"/>
+            <$action-setfield $tiddler=<<$state>>
+              x={{{ [<lr>match[left]then<mouse-posx>] ~[<canvas-width>subtract<mouse-posx>] }}}
+              y={{{ [<tb>match[top]then<mouse-posy>] ~[<canvas-height>subtract<mouse-posy>] }}}
+              lr=<<lr>>
+              tb=<<tb>>
+              target=<<targetTiddler>> />
           </$vars>
         </$action-pointer>
       </$action-delay>
@@ -36,12 +41,22 @@
 <$slot $name="ts-raw" />
 
 </$properties>
+
+<$vars
+  x={{{ [<$state>get[x]] }}}
+  y={{{ [<$state>get[y]] }}}
+  lr={{{ [<$state>get[lr]] }}}
+  tb={{{ [<$state>get[tb]] }}}>
+
+<!-- We aren't using the popup type because we need to be more dynamic about placing the popup in different directions. The text must be a coord because of $action-popup, but we don't use it. -->
+
 <$reveal
-  type=popup
+  type=match
+  text="(0,0,0,0)"
   state=<<$state>>
   positionAllowNegative=yes
-  class="graph-drop-down"
-  style=`width:300px;height:200px;`>
+  class="graph-drop-down tc-popup tc-popup-keep"
+  style=`width:300px;max-height:200px;$(lr)$:$(x)$px;$(tb)$:$(y)$px;`>
 
 <$vars currentTooltip={{{ [<$state>get[target]] }}}>
 
