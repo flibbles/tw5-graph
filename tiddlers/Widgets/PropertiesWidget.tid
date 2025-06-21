@@ -29,6 +29,10 @@ If a graph object is nested within two or more <<.wid properties>> widgets which
 
 The <<.attr $for>> attribute specifies what kind of graph objects within it should inerit this widget's properties. Common options are <<.value nodes>> and <<.value edges>>, but other kinds of graph objects would be supported if defined.
 
+If nothing is specified, it will default to <<.value nodes>>.
+
+If <<.attr $for>> is assigned to a blank or missing value, the <<.wid properties>> widget will become inert. This is an effective way to disable the widget.
+
 !! Loading properties from tiddlers
 
 While <<.wid properties>> allows you to specify graph properties as attributes, the <<.attr $tiddler>> and <<.attr $field>> attributes also allows you to import properties from data tiddlers, or from fields of any tiddlers.

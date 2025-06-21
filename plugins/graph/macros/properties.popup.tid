@@ -1,4 +1,4 @@
-\widget $properties.popup($ms:600 $msLinger:0)
+\widget $properties.popup($enabled:yes $ms:600 $msLinger:0)
 \whitespace trim
 
 <$parameters $state=<<qualify "$:/state/graph/tooltip">> >
@@ -8,12 +8,18 @@
 	blurringState=`$(state)$-interrupt`
 	draggingState=`$(state)$-dragging` >
 
-<$properties
+<$properties $for={{{ [<$enabled>match[yes]then[nodes]] }}}
   hover="""\whitespace trim
     <%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
       <$action-delay $state=<<delayState>> $ms=<<$ms>> >
-        <$action-popup $state=<<$state>> $coords=`($(xView)$,$(yView)$,100,0)`/>
-        <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
+        <$action-with $offset="mouse" $canvas=canvas>
+          <$vars
+              X={{{ [<mouse-posx>multiply[2]compare:number:gt<canvas-width>then[-310]else[10]add<mouse-posx>] }}}
+              Y={{{ [<mouse-posy>multiply[2]compare:number:gt<canvas-height>then[-210]else[10]add<mouse-posy>] }}} >
+            <$action-popup $state=<<$state>> $coords=`($(X)$,$(Y)$,0,0)`/>
+            <$action-setfield $tiddler=<<$state>> target=<<targetTiddler>> />
+          </$vars>
+        </$action-pointer>
       </$action-delay>
     <%endif%>
     <$action-deletetiddler $tiddler=<<blurringState>> />"""
@@ -30,11 +36,14 @@
 <$slot $name="ts-raw" />
 
 </$properties>
-<$reveal type=popup state=<<$state>> >
+<$reveal
+  type=popup
+  state=<<$state>>
+  positionAllowNegative=yes
+  class="graph-drop-down"
+  style=`width:300px;height:200px;`>
 
 <$vars currentTooltip={{{ [<$state>get[target]] }}}>
-
-<div class="graph-drop-down">
 
 <$slot $name=tooltip>
 

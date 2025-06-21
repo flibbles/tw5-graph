@@ -31,6 +31,8 @@ Inherit from the base widget class
 */
 GraphWidget.prototype = new Widget();
 
+GraphWidget.prototype.graphObjectType = "graph";
+
 /*
 Render this widget into the DOM
 */
@@ -51,13 +53,14 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 	if (this.graphHeight) {
 		style.height = this.graphHeight;
 	}
+	this.graphElement.addEventListener("mousemove", this);
 	this.domNodes.push(this.graphElement);
 	parent.insertBefore(this.graphElement, nextSibling);
 	this.renderChildren(this.graphElement, null);
 
 	// Render and recenter the view
 	if(this.graphEngine) {
-		this.graphEngine.onevent = GraphWidget.prototype.handleEvent.bind(this);
+		this.graphEngine.onevent = GraphWidget.prototype.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.getViewSettings() || {};
 		objects.graph = this.typecastProperties(this.properties, "graph");
@@ -86,6 +89,7 @@ GraphWidget.prototype.execute = function() {
 	this.graphWidth = this.getAttribute("$width");
 	this.graphHeight = this.getAttribute("$height");
 	this.executeColors();
+	this.mouse = {x: "0", y: "0"};
 	var Engine = utils.getEngine(this.engineValue);
 	if (!Engine || this.errorState) {
 		var message;
@@ -338,7 +342,7 @@ GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
 	return objects;
 };
 
-GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
+GraphWidget.prototype.handleGraphEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
 		var newObjects = this.children[0].invokeGraphActions(graphEvent, variables);
 		var actions = this.attributes[graphEvent.type];
@@ -364,6 +368,12 @@ GraphWidget.prototype.handleEvent = function(graphEvent, variables) {
 			}
 		}
 	}
+};
+
+GraphWidget.prototype.handleEvent = function(event) {
+	// Must be a mousemove, because that's the only one we signed up for.
+	this.mouse.x = event.offsetX;
+	this.mouse.y = event.offsetY;
 };
 
 exports.graph = GraphWidget;

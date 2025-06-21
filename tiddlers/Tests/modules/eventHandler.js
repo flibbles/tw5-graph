@@ -25,7 +25,11 @@ EventHandler.prototype.dispatchEvent = function(event) {
 	if (this.eventListeners) {
 		for (var listener of this.eventListeners) {
 			if (listener.type === event.type) {
-				listener(event);
+				if (typeof listener === "function") {
+					listener(event);
+				} else {
+					listener.handleEvent(event);
+				}
 			}
 		}
 	}

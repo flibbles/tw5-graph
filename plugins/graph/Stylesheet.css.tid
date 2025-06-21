@@ -94,13 +94,10 @@ tags: $:/tags/Stylesheet
 /*** Popup tweaks ***/
 
 .graph-drop-down {
-	min-width: 380px;
-	max-width: 760px;
 	border: 1px solid <<colour dropdown-border>>;
 	background-color: <<colour dropdown-background>>;
 	padding: 7px 0 7px 0;
 	margin: 4px 0 0 0;
-	white-space: nowrap;
 	text-shadow: none;
 	line-height: 1.4;
 }

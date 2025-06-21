@@ -5,35 +5,37 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$graph>
-  <$properties.riverscroll />
-  <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
-    <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
-      <$let
-        defaultEdgeFilter="[all[]]"
-        fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
-        formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
-        <$properties.configured $view={{!!title}} >
-          <%if [{!!filter}is[blank]] %>
-            <$node $tiddler="$:/plugins/flibbles/graph/settings"
-              label="Double click me to configure this graph"
-              image="$:/core/images/options-button"
-              doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" /><$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text=<<currentTiddler>> />""" />
-          <%endif%>
-          <$properties.persistent $dataTiddler=<<currentTiddler>> >
-            <$nodes.writable $variable=node $field=filter>
-              <$node $tiddler=<<node>>
-                $pos={{{ [{!!title}getindex<node>] }}}
-                label={{{ [<node>get[caption]else<node>] }}}
-                image={{{ [<node>get[icon]] }}} />
-              <$edges.typed
-                $tiddler=<<node>>
-                $formulas=<<formulasFilter>>
-                $fields=<<fieldsFilter>>
-                $editable=yes />
-            </$nodes.writable>
-          </$properties.persistent>
-        </$properties.configured>
-      </$let>
+  <$properties.popup $enabled={{!!properties.popup}}>
+    <$properties.riverscroll />
+    <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
+      <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
+        <$let
+          defaultEdgeFilter="[all[]]"
+          fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
+          formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
+          <$properties.configured $view={{!!title}} >
+            <%if [{!!filter}is[blank]] %>
+              <$node $tiddler="$:/plugins/flibbles/graph/settings"
+                label="Double click me to configure this graph"
+                image="$:/core/images/options-button"
+                doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" /><$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text=<<currentTiddler>> />""" />
+            <%endif%>
+            <$properties.persistent $dataTiddler=<<currentTiddler>> >
+              <$nodes.writable $variable=node $field=filter>
+                <$node $tiddler=<<node>>
+                  $pos={{{ [{!!title}getindex<node>] }}}
+                  label={{{ [<node>get[caption]else<node>] }}}
+                  image={{{ [<node>get[icon]] }}} />
+                <$edges.typed
+                  $tiddler=<<node>>
+                  $formulas=<<formulasFilter>>
+                  $fields=<<fieldsFilter>>
+                  $editable=yes />
+              </$nodes.writable>
+            </$properties.persistent>
+          </$properties.configured>
+        </$let>
+      </$properties>
     </$properties>
-  </$properties>
+  </$properties.popup>
 </$graph>

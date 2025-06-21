@@ -31,11 +31,21 @@ This slot has the variable <<.value currentTooltip>> available to it.
 	narrative= "Here is an example of how the properties.popup applies only to nodes it contains."
 	content="""<$graph>
   <$properties.popup $ms="1000">
-    <$node $tiddler=Zeus label=Zeus />
-    <$node $tiddler=Odin label=Odin />
+    <$list filter="[tag[Astronomer]]">
+      <$node label={{!!title}} />
+    </$list>
   </$properties.popup>
-  <$node $tiddler=Freya label=Freya color=teal />
-</$graph>"""/>
+  <$node $tiddler="David Attenborough" label="David Attenborough" color=green />
+</$graph>""">
+
+<$data title="Carl Sagan" tags=Astronomer text="""Carl Sagan was a famous astronomer, planetary scientist, and science communicator. He was a popular advocate for skeptical scientific inquiry.
+
+His 1985 book __Contact__ got made into a movie.""" />
+<$data title="Neil deGrasse Tyson" tags=Astronomer text="""A fellow astrophysicist who was inspired by [[Carl Sagan]].
+
+Since 2009, he has been the host of StarTalk, which discusses the marvels of the galaxy.""" />
+<$data title="David Attenborough" tags=Biologist test="""Sir David Frederick Attenborough was a biologist and natural historian famous for his //Life// Collection series done with BBC.""" />
+</$doc.example>
 
 <$doc.example
 	description= "Popup with slot"
