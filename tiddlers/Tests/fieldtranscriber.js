@@ -215,9 +215,45 @@ it("broken json", async function() {
 	expect(wiki.getTiddler("Target").fields.field).toBe("{}");
 });
 
+/*** Filter fields ***/
+
+it("only replaces outside of runs", async function() {
+	async function test(textValue, expectedField, expectedText) {
+		expectedText = expectedText || textValue;
+		wiki.addTiddler({title: state, text: textValue});
+		await $tw.test.flushChanges();
+		expect(wiki.getTiddler("Target").fields.field).toBe(expectedField);
+		wiki.addTiddler({title: "Target"});
+		await $tw.test.flushChanges();
+		expect(wiki.tiddlerExists(state)).toBe(false);
+		wiki.addTiddler({title: "Target", field: expectedField});
+		await $tw.test.flushChanges();
+		expect(wiki.getTiddlerText(state)).toBe(expectedText);
+	};
+	$tw.test.renderText(wiki, `<$fieldtranscriber state='${state}' tiddler=Target field=field type='application/x-tiddler-filter' />`);
+	// Standard cases
+	await test("[suffix[\n]]\n[suffix[  ]]", "[suffix[\n]]  [suffix[  ]]");
+	await test("[tag[\n]]\n[!tag{  }x[]suffix<  >]",
+	           "[tag[\n]]  [!tag{  }x[]suffix<  >]");
+	await test("[all[]]\n:filter[F[\n],[  ]]", "[all[]]  :filter[F[\n],[  ]]");
+	// Trailing whitespace
+	await test("\n[tag[\n  ]]  ", "[tag[\n  ]]", "[tag[\n  ]]");
+	// Many replacements in a row
+	await test("[s[A]]\n\n[s[  ]]\n[s[\n]]", "[s[A]]    [s[  ]]  [s[\n]]");
+	// Nothing changed
+	await test("[tag[\n]] [!tag{  }]", "[tag[\n]] [!tag{  }]");
+	// brokens
+	await test("[all[]]\n  [tag[\n  ", "[all[]]\n  [tag[", "[all[]]\n  [tag[");
+	await test("[all[]]\n  \"stri[ng", "[all[]]\n  \"stri[ng");
+	await test("[all[]]\n  'sin[gle", "[all[]]\n  'sin[gle");
+	await test(":ds\nx", ":ds  x");
+	await test("[all[]]\n  [tag[\n  >]", "[all[]]\n  [tag[\n  >]");
+	await test("[all[]]\n  [tag{\n  >]", "[all[]]\n  [tag{\n  >]");
+});
+
 /*** Common behavior across types ***/
 
-$tw.utils.each(["application/json", "text/plain"], function(type) {
+$tw.utils.each(["application/json", "application/x-tiddler-filter", "text/plain"], function(type) {
 
 	describe("(" + type + ")", function() {
 
@@ -235,8 +271,21 @@ $tw.utils.each(["application/json", "text/plain"], function(type) {
 		expect(wiki.getTiddler("Target").fields.field).toBe("");
 	});
 
+	it("handles missing field", function() {
+		wiki.addTiddler({title: "Target"});
+		$tw.test.renderText(wiki, `<$fieldtranscriber tiddler=Target state='${state}' type='${type}' field=field />`);
+		expect(wiki.tiddlerExists(state)).toBe(false);
 	});
 
+	it("takes deletion of state as cue to delete field", async function() {
+		wiki.addTiddler({title: "Target", field: "{}"});
+		$tw.test.renderText(wiki, `<$fieldtranscriber tiddler=Target state='${state}' type='${type}' field=field />`);
+		wiki.deleteTiddler(state);
+		await $tw.test.flushChanges();
+		expect(wiki.getTiddler("Target").fields.field).toBeUndefined();
+	});
+
+	});
 });
 
 });

@@ -25,6 +25,19 @@
 				"type": "application/javascript",
 				"module-type": "widget-subclass"
 			}
+		},
+		{
+			"path": "./fieldtranscriber",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "filename",
+					"prefix": "$:/plugins/flibbles/graph/widgets/fieldtranscriber/"
+				},
+				"type": "application/javascript",
+				"module-type": "fieldtranscribertype"
+			}
 		}
 	]
 }

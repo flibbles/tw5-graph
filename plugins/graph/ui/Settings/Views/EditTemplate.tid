@@ -31,7 +31,7 @@ title: $:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate
 Template: <<templateSelector>>
 
 |tc-max-width tc-edit-max-width|k
-|Nodes |<$edit-text field=filter tag=textarea/> |
+|Nodes |<$fieldtranscriber type="application/x-tiddler-filter" field=filter><$edit-text tiddler=<<state>> /></$fieldtranscriber> |
 |Node popups |<$checkbox field="properties.popup" checked=yes unchecked=no default=no /> |
 |Edges, formulas |<<edgelist formulas "[all[]]">> |
 |Edges, fields |<<edgelist fields "[all[]]">> |

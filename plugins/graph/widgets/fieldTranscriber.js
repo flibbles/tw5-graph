@@ -9,6 +9,8 @@ into the field of another. and vice-versa.
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
 
+var Scribers = $tw.modules.getModulesByTypeAsHashmap("fieldtranscribertype");
+
 var ScriberWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
@@ -39,11 +41,11 @@ ScriberWidget.prototype.execute = function() {
 	if (!this.scribeState) {
 		this.scribeState = "$:/temp/flibbles/graph/fieldtranscriber/" + encodeURIComponent(this.scribeField) + "/" + this.scribeTiddler;
 	}
-	if (!Transcribers[this.scribeType]) {
+	if (!Scribers[this.scribeType]) {
 		this.scribeType = "text/plain";
 	}
 	this.setVariable("state", this.scribeState);
-	this.transcriber = Transcribers[this.scribeType];
+	this.transcriber = Scribers[this.scribeType];
 	this.prepState();
 	this.makeChildWidgets();
 };
@@ -97,35 +99,6 @@ ScriberWidget.prototype.prepState = function() {
 						type: this.scribeType
 					});
 				}
-			}
-		}
-	}
-};
-
-var Transcribers = {
-	"text/plain": {
-		toField: function(text) { return text; },
-		fromField: function(text) { return text; },
-	},
-	"application/json": {
-		toField: function(text) {
-			if (!text) {
-				return "";
-			}
-			try {
-				return JSON.stringify(JSON.parse(text));
-			} catch {
-				return "{}";
-			}
-		},
-		fromField: function(text) {
-			if (!text) {
-				return "";
-			}
-			try {
-				return JSON.stringify(JSON.parse(text), null, $tw.config.preferences.jsonSpaces);
-			} catch {
-				return "{}";
 			}
 		}
 	}
