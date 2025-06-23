@@ -1,6 +1,4 @@
-title: $:/plugins/flibbles/graph/ui/EditTemplate/Edges
 caption: Edge Types
-tags: $:/tags/flibbles/graph/View/EditTemplate
 
 \procedure edgelist(category, default)
 \whitespace trim

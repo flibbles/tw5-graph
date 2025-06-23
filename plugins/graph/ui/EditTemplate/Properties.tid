@@ -1,0 +1,22 @@
+caption: Graph Engine Defaults
+list-after: 
+
+\whitespace trim
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	tabsList="graph nodes edges"
+	default=graph
+	class=""
+	state= "$:/state/flibbles/graph/views/editTemplate">
+
+<$fill $name=body>
+
+<$fieldtranscriber
+	type="application/json"
+	field=`graph.$(currentTab)$`>
+
+<$vars currentTiddler=<<state>>>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
+	type=<<currentTab>>
+	engine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} />

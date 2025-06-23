@@ -1,0 +1,16 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph/ui/EditTemplate/"
+				},
+				"tags": "$:/tags/flibbles/graph/View/EditTemplate"
+			}
+		}
+	]
+}
