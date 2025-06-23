@@ -5,7 +5,7 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$graph>
-  <$properties.popup $enabled={{!!properties.popup}}>
+  <$properties.popup $enabled={{!!popup}} $width={{{ [{!!title}get[popup.width]else[300px]] }}} $height={{{ [{!!title}get[popup.height]else[200px]] }}} >
     <$properties.riverscroll />
     <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
       <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>

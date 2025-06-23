@@ -318,7 +318,8 @@ button.group-tab-new svg {
 }
 
 .graph-view-edit-template table,
-.graph-view-edit-template table textarea {
+.graph-view-edit-template table textarea,
+.graph-view-edit-template table input {
 	width: 100%;
 }
 
