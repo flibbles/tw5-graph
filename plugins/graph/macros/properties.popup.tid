@@ -1,4 +1,4 @@
-\widget $properties.popup($enabled:yes $ms:600 $msLinger:0, $width:300px, $height:200px)
+\widget $properties.popup($enabled:yes $ms:600 $msLinger:0, $width, $height:50%)
 \whitespace trim
 
 <$parameters $state=<<qualify "$:/state/graph/tooltip">> >
@@ -46,7 +46,8 @@
   x={{{ [<$state>get[x]] }}}
   y={{{ [<$state>get[y]] }}}
   lr={{{ [<$state>get[lr]] }}}
-  tb={{{ [<$state>get[tb]] }}}>
+  tb={{{ [<$state>get[tb]] }}}
+  width={{{ [<$width>!is[blank]addprefix[max-width:]addsuffix[;]] }}} >
 
 <!-- We aren't using the popup type because we need to be more dynamic about placing the popup in different directions. The text must be a coord because of $action-popup, but we don't use it. -->
 
@@ -56,7 +57,7 @@
   state=<<$state>>
   positionAllowNegative=yes
   class="graph-popup tc-popup tc-popup-keep"
-  style=`width:$($width)$;max-height:$($height)$;$(lr)$:$(x)$px;$(tb)$:$(y)$px;`>
+  style=`$(width)$max-height:$($height)$;$(lr)$:$(x)$px;$(tb)$:$(y)$px;`>
 
 <$vars currentTooltip={{{ [<$state>get[target]] }}}>
 
