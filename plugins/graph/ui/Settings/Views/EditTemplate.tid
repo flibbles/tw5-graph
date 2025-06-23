@@ -1,18 +1,5 @@
 title: $:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate
 
-\procedure edgelist(category, default)
-\whitespace trim
-<$vars fieldName=`edges.$(category)$`>
-  <$edit-text field=<<fieldName>> placeholder=<<default>> />
-  <br>
-  <span class="graph-views-edgelist">
-    <$vars masterFilter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]sort[]]"
-           customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
-      <$list filter=<<masterFilter>> join=", ">
-        <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>
-          <$text text={{!!title}} />
-\end
-
 \procedure templateSelector()
 \whitespace trim
 <$select field=template default={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
@@ -30,11 +17,15 @@ title: $:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate
 
 Template: <<templateSelector>>
 
-|tc-max-width tc-edit-max-width|k
-|Nodes |<$fieldtranscriber type="application/x-tiddler-filter" field=filter><$edit-text tiddler=<<state>> /></$fieldtranscriber> |
-|Node popups |<$checkbox field="properties.popup" checked=yes unchecked=no default=no /> |
-|Edges, formulas |<<edgelist formulas "[all[]]">> |
-|Edges, fields |<<edgelist fields "[all[]]">> |
+<$list variable="segment" filter="[[$:/tags/flibbles/graph/View/EditTemplate]tagging[]]">
+
+<div class="graph-view-edit-template">
+
+!! <$transclude $tiddler=<<segment>> $field="caption"/>
+
+<$transclude $tiddler=<<segment>> />
+
+</div></$list>
 
 !!! Graph engine defaults
 

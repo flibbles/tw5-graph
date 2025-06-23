@@ -1,0 +1,24 @@
+title: $:/plugins/flibbles/graph/ui/EditTemplate/Edges
+caption: Edge Types
+tags: $:/tags/flibbles/graph/View/EditTemplate
+
+\procedure edgelist(category, default)
+\whitespace trim
+<$vars fieldName=`edges.$(category)$`>
+  <$edit-text field=<<fieldName>> placeholder=<<default>> />
+  <br>
+  <span class="graph-views-edgelist">
+    <$vars masterFilter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]sort[]]"
+           customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
+      <$list filter=<<masterFilter>> join=", ">
+        <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>
+          <$text text={{!!title}} />
+\end
+
+\whitespace trim
+
+Decide which of the preconfigured edge types will connect your nodes
+
+|tc-max-width tc-edit-max-width tc-table-no-border |k
+|Fields |<<edgelist fields "[all[]]">> |
+|Formulas |<<edgelist formulas "[all[]]">> |

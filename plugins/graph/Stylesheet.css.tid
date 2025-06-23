@@ -311,6 +311,17 @@ button.group-tab-new svg {
 	color: <<colour foreground>>;
 }
 
+/*** View Edit-template ***/
+
+.graph-view-edit-template {
+	border-top: 1px solid <<colour blockquote-bar>>;
+}
+
+.graph-view-edit-template table,
+.graph-view-edit-template table textarea {
+	width: 100%;
+}
+
 /*** Graph Property Table ***/
 
 table.graph-property {

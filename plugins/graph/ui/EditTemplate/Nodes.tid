@@ -1,0 +1,14 @@
+title: $:/plugins/flibbles/graph/ui/EditTemplate/Nodes
+caption: Nodes filter
+tags: $:/tags/flibbles/graph/View/EditTemplate
+
+\whitespace trim
+
+Configure a filter describing what nodes this view shows
+
+<$fieldtranscriber type="application/x-tiddler-filter" field=filter>
+
+|tc-table-no-border |k
+|Nodes |<$edit-text tiddler=<<state>> /> |
+
+</$fieldtranscriber>
