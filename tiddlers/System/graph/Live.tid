@@ -2,6 +2,6 @@ title: $:/graph/Live
 filter: [[$:/state/flibbles/graph/doc/live]get[text]else[Zeus]]
 template: $:/plugins/flibbles/graph/templates/live-graph
 edges.formulas: [all[]]
-edges.fields: [all[]]
+edges.fields: [all[]] -tags
 nodes.labelField: title
 
