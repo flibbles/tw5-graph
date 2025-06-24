@@ -7,7 +7,7 @@ In <<.graph>>, a view is a data tiddler which brings together two parts to defin
 # A set of information that the template would use to render a graph, such as:
 #* a set of node [[positions|Position]] stored as the data tiddler's data.
 #* custom fields specificly used by the view's graph template
-#* [[Property set]] stored as json in <<.field graph.*>> style fields
+#* [[Property set|Property Sets]] stored as json in <<.field graph.*>> style fields
 
 Views have the advantage of being editable, in order to persist changes made in the graph.
 

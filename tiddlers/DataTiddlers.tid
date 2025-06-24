@@ -4,6 +4,6 @@ Data Tiddlers are either miniature databases contained within tiddlers that stor
 
 All [[views|View]] are Data Tiddlers with a few extra fields. They use their key-value pairs to store information related to their specific instance of their corresponding graph, usually [[Position]] values for the nodes.
 
-[[Property sets|Property set]] are also Data Tiddlers. They use their key-value pairs to store their properties.
+[[Property Sets]] are also Data Tiddlers. They use their key-value pairs to store their properties.
 
 [[The main TiddlyWiki website for more information|https://tiddlywiki.com/#DataTiddlers]].
