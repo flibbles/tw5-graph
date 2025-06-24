@@ -1,0 +1,10 @@
+Now we've got a graph that actually looks decent and shows some good information. Maybe now it's time we move it someplace where we'd want to show it, like in a tiddler, and not just in the [[Sidebar]].
+
+Super easy:
+
+<$doc.demo description="graph.view widget" content="""<$graph.view $tiddler="$:/graph/Default" />
+""" />
+
+You'll need to prepend your view's name with <<.value $:/graph/>>. That's because it's possible to create views unrelated to the sidebar, but that's a discussion for another time.
+
+You can check out <<.wlink Graph.ViewWidget>> for more options on how to transclude your views, but the default settings are certainly enough for now.

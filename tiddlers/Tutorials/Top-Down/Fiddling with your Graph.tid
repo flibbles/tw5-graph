@@ -6,7 +6,7 @@ By now, you've probably noticed that your graph is rather "loose". Your nodes dr
 
 The physics is //cute//, but realistically, you'll probably want to fix the location of your nodes. Worry not. If you drag a node to somewhere, it will //fix in place//. It's location will get recorded in your view, and it will remember that location next time the graph loads.
 
-Note: //Vis-Network// has an interesting "feature". If less than half of your nodes have recorded locations, it will treat those locations merely as suggestions, and place your nodes however it wants. <<.graph>> does not bother preventing this behavior, because Vis-Network does this on purpose to optimize its node-placing algorithm. After you've placed half your nodes, this will stop happening.
+''Note:'' //Vis-Network// has an interesting "feature". If less than half of your nodes have recorded locations, it will treat those locations merely as suggestions, and place your nodes however it wants. <<.graph>> does not bother preventing this behavior, because Vis-Network does this on purpose to optimize its node-placing algorithm. After you've placed half your nodes, this will stop happening.
 
 !! Adding and Removing nodes
 
