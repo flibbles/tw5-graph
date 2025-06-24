@@ -4,9 +4,13 @@ tags: $:/tags/SideBar
 
 \whitespace trim
 \parameters (state: "$:/config/flibbles/graph/sidebar", defaultView: "$:/graph/Default")
+\procedure fs-state() $:/config/flibbles/graph/fullscreen
+
 <$parameters
   graph={{{ [<state>get[text]else<defaultView>] }}}
   defaultTemplate={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
+
+<$keyboard key="escape" actions="""<%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />""" >
 
 <div class="graph-sidebar-disabled graph-error">
 <!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,
@@ -15,7 +19,7 @@ tags: $:/tags/SideBar
   Graph disabled in mobile view.
 </div>
 <$boundingbox
-  class={{{ graph-sidebar-enabled [[$:/config/flibbles/graph/fullscreen]get[text]] +[join[ ]] }}}
+  class={{{ graph-sidebar-enabled [<fs-state>get[text]] +[join[ ]] }}}
   width="[<windowWidth>subtract<boundingLeft>subtract[15]addsuffix[px]]"
   height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
   <div class="graph-sidebar-banner">
@@ -36,14 +40,12 @@ tags: $:/tags/SideBar
         {{$:/core/images/options-button}}
       </$button>
       <$button>
-        <$vars fs-state="$:/config/flibbles/graph/fullscreen">
-          <% if [<fs-state>is[tiddler]] %>
-            <$action-deletetiddler $tiddler=<<fs-state>> />
-          <% else %>
-            <$action-setfield $tiddler=<<fs-state>> text=graph-sidebar-fullscreen />
-          <% endif %>
-          {{$:/core/images/full-screen-button}}
-        </$vars>
+        <% if [<fs-state>is[tiddler]] %>
+          <$action-deletetiddler $tiddler=<<fs-state>> />
+        <% else %>
+          <$action-setfield $tiddler=<<fs-state>> text=graph-sidebar-fullscreen />
+        <% endif %>
+        {{$:/core/images/full-screen-button}}
       </$button>
     </$slot>
   </div>
