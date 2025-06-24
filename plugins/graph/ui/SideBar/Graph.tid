@@ -13,6 +13,7 @@ tags: $:/tags/SideBar
   <$action-setfield $tiddler=<<fs-state>> text=graph-fullscreen />
 <% endif %>
 \end
+\procedure fs-refocus() <$action-delay><$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/><!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
 
 \whitespace trim
 
@@ -22,11 +23,10 @@ tags: $:/tags/SideBar
 
 <$keyboard key="escape" actions="""<%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />""" >
 
-<div class="graph-sidebar-disabled graph-error">
+<div class="graph-sidebar-disabled graph-error tc-page-controls">
 <!-- Sidebar only works in fullscreen during mobile mode.
      Otherwise, it's taking up too much space. -->
-  <$button actions="""<<fs-actions>><$action-delay><$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/>""" >
-
+  <$button class=tc-btn-invisible actions="<<fs-actions>><<fs-refocus>>" >
     <%if [<tv-config-toolbar-icons>match[yes]] %>
       {{$:/core/images/full-screen-button}}
     <%endif%>
@@ -44,7 +44,7 @@ tags: $:/tags/SideBar
   <div class="graph-sidebar-banner">
     <$slot $name="banner">
       View:
-      <$select tiddler=<<state>> default=<<defaultView>> >
+      <$select tiddler=<<state>> default=<<defaultView>> actions=<<fs-refocus>> >
         <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultView>]"  >
           <option value=<<currentTiddler>> >
             <$view field=caption>

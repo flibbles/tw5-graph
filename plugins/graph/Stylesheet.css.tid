@@ -100,7 +100,16 @@ tags: $:/tags/Stylesheet
 	}
 
 	.tc-sidebar-scrollable .graph-sidebar-disabled {
-		display: block;
+		display: flex;
+	}
+
+	.tc-sidebar-scrollable .graph-sidebar-disabled button {
+		margin: auto;
+	}
+
+	.tc-sidebar-scrollable .graph-sidebar-disabled button svg {
+		width: 2em;
+		height: 2em;
 	}
 }
 
