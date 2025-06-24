@@ -5,6 +5,16 @@ tags: $:/tags/SideBar
 \whitespace trim
 \parameters (state: "$:/config/flibbles/graph/sidebar", defaultView: "$:/graph/Default")
 \procedure fs-state() $:/config/flibbles/graph/fullscreen
+\procedure fs-actions()
+\whitespace trim
+<% if [<fs-state>is[tiddler]] %>
+  <$action-deletetiddler $tiddler=<<fs-state>> />
+<% else %>
+  <$action-setfield $tiddler=<<fs-state>> text=graph-fullscreen />
+<% endif %>
+\end
+
+\whitespace trim
 
 <$parameters
   graph={{{ [<state>get[text]else<defaultView>] }}}
@@ -13,10 +23,19 @@ tags: $:/tags/SideBar
 <$keyboard key="escape" actions="""<%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />""" >
 
 <div class="graph-sidebar-disabled graph-error">
-<!-- This is how TiddlyMap rolled, and it's how we'll roll for now. In theory,
-     it's always possible to have the SideBar graph at the top, but it catches
-     the mouse's scrolling too easily. -->
-  Graph disabled in mobile view.
+<!-- Sidebar only works in fullscreen during mobile mode.
+     Otherwise, it's taking up too much space. -->
+  <$button actions="""<<fs-actions>><$action-delay><$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/>""" >
+
+    <%if [<tv-config-toolbar-icons>match[yes]] %>
+      {{$:/core/images/full-screen-button}}
+    <%endif%>
+    <%if [<tv-config-toolbar-text>match[yes]] %>
+      <span class="tc-btn-text">
+        <$text text="fullscreen" />
+      </span>
+    <%endif%>
+  </$button>
 </div>
 <$boundingbox
   class={{{ graph-sidebar-enabled [<fs-state>get[text]] +[join[ ]] }}}
@@ -39,12 +58,7 @@ tags: $:/tags/SideBar
           <$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
         {{$:/core/images/options-button}}
       </$button>
-      <$button>
-        <% if [<fs-state>is[tiddler]] %>
-          <$action-deletetiddler $tiddler=<<fs-state>> />
-        <% else %>
-          <$action-setfield $tiddler=<<fs-state>> text=graph-sidebar-fullscreen />
-        <% endif %>
+      <$button class=graph-fullscreen-button actions=<<fs-actions>> >
         {{$:/core/images/full-screen-button}}
       </$button>
     </$slot>
