@@ -27,7 +27,7 @@ If <<attr $to>> is not set, or either node that the edge connects to is missing 
 
 ! Edge Properties
 
-The available edge properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for edges. [[You can see here for more details.]]
+The available edge properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for edges. [[You can see here for more details.|Graph Properties]]
 
 !!! Action properties
 

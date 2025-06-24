@@ -28,7 +28,7 @@ If no X, Y, or $pos is specified, a node's initial placement is decided by the e
 
 ! Node Properties
 
-The available node properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for nodes. [[You can see here for more details.]]
+The available node properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for nodes. [[You can see here for more details.|Graph Properties]]
 
 !!! Action properties
 

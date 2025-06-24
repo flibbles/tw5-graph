@@ -1,0 +1,30 @@
+title: Property Sets
+tags: Concepts
+
+Property sets are collection of key-value pairs which represent [[properties|Graph Properties]] to be applied to one type of [[graph object|Graph Objects]]. They are often stored as [[DataTiddlers]], but sometimes also as fields using the <<.wlink FieldTranscriberWidget>> widget.
+
+!! Using sets through the GUI
+
+The <<.graph>> GUI relies heavily on Property sets to define styles and actions for different kinds of nodes and edges. For instance, you may use the [[stack node types|Stack NodeType]] to define properties that should be applied to all the nodes that can pass through a specific filter. Or you might have a property set for a [[fields edge type|Fields EdgeType]] which applies properties to all edges representing a specific type of field, like <<.field tags>> or maybe something you made up, like <<.field alias>>.
+
+[[Graph Objects]] discusses this further.
+
+!! Using sets in Wikitext
+
+Property sets are applied graph object types using <<.wlink PropertiesWidget>>. For instance, suppose we have a data tiddler with the following node properties in a file called <<.value "Example set">>:
+
+```
+{
+    "shape": "box",
+    "color": "blue",
+    "size": "50"
+}
+```
+
+You could then apply this property set to nodes with wikitext like the following:
+
+```
+<$properties $tiddler="Example set">
+   ...(nodes)...
+</$properties>
+```

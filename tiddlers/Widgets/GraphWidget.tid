@@ -22,4 +22,4 @@ The graph widget requires a [[Graph Visualization plugin|Engines]] to be install
 
 ! Graph Properties
 
-The available graph properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for graphs. [[You can see here for more details.]]
+The available graph properties the widget can configure depends on which engine you're using. These are the same properties available in the properties table for graphs. [[You can see here for more details.|Graph Properties]]
