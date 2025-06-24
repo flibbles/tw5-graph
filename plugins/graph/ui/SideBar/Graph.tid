@@ -14,6 +14,7 @@ tags: $:/tags/SideBar
 <% endif %>
 \end
 \procedure fs-refocus() <$action-delay><$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/><!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
+\procedure fs-kill() <%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />
 
 \whitespace trim
 
@@ -21,7 +22,7 @@ tags: $:/tags/SideBar
   graph={{{ [<state>get[text]else<defaultView>] }}}
   defaultTemplate={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
 
-<$keyboard key="escape" actions="""<%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />""" >
+<$keyboard key="escape" actions=<<fs-kill>> >
 
 <div class="graph-sidebar-disabled graph-error tc-page-controls">
 <!-- Sidebar only works in fullscreen during mobile mode.
@@ -54,6 +55,7 @@ tags: $:/tags/SideBar
         </$list>
       </$select>
       <$button to="$:/plugins/flibbles/graph/settings" actions="""
+          <<fs-kill>>
           <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" />
           <$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
         {{$:/core/images/options-button}}
