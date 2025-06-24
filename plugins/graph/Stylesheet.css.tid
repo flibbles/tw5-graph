@@ -8,7 +8,7 @@ tags: $:/tags/Stylesheet
 \define fullscreen-effects()
 <%if [[$:/config/flibbles/graph/fullscreen]is[tiddler]] %>
 
-.tc-topbar, .tc-story-river {
+.tc-topbar, .tc-story-river, .tc-sidebar-scrollable .graph-sidebar-disabled {
 	display: none !important;
 }
 
@@ -107,6 +107,7 @@ tags: $:/tags/Stylesheet
 /*** Fullscreen ***/
 
 .graph-sidebar-enabled.graph-sidebar-fullscreen {
+	display: flex !important;
 	position: fixed !important;
 	height: 100% !important;
 	width: 100% !important;
