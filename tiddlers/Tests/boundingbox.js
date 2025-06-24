@@ -6,11 +6,11 @@ Tests the boundingbox widget.
 
 describe('BoundingBoxWidget', function() {
 
-var wiki, register, window;
+var wiki, register, init, window;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
-	({register, window} = $tw.test.setSpies());
+	({register, init, window} = $tw.test.setSpies());
 });
 
 function clean(objects) {
@@ -59,12 +59,16 @@ it("detects when to destroy itself", async function() {
 
 it("can accept custom classes", async function() {
 	wiki.addTiddler({title: "Class", text: "custom-class"});
-	var text =  "<$boundingbox class={{Class}} />\n";
+	var text =  "<$boundingbox class={{Class}}>\n\n<$graph/>\n";
 	var widgetNode = $tw.test.renderText(wiki, text);
 	expect(widgetNode.parentDomNode.children[0].className).toContain("boundingbox custom-class");
+	expect(init).toHaveBeenCalled();
+	init.calls.reset();
 	wiki.addTiddler({title: "Class", text: "new-class"});
 	await $tw.test.flushChanges();
 	expect(widgetNode.parentDomNode.children[0].className).toContain("boundingbox new-class");
+	// Don't full refresh the box's contents just because the class changed.
+	expect(init).not.toHaveBeenCalled();
 });
 
 /*** dimensions ***/

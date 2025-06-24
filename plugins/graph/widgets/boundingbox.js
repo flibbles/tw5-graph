@@ -31,11 +31,7 @@ BoxWidget.prototype.render = function(parent, nextSibling) {
 	this.computeAttributes();
 	this.execute();
 	this.domNode = this.document.createElement("div");
-	var nodeClass = "boundingbox";
-	if (this.boxClass) {
-		nodeClass += " " + this.boxClass;
-	}
-	this.domNode.className = nodeClass;
+	this.domNode.className = this.boxClass;
 	parent.insertBefore(this.domNode, nextSibling);
 	// Make sure this comes AFTER inserting domNode into the tree,
 	// otherwise getBoundingClientRect() will be all zeros.
@@ -48,7 +44,7 @@ BoxWidget.prototype.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 BoxWidget.prototype.execute = function() {
-	this.boxClass = this.getAttribute("class", "");
+	this.executeClass();
 	this.executeDimensions();
 	this.makeChildWidgets();
 };
@@ -81,11 +77,12 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 BoxWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	if (changedAttributes["class"]) {
-		this.refreshSelf();
-		return true;
-	}
 	var changed = false;
+	if (changedAttributes["class"]) {
+		this.executeClass();
+		this.domNode.className = this.boxClass;
+		changed = true;
+	}
 	if ($tw.utils.count(changedAttributes) > 0) {
 		this.executeDimensions();
 		changed = true;
@@ -94,6 +91,15 @@ BoxWidget.prototype.refresh = function(changedTiddlers) {
 	// The $dimension filters might spit out something different.
 	this.resize();
 	return this.refreshChildren(changedTiddlers) || changed;
+};
+
+BoxWidget.prototype.executeClass = function() {
+	var nodeClass = "boundingbox";
+	var extraClasses = this.getAttribute("class", "");
+	if (extraClasses) {
+		nodeClass += " " + extraClasses;
+	}
+	this.boxClass = nodeClass;
 };
 
 BoxWidget.prototype.resize = function(event) {
