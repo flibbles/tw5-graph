@@ -15,7 +15,7 @@ tags: $:/tags/SideBar
   Graph disabled in mobile view.
 </div>
 <$boundingbox
-  class="graph-sidebar-enabled"
+  class={{{ graph-sidebar-enabled [[$:/config/flibbles/graph/fullscreen]get[text]] +[join[ ]] }}}
   width="[<windowWidth>subtract<boundingLeft>subtract[15]addsuffix[px]]"
   height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
   <div class="graph-sidebar-banner">
@@ -34,6 +34,16 @@ tags: $:/tags/SideBar
           <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" />
           <$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
         {{$:/core/images/options-button}}
+      </$button>
+      <$button>
+        <$vars fs-state="$:/config/flibbles/graph/fullscreen">
+          <% if [<fs-state>is[tiddler]] %>
+            <$action-deletetiddler $tiddler=<<fs-state>> />
+          <% else %>
+            <$action-setfield $tiddler=<<fs-state>> text=graph-sidebar-fullscreen />
+          <% endif %>
+          {{$:/core/images/full-screen-button}}
+        </$vars>
       </$button>
     </$slot>
   </div>

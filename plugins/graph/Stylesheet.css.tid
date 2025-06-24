@@ -5,6 +5,19 @@ tags: $:/tags/Stylesheet
 <$text text={{$:/themes/tiddlywiki/vanilla/metrics/sidebarbreakpoint}}/>
 \end
 
+\define fullscreen-effects()
+<%if [[$:/config/flibbles/graph/fullscreen]is[tiddler]] %>
+
+.tc-topbar, .tc-story-river {
+	display: none !important;
+}
+
+.tc-dropzone > p {
+	margin: 0px;
+}
+<%endif%>
+\end
+
 \rules only macrocallinline
 .graph-canvas {
 	position: relative;
@@ -90,6 +103,19 @@ tags: $:/tags/Stylesheet
 		display: block;
 	}
 }
+
+/*** Fullscreen ***/
+
+.graph-sidebar-enabled.graph-sidebar-fullscreen {
+	position: fixed !important;
+	height: 100% !important;
+	width: 100% !important;
+	top: 0 !important;
+	left: 0 !important;
+	z-index: 999 !important;
+}
+
+<<fullscreen-effects>>
 
 /*** Popup tweaks ***/
 
