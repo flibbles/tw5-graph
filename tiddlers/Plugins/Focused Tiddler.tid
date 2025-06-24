@@ -8,7 +8,7 @@ Focused Tiddler is a plugin which detects which tiddler you're viewing and saves
 $:/temp/focussedTiddler
 ```
 
-The reason you might want this plugin is if you'd like to have a [[Live View]], a graph which dynamically shows connections for whatever that focused tiddler may be.
+The reason you might want this plugin is if you'd like to have a [[Live View|Live Graph Template]], a graph which dynamically shows connections for whatever that focused tiddler may be.
 
 Focused-tiddler is available through the [[CPL|Chinese Public Library]]. Its source code is available [[here|https://github.com/Gk0Wk/TiddlySeq/tree/master/src/focused-tiddler]].
 

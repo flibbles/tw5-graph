@@ -10,7 +10,7 @@ Turns out, there are many different kinds of graphs, all defined using templates
 
 You are able to build your own templates, or your own widget macros, or your own on-the-fly graphs. This more advanced than using views, but definitely gives you the ultimate freedom to make the graph you need.
 
-For that, you might be interested in the [[Bottom-Up tutorial|Bottom-Up]].
+For that, you might be interested in the [[Bottom-Up Tutorial]].
 
 <$doc.inhouse>
 
