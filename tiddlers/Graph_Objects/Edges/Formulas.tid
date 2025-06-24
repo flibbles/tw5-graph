@@ -1,6 +1,6 @@
 In The <<.graph>> GUI, you can define types of edges connecting a node to others based on the output from passing each node through custom filters. The formulas edge type allows you to style these nodes with their own [[properties|Graph Properties]].
 
-These formula types, once configured, can optionally appear in your [[views|View]] and [[graph templates|Templates]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.typedWidget>> widget.
+These formula types, once configured, can optionally appear in your [[views|View]] and [[graph templates|Templates]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.TypedWidget>> widget.
 
 For instance, there is a preconfigured <<.value links>> formula edge type. It has a custom-assigned filter of <$transclude $variable=.value _={{$:/config/flibbles/graph/edges/formulas/links!!filter}} />. For every node in your view, the title of that node's corresponding tiddler is passed into that filter, and edges will be made for the output. In other words, a <<.value links>> type edge will be made for every link in a tiddler's body.
 

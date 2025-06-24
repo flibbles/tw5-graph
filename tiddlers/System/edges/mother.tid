@@ -1,7 +1,0 @@
-title: $:/config/flibbles/graph/edges/fields/mother
-type: application/json
-
-{
-	"label": "mother",
-	"color": "#3565ae"
-}

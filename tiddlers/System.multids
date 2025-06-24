@@ -12,7 +12,6 @@ config/flibbles/graph/engine: Vis-Network
 
 # Relink field settings
 config/flibbles/relink/fields/father: title
-config/flibbles/relink/fields/mother: title
 config/flibbles/relink/fields/slayed: list
 
 # Sidebar graph should show up by default

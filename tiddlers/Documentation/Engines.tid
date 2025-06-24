@@ -16,7 +16,7 @@ Engine plugins work through a series of [[Graph Objects]] that <<.graph>> can de
       </th>
     </$list>
   </tr>
-  <$list variable=type filter="[[graphengine]modules[]moduleproperty[properties]jsonindexes[]unique[]] graph +[putfirst[]]">
+  <$list variable=type filter="[[graphengine]modules[]moduleproperty[properties]jsonindexes[]unique[]] [enlist[graph]] +[putfirst[]]">
     <tr>
       <th colspan={{{ [[graphengine]modules[]count[]add[1]] }}} ><<type>></th>
     </tr>

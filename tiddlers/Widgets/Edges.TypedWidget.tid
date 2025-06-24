@@ -20,7 +20,7 @@ Fields are parsed using their [[Relink settings|Relink]], which can also be conf
 
 ! Contents and Attributes
 
-The content of an <<.wid edges.typed>> widget is an optional template used for ever edge which would be otherwise generated. Without this template, <$transclude $variable=.value _={{$:/plugins/flibbles/graph/edgeTemplate}} /> is used. In other words, a simple edge is made.
+The content of an <<.wid edges.typed>> widget is an optional template used for ever edge which would be otherwise generated. Without this template, a simple <<.value "<$edge $id=<<id>> />" >> is used. In other words, a simple edge is made.
 
 Within the widget block, <<.wid edges.typed>> defines the tiddler <<.value toTiddler>> for each iterated field list-item.
 

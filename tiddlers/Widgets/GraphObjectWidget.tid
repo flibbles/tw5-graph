@@ -1,0 +1,11 @@
+title: GraphObjectWidget
+tags: [[Core Widgets]]
+caption: graphobject
+
+! Introduction
+
+This is a virtual widget which is not supposed to be used directly. Instead, graph objects should inherit from this class using Tiddlywiki's widget inheritance system.
+
+The following are known graph object widgets:
+
+<<list-links [tag[GraphObjectWidget]] >>

@@ -1,4 +1,4 @@
-In The <<.graph>> GUI, you can define types of edges that reflect connections between nodes via their fields. These are the field edge types, and once configured, they can optionally appear in your [[views|View]] and [[graph templates|Templates]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.typedWidget>> widget.
+In The <<.graph>> GUI, you can define types of edges that reflect connections between nodes via their fields. These are the field edge types, and once configured, they can optionally appear in your [[views|View]] and [[graph templates|Templates]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.TypedWidget>> widget.
 
 When you create a new field edge type (by clicking the <<.plus>> at the bottom of the the Fields tabs in edge property configuration. See below.), the name you give it must correspond to the field you wish it to represent. So <<.value references>> type would correspond to the <<.field references>> field.
 

@@ -6,7 +6,7 @@ caption: action-delay
 
 The <<.wid action-delay>> widget introduces a delay before invoking any actions contained within it. Action widgets are used within graph action properties such as when a node is hovered, but they can also be used elsewhere in TiddlyWiki, such as with the <<.wid button>> widget.
 
-This action is a key component of the <<.wlink ActionPopupWidget>>.
+This action is a key component of the <<.wlink Properties.PopupWidget>>.
 
 ! Contents and Attributes
 
