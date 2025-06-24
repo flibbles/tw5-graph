@@ -30,7 +30,6 @@ afterAll(function() {
 });
 
 // TODO: Seems to goof up when switching from one node to another quickly
-// TODO: Need to test the whole quadrant thing
 
 it("works with default popup slot", async function() {
 	var expected = '><p>Text content</p></div>';
@@ -136,6 +135,46 @@ it("can customize width and height", async function() {
 	expect(html).toContain("Text content");
 	expect(html).toContain("max-width:423px;");
 	expect(html).toContain("max-height:17em;");
+});
+
+async function testQuadrant(X, Y) {
+	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	// This should be the graph element. We send a mousemove to the graph-canvas
+	var element = widget.parentDomNode.children[0];
+	element.offsetWidth = 100;
+	element.offsetHeight = 100;
+	element.dispatchEvent({type: "mousemove", offsetX: X, offsetY: Y});
+	// Now we send a hover event through the engine...
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150, xView: 19, yView: 21});
+	// Doesn't really matter what it is, only that it's been set
+	await $tw.test.flushChanges();
+	await $tw.test.flushChanges();
+	return widget.parentDomNode.innerHTML;
+};
+
+it("places popup correctly for top left quadrant", async function() {
+	var html = await testQuadrant(12, 16);
+	expect(html).toContain("left:12px;");
+	expect(html).toContain("top:16px;");
+});
+
+it("places popup correctly for bottom left quadrant", async function() {
+	var html = await testQuadrant(12, 86);
+	expect(html).toContain("left:12px;");
+	expect(html).toContain("bottom:14px;");
+});
+
+it("places popup correctly for top left quadrant", async function() {
+	var html = await testQuadrant(82, 16);
+	expect(html).toContain("right:18px;");
+	expect(html).toContain("top:16px;");
+});
+
+it("places popup correctly for bottom left quadrant", async function() {
+	var html = await testQuadrant(82, 86);
+	expect(html).toContain("right:18px;");
+	expect(html).toContain("bottom:14px;");
 });
 
 });

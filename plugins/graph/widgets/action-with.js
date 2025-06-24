@@ -47,9 +47,9 @@ WithWidget.prototype.invokeAction = function(triggeringWidget, event) {
 			this.setVariable(this.withOffset + "-posy", y);
 		}
 		if (this.withCanvas) {
-			graph.graphElement
-			this.setVariable(this.withCanvas + "-width", graph.graphElement.offsetWidth);
-			this.setVariable(this.withCanvas + "-height", graph.graphElement.offsetHeight);
+			var element = graph.graphElement;
+			this.setVariable(this.withCanvas + "-width", element.offsetWidth);
+			this.setVariable(this.withCanvas + "-height", element.offsetHeight);
 		}
 	}
 	this.refreshChildren();
