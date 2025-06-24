@@ -229,40 +229,6 @@ tags: $:/tags/Stylesheet
 	background-color: <<colour table-header-background>>;
 }
 
-/*** Build-a-Graph Wizard ***/
-
-.graph-wizard .graph-clipping code {
-	height: 6em;
-}
-
-.graph-wizard .graph-sampler {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row-reverse;
-	justify-content: flex-end;
-}
-
-.graph-wizard .graph-sampler div.tc-reveal {
-	height: 400px;
-	overflow: scroll;
-}
-
-.graph-wizard .graph-sampler table {
-	margin-top: 0px;
-	margin-bottom: 0px;
-	width: 100%;
-}
-
-.graph-wizard .graph-sampler .tc-tab-set {
-	width: 300px;
-}
-
-.graph-wizard .graph-sampler .graph-canvas {
-	width: 300px;
-	height: 450px;
-	flex-grow: 1;
-}
-
 /*** grouped-tabs ***/
 
 .group-tab-header {
