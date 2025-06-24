@@ -1,9 +1,0 @@
-title: $:/plugins/flibbles/graph/ui/PropertyTypes/actions
-
-\function .variables() [<state>addsuffix[/type]get[text]else<defaultType>!match[graph]then[id]] [<jsonEntry>jsonget[variables]join[ ]]
-\whitespace trim
-
-<$checkbox index=<<property>>
-	checked=`<<preview $(property)$ "$(.variables)$">>`
-	unchecked=''
-/>
