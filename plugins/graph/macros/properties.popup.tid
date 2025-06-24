@@ -1,4 +1,4 @@
-\widget $properties.popup($enabled:yes $ms:600 $msLinger:0, $width, $height:50%)
+\widget $properties.popup($enabled:yes $ms:600, $width, $height:50%)
 \whitespace trim
 
 <$parameters $state=<<qualify "$:/state/graph/tooltip">> >
@@ -6,7 +6,8 @@
 <$let state=<<$state>>
 	delayState=`$(state)$-delay`
 	blurringState=`$(state)$-interrupt`
-	draggingState=`$(state)$-dragging` >
+	draggingState=`$(state)$-dragging`
+	$msLinger=0>
 
 <$properties $for={{{ [<$enabled>match[yes]then[nodes]] }}}
   hover="""\whitespace trim

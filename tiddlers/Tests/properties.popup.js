@@ -29,8 +29,6 @@ afterAll(function() {
 	$tw.popup = oldPopup;
 });
 
-// TODO: Seems to goof up when switching from one node to another quickly
-
 it("works with default popup slot", async function() {
 	var expected = '><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", text: "Text content"});

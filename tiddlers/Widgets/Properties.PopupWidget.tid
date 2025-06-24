@@ -15,6 +15,8 @@ This widget introduces DOM elements into the graph, and should be used at the to
 |!Attribute |!Description |
 |$ms |Milliseconds before popup appears (defaults to "600") |
 |$state |Optional name of a state tiddler which stores the popup coordinates and target |
+|$width |Optional maximum width of the popup. If blank, will extend to the graph's edge if need be. |
+|$height |Optional maximum heigh5 of the popup (defaults to <<.value 50%>>) |
 
 <$doc.implementation />
 
