@@ -9,11 +9,15 @@
 <$properties $for=graph
 	blur="<$action-deletetiddler $tiddler=<<state>> />"
 	focus="<$action-setfield $tiddler=<<state>> text=focused />"
-	zoom={{{ [<state>get[text]match[focused]then[yes]else[no]] }}} />
+	zoom={{{ [<state>get[text]match[focused]then[]else[no]] }}} />
+
+<$slot $name="ts-raw" />
+
+<$properties $for=graph navigation={{{ [<state>get[text]match[focused]then[]else[no]] }}} />
 
 </$qualify><%else%>
 
-<$properties $for=graph zoom=yes />
+<$slot $name="ts-raw" />
 
 <%endif%>
 \end

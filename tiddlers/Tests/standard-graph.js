@@ -77,4 +77,30 @@ it("does not create unnecessary textContent", function() {
 	expect(widget.parentDomNode.textContent).toBe("");
 });
 
+it("has proper default settings in river", async function() {
+	wiki.addTiddler(view({"graph.graph": '{}'}));
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var objects = init.calls.first().args[1];
+	expect(objects.graph.zoom).toBe(false);
+	expect(objects.graph.navigation).toBe(false);
+	$tw.test.dispatchEvent(wiki, { type: "focus", objectType: "graph"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.graph.zoom).toBe(undefined);
+	expect(objects.graph.navigation).toBe(undefined);
+});
+
+it("has proper override settings in river", async function() {
+	wiki.addTiddler(view({"graph.graph": '{"zoom": "no","navigation":"yes"}'}));
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var objects = init.calls.first().args[1];
+	expect(objects.graph.zoom).toBe(false);
+	expect(objects.graph.navigation).toBe(false);
+	$tw.test.dispatchEvent(wiki, { type: "focus", objectType: "graph"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.graph.zoom).toBe(false);
+	expect(objects.graph.navigation).toBe(true);
+});
+
 });

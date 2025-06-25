@@ -16,6 +16,7 @@ exports.properties = {
 		zoom: {type: "boolean"},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
+		navigation: {type: "boolean", default: false},
 		addNode: {type: "actions", variables: ['x', 'y']},
 		addEdge: {type: "actions", variables: ['fromTiddler', 'toTiddler']},
 		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
