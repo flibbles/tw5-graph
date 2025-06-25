@@ -1,8 +1,0 @@
-title: $:/graph/Table of Contents
-edges.fields: tags
-edges.formulas: --
-filter: Documentation [[Documentation]tagging[]] [[Documentation]tagging[]tagging[]] [[Documentation]tagging[]tagging[]tagging[]]
-graph.edges: {"arrows":"to","smooth":"cubicBezierHorizontal"}
-graph.graph: {"physics":"no","hierarchy":"yes","hierarchyDirection":"LR","hierarchyNodeSpacing":"50"}
-graph.nodes: {"shape":"box"}
-type: application/json
