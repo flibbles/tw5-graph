@@ -36,14 +36,14 @@ it('handles double click events to canvas', function() {
 });
 
 it("can send custom events to nodes", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A delete='<$action-test targetTiddler/>' />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A delete='<$action-test nodeTiddler/>' />");
 	$tw.test.dispatchEvent(wiki, {
 		type: "delete",
 		id: "A",
 		objectType: "nodes"
 	});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "A"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({nodeTiddler: "A"});
 });
 
 it("can send custom events to properties", function() {

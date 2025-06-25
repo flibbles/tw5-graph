@@ -353,10 +353,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
 		var newObjects = this.children[0].invokeGraphActions(graphEvent, variables);
-		var actions = this.attributes[graphEvent.type];
-		if (actions) {
-			this.invokeActionString(actions, this, graphEvent.event, variables);
-		}
+		this.catchGraphEvent(graphEvent, this, variables);
 	} else {
 		var category = this.knownObjects[graphEvent.objectType];
 		var object = category && category[graphEvent.id];

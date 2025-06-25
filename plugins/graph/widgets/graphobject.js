@@ -59,7 +59,6 @@ ObjectWidget.prototype.setProperties = function(parentProperties) {
 ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
 	var actions = this.attributes[graphEvent.type];
 	if (actions) {
-		variables.targetTiddler = graphEvent.id;
 		triggeringWidget.invokeActionString(actions, triggeringWidget, graphEvent.event, variables);
 		return true;
 	}
