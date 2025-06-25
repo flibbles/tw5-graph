@@ -1,5 +1,5 @@
-\widget $properties.riverscroll()
-\parameters ($state: "$:/state/flibbles/graph/riverscroll")
+\widget $properties.river()
+\parameters ($state: "$:/state/flibbles/graph/river")
 \whitespace trim
 
 <%if [<graph-sidebar>!match[yes]] %>
@@ -18,4 +18,4 @@
 <%endif%>
 \end
 
-\relink $properties.riverscroll $state:title
+\relink $properties.river $state:title

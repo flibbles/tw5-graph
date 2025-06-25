@@ -1,10 +1,10 @@
 /*\
 
-Tests the properties.riverscroll global widget.
+Tests the properties.river global widget.
 
 \*/
 
-describe('properties.riverscroll \\widget', function() {
+describe('properties.river \\widget', function() {
 
 var wiki, update, window, init;
 
@@ -15,7 +15,7 @@ beforeEach(async function() {
 });
 
 it("zoom always enabled in sidebar", function() {
-	wiki.addTiddler({title: "Graph", text: "<$graph><$properties.riverscroll />"});
+	wiki.addTiddler({title: "Graph", text: "<$graph><$properties.river />"});
 	var createElement = $tw.fakeDocument.createElement;
 	spyOn($tw.fakeDocument, "createElement").and.callFake(function() {
 		var element = createElement.apply(this, arguments);
@@ -31,7 +31,7 @@ it("zoom always enabled in sidebar", function() {
 });
 
 it("can toggle when used in river", async function() {
-	var widget = $tw.test.renderGlobal(wiki, "<$graph><$properties.riverscroll />");
+	var widget = $tw.test.renderGlobal(wiki, "<$graph><$properties.river />");
 	expect(init).toHaveBeenCalled();
 	expect(init.calls.first().args[1].graph.zoom).toBe(false);
 	// Now we focus on it
@@ -40,7 +40,7 @@ it("can toggle when used in river", async function() {
 	expect(update).toHaveBeenCalled();
 	expect(update.calls.first().args[0].graph.zoom).toBe(true);
 	// Make sure we got a state tiddler that's actually a state tiddler
-	var states = wiki.filterTiddlers("[prefix[$:/state/]search:title[riverscroll]]");
+	var states = wiki.filterTiddlers("[prefix[$:/state/]search:title[river]]");
 	expect(states.length).toBe(1);
 	// Now we blur it
 	update.calls.reset();
