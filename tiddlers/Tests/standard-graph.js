@@ -11,6 +11,10 @@ var wiki, init, update;
 var standardGraph = "$:/plugins/flibbles/graph/templates/standard-graph";
 var title = "$:/graph/test";
 
+function view(fields) {
+	return Object.assign({title: title, type: "application/json"}, fields);
+};
+
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
 	({init, update} = $tw.test.setSpies());
@@ -22,8 +26,7 @@ beforeEach(async function() {
 });
 
 it("physics only applies to non-recorded nodes", function() {
-	wiki.addTiddlers([
-		{title: title, type: "application/json", text: '{\n    "A": "4,5"\n}', filter: "A B"}]);
+	wiki.addTiddler(view({text: '{\n    "A": "4,5"\n}', filter: "A B"}));
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
 	var nodes = init.calls.first().args[1].nodes;
 	expect(nodes.A.physics).toBe(false);
@@ -31,8 +34,7 @@ it("physics only applies to non-recorded nodes", function() {
 });
 
 it("can add and remove nodes", async function() {
-	var view = {title: title, type: "application/json", text: '{}'};
-	wiki.addTiddler(view);
+	wiki.addTiddler(view({text: '{}'}));
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
 	$tw.test.dispatchEvent(wiki,
 		{objectType: "graph", type: "addNode"},
@@ -47,6 +49,32 @@ it("can add and remove nodes", async function() {
 	await $tw.test.flushChanges();
 	expect(wiki.getTiddler(title).fields.text).toEqual('{}');
 	expect(wiki.getTiddler(title).fields.filter).toBeUndefined();
+});
+
+it("wikifies captions but not titles", async function() {
+	var titleA = "//title---A//";
+	wiki.addTiddlers([
+		view({filter: `${titleA} title---B`}),
+		{title: "Macros", tags: "$:/tags/Global", text: "\\procedure test(value) test=''<<value>>''"},
+		{title: titleA},
+		{title: "title---B", value: "fruit", caption: "<$transclude $variable=test value={{!!value}} />"}]);
+	// Something about the refresh dependencies means we need to do this or
+	// get a suite error after the test.
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var nodes = init.calls.first().args[1].nodes;
+	expect(nodes[titleA].label).toBe(titleA);
+	expect(nodes["title---B"].label).toBe("test=fruit");
+});
+
+it("does not create unnecessary textContent", function() {
+	wiki.addTiddlers([ view({filter: `A B`}), {title: "A", tags: "B"}]);
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var objects = init.calls.first().args[1];
+	expect($tw.utils.count(objects.nodes)).toBe(2);
+	expect($tw.utils.count(objects.edges)).toBe(1);
+	// This is the main test. No text content should be created
+	expect(widget.parentDomNode.textContent).toBe("");
 });
 
 });

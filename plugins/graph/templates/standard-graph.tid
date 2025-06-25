@@ -21,13 +21,9 @@ tags: $:/tags/flibbles/graph/template
                 doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" /><$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text=<<currentTiddler>> />""" />
             <%endif%>
             <$properties.persistent $dataTiddler=<<currentTiddler>> >
-              <$nodes.writable $variable=node $field=filter>
-                <$node $tiddler=<<node>>
-                  $pos={{{ [{!!title}getindex<node>] }}}
-                  label={{{ [<node>get[caption]else<node>] }}}
-                  image={{{ [<node>get[icon]] }}} />
+              <$nodes.writable $field=filter>
+                <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
                 <$edges.typed
-                  $tiddler=<<node>>
                   $formulas=<<formulasFilter>>
                   $fields=<<fieldsFilter>>
                   $editable=yes />

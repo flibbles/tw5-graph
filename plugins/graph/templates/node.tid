@@ -1,3 +1,10 @@
 title: $:/plugins/flibbles/graph/templates/node
 
-<$node $pos=<<pos>> label={{{ [{!!title}get[caption]else{!!title}] }}} image={{!!icon}} />
+\whitespace trim
+<%if [{!!title}has[caption]] %>
+  <$wikify name=label text={{!!caption}}>
+    <$node $pos=<<pos>> label=<<label>> image={{!!icon}} />
+  </$wikify>
+<%else%>
+  <$node $pos=<<pos>> label={{!!title}} image={{!!icon}} />
+<%endif%>
