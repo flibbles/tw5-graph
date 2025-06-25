@@ -7,7 +7,7 @@ Widget for creating graphs.
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
-var utils = require("../utils.js");
+var utils = require("../../utils.js");
 
 var Engines = $tw.modules.applyMethods("graphengine");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
@@ -20,7 +20,10 @@ var graphColors = {
 	graphColor: "graph-background"
 };
 
-var GraphWidget = function(parseTreeNode, options) {
+exports.baseClass = "graphobject";
+exports.name = "graph";
+
+exports.constructor = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 	utils.registerForDestruction(this);
 	this.window = utils.window();
@@ -29,14 +32,14 @@ var GraphWidget = function(parseTreeNode, options) {
 /*
 Inherit from the base widget class
 */
-GraphWidget.prototype = new Widget();
+var GraphWidget = exports.prototype = {};
 
-GraphWidget.prototype.graphObjectType = "graph";
+GraphWidget.graphObjectType = "graph";
 
 /*
 Render this widget into the DOM
 */
-GraphWidget.prototype.render = function(parent, nextSibling) {
+GraphWidget.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
 	this.execute();
@@ -60,7 +63,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 
 	// Render and recenter the view
 	if(this.graphEngine) {
-		this.graphEngine.onevent = GraphWidget.prototype.handleGraphEvent.bind(this);
+		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.getViewSettings() || {};
 		objects.graph = this.typecastProperties(this.properties, "graph");
@@ -82,7 +85,7 @@ GraphWidget.prototype.render = function(parent, nextSibling) {
 /*
 Compute the internal state of the widget
 */
-GraphWidget.prototype.execute = function() {
+GraphWidget.execute = function() {
 	this.colorWidgets = {};
 	this.engineValue = this.getEngineName();
 	this.setVariable("graphengine", this.engineValue);
@@ -117,7 +120,7 @@ GraphWidget.prototype.execute = function() {
 	}
 };
 
-GraphWidget.prototype.executeColors = function() {
+GraphWidget.executeColors = function() {
 	for (var color in graphColors) {
 		this.colorWidgets[color] = this.wiki.makeWidget({
 			tree: [{
@@ -132,7 +135,7 @@ GraphWidget.prototype.executeColors = function() {
 /*
 Selectively refreshes the widget if needed. Returns true if the widget or any of its children needed re-rendering
 */
-GraphWidget.prototype.refresh = function(changedTiddlers) {
+GraphWidget.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
 		newEngineValue = this.getEngineName();
 	if(changedAttributes["$engine"] || changedAttributes["$width"] || changedAttributes["$height"] || (this.engineValue !== newEngineValue)) {
@@ -182,7 +185,7 @@ GraphWidget.prototype.refresh = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.prototype.refreshSelf = function() {
+GraphWidget.refreshSelf = function() {
 	var nextSibling = this.findNextSiblingDomNode();
 	this.removeChildDomNodes();
 	if (this.graphEngine) {
@@ -191,7 +194,7 @@ GraphWidget.prototype.refreshSelf = function() {
 	this.render(this.parentDomNode, nextSibling);
 };
 
-GraphWidget.prototype.refreshColors = function(changedTiddlers) {
+GraphWidget.refreshColors = function(changedTiddlers) {
 	var changed = false;
 	for (var color in graphColors) {
 		if (!this.colorWidgets[color].refresh(changedTiddlers)) {
@@ -202,7 +205,7 @@ GraphWidget.prototype.refreshColors = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.prototype.resize = function() {
+GraphWidget.resize = function() {
 	var style = this.graphElement.style;
 	if (this.graphWidth) {
 		style.width = this.graphWidth;
@@ -212,36 +215,41 @@ GraphWidget.prototype.resize = function() {
 	}
 };
 
-GraphWidget.prototype.destroy = function() {
+GraphWidget.destroy = function() {
 	if (this.graphEngine) {
 		this.graphEngine.destroy();
 	}
 };
 
-GraphWidget.prototype.isGarbage = function() {
+GraphWidget.isGarbage = function() {
 	var body = this.document.body;
 	return !body || !body.contains(this.graphElement);
 };
 
-GraphWidget.prototype.getEngineName = function() {
+GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine")
 		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine");
 };
 
-GraphWidget.prototype.getViewSettings = function() {
+GraphWidget.setCustomProperties = function(properties) {
+	for (var color in graphColors) {
+		var widget = this.colorWidgets[color];
+		var container = $tw.fakeDocument.createElement("div");
+		widget.render(container, null);
+		var content = container.textContent;
+		if (content) {
+			properties[color] = content;
+		}
+	}
+	this.children[0].collectGraphProperties(properties);
+};
+
+GraphWidget.getViewSettings = function() {
 	var newProperties = Object.create(null);
 	var self = this;
 	if (this.graphEngine) {
-		for (var color in graphColors) {
-			var widget = this.colorWidgets[color];
-			var container = $tw.fakeDocument.createElement("div");
-			widget.render(container, null);
-			var content = container.textContent;
-			if (content) {
-				newProperties[color] = content;
-			}
-		}
-		this.children[0].collectGraphProperties(newProperties);
+		//this.setProperties(newProperties);
+		this.setCustomProperties(newProperties);
 		for (var name in this.attributes) {
 			var value = this.attributes[name];
 			if (name.charAt(0) !== '$' && value) {
@@ -258,7 +266,7 @@ GraphWidget.prototype.getViewSettings = function() {
 	return null;
 };
 
-GraphWidget.prototype.typecastProperties = function(properties, type) {//type, key, value) {
+GraphWidget.typecastProperties = function(properties, type) {//type, key, value) {
 	var output = Object.create(null);
 	var catalog = this.graphEngine.properties;
 	var category = (catalog && catalog[type]) || {};
@@ -276,7 +284,7 @@ GraphWidget.prototype.typecastProperties = function(properties, type) {//type, k
 	return output;
 };
 
-GraphWidget.prototype.findGraphObjects = function() {
+GraphWidget.findGraphObjects = function() {
 	var self = this;
 	var newObjects = this.children[0].updateGraphWidgets(
 		function() {return Object.create(null);}
@@ -304,7 +312,7 @@ function withholdObjects(objects) {
 	}
 };
 
-GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
+GraphWidget.getDifferences = function(prevObjects, newObjects) {
 	var objects = null
 	for (var type in prevObjects) {
 		var was = prevObjects[type];
@@ -342,7 +350,7 @@ GraphWidget.prototype.getDifferences = function(prevObjects, newObjects) {
 	return objects;
 };
 
-GraphWidget.prototype.handleGraphEvent = function(graphEvent, variables) {
+GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
 		var newObjects = this.children[0].invokeGraphActions(graphEvent, variables);
 		var actions = this.attributes[graphEvent.type];
@@ -370,10 +378,8 @@ GraphWidget.prototype.handleGraphEvent = function(graphEvent, variables) {
 	}
 };
 
-GraphWidget.prototype.handleEvent = function(event) {
+GraphWidget.handleEvent = function(event) {
 	// Must be a mousemove, because that's the only one we signed up for.
 	this.mouse.x = event.offsetX;
 	this.mouse.y = event.offsetY;
 };
-
-exports.graph = GraphWidget;
