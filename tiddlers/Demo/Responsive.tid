@@ -3,7 +3,7 @@ tags: Demo
 
 \procedure graph() $:/graph/Pantheon
 
-{{$:/graph/Pantheon||$:/plugins/flibbles/graph/templates/standard-graph}}
+<$graph.view $tiddler="$:/graph/Pantheon" />
 
 <$list variable=type filter="[enlist[graph nodes edges]]">
 
