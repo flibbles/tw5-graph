@@ -42,6 +42,7 @@ exports.cache = function(operationSubFunction, options) {
 Node = { } // A node begins as undefined until we make it a branch or node.
 Branch = {
 	variable: "Variable name",
+	options: (options that came with getVariable call)
 	children: { "variable value": <Node>, ...},
 }
 Leaf = {
@@ -65,7 +66,7 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 		}
 		var value = node.variable === "currentTiddler"?
 			currentTiddler:
-			widget.getVariable(node.variable);
+			widget.getVariable(node.variable, node.options);
 		node = node.children[value];
 	} while (node !== undefined);
 	// It wasn't cached. We must now start back at the root and begin recording
@@ -76,6 +77,7 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 		if (node.variable === undefined) {
 			// It's an undefined node. Make it a branch.
 			node.variable = name;
+			node.options = options;
 			node.children = Object.create(null);
 		} else if (node.variable !== name) {
 			// Unexpected. Variables should always be called in the same order

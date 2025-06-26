@@ -117,4 +117,17 @@ it("can deal with variable number of variable calls", function() {
 	expect(each).toHaveBeenCalledTimes(4);
 });
 
+it("can deal with variables that take parameters", function() {
+	var text = `\\function .wrap(X) [[{$(X)$}]substitute[]]\n<$text text={{{ :cache[all[tiddlers]prefix[X].wrap<value>] }}} />\n`;
+	var widget;
+	widget = $tw.test.renderText(wiki, "\\procedure value() A\n" + text);
+	expect(widget.parentDomNode.innerHTML).toBe("{A}");
+	widget = $tw.test.renderText(wiki, "\\procedure value() A\n" + text);
+	expect(widget.parentDomNode.innerHTML).toBe("{A}");
+	expect(each).toHaveBeenCalledTimes(1);
+	widget = $tw.test.renderText(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("{}");
+	expect(each).toHaveBeenCalledTimes(2);
+});
+
 });
