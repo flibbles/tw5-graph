@@ -2,7 +2,7 @@
 \procedure $properties.stack.recurse(nth)
 \procedure node.stack() [list[$:/config/flibbles/graph/nodes/stack]] =[all[shadows+tiddlers]prefix[$:/config/flibbles/graph/nodes/stack/]sort[]] +[unique[]is[tiddler]]
 \whitespace trim
-<%if [<node.stack>] :cache[subfilter<currentTiddler>] +[nth<nth>] %>
+<%if :cache[subfilter<node.stack>] +[nth<nth>] %>
   <$properties $filter={{{ [<condition>get[filter]] }}} $tiddler=<<condition>> >
     <$transclude $variable=$properties.stack.recurse $fillignore=yes nth={{{ [<nth>add[1]] }}} />
   </$properties>

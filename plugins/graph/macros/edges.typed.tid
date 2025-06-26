@@ -1,10 +1,11 @@
 \widget $edges.typed($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
+\function configTiddlers() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \whitespace trim
 <$parameters $$tiddler=<<currentTiddler>> >
 
 <!-- First create edges for field types -->
 
-<$list variable=fieldName filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]] +[subfilter<$fields>]">
+<$list variable=fieldName filter="+[function[configTiddlers]removeprefix[fields/]subfilter<$fields>]">
 
 <$let
 	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
@@ -31,7 +32,7 @@ $(fieldName)$-$(index)$`>
 
 <!-- Now create edges for formula types -->
 
-<$list variable=formulaName filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]] +[subfilter<$formulas>]">
+<$list variable=formulaName filter="[function[configTiddlers]removeprefix[formulas/]subfilter<$formulas>]">
 
 <$let
 	dataTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
