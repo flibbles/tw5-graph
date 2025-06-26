@@ -86,16 +86,35 @@ it("can handle different currentTiddlers in run", function() {
 	expect(each).toHaveBeenCalledTimes(2);
 });
 
-it("currently does not expose any variables", function() {
+it("can recover other variables", function() {
 	// Once cache can support multiple variables, this test will have to go.
 	wiki.addTiddlers([
 		{title: "A"}, {title: "B"}, {title: "C"}]);
 	var filter = ":cache[all[tiddlers]addsuffix<value>addprefix<currentTiddler>]";
-	var widget = makeWidget({value: "B", currentTiddler: "CT"});
-	expect(wiki.filterTiddlers(filter, widget)).toEqual(["A", "B", "C"]);
-	widget = makeWidget({value: "C", currentTiddler: "CT"});
-	expect(wiki.filterTiddlers(filter, widget)).toEqual(["A", "B", "C"]);
+	var widget = makeWidget({value: "x", currentTiddler: "CT"});
+	expect(wiki.filterTiddlers(filter, widget)).toEqual(["Ax", "Bx", "Cx"]);
+	widget = makeWidget({value: "y", currentTiddler: "CT"});
+	expect(wiki.filterTiddlers(filter, widget)).toEqual(["Ay", "By", "Cy"]);
+	expect(wiki.filterTiddlers(filter, widget)).toEqual(["Ay", "By", "Cy"]);
+	expect(each).toHaveBeenCalledTimes(2);
+});
+
+it("can deal with variable number of variable calls", function() {
+	var filter = ":cache[all[tiddlers]prefix[X]subfilter<sub>]";
+	var subfilter =  "[<X>match[short]] ~[[$(Y)$-$(Z)$]substitute[]]";
+	function test(variables, expected) {
+		variables.sub = subfilter;
+		var widget = makeWidget(variables);
+		expect(wiki.filterTiddlers(filter, widget)).toEqual(expected);
+	};
+	test({X: "short", Y: "A", Z: "B"}, ["short"]);
+	test({X: "short", Y: "C", Z: "B"}, ["short"]);
+	test({X: "short", Y: "C", Z: "D"}, ["short"]);
 	expect(each).toHaveBeenCalledTimes(1);
+	test({X: "long", Y: "A", Z: "B"}, ["A-B"]);
+	test({X: "long", Y: "C", Z: "B"}, ["C-B"]);
+	test({X: "long", Y: "C", Z: "D"}, ["C-D"]);
+	expect(each).toHaveBeenCalledTimes(4);
 });
 
 });
