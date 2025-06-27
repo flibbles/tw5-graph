@@ -73,62 +73,44 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 	// It wasn't cached. We must now start back at the root and begin recording
 	node = root;
 	var trackWidget = widget.makeFakeWidgetWithVariables(variables);
+	var visited = Object.create(null);
 	trackWidget.oldVariable = trackWidget.getVariable;
 	trackWidget.getVariable = function(name, options) {
 		var value = this.oldVariable(name, options);
-		if (name === "currentTiddler") {
-			// We don't need to extend the tree for currentTiddler.
-			// It's already accounted for.
-			return value;
-		}
-		// Logically, we're pointing at a node that does not have a value.
-		if (node.variable === undefined) {
-			// It's an undefined node. Make it a branch.
-			node.variable = name;
-			node.options = options;
-			node.children = Object.create(null);
-		} else if (node.variable !== name) {
-			// Unexpected. Variables should always be called in the same order
-			// that they were before.
-			throw "Non-deterministic filter";
-		}
-		var child = node.children[value];
-		if (child === undefined) {
-			child = node.children[value] = {};
-		}
-		node = child;
+		extendTree(name, value, options);
 		return value;
 	};
 	trackWidget.oldVariableInfo = trackWidget.getVariableInfo;
 	trackWidget.getVariableInfo = function(name, options) {
 		var info = this.oldVariableInfo(name, options);
-		if (name === "currentTiddler") {
-			// We don't need to extend the tree for currentTiddler.
-			// It's already accounted for.
-			return info;
-		}
-		// Logically, we're pointing at a node that does not have a value.
-		if (node.variable === undefined) {
-			// It's an undefined node. Make it a branch.
-			node.variable = name;
-			node.options = options;
-			node.children = Object.create(null);
-		} else if (node.variable !== name) {
-			// Unexpected. Variables should always be called in the same order
-			// that they were before.
-			throw "Non-deterministic filter";
-		}
-		var child = node.children[info.text];
-		if (child === undefined) {
-			child = node.children[info.text] = {};
-		}
-		node = child;
+		extendTree(name, info.text, options);
 		return info;
 	};
-	trackWidget.test = true;
-	//trackWidget.getVariable = function(name, options) {
-		//return this.getVariableInfo(name, options);
-	//};
+	function extendTree(name, value, options) {
+		// We don't need to extend the tree for currentTiddler.
+		// It's already accounted for.
+		// Also, if we've already encountered this variable, no need to
+		// extend the tree again.
+		if (name !== "currentTiddler" && !visited[name]) {
+			visited[name] = true;
+			// Logically, we're pointing at a node that does not have a value.
+			if (node.variable === undefined) {
+				// It's an undefined node. Make it a branch.
+				node.variable = name;
+				node.options = options;
+				node.children = Object.create(null);
+			} else if (node.variable !== name) {
+				// Unexpected. Variables should always be called in
+				// the same order that they were before.
+				throw "Non-deterministic filter";
+			}
+			var child = node.children[value];
+			if (child === undefined) {
+				child = node.children[value] = {};
+			}
+			node = child;
+		}
+	}
 	var output = operationSubFunction(function() {/*No source*/}, trackWidget);
 	// Change the current node (which is undefined) into a leaf.
 	node.value = output;

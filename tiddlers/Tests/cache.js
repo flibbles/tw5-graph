@@ -159,8 +159,9 @@ it("does not get tripped up by internal fake widgets when nested", function() {
 
 /** This seems like a pretty classic use case that cache should be good for **/
 it("supports fibonacci", function() {
-	var widget = $tw.test.renderText(wiki, `\\function fibonacci-cache() [all[]] :cache[function[fibonacci],<currentTiddler>]
-\\function fibonacci(number) [<number>compare::lt[2]] ~[enlist[-1 -2]add<number>function[fibonacci-cache]sum[]]
+	var widget = $tw.test.renderText(wiki, `\\procedure fibonacci-cache() [all[]] :cache[subfilter<fibonacci-split>] +[sum[]]
+\\procedure fibonacci-split() [{!!title}compare::lt[2]] ~[enlist[-1 -2]add{!!title}subfilter<fibonacci-cache>]
+\\function fibonacci(number) [<number>] :map[subfilter<fibonacci-split>]
 <<fibonacci 6>>`);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>8</p>");
 });
