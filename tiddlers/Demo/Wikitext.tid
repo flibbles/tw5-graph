@@ -3,9 +3,10 @@ tags: Demo
 
 <<.graph>> relies on a toolkit of widgets to describe graphs, which allows you to build incredibly unique graphs to suit your needs. The following code is a simple example of all you might need to make a graph.
 
+The following code is a simple example of all you might need to make a graph.
+
 <$doc.demo
 	description="simple example"
-	narrative="The following code is a simple example of all you might need to make a graph."
 	content="""<$graph>
   <$properties.configured>
     <$list filter="[tag[Norse]]">

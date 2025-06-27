@@ -1,12 +1,9 @@
 \whitespace trim
-\widget $doc.demo(description, narrative, content, footer, header)
+\widget $doc.demo(description, content)
   \procedure .state-prefix() $:/state/editions/tw5-graph/
-  <<narrative>>
   <div class="doc-example">
     <$macrocall $name=copy-to-clipboard-above-right src=<<content>> />
     <$codeblock code=<<content>> />
     <$doc.show show="Try it" salt=<<description>> >
-      <<header>>
       <$transclude $variable=content $mode=block/>
-      <<footer>>
 \end

@@ -1,5 +1,5 @@
 \whitespace trim
-\widget $doc.example(description, narrative, content, footer, header)
+\widget $doc.example(description, narrative, content)
 
   \function filter() [[$:/plugins/flibbles/graph]plugintiddlers[]removeprefix[$:/config/DefaultColourMappings/]]
 
