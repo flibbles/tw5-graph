@@ -26,11 +26,12 @@ exports.cache = function(operationSubFunction, options) {
 			inputTitles.push("");
 		}
 		results.clear();
-		// Root starts as {}, or a Node that is not yet Branch or Leaf
-		var root = options.wiki.getGlobalCache("filterPrefix-" + opFunction.cacheKey, function() { return {}; });
+		var root = options.wiki.getGlobalCache("filterPrefix-" + opFunction.cacheKey, function() { return Object.create(null); });
 		for (var i = 0; i < inputTitles.length; i++) {
 			var current = inputTitles[i];
-			var output = execute(current, root, operationSubFunction, widget);
+			// Roots start as {}, or a Node that is not yet Branch or Leaf
+			root[current] = root[current] || {};
+			var output = execute(current, root[current], operationSubFunction, widget);
 			results.pushTop(output);
 		}
 	};
@@ -53,6 +54,8 @@ Leaf = {
 function execute(currentTiddler, root, operationSubFunction, widget) {
 	// First, try to retrieve from cache if it's available
 	var node = root;
+	var variables = {currentTiddler: currentTiddler};
+	var mockWidget = widget.makeFakeWidgetWithVariables(variables);
 	do {
 		if (node.value !== undefined) {
 			// We have a value to return
@@ -64,15 +67,20 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 			// that isn't necessarily a Branch or Leaf when execute starts.
 			break;
 		}
-		var value = node.variable === "currentTiddler"?
-			currentTiddler:
-			widget.getVariable(node.variable, node.options);
-		node = node.children[value];
+		var info = mockWidget.getVariableInfo(node.variable, node.options);
+		node = node.children[info.text];
 	} while (node !== undefined);
 	// It wasn't cached. We must now start back at the root and begin recording
 	node = root;
-	var mockWidget = Object.create(widget);
-	mockWidget.getVariableInfo = function(name, options) {
+	var trackWidget = widget.makeFakeWidgetWithVariables(variables);
+	trackWidget.oldVariable = trackWidget.getVariable;
+	trackWidget.getVariable = function(name, options) {
+		var value = this.oldVariable(name, options);
+		if (name === "currentTiddler") {
+			// We don't need to extend the tree for currentTiddler.
+			// It's already accounted for.
+			return value;
+		}
 		// Logically, we're pointing at a node that does not have a value.
 		if (node.variable === undefined) {
 			// It's an undefined node. Make it a branch.
@@ -84,11 +92,32 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 			// that they were before.
 			throw "Non-deterministic filter";
 		}
-		// We use our own currentTiddler to prevent variable-request spamming.
-		// CurrentTiddler frequently gets called when not needed.
-		var info = (name === "currentTiddler")?
-			{text: currentTiddler}:
-			widget.getVariableInfo(name, options);
+		var child = node.children[value];
+		if (child === undefined) {
+			child = node.children[value] = {};
+		}
+		node = child;
+		return value;
+	};
+	trackWidget.oldVariableInfo = trackWidget.getVariableInfo;
+	trackWidget.getVariableInfo = function(name, options) {
+		var info = this.oldVariableInfo(name, options);
+		if (name === "currentTiddler") {
+			// We don't need to extend the tree for currentTiddler.
+			// It's already accounted for.
+			return info.text;
+		}
+		// Logically, we're pointing at a node that does not have a value.
+		if (node.variable === undefined) {
+			// It's an undefined node. Make it a branch.
+			node.variable = name;
+			node.options = options;
+			node.children = Object.create(null);
+		} else if (node.variable !== name) {
+			// Unexpected. Variables should always be called in the same order
+			// that they were before.
+			throw "Non-deterministic filter";
+		}
 		var child = node.children[info.text];
 		if (child === undefined) {
 			child = node.children[info.text] = {};
@@ -96,7 +125,11 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 		node = child;
 		return info;
 	};
-	var output = operationSubFunction(function() {/*No source*/}, mockWidget);
+	trackWidget.test = true;
+	//trackWidget.getVariable = function(name, options) {
+		//return this.getVariableInfo(name, options);
+	//};
+	var output = operationSubFunction(function() {/*No source*/}, trackWidget);
 	// Change the current node (which is undefined) into a leaf.
 	node.value = output;
 	return output;

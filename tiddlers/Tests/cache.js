@@ -130,4 +130,26 @@ it("can deal with variables that take parameters", function() {
 	expect(each).toHaveBeenCalledTimes(2);
 });
 
+it("does not get tripped up by internal fake widgets", function() {
+	var text = `\\procedure currentTiddler() bad\n\\function .inner() [{!!title}]\n<$text text={{{ [[expected]] :cache[all[tiddlers]prefix[X].inner<value>] }}} />\n`;
+	var widget = $tw.test.renderText(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("expected");
+});
+
+it("does not get tripped up by internal fake widgets when nested", function() {
+	var preamble = `\\procedure currentTiddler() bad
+\\function .inner() [{!!title}]
+\\function .outer() [all[]] :cache[all[tiddlers]prefix[X].inner[]]\n`;
+	var widget = $tw.test.renderText(wiki, preamble + "<$text text={{{ [[first].outer[]] }}} />\n");
+	expect(widget.parentDomNode.innerHTML).toBe("first");
+	// Now run it again
+	widget = $tw.test.renderText(wiki, preamble + "<$text text={{{ [[first].outer[]] }}} />\n");
+	expect(widget.parentDomNode.innerHTML).toBe("first");
+	expect(each).toHaveBeenCalledTimes(1);
+	// Now run it with another currentTiddler
+	widget = $tw.test.renderText(wiki, preamble + "<$text text={{{ [[second].outer[]] }}} />\n");
+	expect(widget.parentDomNode.innerHTML).toBe("second");
+	expect(each).toHaveBeenCalledTimes(2);
+});
+
 });
