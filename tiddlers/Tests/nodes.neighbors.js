@@ -47,4 +47,14 @@ it("prevents overlaps", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>Z-C-Y-D-</p>");
 });
 
+it("can specify $fields and $formulas for to neighbors", function() {
+	wiki.addTiddlers([
+		{title: "A"}, {title: "B"}, {title: "C"},
+		{title: "L"}, {title: "T"},
+		{title: "home", tags: "A B", list: "A C", text: "[[L]] {{T}}"}]);
+	var text = "<$nodes.neighbors $filter='home' $fields='[all[]] -tags' $formulas='[all[]] -links'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>A-C-T-</p>");
+});
+
 });

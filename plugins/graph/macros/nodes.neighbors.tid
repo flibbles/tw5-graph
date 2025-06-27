@@ -1,9 +1,19 @@
-\widget $nodes.neighbors($filter)
+\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]')
 \whitespace trim
 
-<$vars regexp={{{ [subfilter<$filter>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
+\function filter.cached() [{!!title}] :cache[{!!title}subfilter<$filter>]
+\function configs.fields():cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]subfilter<$fields>]
+\function configs.formulas() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]
 
-<$list filter="[all[]!search:title:regexp<regexp>] :filter[neighbors[]search:title:regexp<regexp>] [subfilter<$filter>neighbors[]!search:title:regexp<regexp>] +[unique[]]">
+\function edges.fields(node) [configs.fields[]] :map:flat[<node>gettyped{!!title}]
+\function edges.formulas(node) [configs.formulas[]] :map:flat[<node>subfilter{!!filter}]
+
+\function neighbors.for(node) [edges.fields<node>] [edges.formulas<node>] +[!is[blank]unique[]]
+\function neighbors.cached() [all[]] :cache[neighbors.for{!!title}]
+
+<$vars regexp={{{ [filter.cached[]escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
+
+<$list filter="[all[]!search:title:regexp<regexp>] :filter[neighbors.cached[]search:title:regexp<regexp>] [filter.cached[]neighbors.cached[]!search:title:regexp<regexp>] +[unique[]]">
 
 <$slot $name=ts-raw>
 
