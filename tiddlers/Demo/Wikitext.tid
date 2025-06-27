@@ -7,7 +7,7 @@ The following code is a simple example of all you might need to make a graph.
 
 <$doc.demo
 	description="simple example"
-	content="""<$graph>
+	code="""<$graph>
   <$properties.configured>
     <$list filter="[tag[Norse]]">
       <$node label={{!!title}} />

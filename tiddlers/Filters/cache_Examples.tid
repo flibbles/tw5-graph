@@ -4,7 +4,7 @@ This prefix is especially effective for gathering shadow tiddlers with certain p
 
 <$doc.demo
 	description=prefixes
-	content="""\function shortcuts() :cache[all[shadows+tiddlers]prefix[$:/config/shortcuts]]
+	code="""\function shortcuts() :cache[all[shadows+tiddlers]prefix[$:/config/shortcuts]]
 
 !!! Shortcuts using ctrl key
 <<list-links "[function[shortcuts]search[ctrl-]]">>
@@ -17,7 +17,7 @@ We solve fibonacci numbers the inefficient way, but caching makes it efficient a
 
 <$doc.demo
 	description=fibonacci
-	content="""\function fibonacci-cache() [all[]] :cache[function[fibonacci],<currentTiddler>]
+	code="""\function fibonacci-cache() [all[]] :cache[function[fibonacci],<currentTiddler>]
 \function fibonacci(number) [<number>compare::lt[2]] ~[enlist[-1 -2]add<number>function[fibonacci-cache]sum[]]
 ; 6
 : <<fibonacci 6>>""" />

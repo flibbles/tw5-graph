@@ -29,10 +29,12 @@
 
 <code>
 
-<$vars input={{{ [<code>addprefix[\rules only prettylink
+<$vars input={{{ [<code>addprefix[\rules only prettylink entity
 ]] }}}>
 
 <$list filter="[<input>]
++[search-replace:g[&],[&amp;]]
++[search-replace:g[[],[&#91;]]
 +[apply.tag[Widgets],<raw.pattern>,<raw.template>]
 +[apply.tag[Widgets],<trans.pattern>,<trans.template>]
 +[apply.tag[Filter Run Prefixes],<frp.pattern>,<frp.template>]

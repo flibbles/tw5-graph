@@ -19,7 +19,7 @@ Here is a stress test of orb's efficiency: a rendering tree of all shadow tiddle
 
 <$doc.demo
 	description="Orb benchmark graph"
-	content="""\whitespace trim
+	code="""\whitespace trim
 \procedure directory(prefix, source)
   <$list variable=dir filter="[enlist<source>removeprefix<prefix>splitbefore[/]]">
     <$vars currentTiddler=`$(prefix)$$(dir)$`>
