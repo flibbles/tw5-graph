@@ -32,7 +32,7 @@ exports.cache = function(operationSubFunction, options) {
 			// Roots start as {}, or a Node that is not yet Branch or Leaf
 			root[current] = root[current] || {};
 			var output = execute(current, root[current], operationSubFunction, widget);
-			results.pushTop(output);
+			results.push.apply(results, output);
 		}
 	};
 	opFunction.cacheKey = counter++;
@@ -105,7 +105,7 @@ function execute(currentTiddler, root, operationSubFunction, widget) {
 		if (name === "currentTiddler") {
 			// We don't need to extend the tree for currentTiddler.
 			// It's already accounted for.
-			return info.text;
+			return info;
 		}
 		// Logically, we're pointing at a node that does not have a value.
 		if (node.variable === undefined) {

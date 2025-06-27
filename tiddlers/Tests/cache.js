@@ -74,6 +74,11 @@ it("multiple cache runs can be in the same filter", function() {
 	expect(each).toHaveBeenCalledTimes(2);
 });
 
+it("appends like :map", function() {
+	var filter = "A B =A C :cache[{!!title}]";
+	expect(wiki.filterTiddlers(filter)).toEqual(["A", "B", "A", "C"]);
+});
+
 it("can handle different currentTiddlers in run", function() {
 	wiki.addTiddlers([
 		{title: "A"}, {title: "B"}, {title: "C"}]);
@@ -150,6 +155,14 @@ it("does not get tripped up by internal fake widgets when nested", function() {
 	widget = $tw.test.renderText(wiki, preamble + "<$text text={{{ [[second].outer[]] }}} />\n");
 	expect(widget.parentDomNode.innerHTML).toBe("second");
 	expect(each).toHaveBeenCalledTimes(2);
+});
+
+/** This seems like a pretty classic use case that cache should be good for **/
+it("supports fibonacci", function() {
+	var widget = $tw.test.renderText(wiki, `\\function fibonacci-cache() [all[]] :cache[function[fibonacci],<currentTiddler>]
+\\function fibonacci(number) [<number>compare::lt[2]] ~[enlist[-1 -2]add<number>function[fibonacci-cache]sum[]]
+<<fibonacci 6>>`);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>8</p>");
 });
 
 });
