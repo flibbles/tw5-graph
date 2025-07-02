@@ -1,5 +1,4 @@
-\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]')
-\whitespace trim
+\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges:no)
 
 \function filter.cached() [{!!title}] :cache[{!!title}subfilter<$filter>]
 \function configs.fields():cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]subfilter<$fields>]
@@ -11,15 +10,48 @@
 \function neighbors.for(node) [edges.fields<node>] [edges.formulas<node>] +[!is[blank]unique[]]
 \function neighbors.cached() [all[]] :cache[neighbors.for{!!title}]
 
+\procedure incoming.raw() [all[tiddlers]!search:title:regexp<regexp>] :filter[neighbors.cached[]search:title:regexp<regexp>]
+\procedure incoming.cached() :cache[subfilter<incoming.raw>]
+\whitespace trim
+
 <$vars regexp={{{ [filter.cached[]escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
 
-<$list filter="[all[]!search:title:regexp<regexp>] :filter[neighbors.cached[]search:title:regexp<regexp>] [filter.cached[]neighbors.cached[]!search:title:regexp<regexp>] +[unique[]]">
+<!-- incoming neighbors -->
+
+<$list filter=<<incoming.cached>> >
 
 <$slot $name=ts-raw>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
 
-</$slot></$list>
+</$slot>
+
+<$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> >
+
+<%if [<$interedges>!match[no]] ~[<toTiddler>search:title:regexp<regexp>] %>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
+	id=<<id>>
+	$mode=inline
+	$fillignore=yes />
+
+<%endif%></$edges.typed></$list>
+
+<!-- outgoing neighbors -->
+
+<$list filter="[filter.cached[]neighbors.cached[]!search:title:regexp<regexp>] -[subfilter<incoming.cached>]">
+
+<$slot $name=ts-raw>
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+
+</$slot>
+
+<%if [<$interedges>!match[no]] %>
+
+<$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> />
+
+<%endif%></$list>
 \end
 
 \relink $nodes.neighbors $filter:filter

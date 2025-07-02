@@ -6,11 +6,11 @@ Tests the nodes.neighbors global widget.
 
 describe('nodes.neighbors \\widget', function() {
 
-var wiki, init;
+var wiki, init, update;
 
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
-	({init} = $tw.test.setSpies());
+	({init, update} = $tw.test.setSpies());
 	await $tw.test.setGlobals(wiki);
 });
 
@@ -44,7 +44,7 @@ it("prevents overlaps", function() {
 		{title: "unrelated"}]);
 	var text = "<$nodes.neighbors $filter='A B'>{{!!title}}-";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(widget.parentDomNode.innerHTML).toBe("<p>Z-C-Y-D-</p>");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Y-Z-C-D-</p>");
 });
 
 it("can specify $fields and $formulas for to neighbors", function() {
@@ -56,5 +56,40 @@ it("can specify $fields and $formulas for to neighbors", function() {
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>A-C-T-</p>");
 });
+
+it("can optionally create inter-edges", async function() {
+	var label = "tagged with";
+	wiki.addTiddlers([
+		{title: "Inter", text: "no"},
+		{title: "C", tags: "NW NE"},
+		{title: "NW", tags: "NE"}, {title: "NE", tags: "SE"},
+		{title: "SW", tags: "C NW"}, {title: "SE", tags: "C SW"},
+		{title: "unused", tags: "NE NW SW SE"}]);
+	var text = "<$graph><$node $tiddler=C/><$nodes.neighbors $filter='C' $interedges={{Inter}} />";
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(widget.parentDomNode.textContent).toBe("");
+	expect(objects.nodes).toEqual({C: {},
+		NW:{label: "NW"}, NE:{label: "NE"},
+		SW:{label: "SW"}, SE:{label: "SE"}});
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "SE", to: "C", label: label},
+		{from: "SW", to: "C", label: label}]);
+	// Now we'll turn inter-neighbors on
+	wiki.addTiddler({title: "Inter", text: "yes"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	objects = update.calls.first().args[0];
+	expect(Object.values(objects.edges)).toEqual([
+		{from: "SE", to: "C", label: label},
+		{from: "SW", to: "C", label: label},
+		{from: "SE", to: "SW", label: label},
+		{from: "SW", to: "NW", label: label},
+		{from: "NW", to: "NE", label: label},
+		{from: "NE", to: "SE", label: label}]);
+});
+
+//TODO: $filter should expect [all[tiddlers]] as source
 
 });
