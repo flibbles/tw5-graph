@@ -109,13 +109,9 @@ GraphWidget.execute = function() {
 		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
 		this.graphEngine = undefined;
 	} else {
-		var graphPropertiesNode = {
-			type: "properties",
-			children: this.parseTreeNode.children
-		};
 		this.knownObjects = {};
 		this.knownProperties = {};
-		this.children = [this.makeChildWidget(graphPropertiesNode)];
+		this.makeChildWidgets();
 		this.graphEngine = new Engine(this.wiki);
 	}
 };
@@ -285,7 +281,7 @@ GraphWidget.typecastProperties = function(properties, type) {//type, key, value)
 };
 
 GraphWidget.collectGraphProperties = function(properties) {
-	var iterator = new utils.WidgetIterator(this.children[0]);
+	var iterator = new utils.WidgetIterator(this);
 	var results;
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
@@ -298,7 +294,7 @@ GraphWidget.collectGraphProperties = function(properties) {
 };
 
 GraphWidget.invokeGraphActions = function(graphEvent, variables) {
-	var iterator = new utils.WidgetIterator(this.children[0]);
+	var iterator = new utils.WidgetIterator(this);
 	var results;
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
@@ -311,9 +307,48 @@ GraphWidget.invokeGraphActions = function(graphEvent, variables) {
 	}
 };
 
+GraphWidget.updateGraphWidgets = function(parentCallback) {
+	var self = this;
+	var newObjects = {};
+	var newAffected = Object.create(null);
+	var callback = function(widget) {
+		var type = widget.graphObjectType;
+		var id = widget.id;
+		newObjects[type] = newObjects[type] || Object.create(null);
+		newObjects[type][id] = widget;
+		var object = parentCallback(widget);
+		if (type === self.type) {
+			if (self.filterFunc([id], self).length > 0) {
+				newAffected[id] = true;
+			} else {
+				return object;
+			}
+			for (var style in self.styleObject) {
+				object[style] = self.styleObject[style];
+			}
+		}
+		return object;
+	};
+	var searchChildren = function(children) {
+		for (var i = 0; i < children.length; i++) {
+			var widget = children[i];
+			if (widget.graphObjectType) {
+				widget.setProperties(callback(widget));
+			}
+			if (widget.updateGraphWidgets) {
+				widget.updateGraphWidgets(callback);
+			} else if (widget.children) {
+				searchChildren(widget.children);
+			}
+		}
+	};
+	searchChildren(this.children, null);
+	return newObjects;
+};
+
 GraphWidget.findGraphObjects = function() {
 	var self = this;
-	var newObjects = this.children[0].updateGraphWidgets(
+	var newObjects = this.updateGraphWidgets(
 		function() {return Object.create(null);}
 	);
 	// Special handling for edge trimming
