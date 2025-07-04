@@ -307,27 +307,14 @@ GraphWidget.invokeGraphActions = function(graphEvent, variables) {
 	}
 };
 
-GraphWidget.updateGraphWidgets = function(parentCallback) {
+GraphWidget.findGraphObjects = function() {
 	var self = this;
 	var newObjects = {};
-	var newAffected = Object.create(null);
 	var callback = function(widget) {
 		var type = widget.graphObjectType;
-		var id = widget.id;
 		newObjects[type] = newObjects[type] || Object.create(null);
-		newObjects[type][id] = widget;
-		var object = parentCallback(widget);
-		if (type === self.type) {
-			if (self.filterFunc([id], self).length > 0) {
-				newAffected[id] = true;
-			} else {
-				return object;
-			}
-			for (var style in self.styleObject) {
-				object[style] = self.styleObject[style];
-			}
-		}
-		return object;
+		newObjects[type][widget.id] = widget;
+		return Object.create(null);
 	};
 	var searchChildren = function(children) {
 		for (var i = 0; i < children.length; i++) {
@@ -343,14 +330,6 @@ GraphWidget.updateGraphWidgets = function(parentCallback) {
 		}
 	};
 	searchChildren(this.children, null);
-	return newObjects;
-};
-
-GraphWidget.findGraphObjects = function() {
-	var self = this;
-	var newObjects = this.updateGraphWidgets(
-		function() {return Object.create(null);}
-	);
 	// Special handling for edge trimming
 	withholdObjects(newObjects);
 	var prevObjects = this.knownObjects;
