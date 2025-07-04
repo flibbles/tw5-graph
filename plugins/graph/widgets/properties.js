@@ -185,20 +185,6 @@ Properties.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, va
 	return false;
 };
 
-Properties.prototype.invokeGraphActions = function(graphEvent, variables) {
-	var iterator = new utils.WidgetIterator(this);
-	var results;
-	while (!(results = iterator.next()).done) {
-		var widget = results.value;
-		if (widget.type === "graph") {
-			var actions = widget.styleObject[graphEvent.type];
-			if (actions) {
-				widget.invokeActionString(actions, widget, graphEvent.event, variables);
-			}
-		}
-	}
-};
-
 function propertiesChanged(changedAttributes) {
 	for (var name in changedAttributes) {
 		if (name.charAt(0) !== "$") {

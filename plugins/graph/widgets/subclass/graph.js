@@ -297,6 +297,20 @@ GraphWidget.collectGraphProperties = function(properties) {
 	}
 };
 
+GraphWidget.invokeGraphActions = function(graphEvent, variables) {
+	var iterator = new utils.WidgetIterator(this.children[0]);
+	var results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		if (widget.type === "graph") {
+			var actions = widget.styleObject[graphEvent.type];
+			if (actions) {
+				widget.invokeActionString(actions, widget, graphEvent.event, variables);
+			}
+		}
+	}
+};
+
 GraphWidget.findGraphObjects = function() {
 	var self = this;
 	var newObjects = this.children[0].updateGraphWidgets(
@@ -365,7 +379,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 
 GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
-		var newObjects = this.children[0].invokeGraphActions(graphEvent, variables);
+		var newObjects = this.invokeGraphActions(graphEvent, variables);
 		this.catchGraphEvent(graphEvent, this, variables);
 	} else {
 		var category = this.knownObjects[graphEvent.objectType];
