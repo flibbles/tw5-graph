@@ -37,11 +37,15 @@ Properties.prototype.execute = function() {
 Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
+	if (changedAttributes["$for"]) {
+		// If the $for changed, we need to refocus to the different object type.
+		this.refreshSelf();
+		return true;
+	}
 	if (propertiesChanged(changedAttributes)
 	|| utils.refreshProperties(this.styleObject, this, this.type, changedTiddlers)
 	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
-	|| changedAttributes["$for"]
 	|| (this.dataTiddler
 		&& changedTiddlers[this.dataTiddler]
 		&& this.rawData !== getTiddlerString(this.wiki, this.dataTiddler, this.field))) {
@@ -53,18 +57,6 @@ Properties.prototype.refresh = function(changedTiddlers) {
 			known[id].changed = true;
 		}
 		changed = true;
-	}
-	// If the $for changed, we need to refocus to the different object type.
-	if (changedAttributes["$for"]) {
-		this.type = this.getAttribute("$for", "nodes");
-		if (this.filter) {
-			this.affectedObjects = Object.create(null);
-		} else {
-			// We need to notify all objects of the new category to refresh.
-			for (var id in this.knownObjects[this.type]) {
-				this.knownObjects[this.type][id].changed = true;
-			}
-		}
 	}
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.

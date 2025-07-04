@@ -84,6 +84,8 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 	expect(objects.edges).toEqual({AB: {from: "A", to: "B"}, AC: {from: "A", to: "C", color: "blue"}, BC: {from: "B", to: "C", color: "blue"}});
 });
 
+// TODO: $for can be set to empty, which just disables. Not a full refresh.
+
 it('refreshes properly if $for changes when filtering', async function() {
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -100,8 +102,12 @@ it('refreshes properly if $for changes when filtering', async function() {
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalledTimes(1);
 	var objects = update.calls.first().args[0];
-	expect(objects.nodes).toEqual({A: {color: "blue"}});
-	expect(objects.edges).toEqual({AB: {from: "A", to: "B"}});
+	// When changing $for type, we don't bother minimizing change. $for is
+	// such a rare thing to dynamically change.
+	expect(objects.nodes).toEqual({B: {}, A: {color: "blue"}});
+	expect(objects.edges).toEqual({
+		AB: {from: "A", to: "B"},
+		BA: {from: "B", to: "A"}});
 });
 
 it('refreshes properly if $for changes when not filtering', async function() {
@@ -111,8 +117,8 @@ it('refreshes properly if $for changes when not filtering', async function() {
 			<$properties $for={{for}} color=blue>
 				<$node $tiddler=A/>
 				<$node $tiddler=B/>
-				<$edge $from=A $to=B />
-				<$edge $from=B $to=A />
+				<$edge $id=AB $from=A $to=B />
+				<$edge $id=BA $from=B $to=A />
 			</$properties>
 		</$graph>`);
 	await $tw.test.flushChanges();
@@ -121,7 +127,9 @@ it('refreshes properly if $for changes when not filtering', async function() {
 	expect(update).toHaveBeenCalledTimes(1);
 	var objects = update.calls.first().args[0];
 	expect(objects.nodes).toEqual({A: {color: "blue"}, B: {color: "blue"}});
-	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}, {from: "B", to: "A"}]);
+	expect(objects.edges).toEqual({
+		AB: {from: "A", to: "B"},
+		BA: {from: "B", to: "A"}});
 });
 
 it("treats empty $for as an indication to ignore widget", async function() {
