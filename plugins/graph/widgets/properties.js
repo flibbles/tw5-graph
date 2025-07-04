@@ -172,19 +172,6 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 	return newObjects;
 };
 
-Properties.prototype.collectGraphProperties = function(properties) {
-	var iterator = new utils.WidgetIterator(this);
-	var results;
-	while (!(results = iterator.next()).done) {
-		var widget = results.value;
-		if (widget.type === "graph") {
-			for (var style in widget.styleObject) {
-				properties[style] = widget.styleObject[style];
-			}
-		}
-	}
-};
-
 Properties.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
 	if (graphEvent.objectType === this.type
 	&& this.affectedObjects[graphEvent.id]) {

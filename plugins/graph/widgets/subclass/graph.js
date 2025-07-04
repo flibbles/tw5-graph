@@ -241,7 +241,7 @@ GraphWidget.setCustomProperties = function(properties) {
 			properties[color] = content;
 		}
 	}
-	this.children[0].collectGraphProperties(properties);
+	this.collectGraphProperties(properties);
 };
 
 GraphWidget.getViewSettings = function() {
@@ -282,6 +282,19 @@ GraphWidget.typecastProperties = function(properties, type) {//type, key, value)
 		}
 	}
 	return output;
+};
+
+GraphWidget.collectGraphProperties = function(properties) {
+	var iterator = new utils.WidgetIterator(this.children[0]);
+	var results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		if (widget.type === "graph") {
+			for (var style in widget.styleObject) {
+				properties[style] = widget.styleObject[style];
+			}
+		}
+	}
 };
 
 GraphWidget.findGraphObjects = function() {
