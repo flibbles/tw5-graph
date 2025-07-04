@@ -1,0 +1,4 @@
+title: $:/graph/Live View
+filter: [{$:/temp/focussedTiddler}]
+template: $:/plugins/flibbles/graph/templates/live-graph
+

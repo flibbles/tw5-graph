@@ -7,24 +7,21 @@ tags: $:/tags/flibbles/graph/template
 \procedure state() $:/state/flibbles/graph/doc/live
 \procedure gotoAction() <$action-setfield $tiddler=<<state>> $value=<<nodeTiddler>> />
 
-<$graph maxVelocity=5>
-  <$properties $for=nodes doubleclick=<<gotoAction>> >
-    <$let
-        defaultEdgeFilter="[all[]]"
-        fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
-        formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
-      <$properties.configured $view={{!!title}} >
-        <$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
+<$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
+  <$graph maxVelocity=5>
+    <$properties $for=nodes doubleclick=<<gotoAction>> >
+      <$let
+          defaultEdgeFilter="[all[]]"
+          fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
+          formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
+        <$properties.configured $view={{!!title}} >
           <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
           <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
           <$properties color=gray>
-            <$nodes.neighbors $filter="[<focusTiddler>]">
-              <$node label={{!!title}} />
-              <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>>/>
-            </$nodes.neighbors>
+            <$nodes.neighbors $filter="[<focusTiddler>]" $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
           </$properties>
-        </$vars>
-      </$properties.configured>
-    </$let>
-  </$properties>
-</$graph>
+        </$properties.configured>
+      </$let>
+    </$properties>
+  </$graph>
+</$vars>
