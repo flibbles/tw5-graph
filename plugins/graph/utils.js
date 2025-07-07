@@ -93,7 +93,10 @@ exports.upkeep = function() {
 };
 
 exports.getParentProperties = function(widget, type) {
-	while (widget.parentWidget) {
+	// For now, we hard-stop at the graph. We don't take properties outside
+	// We may some day, but for now, support for that would be frought with
+	// complications
+	while (widget.parentWidget && widget.graphObjectType !== "graph") {
 		widget = widget.parentWidget;
 		if (widget.graphPropertiesWidget && widget.type === type) {
 			return widget;
