@@ -85,27 +85,36 @@ ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, 
 };
 
 ObjectWidget.prototype.computeParents = function() {
-	var parent = this.parentPropertiesWidget;
 	var index = 0;
 	var changed = false;
-	this.applicableParents = this.applicableParents || [];
-	while (parent !== null) {
-		if (parent.filterFunc([this.id], parent).length > 0) {
-			if (this.applicableParents[index] !== parent) {
-				this.applicableParents[index] = parent;
-				changed = true;
-			} else if (parent.propertiesChanged) {
-				changed = true;
-			}
-			index++;
+	var list = this.applicableParents = this.applicableParents || [];
+	this.traversePropertyWidgets(function(widget) {
+		if (list[index] !== widget) {
+			list[index] = widget;
+			changed = true;
+		} else if (widget.propertiesChanged) {
+			changed = true;
 		}
-		parent = parent.parentPropertiesWidget;
-	}
-	if (index !== this.applicableParents.length) {
-		this.applicableParents.length = index;
+		index++;
+	});
+	if (index !== list.length) {
+		list.length = index;
 		changed = true;
 	}
 	return changed;
+};
+
+/**
+ * Explore for any $properties which might apply to this. Can be overridden.
+ */
+ObjectWidget.prototype.traversePropertyWidgets = function(method) {
+	var widget = this.parentPropertiesWidget;
+	while (widget !== null) {
+		if (widget.filterFunc([this.id], widget).length > 0) {
+			method(widget);
+		}
+		widget = widget.parentPropertiesWidget;
+	}
 };
 
 exports.graphobject = ObjectWidget;

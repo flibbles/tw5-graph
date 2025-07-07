@@ -15,14 +15,8 @@ var ScriberWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
 };
 
-/*
-Inherit from the base widget class
-*/
 ScriberWidget.prototype = new Widget();
 
-/*
-Render this widget into the DOM
-*/
 ScriberWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
@@ -30,9 +24,6 @@ ScriberWidget.prototype.render = function(parent, nextSibling) {
 	this.renderChildren(parent, nextSibling);
 };
 
-/*
-Compute the internal state of the widget
-*/
 ScriberWidget.prototype.execute = function() {
 	this.scribeField = this.getAttribute("field");
 	this.scribeTiddler = this.getAttribute("tiddler") || (!this.hasParseTreeNodeAttribute("tiddler") && this.getVariable("currentTiddler"));

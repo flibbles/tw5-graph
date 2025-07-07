@@ -286,8 +286,8 @@ it("can add to graph sequentially", function() {
 
 it("can update $for=graph", async function() {
 	wiki.addTiddler({title: "Value", text: "one"});
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=graph value={{Value}}/>");
 	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties $for=graph value={{Value}}/>");
 	var objects = init.calls.first().args[1];
 	expect(objects.graph).toEqual({value: "one"});
 	wiki.addTiddler({title: "Value", text: "two"});

@@ -18,14 +18,14 @@ var BoxWidget = function(parseTreeNode, options) {
 	this.window.addEventListener("resize", this.resizeInstance);
 };
 
-/*
-Inherit from the base widget class
-*/
+/**
+ * Inherit from the base widget class
+ */
 BoxWidget.prototype = new Widget();
 
-/*
-Render this widget into the DOM
-*/
+/**
+ * Render this widget into the DOM
+ */
 BoxWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
@@ -40,9 +40,9 @@ BoxWidget.prototype.render = function(parent, nextSibling) {
 	this.domNodes.push(this.domNode);
 };
 
-/*
-Compute the internal state of the widget
-*/
+/**
+ * Compute the internal state of the widget
+ */
 BoxWidget.prototype.execute = function() {
 	this.executeClass();
 	this.executeDimensions();
@@ -72,9 +72,10 @@ BoxWidget.prototype.executeDimensions = function() {
 	}
 };
 
-/*
-Selectively refreshes the widget if needed. Returns true if the widget or any of its children needed re-rendering
-*/
+/**
+ * Selectively refreshes the widget if needed.
+ * Returns true if the widget or any of its children needed re-rendering
+ */
 BoxWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;

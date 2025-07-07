@@ -41,10 +41,8 @@ Render this widget into the DOM
 */
 GraphWidget.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
-	this.parentPropertiesWidget = utils.getParentProperties(this, this.graphObjectType);
 	this.computeAttributes();
 	this.execute();
-	this.computeParents();
 	this.graphElement = this.document.createElement("div");
 	var className = "graph-canvas";
 	if (!this.graphEngine) {
@@ -63,6 +61,7 @@ GraphWidget.render = function(parent, nextSibling) {
 	parent.insertBefore(this.graphElement, nextSibling);
 	this.renderChildren(this.graphElement, null);
 
+	this.computeParents();
 	// Render and recenter the view
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
@@ -155,6 +154,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		objects = this.findGraphObjects();
 		changed = true;
 	}
+	changed = this.computeParents() || changed;
 	if (changed || this.refreshColors(changedTiddlers)) {
 		var newGraphProperties = this.graphEngine? this.refreshProperties(): Object.create(null);
 		if (JSON.stringify(newGraphProperties) !== JSON.stringify(this.properties)) {
@@ -238,7 +238,31 @@ GraphWidget.setCustomProperties = function(properties) {
 			properties[color] = content;
 		}
 	}
-	this.collectGraphProperties(properties);
+};
+
+/**
+ * This overrides a graphobject method so we're looking inward instead of
+ * upward for properties that apply to this widget.
+ */
+GraphWidget.traversePropertyWidgets = function(method) {
+	var iterator = new utils.WidgetIterator(this);
+	var ptr = null;
+	var results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		if (widget.type === "graph") {
+			// We make a quick in place linked list
+			results.next = ptr;
+			ptr = results;
+		}
+	}
+	// Now we run through that list. This way, we apply the found properties
+	// in reverse, since the first found should be executed last as having
+	// lowest priority.
+	while (ptr !== null) {
+		method(ptr.value);
+		ptr = ptr.next;
+	}
 };
 
 GraphWidget.typecastProperties = function(properties, type) {//type, key, value) {
@@ -257,19 +281,6 @@ GraphWidget.typecastProperties = function(properties, type) {//type, key, value)
 		}
 	}
 	return output;
-};
-
-GraphWidget.collectGraphProperties = function(properties) {
-	var iterator = new utils.WidgetIterator(this);
-	var results;
-	while (!(results = iterator.next()).done) {
-		var widget = results.value;
-		if (widget.type === "graph") {
-			for (var style in widget.properties) {
-				properties[style] = widget.properties[style];
-			}
-		}
-	}
 };
 
 GraphWidget.findGraphObjects = function() {
