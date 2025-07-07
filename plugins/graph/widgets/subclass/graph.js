@@ -141,10 +141,6 @@ GraphWidget.refresh = function(changedTiddlers) {
 	var changed = false;
 	var objects;
 	for (var attribute in changedAttributes) {
-		if (attribute === "$width" || attribute === "$height") {
-			changed = true;
-			this.executeDimensions();
-		}
 		if (attribute.charAt(0) !== "$") {
 			changed = true;
 		}
