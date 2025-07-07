@@ -30,7 +30,7 @@ Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
 	this.parentPropertiesWidget = utils.getParentProperties(this, this.type);
 	this.filter = this.getAttribute("$filter");
-	this.properties = this.createStyle();
+	this.properties = this.getProperties();
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	this.makeChildWidgets();
 };
@@ -52,7 +52,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 		&& this.rawData !== getTiddlerString(this.wiki, this.dataTiddler, this.field))) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
-		this.properties = this.createStyle();
+		this.properties = this.getProperties();
 		this.propertiesChanged = true;
 	}
 	// If we have a filterFunc, we need to worry about whether this style
@@ -64,7 +64,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 	return this.refreshChildren(changedTiddlers) || this.propertiesChanged;
 };
 
-Properties.prototype.createStyle = function() {
+Properties.prototype.getProperties = function() {
 	this.field = this.getAttribute("$field");
 	this.dataTiddler = this.getAttribute("$tiddler");
 	if (!this.dataTiddler && this.field) {
@@ -104,45 +104,6 @@ Properties.prototype.createStyle = function() {
 function getTiddlerString(wiki, title, field) {
 	var tiddler = wiki.getTiddler(title);
 	return tiddler && tiddler.getFieldString(field || "text");
-};
-
-Properties.prototype.updateGraphWidgets = function(parentCallback) {
-	var self = this;
-	var newObjects = {};
-	var newAffected = Object.create(null);
-	var callback = function(widget) {
-		var type = widget.graphObjectType;
-		var id = widget.id;
-		newObjects[type] = newObjects[type] || Object.create(null);
-		newObjects[type][id] = widget;
-		var object = parentCallback(widget);
-		if (type === self.type) {
-			if (self.filterFunc([id], self).length > 0) {
-				newAffected[id] = true;
-			} else {
-				return object;
-			}
-			for (var style in self.properties) {
-				object[style] = self.properties[style];
-			}
-		}
-		return object;
-	};
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.graphObjectType) {
-				widget.setProperties(callback(widget));
-			}
-			if (widget.updateGraphWidgets) {
-				widget.updateGraphWidgets(callback);
-			} else if (widget.children) {
-				searchChildren(widget.children);
-			}
-		}
-	};
-	searchChildren(this.children, null);
-	return newObjects;
 };
 
 Properties.prototype.catchGraphEvent = function(graphEvent, target, variables) {
