@@ -41,8 +41,10 @@ Render this widget into the DOM
 */
 GraphWidget.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
+	this.parentPropertiesWidget = utils.getParentProperties(this, this.graphObjectType);
 	this.computeAttributes();
 	this.execute();
+	this.computeParents();
 	this.graphElement = this.document.createElement("div");
 	var className = "graph-canvas";
 	if (!this.graphEngine) {
@@ -110,7 +112,6 @@ GraphWidget.execute = function() {
 		this.graphEngine = undefined;
 	} else {
 		this.knownObjects = {};
-		this.knownProperties = {};
 		this.makeChildWidgets();
 		this.graphEngine = new Engine(this.wiki);
 	}
@@ -156,7 +157,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 	}
 	if (changed || this.refreshColors(changedTiddlers)) {
 		var newGraphProperties = this.getViewSettings();
-		if (newGraphProperties) {
+		if (JSON.stringify(newGraphProperties) !== JSON.stringify(this.properties)) {
 			objects = objects || {};
 			this.properties = newGraphProperties;
 			objects.graph = this.typecastProperties(this.properties, "graph");
@@ -241,24 +242,11 @@ GraphWidget.setCustomProperties = function(properties) {
 };
 
 GraphWidget.getViewSettings = function() {
-	var newProperties = Object.create(null);
-	var self = this;
 	if (this.graphEngine) {
-		this.setCustomProperties(newProperties);
-		for (var name in this.attributes) {
-			var value = this.attributes[name];
-			if (name.charAt(0) !== '$' && value) {
-				newProperties[name] = value;
-			}
-		}
+		return this.refreshProperties();
+	} else {
+		return Object.create(null);
 	}
-	if (!this.knownProperties
-	|| JSON.stringify(newProperties) !== JSON.stringify(this.knownProperties)) {
-		this.knownProperties = newProperties;
-		return newProperties;
-	}
-	// Return null if nothing changed
-	return null;
 };
 
 GraphWidget.typecastProperties = function(properties, type) {//type, key, value) {
@@ -344,7 +332,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 					// It changed. updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = this.typecastProperties(is[id].getProperties(), type);
+					objects[type][id] = this.typecastProperties(is[id].properties, type);
 					is[id].changed = false;
 				}
 			}
@@ -358,7 +346,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = this.typecastProperties(is[id].getProperties(), type);
+				objects[type][id] = this.typecastProperties(is[id].properties, type);
 				is[id].changed = false;
 			}
 		}

@@ -19,55 +19,60 @@ ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.parentPropertiesWidget = utils.getParentProperties(this, this.graphObjectType);
 	this.computeAttributes();
 	this.execute();
-	this.refreshApplicableParents();
+	this.computeParents();
 	this.renderChildren(parent, nextSibling);
+	this.properties = this.refreshProperties();
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 };
 
 ObjectWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
+	// Did our parents experience a change?
+	var possibleChanges = this.computeParents();
+	// Did our own properties change?
 	for (var attribute in changedAttributes) {
-		this.refreshSelf();
-		return true;
+		possibleChanges = true;
 	}
 	// No properties have overtly changed, but maybe they changed covertly...
-	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
-		this.refreshSelf();
-		return true;
+	if (!possibleChanges && utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
+		possibleChanges = true;
+		// We short-circuit this because we have a property that said it's for
+		// sure different.
+		this.changed = true;
 	}
-	if (this.refreshApplicableParents()) {
-		this.refreshSelf();
-		return true;
+	if (possibleChanges) {
+		this.execute();
+		this.properties = this.refreshProperties();
+		this.changed = true;
 	}
-	return this.refreshChildren(changedTiddlers);
+	return this.refreshChildren(changedTiddlers) || this.changed;
 };
 
 ObjectWidget.prototype.allowActionPropagation = function() {
 	return false;
 };
 
-ObjectWidget.prototype.getProperties = function() {
-	this.properties = Object.create(null);
-	this.setCustomProperties(this.properties);
+ObjectWidget.prototype.refreshProperties = function() {
+	var newProperties = Object.create(null);
+	this.setCustomProperties(newProperties);
 	for (var key in this.attributes) {
 		if (key.charAt(0) !== "$") {
 			var value = this.attributes[key];
 			if (value) {
-				this.properties[key] = this.attributes[key];
+				newProperties[key] = this.attributes[key];
 			}
 		}
 	}
 	for (var i = 0; i < this.applicableParents.length; i++) {
 		var widget = this.applicableParents[i];
 		for (var property in widget.properties) {
-			if (!Object.hasOwnProperty.call(this.properties, property)) {
-				this.properties[property] = widget.properties[property];
+			if (!Object.hasOwnProperty.call(newProperties, property)) {
+				newProperties[property] = widget.properties[property];
 			}
 		}
 	}
-	this.changed = false;
-	return this.properties;
+	return newProperties;
 };
 
 ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
@@ -79,7 +84,7 @@ ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, 
 	return false;
 };
 
-ObjectWidget.prototype.refreshApplicableParents = function() {
+ObjectWidget.prototype.computeParents = function() {
 	var parent = this.parentPropertiesWidget;
 	var index = 0;
 	var changed = false;

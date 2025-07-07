@@ -30,8 +30,8 @@ it('handles updates to nodes', async function() {
 		{title: "B", tags: "node"},
 		{title: "C", tags: "node"},
 		{title: "D", tags: "node"}]);
-	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />");
 	await $tw.test.flushChanges();
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$list filter='[tag[node]]'><$node label={{!!caption}} />");
 	expect($tw.test.latestEngine.objects.nodes).toEqual({ A: {}, B: {}, C: {}, D: {}});
 	// Now we add and remove a node to the graph
 	wiki.addTiddlers([
