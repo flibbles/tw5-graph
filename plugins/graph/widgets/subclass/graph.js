@@ -292,20 +292,6 @@ GraphWidget.collectGraphProperties = function(properties) {
 	}
 };
 
-GraphWidget.invokeGraphActions = function(graphEvent, variables) {
-	var iterator = new utils.WidgetIterator(this);
-	var results;
-	while (!(results = iterator.next()).done) {
-		var widget = results.value;
-		if (widget.type === "graph") {
-			var actions = widget.properties[graphEvent.type];
-			if (actions) {
-				widget.invokeActionString(actions, widget, graphEvent.event, variables);
-			}
-		}
-	}
-};
-
 GraphWidget.findGraphObjects = function() {
 	var self = this;
 	var newObjects = {};
@@ -382,7 +368,17 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 
 GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 	if (graphEvent.objectType === "graph") {
-		var newObjects = this.invokeGraphActions(graphEvent, variables);
+		var iterator = new utils.WidgetIterator(this);
+		var results;
+		while (!(results = iterator.next()).done) {
+			var widget = results.value;
+			if (widget.type === "graph") {
+				var actions = widget.properties[graphEvent.type];
+				if (actions) {
+					widget.invokeActionString(actions, widget, graphEvent.event, variables);
+				}
+			}
+		}
 		this.catchGraphEvent(graphEvent, this, variables);
 	} else {
 		var category = this.knownObjects[graphEvent.objectType];
