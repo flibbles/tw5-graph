@@ -92,6 +92,16 @@ exports.upkeep = function() {
 	}
 };
 
+exports.getParentProperties = function(widget, type) {
+	while (widget.parentWidget) {
+		widget = widget.parentWidget;
+		if (widget.graphPropertiesWidget && widget.type === type) {
+			return widget;
+		}
+	};
+	return null;
+};
+
 exports.WidgetIterator = function(root) {
 	this.stack = [];
 	this.ptr = root;

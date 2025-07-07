@@ -126,8 +126,7 @@ test.fetchGraphObjects = function(widget) {
 			var type = widget.graphObjectType;
 			if (type && widget.changed) {
 				objects[type] = objects[type] || Object.create(null);
-				widget.setProperties({});
-				objects[type][widget.id] = widget.getGraphObject();
+				objects[type][widget.id] = widget.getProperties();
 			}
 			if (widget.children) {
 				searchChildren(widget.children);

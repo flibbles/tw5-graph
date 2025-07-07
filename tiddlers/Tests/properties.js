@@ -84,8 +84,6 @@ it('can selectively apply styles to non-node objects, like edges', function() {
 	expect(objects.edges).toEqual({AB: {from: "A", to: "B"}, AC: {from: "A", to: "C", color: "blue"}, BC: {from: "B", to: "C", color: "blue"}});
 });
 
-// TODO: $for can be set to empty, which just disables. Not a full refresh.
-
 it('refreshes properly if $for changes when filtering', async function() {
 	wiki.addTiddler({title: "for", text: "edges"});
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
@@ -180,6 +178,7 @@ it("can handle local variables in $filter", async function() {
 
 it('can handle changes to style properties', async function() {
 	wiki.addTiddler({title: "Special", text: "then"});
+	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, `\\whitespace trim
 		<$graph>
 			<$properties $for=nodes layer=1>
@@ -194,7 +193,6 @@ it('can handle changes to style properties', async function() {
 			</$properties>
 		</$graph>`);
 	var objects = init.calls.first().args[1];
-	await $tw.test.flushChanges();
 	expect(objects.nodes).toEqual({
 		A: {layer: "3", special: "then"},
 		B: {layer: "3"},

@@ -22,8 +22,6 @@ NodeWidget.graphObjectType = "nodes";
 NodeWidget.execute = function() {
 	this.id = this.getAttribute("$tiddler", this.getVariable("currentTiddler"));
 	this.pos = this.getAttribute("$pos");
-	// We're new, so we're changed. Announce ourselves when asked.
-	this.changed = true;
 	this.makeChildWidgets();
 };
 

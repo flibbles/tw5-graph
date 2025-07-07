@@ -16,9 +16,13 @@ ObjectWidget.prototype = new Widget();
 
 ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
+	this.parentPropertiesWidget = utils.getParentProperties(this, this.graphObjectType);
 	this.computeAttributes();
 	this.execute();
+	this.refreshApplicableParents();
 	this.renderChildren(parent, nextSibling);
+	// We're new, so we're changed. Announce ourselves when asked.
+	this.changed = true;
 };
 
 ObjectWidget.prototype.refresh = function(changedTiddlers) {
@@ -32,6 +36,10 @@ ObjectWidget.prototype.refresh = function(changedTiddlers) {
 		this.refreshSelf();
 		return true;
 	}
+	if (this.refreshApplicableParents()) {
+		this.refreshSelf();
+		return true;
+	}
 	return this.refreshChildren(changedTiddlers);
 };
 
@@ -39,12 +47,8 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 	return false;
 };
 
-ObjectWidget.prototype.getGraphObject = function(style) {
-	return this.properties;
-};
-
-ObjectWidget.prototype.setProperties = function(parentProperties) {
-	this.properties = $tw.utils.extend(Object.create(null), parentProperties);
+ObjectWidget.prototype.getProperties = function() {
+	this.properties = Object.create(null);
 	this.setCustomProperties(this.properties);
 	for (var key in this.attributes) {
 		if (key.charAt(0) !== "$") {
@@ -54,6 +58,16 @@ ObjectWidget.prototype.setProperties = function(parentProperties) {
 			}
 		}
 	}
+	for (var i = 0; i < this.applicableParents.length; i++) {
+		var widget = this.applicableParents[i];
+		for (var property in widget.properties) {
+			if (!Object.hasOwnProperty.call(this.properties, property)) {
+				this.properties[property] = widget.properties[property];
+			}
+		}
+	}
+	this.changed = false;
+	return this.properties;
 };
 
 ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
@@ -63,6 +77,30 @@ ObjectWidget.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, 
 		return true;
 	}
 	return false;
+};
+
+ObjectWidget.prototype.refreshApplicableParents = function() {
+	var parent = this.parentPropertiesWidget;
+	var index = 0;
+	var changed = false;
+	this.applicableParents = this.applicableParents || [];
+	while (parent !== null) {
+		if (parent.filterFunc([this.id], parent).length > 0) {
+			if (this.applicableParents[index] !== parent) {
+				this.applicableParents[index] = parent;
+				changed = true;
+			} else if (parent.propertiesChanged) {
+				changed = true;
+			}
+			index++;
+		}
+		parent = parent.parentPropertiesWidget;
+	}
+	if (index !== this.applicableParents.length) {
+		this.applicableParents.length = index;
+		changed = true;
+	}
+	return changed;
 };
 
 exports.graphobject = ObjectWidget;

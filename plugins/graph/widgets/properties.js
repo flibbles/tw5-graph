@@ -17,6 +17,8 @@ var Properties = function(parseTreeNode, options) {
 
 Properties.prototype = new Widget();
 
+Properties.prototype.graphPropertiesWidget = true;
+
 Properties.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.computeAttributes();
@@ -26,24 +28,23 @@ Properties.prototype.render = function(parent, nextSibling) {
 
 Properties.prototype.execute = function() {
 	this.type = this.getAttribute("$for", "nodes");
+	this.parentPropertiesWidget = utils.getParentProperties(this, this.type);
 	this.filter = this.getAttribute("$filter");
-	this.styleObject = this.createStyle();
+	this.properties = this.createStyle();
 	this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
-	this.affectedObjects = Object.create(null);
-	this.knownObjects = {};
 	this.makeChildWidgets();
 };
 
 Properties.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	var changed = false;
+	this.propertiesChanged = false;
 	if (changedAttributes["$for"]) {
 		// If the $for changed, we need to refocus to the different object type.
 		this.refreshSelf();
 		return true;
 	}
 	if (propertiesChanged(changedAttributes)
-	|| utils.refreshProperties(this.styleObject, this, this.type, changedTiddlers)
+	|| utils.refreshProperties(this.properties, this, this.type, changedTiddlers)
 	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
 	|| (this.dataTiddler
@@ -51,12 +52,8 @@ Properties.prototype.refresh = function(changedTiddlers) {
 		&& this.rawData !== getTiddlerString(this.wiki, this.dataTiddler, this.field))) {
 		// Our styling attributes have changed, so everything this $style
 		// affects needs to refresh.
-		this.styleObject = this.createStyle();
-		var known = this.knownObjects[this.type];
-		for (var id in this.affectedObjects || known) {
-			known[id].changed = true;
-		}
-		changed = true;
+		this.properties = this.createStyle();
+		this.propertiesChanged = true;
 	}
 	// If we have a filterFunc, we need to worry about whether this style
 	// applies to a different subset of its children objects or not.
@@ -64,21 +61,7 @@ Properties.prototype.refresh = function(changedTiddlers) {
 		this.filter = this.getAttribute("$filter");
 		this.filterFunc = this.filter? this.wiki.compileFilter(this.filter): function(source) { return source; };
 	}
-	if (this.filter || changedAttributes["$filter"]) {
-		var known = this.knownObjects[this.type];
-		for (var id in known) {
-			var widget = known[id];
-			var shouldStyle = this.filterFunc([id], this).length > 0;
-			if (shouldStyle !== !!this.affectedObjects[id]) {
-				// We're changing whether we style it or not. And also that
-				// object will need to resubmit its info to the graph.
-				this.affectedObjects[id] = shouldStyle;
-				widget.changed = true;
-				changed = true;
-			}
-		}
-	}
-	return this.refreshChildren(changedTiddlers) || changed;
+	return this.refreshChildren(changedTiddlers) || this.propertiesChanged;
 };
 
 Properties.prototype.createStyle = function() {
@@ -139,8 +122,8 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 			} else {
 				return object;
 			}
-			for (var style in self.styleObject) {
-				object[style] = self.styleObject[style];
+			for (var style in self.properties) {
+				object[style] = self.properties[style];
 			}
 		}
 		return object;
@@ -159,15 +142,13 @@ Properties.prototype.updateGraphWidgets = function(parentCallback) {
 		}
 	};
 	searchChildren(this.children, null);
-	this.knownObjects = newObjects;
-	this.affectedObjects = newAffected;
 	return newObjects;
 };
 
-Properties.prototype.catchGraphEvent = function(graphEvent, triggeringWidget, variables) {
+Properties.prototype.catchGraphEvent = function(graphEvent, target, variables) {
 	if (graphEvent.objectType === this.type
-	&& this.affectedObjects[graphEvent.id]) {
-		var actions = this.styleObject[graphEvent.type];
+	&& this.filterFunc([target.id], this).length > 0) {
+		var actions = this.properties[graphEvent.type];
 		if (actions) {
 			variables.targetTiddler = graphEvent.id;
 			this.invokeActionString(actions, this, graphEvent.event, variables);

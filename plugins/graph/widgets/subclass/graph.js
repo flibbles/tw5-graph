@@ -244,7 +244,6 @@ GraphWidget.getViewSettings = function() {
 	var newProperties = Object.create(null);
 	var self = this;
 	if (this.graphEngine) {
-		//this.setProperties(newProperties);
 		this.setCustomProperties(newProperties);
 		for (var name in this.attributes) {
 			var value = this.attributes[name];
@@ -286,8 +285,8 @@ GraphWidget.collectGraphProperties = function(properties) {
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
 		if (widget.type === "graph") {
-			for (var style in widget.styleObject) {
-				properties[style] = widget.styleObject[style];
+			for (var style in widget.properties) {
+				properties[style] = widget.properties[style];
 			}
 		}
 	}
@@ -299,7 +298,7 @@ GraphWidget.invokeGraphActions = function(graphEvent, variables) {
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
 		if (widget.type === "graph") {
-			var actions = widget.styleObject[graphEvent.type];
+			var actions = widget.properties[graphEvent.type];
 			if (actions) {
 				widget.invokeActionString(actions, widget, graphEvent.event, variables);
 			}
@@ -310,26 +309,16 @@ GraphWidget.invokeGraphActions = function(graphEvent, variables) {
 GraphWidget.findGraphObjects = function() {
 	var self = this;
 	var newObjects = {};
-	var callback = function(widget) {
+	var iterator = new utils.WidgetIterator(this),
+		results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
 		var type = widget.graphObjectType;
-		newObjects[type] = newObjects[type] || Object.create(null);
-		newObjects[type][widget.id] = widget;
-		return Object.create(null);
-	};
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			if (widget.graphObjectType) {
-				widget.setProperties(callback(widget));
-			}
-			if (widget.updateGraphWidgets) {
-				widget.updateGraphWidgets(callback);
-			} else if (widget.children) {
-				searchChildren(widget.children);
-			}
+		if (type && type !== "graph") {
+			newObjects[type] = newObjects[type] || Object.create(null);
+			newObjects[type][widget.id] = widget;
 		}
-	};
-	searchChildren(this.children, null);
+	}
 	// Special handling for edge trimming
 	withholdObjects(newObjects);
 	var prevObjects = this.knownObjects;
@@ -369,7 +358,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 					// It changed. updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = this.typecastProperties(is[id].getGraphObject(), type);
+					objects[type][id] = this.typecastProperties(is[id].getProperties(), type);
 					is[id].changed = false;
 				}
 			}
@@ -383,7 +372,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = this.typecastProperties(is[id].getGraphObject(), type);
+				objects[type][id] = this.typecastProperties(is[id].getProperties(), type);
 				is[id].changed = false;
 			}
 		}
@@ -404,11 +393,11 @@ GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 			// targeted node, or the nodes of the targeted edge.
 			object.addActionContext(variables);
 			// Make sure it's an objects we actually know about
-			var focus = object;
+			var target = object;
 			while (object && object !== this) {
 				if (object.catchGraphEvent) {
 					// Start at the object. Go up, finding $style to handle this
-					object.catchGraphEvent(graphEvent, focus, variables);
+					object.catchGraphEvent(graphEvent, target, variables);
 				}
 				object = object.parentWidget;
 			}

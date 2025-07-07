@@ -31,8 +31,6 @@ EdgeWidget.execute = function() {
 	}
 	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));
-	// We're new, so we're changed. Announce ourselves when asked.
-	this.changed = true;
 	this.makeChildWidgets();
 };
 
