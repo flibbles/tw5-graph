@@ -67,7 +67,7 @@ GraphWidget.render = function(parent, nextSibling) {
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		this.properties = this.getViewSettings() || {};
+		this.properties = this.refreshProperties() || {};
 		objects.graph = this.typecastProperties(this.properties, "graph");
 		try {
 			this.graphEngine.init(this.graphElement, objects);
@@ -156,7 +156,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		changed = true;
 	}
 	if (changed || this.refreshColors(changedTiddlers)) {
-		var newGraphProperties = this.getViewSettings();
+		var newGraphProperties = this.graphEngine? this.refreshProperties(): Object.create(null);
 		if (JSON.stringify(newGraphProperties) !== JSON.stringify(this.properties)) {
 			objects = objects || {};
 			this.properties = newGraphProperties;
@@ -239,14 +239,6 @@ GraphWidget.setCustomProperties = function(properties) {
 		}
 	}
 	this.collectGraphProperties(properties);
-};
-
-GraphWidget.getViewSettings = function() {
-	if (this.graphEngine) {
-		return this.refreshProperties();
-	} else {
-		return Object.create(null);
-	}
 };
 
 GraphWidget.typecastProperties = function(properties, type) {//type, key, value) {
