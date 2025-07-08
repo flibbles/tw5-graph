@@ -1,8 +1,0 @@
-code-body: yes
-title: $:/editions/tw5-graph/templates/demo
-
-\import [<currentTab>]
-
-!! <$link to=<<currentTab>> ><$view tiddler=<<currentTab>> field=title/></$link>
-
-<$transclude $tiddler=<<currentTab>> />

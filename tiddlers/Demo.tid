@@ -1,9 +1,0 @@
-title: Demo
-
-Graph can be used in a variety of different ways! Click through the tabs to see examples.
-
-<$transclude $variable=tabs
-	tabsList="[[Demo]tagging[]!is[draft]]"
-	default={{{ [[Demo]tagging[]!is[draft]first[]] }}}
-	template="$:/editions/tw5-graph/templates/demo"
-/>
