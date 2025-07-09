@@ -1,6 +1,5 @@
 title: Bottom-Up Tutorial
 tags: Tutorials
+list: [[Bottom-Up: Introduction]]
 
-The Bottom-Up tutorial will explain how to use <<.graph>>'s API, starting from the simplest wikitext, and building up, demonstrating important root concepts of the plugin along the way.
-
-...but I need more time.
+{{||$:/editions/tw5-graph/templates/tutorial}}

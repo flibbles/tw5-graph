@@ -1,0 +1,19 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": false,
+			"fields": {
+				"tags": "[[Bottom-Up Tutorial]]",
+				"title": {
+					"prefix": "Bottom-Up: ",
+					"source": "basename"
+				},
+				"caption": {
+					"source": "basename"
+				}
+			}
+		}
+	]
+}
