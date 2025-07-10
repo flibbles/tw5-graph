@@ -1,0 +1,55 @@
+Now that we know how to make nodes. Let's connect them together with the last remaining graph type: [[Edges|Edges GraphObject]]. It's pretty straightforward.
+
+<$doc.demo description="Rock Scissors Paper" code="""<$graph>
+  <$node $tiddler="Rock" label="Rock"/>
+  <$node $tiddler="Scissors" label="Scissors"/>
+  <$node $tiddler="Paper" label="Paper"/>
+
+  <$edge $from="Rock" $to="Scissors" label="Beats" />
+  <$edge $from="Scissors" $to="Paper" label="Beats" />
+  <$edge $from="Paper" $to="Rock" label="Beats" />
+</$graph>""" />
+
+And that's it!
+
+Just as all nodes need to correspond to a "tiddler", every edge needs to have a <<.attr $from>> and a <<.attr $to>>. These do not have to be unique to each other. An edge can point to the same node it's originating from (it just makes a tight loop). But what is required is that both the <<.attr $from>> and the <<.attr $to>> correspond to nodes present in the graph. If not, the edges is filtered out. For instance:
+
+<$doc.demo description="Best friends" code="""<$graph>
+  <$node $tiddler="Science" label="Studying science"/>
+  <$node $tiddler="Philosophy" label="Studying philosophy"/>
+  <$node $tiddler="STEM Career" label="A promising STEM career"/>
+
+  <$edge label="leads to" $from="Science" $to="STEM Career" />
+  <$edge label="leads to" $from="Philosophy" $to="Philosophy Career" />
+  <$edge label="leads to" $from="Philosophy" $to="Philosophy" />
+</$graph>""" />
+
+<<.value Philosophy>> only leads back to <<.value Philosophy>>. There is no <<.value "Philosophy Career">>, so the edge leading to it gets filtered out.
+
+There's a convenient shortcut to edges just as there is to nodes. Just as nodes will assume <<.var currentTiddler>> as their ID if not specified, edges will assume they're coming from <<.var currentTiddler>> if not specified.
+
+Also, they'll assume they're going to <<.var toTiddler>> (a unique variable) if you don't specify <<.attr $to>>.
+
+To show an example of this, we'll use some tagged content from this demo site:
+
+<$doc.demo description="ToC" code="""<$graph>
+  <$list filter="Documentation Installation Tutorials API +[tagging[]] Documentation">
+    <$node label=<<currentTiddler>> />
+    <$list variable=toTiddler filter="[<currentTiddler>gettyped[tags]]">
+      <$edge />
+    </$list>
+  </$list>
+</$graph>""" />
+
+By the time we're calling `<$edge />`, we've already defined <<.var currentTiddler>> as some tiddler from our documentation, and we've assigned <<.var toTiddler>> to each tag that tiddler has (which we did using the handy [[gettyped Operator]], a very handy filter operator when it comes to defining edges that comes with <<.graph>>).
+
+We don't //have// to use <<.var currentTiddler>> and <<.var toTiddler>>. They're just convenient shorthands so your <<.wid edge>> widgets don't have to fill out as many attributes. We could have easily defined the above example using whatever variables we wanted. We'd just have to clarify those variables to our graph objects.
+
+<$doc.demo description="ToC custom" code="""<$graph>
+  <$list variable="customFrom" filter="Documentation Installation Tutorials API +[tagging[]] Documentation">
+    <$node $tiddler=<<customFrom>> label=<<customFrom>> />
+    <$list variable="customTo" filter="[<customFrom>gettyped[tags]]">
+      <$edge $from=<<customFrom>> $to=<<customTo>> />
+    </$list>
+  </$list>
+</$graph>""" />

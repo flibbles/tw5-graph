@@ -23,7 +23,17 @@ All node widgets correspond to a tiddler. This tiddler does not have to exist.
 
 ! Omission
 
-If <<attr $to>> is not set, or either node that the edge connects to is missing from the graph, then the edge will be ignored.
+!!! $to
+
+If <<.attr $to>> is not set, or either node that the edge connects to is missing from the graph, then the edge will be ignored.
+
+!!! $id
+
+You don't have to specify an <<.attr $id>>. <<.graph>> will take care of autogenerating one, which is simpler for you, because making sure an edge has a unique id when edges can share the same <<.attr $from>> and <<.attr $to>> can be a headache.
+
+The only case when you'd want to assign an ID to an edge is so that your graph preserves edges whenever it refreshes, instead of constantly replacing them, because recreating them is slightly inefficient, and it can cause a graph to "tremble" as its edges reset with every refresh.
+
+Not a big deal, right? Don't worry about setting an <<.attr $id>> unless you're making a macro widget which you want to be production-grade robust and efficient, and all the [[macro widgets|Widgets]] that come with <<.graph>> already take care of this themselves.
 
 ! Edge Properties
 

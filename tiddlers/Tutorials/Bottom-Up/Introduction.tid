@@ -1,49 +1,5 @@
-\procedure actions()
-<$action-deletetiddler $tiddler="$:/graph/Default"/>
-<$action-setfield $tiddler="$:/state/tab/sidebar--595412856" text="$:/plugins/flibbles/graph/ui/SideBar"/>
-<$action-setfield $tiddler="$:/config/flibbles/graph/sidebar" text="$:/graph/Default" />
-\end
-
 While many people are happy using <<.graph>>'s [[GUI]] to create common graphs, using all of its built-in templates and widgets, but maybe you'd like to create your //own// templates and widgets, because you have a specific kind of graph in mind, with specific style and behavior.
 
-For that, you can use the [[API]] to define a graph with wikitext. And it's really easy actually. It takes only a single call to a simple widget.
+For that, you can use the [[API]]. <<.graph>> defines a whole set of widgets which can act as building blocks to make exactly the kind of graph you have in mind, from exact style, to custom behavior.
 
-<$doc.demo description="Simple" code="<$graph />" />
-
-There we go. One blank graph.
-
-Would you like to put something //in// that graph? For that, we need to put other graph objects inside our graph. And maybe we'd like to label them too.
-
-<$doc.demo description="Hello World" code="""<$graph>
-  <$node label="Hello World" />
-</$graph>""" />
-
-Now we have a graph that shows a single [[graph object|Graph Objects]]: a node.
-
-Let's make a graph with a few nodes.
-
-<$doc.demo description="Overwrite" code="""<$graph>
-  <$node label="Math" />
-  <$node label="History" />
-  <$node label="Science" />
-</$graph>""" />
-
-Whoops! We still only have one node: <<.value Science>>. What happened to the other two?
-
-It turns out, we overwrote them, because there is one requirement that nodes must follow: ''All nodes in a graph must have a unique IDs'' We do this using the <<.attr $tiddler>> attribute, and in this case, we never assigned these nodes IDs (a label is not an ID. It's a [[property|Graph Properties]], and it doesn't have to be unique.) Let's try this again.
-
-<$doc.demo description="Individual" code="""<$graph>
-  <$node $tiddler="Math" label="Math" />
-  <$node $tiddler="History" label="History" />
-  <$node $tiddler="Science" label="Science" />
-</$graph>""" />
-
-There we go! As long as every node has a unique id, all of them will appear.
-
-You know what //else// in TiddlyWiki all have unique identifiers? Tiddlers, and their titles. So if you adopt a system where nodes correspond to tiddlers, and use a tiddler's title as an <<.attr $tiddler>>, they'll always be guaranteed to have unique ids. This is such an intuitive idea, that <<.graph>> will //assume// that you'd doing this, and it will assign the value of <<.value currentTiddler>> to any newly defined nodes if it doesn't specify an <<.attr $tiddler>>. This is convenient when used with the <<.wid list>> widget.
-
-<$doc.demo description="Lists" code="""<$graph>
-  <$list filter="Math History Science Geography P.E.">
-    <$node label=`Subject: $(currentTiddler)$`/>
-  </$list>
-</$graph>""" />
+This tutorial will cover the core concepts important to know when using the widgets. We'll start with a simple Hello World and build up from there with larger and larger building blocks.

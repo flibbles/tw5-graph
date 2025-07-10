@@ -1,0 +1,51 @@
+Let's make a graph. It takes only a single call to a simple widget.
+
+<$doc.demo description="Simple" code="<$graph />" />
+
+There we go. One blank graph.
+
+Would you like to put something //in// that graph? For that, we need to put other graph objects inside our graph. And maybe we'd like to label them too.
+
+<$doc.demo description="Hello World" code="""<$graph>
+  <$node label="Hello World" />
+</$graph>""" />
+
+Now we have a graph that shows a single [[graph object|Graph Objects]]: a node.
+
+Let's make a graph with a few nodes.
+
+<$doc.demo description="Overwrite" code="""<$graph>
+  <$node label="Math" />
+  <$node label="History" />
+  <$node label="Science" />
+</$graph>""" />
+
+Whoops! We still only have one node: <<.value Science>>. What happened to the other two?
+
+It turns out, we overwrote them, because there is one requirement that nodes must follow: ''All nodes in a graph must have a unique IDs.''
+
+You know what else in TiddlyWiki requires unique identifiers?
+
+Tiddlers, and their titles. So if we correlate our nodes with tiddlers in our wiki, we'll always be sure to have a unique id for our nodes. That's why the attribute we use to specify a node's ID is actually called the <<.attr $tiddler>> attributes. Let's try it.
+
+<$doc.demo description="Individual" code="""<$graph>
+  <$node $tiddler="Math" label="Math" />
+  <$node $tiddler="History" label="History" />
+  <$node $tiddler="Science" label="Science" />
+</$graph>""" />
+
+There we go! As long as every node has a unique id, all of them will appear.
+
+Correlating nodes with tiddlers is such an intuitive idea, that <<.graph>> will //assume// that you'll doing this, and it will assign the value of <<.value currentTiddler>> to any newly defined nodes if it doesn't specify an ID through <<.attr $tiddler>>. This is convenient when used with the <<.wid list>> widget.
+
+<$doc.demo description="Lists" code="""<$graph>
+  <$list filter="Math History Science Geography P.E.">
+    <$node label=`Subject: $(currentTiddler)$`/>
+  </$list>
+</$graph>""" />
+
+All tiddlers can correlate to tiddlers, but they don't have to. The tiddlers---<<.value Math>>, <<.value History>>, <<.value Science>>, etc...---don't actually exist. They're non-existent tiddlers, or just... you know... //string values//. All that matters is that they're unique.
+
+By now, we can see that the reason our "Math, History, and Science" example above broke is because all three of those nodes shared the same ID, which was <$transclude $variable=.value _=<<currentTiddler>> />, which happens to be the current tiddler right now. When multiple nodes with the same ID show up, the latest one (<<.value Science>>) always overwrites any earlier ones (<<.value Math>> and <<.value History>>).
+
+''Note:'' The <<.attr label>> attribute does not count as an ID. That's because it's a [[graph property|Graph Properties]]. It specifies how a node is labeled, and it does not have to be unique.
