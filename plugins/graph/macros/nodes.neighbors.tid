@@ -1,21 +1,22 @@
 \widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges:no)
 
-\function filter.cached() [{!!title}] :cache[{!!title}subfilter<$filter>]
+<!-- None of these \procedures are \functions because that can muck with caching. -->
+\procedure filter.cached() [{!!title}] :cache[{!!title}subfilter<$filter>]
 \procedure configs.all() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
-\function configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
-\function configs.formulas() :cache[subfilter<configs.all>removeprefix[formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]
+\procedure configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
+\procedure configs.formulas() :cache[subfilter<configs.all>removeprefix[formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]
 
-\function edges.fields(node) [configs.fields[]] :map:flat[<node>gettyped{!!title}]
-\function edges.formulas(node) [configs.formulas[]] :map:flat[<node>subfilter{!!filter}]
+\procedure edges.fields() [subfilter<configs.fields>] :map:flat[<..currentTiddler>gettyped{!!title}]
+\procedure edges.formulas() [subfilter<configs.formulas>] :map:flat[<..currentTiddler>subfilter{!!filter}]
 
-\function neighbors.for(node) [edges.fields<node>] [edges.formulas<node>] +[!is[blank]unique[]]
-\procedure neighbors.cached() [all[]] :cache[neighbors.for{!!title}]
+\procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.formulas>] +[!is[blank]unique[]]
+\procedure neighbors.cached() [all[]] :cache[subfilter<neighbors.for>]
 
 \procedure incoming.raw() [all[tiddlers]!search:title:regexp<regexp>] :filter[subfilter<neighbors.cached>search:title:regexp<regexp>]
 \procedure incoming.cached() :cache[subfilter<incoming.raw>]
 \whitespace trim
 
-<$vars regexp={{{ [filter.cached[]escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
+<$vars regexp={{{ [subfilter<filter.cached>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
 
 <!-- incoming neighbors -->
 
@@ -40,7 +41,7 @@
 
 <!-- outgoing neighbors -->
 
-<$list filter="[filter.cached[]subfilter<neighbors.cached>!search:title:regexp<regexp>] -[subfilter<incoming.cached>]">
+<$list filter="[subfilter<filter.cached>subfilter<neighbors.cached>!search:title:regexp<regexp>] -[subfilter<incoming.cached>]">
 
 <$slot $name=ts-raw>
 

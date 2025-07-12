@@ -66,7 +66,7 @@ it("ignores deleted stack types in custom sorting", function() {
 	wiki.addTiddler(nodeConfig("present"));
 	wiki.addTiddler({title: "$:/config/flibbles/graph/nodes/stack",
 		list: [stackPrefix + "missing", stackPrefix + "present"]});
-	var text = "<$properties.configured>\n\n<$text text={{{ [function[node.stack]join[ ]] }}} />\n";
+	var text = "<$properties.configured>\n\n<$text text={{{ [subfilter<node.stack>join[ ]] }}} />\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe(stackPrefix + "present " + stackPrefix + "also");
 });
