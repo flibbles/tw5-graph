@@ -27,26 +27,8 @@ If you want to use the actual <<.value currentTiddler>> in a cache run, just pas
 
 !! Advice on using :cache
 
-The cache prefix takes a little know-how to use //effectively//. It's important to realize that while it //can// execute filter runs that require variables, ''the more changing variables the internal run calls, the less effective the cache becomes''. This is because it must cache each output uniquely based on the values of all used variables.
+The cache prefix takes a little know-how to use //effectively//. If you make mistakes, it's possible for the cache to seem to function normally, but not to provide any actual benefit. For this reason, if you plan to use this advanced prefix, you should familiarize yourself with all the tips and tricks regarding it:
 
-For instance, let's take an example used within <<.graph>>. It needs to access all edge types of a certain category (such as <<.value fields>> or <<.value formulas>>). Here's a naive use of the cache:
-
-<$doc.demo description="Naive solution" code="""<$list variable="category" filter="fields formulas">
-
-!! <<category>>
-<$list filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]removeprefix<category>removeprefix[/]]"/>
-""" />
-
-This seems to list all of the edge types by category efficiently, but in reality, the cache cannot reuse its results, all all shadows+tiddlers in your wiki get iterated over //twice//. That's because in both loops, <<.value category>> is different, so the cache must generate results for each combination of changing variables (in this case, only <<.value category>>). Here is a better approach:
-
-<$doc.demo description="Better solution" code="""<$list variable="category" filter="fields formulas">
-
-!! <<category>>
-<$list filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]]"/>
-""" />
-
-The results are the same, but here, we've moved the use of <<.value category>> to outside the cached filter run, so now the cache has the same variable context for both executions (in this case, no variables), and thus can reuse its results. All shadows+tiddlers get iterated over only once, and now only the much-smaller set of edge configuration tiddlers get iterated twice.
-
-Always be aware of what variables are inside your cache runs, and which ones will be changing from invocation to invocation.
+<<list-links "[tag[Cache Tip]]" >>
 
 [[Cache Filter Run Prefix (Examples)]]

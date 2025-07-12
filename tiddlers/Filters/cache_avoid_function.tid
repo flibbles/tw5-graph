@@ -1,0 +1,43 @@
+title: Cache Tip: Avoid \function
+caption: Avoid \function
+tags: [[Cache Tip]]
+
+`\function` is a great tool in TiddlyWiki, but it's problematic when used with the :cache. Let's look at this example:
+
+<$doc.demo description="Procedure" code="""\procedure title.fields() [all[shadows+tiddlers]search:text[title]removeprefix[$:/config/flibbles/relink/fields/]]
+\procedure has-title-field() :cache[subfilter<title.fields>] :intersection[{!!title}fields[]]
+
+<$list filter="[all[shadows+tiddlers]] :filter[subfilter<has-title-field>]" />
+""" />
+
+This just lists out any tiddlers in your wiki which possess a field configured as a title field. Not very helpful, and it could be written better, but it works quickly because the list of relink-configured title fields is cached.
+
+However, let's look at this nearly identical example, except that we're using a function for <<.value title.fields>> in place of a procedure.
+
+<$doc.demo description="Function" code="""\function title.fields() [all[shadows+tiddlers]search:text[title]removeprefix[$:/config/flibbles/relink/fields/]]
+\procedure has-title-field() :cache[function[title.fields]] :intersection[{!!title}fields[]]
+
+<$list filter="[all[shadows+tiddlers]] :filter[subfilter<has-title-field>]" />
+""" />
+
+If you expand this example, it probably slowed your computer up for a few seconds, because the caching isn't working. Here's why:
+
+Caching can store and return the same results of a run, but only when all the variables that the run used are the same. If the variable context for any execution of a run is different, then the output of the run could conceivably be different, so the :cache must store different outputs for different variable contexts.
+
+But to know what context a current run is in, :cache must request those variables and see if they're the same before deciding if it's got cached results. Make sense?
+
+Take that first example. When we executed it, the run within `:cache[subfilter<title.fields>]` called these variables:
+
+|!Variable |!Value |
+|title.fields |<<.value "[all[shadows+tiddlers]search:text[title]removeprefix[$:/config/flibbles/relink/fields/]]">> |
+
+When <<.value has-title-field>> got called over and over again as part of the `:filter` run prefix, the cache was able to return the same results after confirm that <<.var title.fields>> was the same.
+
+Now consider the second example. Here's the difference between `\procedure` and `\function`: Procedures return their raw text value when invoked, whereas functions will execute as filters and return their results. So when we executed our second example, the run within `:cache[function[title.fields]]` called these variables:
+
+|!Variable |!Value |
+|title.fields |<$transclude $variable=".value" _={{{ [all[shadows+tiddlers]search:text[title]removeprefix[$:/config/flibbles/relink/fields/]join[ ]] }}} /> |
+
+The value of <<.value title.fields>> was the //result// of that filter. When the cache inside <<.value has-title-fields>> gets called over and over again, it needs to check the value of <<.value title.fields>>, ''which means executing the filter over and over again'', thus completely defeating the purpose of caching it in the first place.
+
+Even functions that are deeply nested inside multiple calls of procedures can still cause this problem, so when using caches, don't call any variables inside your cached runs which are defined using `\function`.
