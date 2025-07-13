@@ -20,11 +20,13 @@ However, let's look at this nearly identical example, except that we're using a 
 <$list filter="[all[shadows+tiddlers]] :filter[subfilter<has-title-field>]" />
 """ />
 
-If you expand this example, it probably slowed your computer up for a few seconds, because the caching isn't working. Here's why:
+If you expand this example, it probably slowed your computer up for a few seconds, because the caching isn't working.
+
+!! Here's why
 
 Caching can store and return the same results of a run, but only when all the variables that the run used are the same. If the variable context for any execution of a run is different, then the output of the run could conceivably be different, so the :cache must store different outputs for different variable contexts.
 
-But to know what context a current run is in, :cache must request those variables and see if they're the same before deciding if it's got cached results. Make sense?
+But to know what context a current run is in, :cache must request those variables and see if they match against any previous runs that it has stored. Make sense?
 
 Take that first example. When we executed it, the run within `:cache[subfilter<title.fields>]` called these variables:
 
