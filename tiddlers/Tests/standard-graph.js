@@ -51,6 +51,16 @@ it("can add and remove nodes", async function() {
 	expect(wiki.getTiddler(title).fields.filter).toBeUndefined();
 });
 
+it("filters draft nodes out", function() {
+	wiki.addTiddlers([
+		view({filter: "[!is[system]]"}),
+		{title: "Node"},
+		{title: "Draft of 'Node'", "draft.of": "Node", "draft.title": "Node"}]);
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var nodes = init.calls.first().args[1].nodes;
+	expect(Object.keys(nodes)).toEqual(["Node"]);
+});
+
 it("wikifies captions but not titles", async function() {
 	var titleA = "//title---A//";
 	wiki.addTiddlers([

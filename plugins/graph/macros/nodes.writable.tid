@@ -25,7 +25,7 @@
 
 <$properties delete="<$action-removetyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<nodeTiddler>> />">
 
-<$list variable=<<$variable>> filter="[<$tiddler>gettyped<$field>]">
+<$list variable=<<$variable>> filter="[<$tiddler>gettyped<$field>!is[draft]]">
 
 <$slot $name=ts-raw>
 

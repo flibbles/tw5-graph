@@ -60,6 +60,16 @@ it("handles different variable names", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=Current-A=Current-B</p>");
 });
 
+it("filters out draft tiddlers", function() {
+	wiki.addTiddlers([
+		{title: "Target", filter: "[tag[Nodes]]"},
+		{title: "Node", tags: "Nodes"},
+		{title: "Draft of 'Node'", tags: "Nodes", "draft.of": "Node", "draft.title": "Node"}]);
+	var text = "<$nodes.writable $tiddler=Target $field=filter>={{!!title}}";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>=Node</p>");
+});
+
 it("combining wth properties.persistent records location", async function() {
 	var text = "<$graph><$properties.persistent $dataTiddler=Target><$nodes.writable $tiddler=Target $field=list/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
