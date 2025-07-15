@@ -1,5 +1,6 @@
 title: $:/editions/tw5-graph/templates/tutorial
 
+\procedure label(variable)<$text text={{{ [<variable>getvariable[]get[caption]split[.]butfirst[]join[.]] }}} />
 \procedure navigation()
 \whitespace trim
 <div class=doc-navigation>
@@ -8,20 +9,20 @@ title: $:/editions/tw5-graph/templates/tutorial
 
 <span class=doc-prev>
 
-<%if [list[]before<currentTab>] %>
+<%if [all[current]tagging[]before<currentTab>] %>
 <$link to=<<condition>>>
 <$text text="Prev: "/>
-<$view tiddler=<<condition>> field=caption />
+<<label condition>>
 </$link>
 <%endif%>
 </span>
 
 <span class=doc-next>
 
-<%if [list[]after<currentTab>] %>
+<%if [all[current]tagging[]after<currentTab>] %>
 <$link to=<<condition>>>
 <$text text="Next: "/>
-<$view tiddler=<<condition>> field=caption />
+<<label condition>>
 \end navigation
 
 \whitespace trim
@@ -33,7 +34,7 @@ title: $:/editions/tw5-graph/templates/tutorial
 
 <$fill $name=body>
 
-! <$view tiddler=<<currentTab>> field=title/>
+! <<label currentTab>>
 
 <<navigation>>
 
@@ -41,4 +42,5 @@ title: $:/editions/tw5-graph/templates/tutorial
 
 <<navigation>>
 </$fill>
-</$transclude>
+
+<$fill $name=button><<label currentTab>></$fill></$transclude>

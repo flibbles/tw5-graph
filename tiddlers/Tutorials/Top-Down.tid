@@ -1,6 +1,5 @@
 title: Top-Down Tutorial
 tags: Tutorials
-list: [[Top-Down: Introduction]] [[Top-Down: Click on Me]] [[Top-Down: Adding Nodes]] [[Top-Down: Configuring Edge Types]] [[Top-Down: Fiddling with your Graph]] [[Top-Down: Styling your Graph]] [[Top-Down: The Properties Tab]] [[Top-Down: The Node Stack]] [[Top-Down: Beyond the Sidebar]] [[Top-Down: What's Next]]
-list-before: Bottom-Up Tutorial
+list-before: 
 
 {{||$:/editions/tw5-graph/templates/tutorial}}
