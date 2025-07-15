@@ -1,0 +1,47 @@
+By now you can make all the nodes and edges you want, but it'd be nice to specify //details// about those nodes and edges, such as what they look like, where they go, and how they behave.
+
+For this, we can assign [[Graph Properties]]. If you've already gone through the [[Top-Down Tutorial]], then you're already familiar with what they are, but really quickly: graph properties differ depending on which [[graph engine|Engines]] you're using. Each type of [[graph object|Graph Objects]] has their own types of properties.
+
+Through the [[GUI]] we assign properties to object types through [[Property Sets]], but in the API, we can assign an object graph properties simply through attributes, like so:
+
+<$doc.demo description="Properties" code="""<$graph
+    hierarchy="yes"
+    physics="no">
+  <$node $tiddler="Science"
+      color="red"
+      size="30"
+      borderColor="blue"
+      shape="star"
+      label="Science!!" />
+  <$list filter="Biology Physics Chemistry">
+    <$node 
+        color="green"
+        label={{!!title}} />
+    <$edge $from="Science" $to=<<currentTiddler>>
+        label="Subschool of"
+        arrow="to"
+        smooth="no" />
+  </$list>
+</$graph>""" />
+
+Pretty simple, right? Any graph object attribute that does not start with a "$" is treated as a property and gets sent to the graph engine for processing. Like any TiddlyWiki attribute, you can use macros, filters, and references instead of just strings, creating amazing versatility.
+
+! What properties are available
+
+The GUI neatly present a table of all available properties when you're configuring [[Views|View]]. It isn't as convenient with the API, but APIs never are.
+
+[[Check out this page listing the properties per object per engine.|Engines]] This is a complete list. If you don't want to bother visiting this documentation while working on your wikitext, you could also open up the <$link to="$:/plugins/flibbles/graph/settings"><<.graph>> settings page</$link> in your wiki and look at the tables. Any property listed there is available for your currently installed engine. It will also give you an idea what property values are allowed.
+
+! What property values are allowed
+
+Different properties can be different types. The property tables in view settings handle this by having different kinds of input fields (textfields, dropdowns, etc...). When assigning values to attributes, you don't get that. You just need to know the acceptable values, but it's usually pretty intuitive.
+
+|!Type |!Example properties |!Example values |
+|String |<<.attr label>> |Any string value is allowed |
+|Enum |<<.attr shape>> |Options vary depending on property and engine. See the dropdown in view settings to get the list. |
+|Boolean |<<.attr physics>>, <<.attr smooth>> |<<.value yes>> or <<.value no>> |
+|Image |<<.attr image>>, <<.attr background>> |The title of an image tiddler, or a URL to an image. |
+|Number |<<.attr size>>, <<.attr x>>, <<.attr y>> |Any number. Range inputs will define a range that number should reasonably be within, but you can put whatever you want at your discretion. |
+|Actions |<<.attr doubleclick>>, <<.attr hover>> |Wikitext of action widgets to execute when the given event occurs |
+
+There will probably be more information on each property and its type in this documentation soon. But for now, a little experimentation is really all you need to figure out how to use any given property.
