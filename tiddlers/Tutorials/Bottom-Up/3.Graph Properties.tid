@@ -40,6 +40,7 @@ Different properties can be different types. The property tables in view setting
 |String |<<.attr label>> |Any string value is allowed |
 |Enum |<<.attr shape>> |Options vary depending on property and engine. See the dropdown in view settings to get the list. |
 |Boolean |<<.attr physics>>, <<.attr smooth>> |<<.value yes>> or <<.value no>> |
+|Color |<<.attr color>>, <<.attr borderColor>> |Any acceptable CSS color specification, like <<.value DarkSalmon>>, or <<.value #E9967A>>, or <<.value "rgb(233, 150, 122)">> |
 |Image |<<.attr image>>, <<.attr background>> |The title of an image tiddler, or a URL to an image. |
 |Number |<<.attr size>>, <<.attr x>>, <<.attr y>> |Any number. Range inputs will define a range that number should reasonably be within, but you can put whatever you want at your discretion. |
 |Actions |<<.attr doubleclick>>, <<.attr hover>> |Wikitext of action widgets to execute when the given event occurs |

@@ -1,0 +1,56 @@
+You've seen now how to manually set properties on individual graph objects, which works, but if you need to set properties on many objects, or sets of objects, there is a better way. Which leads us to the last fundamental widget in <<.graph>>, the <<.wlink PropertiesWidget>> widget.
+
+With this, you can set properties on all objects of a certain type contained within it. For instance:
+
+<$doc.demo description="Simple" code="""<$graph>
+  <$properties $for="nodes" shape="circle" color="LightGreen" borderColor="DarkGreen">
+    <$node $tiddler="Volleyball" label="Volleyball" />
+    <$node $tiddler="Football" label="Football" shape="ellipse"/>
+    <$node $tiddler="Basketball" label="Basketball" color="orange" />
+  </$properties>
+</$graph>""" />
+
+This <<.wid properties>> widget sets some properties that all three of those nodes inherit, and thus do not have to input for themselves. However, objects can //override// properties they inherit, as seen above.
+
+In that example, the <<.wid properties>> widget had the attribute <<.attr $for>> set to <<.value nodes>>, so it set properties for only nodes contained within. If we'd set it to <<.value edges>>. Setting it to <<.value graph>> makes <<.wid properties>> behave a little different, in that it sets properties on the graph //that it is contained within//, not any graph widgets it contains.
+
+If you don't specify <<.attr $for>>, <<.wid properties>> will apply to nodes by default.
+
+!! Nesting
+
+You can put <<.wid properties>> within <<.wid properties>>:
+
+<$doc.demo description="Nested" code="""<$graph>
+  <$properties shape="box">
+    <$properties color="darkred">
+      <$node $tiddler="Poetry" label="Poetry" />
+      <$node $tiddler="Writing" label="Creative Writing" />
+    </$properties>
+    <$properties color="darkblue">
+      <$node $tiddler="Numbers" label="Number theory" />
+      <$node $tiddler="Graph" label="Graph theory" />
+    </$properties>
+  </$properties>
+</$graph>""" />
+
+Inner <<.wid properties>> take higher priority than outer <<.wid properties>>, with properties set on graph objects taking the highest priority.
+
+!! Conditionally applying properties
+
+The real strength of <<.wid properties>> is its ability to apply to only subsets of its contained graph objects using its <<.attr $filter>> attribute. For each contained graph object, that object is passed through the given filter, and if anything is returned, the its properties will apply to that object. If nothing is returned, they won't. Let's see if we can use that ability to simplify the above example.
+
+<$doc.demo description="Conditional Nested" code="""<$graph>
+  <$properties shape="box">
+  <$properties $filter="[prefix[HSS:]]" color="darkred">
+  <$properties $filter="[prefix[Math:]]" color="darkblue">
+    <$list filter="HSS:Poetry [[HSS:Creative Writing]] [[Math:Number theory]] [[Math:Graph theory]]">
+      <$node label={{!!title}} />
+    </$list>
+  </$properties>
+  </$properties>
+  </$properties>
+</$graph>""" />
+
+Maybe not simpler, but it's more powerful. If you've run through the [[Top-Down Tutorial]] and learned about the [[node stack|Stack NodeType]], then you've probably realized that this conditional property application is the basis behind how that works.
+
+There's more that <<.wlink PropertiesWidget>> can do, such as importing properties from [[DataTiddlers]] or fields. [[Check out its documentation for more details|PropertiesWidget]].
