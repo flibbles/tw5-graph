@@ -5,7 +5,7 @@ title: $:/editions/tw5-graph/templates/tutorial
 \whitespace trim
 <div class=doc-navigation>
 
-<$linkcatcher actions="<$action-setfield $tiddler=<<tabsState>> text=<<navigateTo>> />" >
+<$linkcatcher actions="<$action-setfield $tiddler=<<tabsState>> text=<<navigateTo>> /><$action-navigate $to=<<currentTiddler>> />" >
 
 <span class=doc-prev>
 
@@ -34,7 +34,7 @@ title: $:/editions/tw5-graph/templates/tutorial
 
 <$fill $name=body>
 
-! <<label currentTab>>
+! <$link to=<<currentTab>> ><<label currentTab>></$link>
 
 <<navigation>>
 

@@ -1,0 +1,50 @@
+It probably hasn't escape your attention that whenever we've been creating graphs, the nodes get placed //wherever//, which certainly isn't what you want. So before continuing on, let's talk about two important [[Graph Properties]]. Namely, <<.attr x>> and <<.attr y>>---the "positioning" properties.
+
+Using them is pretty simple:
+
+<$doc.demo description="Simple" code="""<$graph physics="no">
+  <$node x="50" y="50" $tiddler="SE" label="South East" />
+  <$node x="50" y="-50" $tiddler="NE" label="North East" />
+  <$node x="-50" y="50" $tiddler="SW" label="South West"/>
+  <$node x="-50" y="-50" $tiddler="NW" label="North West" />
+</$graph>""" />
+
+Or sophisticated:
+
+<$doc.demo description="Sophisticated" code="""<$graph physics="no">
+  <$list variable="x" filter="[range[-500],[500],[10]]">
+    <$node $tiddler=<<x>>
+      x=<<x>>
+      y={{{ [<x>divide[40]sin[]multiply[40]]}}} />
+  </$list>
+</$graph>""" />
+
+
+The X axis goes left to right, as expected, but the Y axis goes down, which might trip you up. It comes from how web-pages start in the top left and go downward.
+
+! Physics
+
+You'll notice that in both of those examples, we turned <<.attr physics>> to <<.value no>>. If you're going to input your own positions, you'll want to turn physics off. Otherwise, your nodes will immediately drift out of place once the map loads. Or they may not even start in the right location at all, in [[Vis-Network]]'s case.
+
+If you're using ''Vis-Network''. You'll probably also want to change all of your edges to use some <<.attr smooth>> setting other than the default <<.value dynamic>>, because dynamic uses hidden nodes which won't update properly if you move your nodes around. Try using <<.value no>> for straight edges, or <<.value continuous>> for a simple curve (but there are many other smooth options in Vis-Network).
+
+! $pos
+
+<<.attr x>> and <<.attr y>> are technically graph properties, which means they're defined by the engine, and <<.graph>> doesn't actually know about them.
+
+But that's not entirely true. Position coordinates are such a common feature that <<.graph>> assumes nodes will support them, and actually provides a special attribute for more conveniently inputting coordinates: <<.attr $pos>>
+
+It's a comma-delineated list of numbers that represent <<.attr x>> and <<.attr y>> (and potentially <<.attr z>> if your graph engine supports it).
+
+Behold:
+
+<$doc.demo description="Simple" code="""<$graph physics="no">
+  <$node $pos="50,50" $tiddler="SE" label="South East" />
+  <$node $pos="50,-50" $tiddler="NE" label="North East" />
+  <$node $pos="-50,50" $tiddler="SW" label="South West"/>
+  <$node $pos="-50,-50" $tiddler="NW" label="North West" y="-75"/>
+</$graph>""" />
+
+Storing and inputting numbers as a comma-separated list is useful throughout TiddlyWiki. By being a single string value, node positions can be stored in [[DataTiddlers]], and easily retrieved using the multitude of actions and filter operators that support DataTiddlers.
+
+<<.attr $pos>> is just an alternative though. You can still use <<.attr x>> and <<.attr y>>. If you use both <<.attr $pos>> and either <<.attr x>> or <<.attr y>>, the <<.attr x>> <<.attr y>> take precedent over <<.attr $pos>> as you can see in that last example with <<.value "North West">>.
