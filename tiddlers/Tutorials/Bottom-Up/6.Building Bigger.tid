@@ -1,0 +1,31 @@
+You now know the four fundamental <<.graph>> widgets: <<.wlink GraphWidget>>, <<.wlink NodesWidget>>, <<.wlink EdgeWidget>>, and <<.wlink PropertiesWidget>>. With these widgets as building blocks, you can theoretically create whatever graph you want, but to do anything sophisticated, you'd have to write a ton of code.
+
+That's why <<.graph>> comes with pre-made macro widgets constructed from those fundamental widgets which act as larger building blocks for common behavior.
+
+These macro widgets always contain a period (`.`) in their name, as all macro widgets in TiddlyWiki must, and they follow the given naming conventions:
+
+|!Name |!Purpose |!Contents |
+|<<.value $graph.*>> |These act as more elaborate graph widgets. They should not be contained within other graphs. |Any graph object contained get rendered once as part of that graph. |
+|<<.value $nodes.*>> |Creates nodes |If content block is given, it's usually executed in place every created node. |
+|<<.value $edges.*>> |Creates edges |If content block is given, it's usually executed in place of every created edge. |
+|<<.value $properties.*>> |Sets properties on graph or contained graph objects. |All contents is executed once, with properties applied to certain objects. |
+|<<.value $action.*>>|Runs an action |Depends on widget |
+
+These are more guidelines than rules. Specific macro widgets may have exceptions.
+
+!! What's available
+
+You can see [[Widgets]] for a complete list. The documentation for each listed under ''Macro Widgets'' includes full descriptions and examples, but we'll briefly cover some widgets here.
+
+; <<.wlink Nodes.WritableWidget>>
+: This creates a slew of nodes based on the <<.attr $field>> of the <<.attr $tiddler>> you pass it. This also introduces properties to those nodes, and to the graph, that allow you to add and remove nodes to the graph by modifying the field you passed to this widget (assuming your installed [[engine|Engines]] supports that.)
+; <<.wlink Properties.ConfiguredWidget>>
+: All contained nodes and edges, and the graph containing this widget, will not onlyu gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined in the passed <<.attr $view>>, if a view is passed. Useful for creating graphs which take advantage of whatever settings the user has configured.
+; <<.wlink Edges.TypedWidget>>
+: If you went through the [[Top-Down Tutorial]], you explored configuring [[Formulas EdgeTypes]] and [[Fields EdgeTypes]]. This lets you create edges the same way through its <<.attr $formulas>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
+
+This is just scraping the surface of what's available. Again, check out the [[Widgets]] to explore them all.
+
+Another way to learn is to look at the implementation of top-level widgets and templates, copying their implementation, and creating your own widgets and templates with your own modifications.
+
+Speaking of, let's learn how to do that.

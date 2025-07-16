@@ -9,6 +9,6 @@ For that reason, there are two tutorials that approach <<.graph>> in two directi
 
 This walkthrough focuses on showing you how to use the [[Sidebar]] to make interactive graphs that show connection between your tiddlers, such as links, tags, list fields, or more.
 
-!!! Bottom-Up Tutorial: Wikitext and Widgets
+!!! [[Bottom-Up Tutorial: Wikitext and Widgets|Bottom-Up Tutorial]]
 
 Starting with a "Hello World", this introduces you to the toolkits which <<.graph>> has so that you can craft unique graphs using wikitext and filters.

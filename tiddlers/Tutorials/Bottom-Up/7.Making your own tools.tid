@@ -1,0 +1,63 @@
+Now you know how to build the graphs you want, and you can do that by just writing `<$graph>...` wherever you want and having a graph appear. But there are some versatile tricks you can do to re-use your created graph wikitext.
+
+!! Make widgets
+
+You can make your own macro widgets using `\widget $your.widget.name()...`. There's not much more to it. An effective trick is to look at the implementation of existing macro widget, which is available from looking at their [[documentation|Widgets]]. Each page has a ''Show Implementation'' button which you can use to see how they're built. Copying that, you can copy the source wikitext, tweak it, and create your own widgets from that. Make sure that in whatever tiddler you put these widgets into, you tag it with <<tag $:/tags/Global>> so it will be available wherever you call it.
+
+!! Make a template
+
+When you make a [[View]] through the [[GUI]], there's a point in the options when you can choose a template for your view, either the [[Standard Editable Graph Template]] or the [[Live Graph Template]]. But you can define your own template. Here's a super simple example as applied to this demo's "Alchemy" view:
+
+<$tiddler tiddler="$:/graph/Alchemy">
+
+<$doc.demo description="Template" code="""<$graph>
+  <$let
+    defaultEdgeFilter="[all[]]"
+    fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
+    formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
+    <$properties.popup $enabled={{!!popup}} $width={{{ [{!!title}get[popup.width]else[300px]] }}} $height={{{ [{!!title}get[popup.height]else[200px]] }}} >
+    <$properties.river>
+    <$properties.configured $view={{!!title}} >
+    <$properties.persistent $dataTiddler={{!!title}} >
+      <$nodes.writable $field="filter">
+        <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+        <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+      </$nodes.writable>
+    </$properties.persistent>
+    </$properties.configured>
+    </$properties.river>
+    </$properties.popup>
+  </$let>
+</$graph>""" />
+
+</$tiddler>
+
+Okay. Maybe not super simple, but this provides all the basic functionality when a view rendered using this template. But it provides a whole slew of common features that one might expect from a view. And multiple views can be created using your template, with each view storing its complete state within itself.
+
+To make your view available in the [[GUI]] dropdown, just take your template tiddlers with <<tag $:/tags/flibbles/graph/template>>.
+
+!! The ViewTemplate
+
+Maybe you want a graph to appear for every tiddler, like every tiddler might have a little expandable arrow at its bottom to show all its links, both coming and going.
+
+
+<$doc.demo description="ViewTemplate" code="""<$let state=<<qualify $:/state/link-graph/>> >
+  <%if [<state>get[text]match[show]] %>
+    <$button class="tc-btn-invisible" setTitle=<<state>> setTo="hide">{{$:/core/images/down-arrow}} Links</$button>
+    <$graph physics="no">
+      <$properties.river>
+        <$node label={{!!title}} shape="text"/>
+        <$edges.typed $formulas="links"/>
+        <$nodes.neighbors $filter="[all[current]]" $formulas="links" $fields="--" />
+      </$properties.river>
+    </$graph>
+  <%else %>
+    <$button class="tc-btn-invisible" setTitle=<<state>> setTo="show">{{$:/core/images/right-arrow}} Links</$button>
+  <%endif %>
+</$let>""" />
+
+You can have this show up in every tiddler by giving the tiddler containing this wikitext the <<tag $:/tags/ViewTemplate>> tag. You can ensure it show up after the body of the tiddler by setting <<.field list-after>> to <<.value $:/core/ui/ViewTemplate/body>>.
+
+This is just one example of how you can propogate generated graphs all over. You could create tiddlerInfo tabs too with the <<tag $:/tags/TiddlerInfo>> tag, or do whatever. TiddlyWiki is very extensible. If you're roughly familiar with how it's made, you can put graphs anywhere you want.
+
+Now you have the tools. Go out and have design, or let me know in a github issue if there are still matters that are unclear.
