@@ -1,0 +1,17 @@
+title: $:/plugins/flibbles/graph/icon
+
+\parameters (size:"22pt")
+\procedure pi() 3.141592653589793
+\function pair() [all[]sin[]] [all[]cos[]] +[multiply[-52]join[ ]]
+\procedure nodes() [range[0],[4]divide[6]multiply[2]multiply<pi>] :map[function[pair]] "0 0"
+\whitespace trim
+
+<$wikify name=node-color text="<<colour graph-node-color>>" >
+<$wikify name=edge-color text="<<colour muted-foreground>>" >
+<svg width=<<size>> height=<<size>> version="1.1" viewBox="-64 -64 128 128">
+<path stroke-width=15 d=`M ${[subfilter<nodes>join[ ]]}$` />
+<$list variable=pos filter=<<nodes>>>
+<circle r=12
+	cx={{{ [<pos>split[ ]first[]] }}}
+	cy={{{ [<pos>split[ ]last[]] }}}
+	fill=<<node-color>> />
