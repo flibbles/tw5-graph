@@ -11,13 +11,13 @@ exports.name = "image";
 exports.type = "title";
 
 exports.toProperty = function(info, value, options) {
-	var tiddler = options.wiki.getTiddler(value);
+	var tiddler = options.widget.wiki.getTiddler(value);
 	if (!tiddler) {
 		// It does not appear to be a real tiddler,
 		// so let's treat it like a real URL.
 		return value;
 	}
-	var output = getTiddlerUri(value, options.wiki);
+	var output = getTiddlerUri(value, options.widget);
 	if (output.uri === undefined && output.widget) {
 		var container = $tw.fakeDocument.createElement("div");
 		output.widget.render(container, null);
@@ -36,13 +36,13 @@ exports.toProperty = function(info, value, options) {
 	return output.uri;
 };
 
-exports.refresh = function(info, value, changedTiddlers, options) {
+exports.refresh = function(info, value, changedTiddlers, widget) {
 	if (changedTiddlers[value]) {
 		return true;
 	}
-	var tiddler = options.wiki.getTiddler(value);
+	var tiddler = widget.wiki.getTiddler(value);
 	if (tiddler) {
-		var output = getTiddlerUri(value, options.wiki);
+		var output = getTiddlerUri(value, widget);
 		if (output.widget && output.widget.refresh(changedTiddlers)) {
 			output.uri = undefined;
 			return true;
@@ -51,7 +51,8 @@ exports.refresh = function(info, value, changedTiddlers, options) {
 	return false;
 };
 
-function getTiddlerUri(title, wiki) {
+function getTiddlerUri(title, widget) {
+	var wiki = widget.wiki;
 	return wiki.getCacheForTiddler(title, "graph-image", function() {
 		var tiddler = wiki.getTiddler(title);
 		var output = {};
@@ -81,7 +82,7 @@ function getTiddlerUri(title, wiki) {
 		} else {
 			// We assume it is wikitext trying to make an svg
 			var parser = wiki.parseTiddler(title, {parseAsInline: true});
-			var widgetNode = wiki.makeWidget(parser);
+			var widgetNode = wiki.makeWidget(parser, {parentWidget: widget});
 			output.widget = widgetNode;
 		}
 		return output;

@@ -371,3 +371,9 @@ table.graph-property .graph-property-input-number span {
 	vertical-align: top;
 	font-weight: lighter;
 }
+
+/*** Graph icon ***/
+
+.tc-tiddler-title-icon .graph-icon {
+	fill: <<colour muted-foreground>>;
+}
