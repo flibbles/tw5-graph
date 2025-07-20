@@ -26,10 +26,8 @@ exports.toProperty = function(info, value, options) {
 			// Not an image as far as we can tell. Ignore the input.
 			output.uri = null;
 		} else {
-			if (text.indexOf("xmlns=") < 0) {
-				// wikitext svg does not need namespacing, but data URIs do
-				text = text.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
-			}
+			text = injectNamespace(text);
+			text = injectStyle(text, options.widget);
 			output.uri = "data:image/svg+xml," + encodeURIComponent(text);
 		}
 	}
@@ -87,4 +85,20 @@ function getTiddlerUri(title, widget) {
 		}
 		return output;
 	});
+};
+
+function injectNamespace(text) {
+	if (text.indexOf("xmlns=") < 0) {
+		// wikitext svg does not need namespacing, but data URIs do
+		text = text.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+	}
+	return text;
+};
+
+function injectStyle(text, graphWidget) {
+	var fill = graphWidget.getColor("nodeColor");
+	if (fill) {
+		return text.replace(/svg[^>]*>/, "$&<style>fill:" + fill + ";</style>");
+	}
+	return text;
 };

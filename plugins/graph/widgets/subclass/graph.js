@@ -224,14 +224,18 @@ GraphWidget.getEngineName = function() {
 		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine");
 };
 
+GraphWidget.getColor = function(color) {
+	var widget = this.colorWidgets[color];
+	var container = $tw.fakeDocument.createElement("div");
+	widget.render(container, null);
+	return container.textContent;
+};
+
 GraphWidget.setCustomProperties = function(properties) {
-	for (var color in graphColors) {
-		var widget = this.colorWidgets[color];
-		var container = $tw.fakeDocument.createElement("div");
-		widget.render(container, null);
-		var content = container.textContent;
-		if (content) {
-			properties[color] = content;
+	for (var name in graphColors) {
+		var color = this.getColor(name);
+		if (color) {
+			properties[name] = color;
 		}
 	}
 };

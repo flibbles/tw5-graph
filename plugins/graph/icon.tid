@@ -2,7 +2,7 @@ title: $:/plugins/flibbles/graph/icon
 
 \parameters (size:"22pt")
 \procedure pi() 3.141592653589793
-\function pair() [all[]sin[]] [all[]cos[]] +[multiply[-52]join[ ]]
+\function pair() [all[]sin[]] [all[]cos[]] +[multiply[-50]join[ ]]
 \procedure nodes() [range[0],[4]divide[6]multiply[2]multiply<pi>] :map[function[pair]] "0 0"
 \whitespace trim
 
@@ -11,7 +11,7 @@ title: $:/plugins/flibbles/graph/icon
 <svg class="graph-icon" width=<<size>> height=<<size>> version="1.1" viewBox="-64 -64 128 128">
 <path stroke-width=15 d=`M 0 0 S ${[subfilter<nodes>join[ ]]}$` />
 <$list variable=pos filter="[subfilter<nodes>putlast[]butfirst[3]]">
-<circle r=12
+<circle r=14
 	cx={{{ [<pos>split[ ]first[]] }}}
 	cy={{{ [<pos>split[ ]last[]] }}}
 	fill=<<node-color>> />
