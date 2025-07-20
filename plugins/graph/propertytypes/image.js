@@ -21,14 +21,14 @@ exports.toProperty = function(info, value, options) {
 	if (output.uri === undefined && output.widget) {
 		var container = $tw.fakeDocument.createElement("div");
 		output.widget.render(container, null);
-		var text = container.innerHTML;
-		if (text.indexOf("<svg") < 0) {
+		var svg = findSVGElement(container);
+		if (!svg) {
 			// Not an image as far as we can tell. Ignore the input.
 			output.uri = null;
 		} else {
-			text = injectNamespace(text);
-			text = injectStyle(text, options.widget);
-			output.uri = "data:image/svg+xml," + encodeURIComponent(text);
+			injectNamespace(svg);
+			injectStyle(svg, options.widget);
+			output.uri = "data:image/svg+xml," + encodeURIComponent(container.innerHTML);
 		}
 	}
 	return output.uri;
@@ -87,18 +87,31 @@ function getTiddlerUri(title, widget) {
 	});
 };
 
-function injectNamespace(text) {
-	if (text.indexOf("xmlns=") < 0) {
-		// wikitext svg does not need namespacing, but data URIs do
-		text = text.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"');
+function findSVGElement(element) {
+	if (element.tag === "svg") {
+		return element;
 	}
-	return text;
+	if (element.children) {
+		for (var i = 0; i < element.children.length; i++) {
+			var found = findSVGElement(element.children[i]);
+			if (found) {
+				return found;
+			}
+		}
+	}
+	return null;
 };
 
-function injectStyle(text, graphWidget) {
+function injectNamespace(svg) {
+	// wikitext svg does not need namespacing, but data URIs do
+	svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+};
+
+function injectStyle(svg, graphWidget) {
 	var fill = graphWidget.getColor("nodeColor");
 	if (fill) {
-		return text.replace(/svg[^>]*>/, "$&<style>fill:" + fill + ";</style>");
+		var style = $tw.fakeDocument.createElement("style");
+		style.textContent = ":root{fill:" + fill + ";}";
+		svg.insertBefore(style, svg.children[0]);
 	}
-	return text;
 };

@@ -38,7 +38,7 @@ it("can handle wikitext svg with xmlns", function() {
 it("can handle wikitext svg without xmlns", function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '\\parameters (size:22pt)\n<svg width=<<size>> height=<<size>> viewBox="0 0 128 128"><circle cx=64 cy=64 r=64 />';
-	var compiled = '<svg xmlns="http://www.w3.org/2000/svg" height="22pt" viewBox="0 0 128 128" width="22pt"><circle cx="64" cy="64" r="64"></circle></svg>';
+	var compiled = '<svg height="22pt" viewBox="0 0 128 128" width="22pt" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" r="64"></circle></svg>';
 	var expected = "data:image/svg+xml," + encodeURIComponent(compiled);
 	wiki.addTiddler({title: "Image", text: svg});
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/>");
@@ -245,4 +245,18 @@ it("can handle canonical URIs", function() {
 
 // it("Can handle canonical uris that have text.")
 // But how? Not even TW is consistent about this.
+
+/*** Colors ***/
+
+it("can inject colors", function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
+	var expected = encodeURIComponent("<style>:root{fill:#00ff00;}</style><circle");
+	wiki.addTiddler({title: "graph-node-color", text: "#00ff00"});
+	wiki.addTiddler({title: "Image", text: svg});
+	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph><$node $tiddler=A image=Image/>");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes.A.image).toContain(expected);
+});
+
 });

@@ -374,6 +374,14 @@ table.graph-property .graph-property-input-number span {
 
 /*** Graph icon ***/
 
-.tc-tiddler-title-icon .graph-icon {
-	fill: <<colour muted-foreground>>;
+.graph-icon-node {
+	fill: <<colour graph-node-color>> !important;
+}
+
+a.tc-tiddlylink.tc-plugin-info:hover .graph-icon-splash {
+	fill: <<colour background>> !important;
+}
+
+a.tc-tiddlylink.tc-plugin-info:hover .graph-icon-node {
+	fill: <<colour muted-foreground>> !important;
 }

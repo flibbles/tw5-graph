@@ -6,12 +6,11 @@ title: $:/plugins/flibbles/graph/icon
 \procedure nodes() [range[0],[4]divide[6]multiply[2]multiply<pi>] :map[function[pair]] "0 0"
 \whitespace trim
 
-<$wikify name=node-color text="<<colour graph-node-color>>" >
 <$wikify name=edge-color text="<<colour muted-foreground>>" >
 <svg class="graph-icon" width=<<size>> height=<<size>> version="1.1" viewBox="-64 -64 128 128">
-<path stroke-width=15 d=`M 0 0 S ${[subfilter<nodes>join[ ]]}$` />
+<path class="graph-icon-splash" stroke-width=15 d=`M 0 0 S ${[subfilter<nodes>join[ ]]}$` style=`fill:$(edge-color)$;` />
 <$list variable=pos filter="[subfilter<nodes>putlast[]butfirst[3]]">
-<circle r=14
+<circle class="graph-icon-node" r=14
 	cx={{{ [<pos>split[ ]first[]] }}}
 	cy={{{ [<pos>split[ ]last[]] }}}
 	fill=<<node-color>> />
