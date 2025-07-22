@@ -255,6 +255,7 @@ it("can inject colors", async function() {
 	var expected = encodeURIComponent("<style>:root{fill:#00ff00;}</style><circle");
 	wiki.addTiddler({title: "graph-node-color", text: "#00ff00"});
 	wiki.addTiddler({title: "Image", text: svg});
+	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph><$node $tiddler=A image=Image/>");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes.A.image).toContain(expected);

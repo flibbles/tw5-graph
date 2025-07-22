@@ -31,7 +31,10 @@ exports.toProperty = function(info, value, options) {
 				output.uri = null;
 			} else {
 				injectNamespace(svg);
-				injectStyle(svg, output);
+				// wikitext images may benefit from colors. svg images should too, but let's
+				// not worry about that right now.
+				output.widget.color = options.widget.getColor("nodeColor");
+				injectStyle(svg, output.widget);
 				output.uri = "data:image/svg+xml," + encodeURIComponent(container.innerHTML);
 			}
 		}
@@ -54,9 +57,9 @@ exports.refresh = function(info, value, changedTiddlers, widget) {
 		}
 	}
 	// Now we need to check whether the color for this image has changed
-	if (output) {
+	if (output && output.widget) {
 		var newColor = graphWidget.getColor("nodeColor");
-		if (newColor !== output.color) {
+		if (newColor !== output.widget.color) {
 			output.color = newColor;
 			return true;
 		}
@@ -104,9 +107,6 @@ function getTiddlerUri(title, widget) {
 			var parser = wiki.parseTiddler(title, {parseAsInline: true});
 			return wiki.makeWidget(parser, {parentWidget: widget});
 		});
-		// wikitext images may benefit from colors. svg images should too, but let's
-		// not worry about that right now.
-		output.color = widget.getColor("nodeColor");
 	}
 	return output;
 };
@@ -131,10 +131,10 @@ function injectNamespace(svg) {
 	svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 };
 
-function injectStyle(svg, output) {
-	if (output.color) {
+function injectStyle(svg, widget) {
+	if (widget.color) {
 		var style = $tw.fakeDocument.createElement("style");
-		style.textContent = ":root{fill:" + output.color + ";}";
+		style.textContent = ":root{fill:" + widget.color + ";}";
 		svg.insertBefore(style, svg.children[0]);
 	}
 };
