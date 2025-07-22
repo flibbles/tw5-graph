@@ -48,9 +48,7 @@ exports.refreshProperties = function(properties, widget, type, changedTiddlers) 
 				var info = propInfos[name];
 				var type = PropertyTypes[info && info.type];
 				if (type && type.refresh) {
-					if (type.refresh(info,
-							properties[name],
-							changedTiddlers, {wiki: widget.wiki})) {
+					if (type.refresh(info, properties[name], changedTiddlers, widget)) {
 						return true;
 					}
 				}

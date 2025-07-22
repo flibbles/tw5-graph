@@ -188,7 +188,8 @@ it("caches wikitext svg without need for repeated rendering", function() {
 	var widget = $tw.test.renderText(wiki, `<$graph>
 	  <$node $tiddler=A image=Image/>
 	  <$node $tiddler=B image=Image/>
-	  <$node $tiddler=C image=Image/>`);
+	  <$node $tiddler=C image=Image/>
+	  <$node $tiddler=D image=Image/>`);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes.A.image).toContain("svg+xml");
 	expect(objects.nodes.A.image).toContain("Content");
@@ -248,7 +249,7 @@ it("can handle canonical URIs", function() {
 
 /*** Colors ***/
 
-it("can inject colors", function() {
+it("can inject colors", async function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
 	var expected = encodeURIComponent("<style>:root{fill:#00ff00;}</style><circle");
@@ -257,6 +258,10 @@ it("can inject colors", function() {
 	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph><$node $tiddler=A image=Image/>");
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes.A.image).toContain(expected);
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.nodes.A.image).toContain(encodeURIComponent("fill:#0000ff"));
 });
 
 });
