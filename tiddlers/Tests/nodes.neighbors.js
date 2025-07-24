@@ -90,6 +90,26 @@ it("can optionally create inter-edges", async function() {
 		{from: "NE", to: "SE", label: label}]);
 });
 
+it("can whitelist out system tiddlers by default", function() {
+	wiki.addTiddlers([
+		{title: "A", tags: "home"}, {title: "B"},
+		{title: "$:/C", tags: "home"}, {title: "$:/D"},
+		{title: "home", tags: "B $:/D"}]);
+	var text = "<$nodes.neighbors $filter='home'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>A-B-</p>");
+});
+
+it("can whitelist out custom tiddlers", function() {
+	wiki.addTiddlers([
+		{title: "A", tags: "home node"}, {title: "B", tags: "node"},
+		{title: "C", tags: "home"}, {title: "D"},
+		{title: "home", tags: "B D"}]);
+	var text = "<$nodes.neighbors $filter='home' $whitelist='[tag[node]]'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>A-B-</p>");
+});
+
 //TODO: $filter should expect [all[tiddlers]] as source
 
 });
