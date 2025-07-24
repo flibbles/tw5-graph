@@ -8,7 +8,7 @@ tags: $:/tags/flibbles/graph/template
 \procedure gotoAction() <$action-setfield $tiddler=<<state>> $value=<<nodeTiddler>> />
 
 <$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
-  <$graph maxVelocity=5>
+  <$graph>
     <$properties $for=nodes doubleclick=<<gotoAction>> >
       <$let
           defaultEdgeFilter="[all[]]"
