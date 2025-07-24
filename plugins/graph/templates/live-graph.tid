@@ -9,6 +9,7 @@ tags: $:/tags/flibbles/graph/template
 
 <$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
   <$graph>
+    <$properties.river>
     <$properties $for=nodes doubleclick=<<gotoAction>> >
       <$let
           defaultEdgeFilter="[all[]]"
@@ -23,5 +24,6 @@ tags: $:/tags/flibbles/graph/template
         </$properties.configured>
       </$let>
     </$properties>
+    </$properties.river>
   </$graph>
 </$vars>

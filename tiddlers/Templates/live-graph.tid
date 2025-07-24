@@ -4,17 +4,19 @@ title: Live Graph Template
 
 Live views are designed to rapidly change to show differing sets of nodes and connections. It shows not only whatever node is specified in its node filter, but any immediate [[Neighbors]].
 
-''Live Graph template is still a work in progress.''
-
 ! TiddlyMap's Live view
 
-This template can recreate the Live view used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard.
+This template can recreate the Live view used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
 
 # First, install the 3rd party [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
 #* This is a step that even TiddlyMap required you to do.
-# Create a new [[View]], let's call it "Live View", but any name will do.
-# Change its template to by a "Live Graph Template".
-# Set its "nodes" filter to be `[{$:/temp/focussedTiddler}]`
+# Drag over this button onto your project and import it when prompted.
+
+@@text-align:center;
+<$link to="$:/graph/Live View" class="graph-dragger graph-dragger-view">TiddlyMap Live View</$link>
+@@
+
+This tiddler contains all the configurations to act similarly to the TiddlyMap live view, including box nodes, proper node spacing, and focusing on <<.tid $:/temp/focussedTiddler>>
 
 That's all. When the live view is display, it will rerender itself dynamically to display the tiddler and neighbors of whatever tiddler you've currently got live on your story river.
 
