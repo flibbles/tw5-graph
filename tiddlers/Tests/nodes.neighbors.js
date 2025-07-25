@@ -110,6 +110,11 @@ it("can whitelist out custom tiddlers", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>A-B-</p>");
 });
 
-//TODO: $filter should expect [all[tiddlers]] as source
+it("gets [all[tiddlers] as source for $filter", function() {
+	wiki.addTiddler({title: "A", tags: "node", list: "B C D"});
+	var text = "<$nodes.neighbors $filter='[tag[node]]'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>B-C-D-node-</p>");
+});
 
 });

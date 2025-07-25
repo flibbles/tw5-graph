@@ -1,7 +1,7 @@
 \widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges:no, $whitelist:'[!is[system]]')
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
-\procedure filter.cached() [{!!title}] :cache[{!!title}subfilter<$filter>]
+\procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]
 \procedure configs.all() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \procedure configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
 \procedure configs.formulas() :cache[subfilter<configs.all>removeprefix[formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]

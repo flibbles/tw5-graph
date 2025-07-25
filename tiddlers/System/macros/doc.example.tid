@@ -1,7 +1,7 @@
 \whitespace trim
 \widget $doc.example(description, narrative, content)
 
-  \function filter() [[$:/plugins/flibbles/graph]plugintiddlers[]removeprefix[$:/config/DefaultColourMappings/]]
+  \function filter() [[$:/plugins/flibbles/graph]plugintiddlers[]removeprefix[$:/config/DefaultColourMappings/]] muted-foreground
 
   <!-- We use $apply.colours to evaluate our color values in
        the primary wiki context, because the standard <<colour>>

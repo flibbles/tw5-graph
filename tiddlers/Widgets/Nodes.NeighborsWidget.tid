@@ -1,0 +1,76 @@
+title: Nodes.NeighborsWidget
+tags: Widgets [[Macro Widgets]]
+caption: nodes.neighbors
+
+\procedure exampleContent()
+\whitespace trim
+<$data title="Frank Sinatra" tags="[[$:/Rat Pack]]" text="Frank was considered the pack master of the Rat Pack. He also had a film career, and starred in films alongside [[Bing Crosby]] and [[Laurence Harvey]]."/>
+<$data title="Dean Martin" tags="[[$:/Rat Pack]]" text="Dean was considered part of the rat pack in the 1960s. He also had a solo career, and collaborated with others such as, [[Amy Winehouse]]."/>
+<$data title="Sammy Davis Jr." tags="[[$:/Rat Pack]]" text="Sammy worked frequently with [[Frank Sinatra]] and [[Dean Martin]], particularly during their reunion in the 1980s. He was also a political activist who toured Vietnam at [[Richard Nixon]]'s request." />
+<$data title="Ocean's 11" list="[[Frank Sinatra]] [[Dean Martin]] [[Sammy Davis Jr.]] [[Peter Lawford]] [[Angie Dickinson]]" />
+<$data title="Don Rickles" text="Rickles was a comedian, and not a singer, but he did have a good relationship with [[Frank Sinatra]]." />
+\end
+
+
+! Introduction
+
+<<.wid nodes.neighbors>> creates a node for every neighbor of the nodes specified in the provided filter. It also generates edges for those neighbor nodes, but only the edges coming //from// the neighbors.
+
+This widget is careful //not// to generate nodes for any tiddlers provided in <<.attr $filter>>, even if they neighbor other nodes in the filter. Thus this widget will never override any node you already specified from that filter.
+
+! Contents and Attributes
+
+Any content of the <<.wid nodes.neighbors>> widget will get executed for every neighbor node. If no inner block is provided, it creates a default node.
+
+|!Attribute | !Description |
+|$filter |Filter argument specifying which nodes whose neighbors to fetch |
+|$fields |Filter specifying which configured fields to use to determine neighbors. See <<.wlink Edges.TypedWidget>> for more details. Defaults to <<.value [all[]]>> |
+|$formulas |Filter specifying which configured formulas to use to determine neighbors. See <<.wlink Edges.TypedWidget>> for more details. Defaults to <<.value [all[]]>> |
+|$interedges |Specify <<.value yes>> or <<.value no>> on whether to generate edges that connect neighbors to other neighbors. Defaults to <<.value no>> |
+|$whitelist |Filter detailing which tiddlers can be considered for neighbors. Defaults to <<.value [!is[system]]>> |
+
+<$doc.implementation />
+
+! Neighbors of neighbors
+
+Currently, this widget does not support rendering neighbors of neighbors. Trying to do yourself so by nesting this widget will be error-prone. If you need this feature, then open up a feature request on github.
+
+! Examples
+
+<$doc.example
+	description="basic usage"
+	narrative="""A standard use of this widget is to generate nodes tangentially connected to nodes you're already rendering. You'll often use the same filter twice. Some things to note:
+
+* We're encapsulate all the neighbors in their own <<.wid properties>>, thus differentiating them.
+* The <<.tid '$:/Rat Pack'>> tag doesn't appear because the widget's <<.attr $whitelist>> default value excludes system tiddlers by default.
+* We must define the edges leading from the Rat Pack //to// their neighbors. The widget only concerns itself with edges originating //from// neighbors."""
+	content="""<$graph>
+  <$list filter="[tag[$:/Rat Pack]]">
+    <$node label={{!!title}} shape="star"/>
+    <$edges.typed />
+  </$list>
+  <$properties color=<<colour muted-foreground>> >
+    <$nodes.neighbors $filter="[tag[$:/Rat Pack]]"/>
+  </$properties>
+</$graph>""">
+<<exampleContent>>
+</$doc.example>
+
+<$doc.example
+	description="bad usage"
+	narrative="""Here's an example of the ''wrong'' way to use this widget. Don't call <<.wid $nodes.neighbors>> for every individual node. Since your nodes will likely relate to each other, this will result in overriding your own nodes with neighbor nodes.
+
+Notice how we've accidentally overridden some of the Rat Pack with their neighbor versions."""
+	bad="yes"
+	content="""<$graph>
+  <$list filter="[tag[$:/Rat Pack]]">
+    <$node label={{!!title}} shape="star" />
+    <$properties color=<<colour muted-foreground>> >
+      <$nodes.neighbors $filter="[<currentTiddler>]"/>
+    </$properties>
+    <$edges.typed />
+  </$list>
+</$graph>""">
+<<exampleContent>>
+<$data title="ExpectedResult" text="Failed because of overridden nodes" />
+</$doc.example>

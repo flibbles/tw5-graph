@@ -7,23 +7,25 @@ tags: $:/tags/flibbles/graph/template
 \procedure state() $:/state/flibbles/graph/doc/live
 \procedure gotoAction() <$action-setfield $tiddler=<<state>> $value=<<nodeTiddler>> />
 
-<$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
-  <$graph>
-    <$properties.river>
-    <$properties $for=nodes doubleclick=<<gotoAction>> >
-      <$let
-          defaultEdgeFilter="[all[]]"
-          fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
-          formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
-        <$properties.configured $view={{!!title}} >
-          <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
-          <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
-          <$properties color=gray>
-            <$nodes.neighbors $filter="[<focusTiddler>]" $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
-          </$properties>
-        </$properties.configured>
-      </$let>
-    </$properties>
-    </$properties.river>
-  </$graph>
-</$vars>
+<$wikify name=muted text="<<colour muted-foreground>>">
+  <$vars focusTiddler={{{ [subfilter{!!filter}!is[blank]else{!!default}]}}}>
+    <$graph>
+      <$properties.river>
+      <$properties $for=nodes doubleclick=<<gotoAction>> >
+        <$let
+            defaultEdgeFilter="[all[]]"
+            fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
+            formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
+          <$properties.configured $view={{!!title}} >
+            <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
+            <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+            <$properties color=<<muted>> >
+              <$nodes.neighbors $filter="[<focusTiddler>]" $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+            </$properties>
+          </$properties.configured>
+        </$let>
+      </$properties>
+      </$properties.river>
+    </$graph>
+  </$vars>
+</$wikify>

@@ -1,6 +1,6 @@
 title: $:/graph/Live View
 filter: [{$:/temp/focussedTiddler}]
-graph.graph: {"springLength":"180","springConstant":"0.06"}
+graph.graph: {"springLength":"0","springConstant":"0.095","gravitationalConstant":"-300","centralGravity":"0","damping":"0.4"}
 graph.nodes: {"shape":"box"}
 template: $:/plugins/flibbles/graph/templates/live-graph
 
