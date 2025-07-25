@@ -2,6 +2,8 @@ title: $:/config/flibbles/graph/edges/fields/wrote
 type: application/json
 
 {
+    "dashes": "yes",
     "label": "wrote",
-    "dashes": "yes"
+    "roundness": "0.2",
+    "smooth": "curvedCCW"
 }
