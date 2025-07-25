@@ -1,0 +1,6 @@
+title: $:/config/flibbles/graph/edges/fields/wrote
+type: application/json
+
+{
+    "label": "wrote"
+}

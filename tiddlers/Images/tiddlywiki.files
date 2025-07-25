@@ -1,0 +1,29 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.jpg$",
+			"isTiddlerFile": false,
+			"searchSubdirectories": true,
+			"fields": {
+				"title": {
+					"source": "filename"
+				},
+				"type": "image/jpeg"
+			}
+		},
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.svg$",
+			"isTiddlerFile": false,
+			"searchSubdirectories": true,
+			"fields": {
+				"title": {
+					"source": "filename"
+				},
+				"type": "image/svg+xml"
+
+			}
+		}
+	]
+}

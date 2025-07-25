@@ -1,5 +1,5 @@
 title: Uglify
-tags: Plugins Flibbles
+tags: Plugins Flibbles Introduction
 source: https://flibbles.github.io/tw5-uglify/
 
 TW5-Uglify is a plugin that can minify all the tiddlers in other plugins. This can be very useful for <<.graph>>, because <<.graph>>'s release does not minify any of its javascript or wikitext. However, it is optimized and tested against TW5-Uglify.

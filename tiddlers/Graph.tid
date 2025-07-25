@@ -1,6 +1,7 @@
 title: Graph
 icon: $:/plugins/flibbles/graph/icon
 tags: Introduction
+builds-upon: TiddlyWiki
 
 \define plugin() $:/plugins/flibbles/graph
 \define body()

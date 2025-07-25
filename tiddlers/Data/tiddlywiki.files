@@ -10,19 +10,6 @@
 					"source": "basename"
 				}
 			}
-		},
-		{
-			"path": ".",
-			"filesRegExp": "^.*\\.svg$",
-			"isTiddlerFile": false,
-			"searchSubdirectories": true,
-			"fields": {
-				"title": {
-					"source": "filename"
-				},
-				"type": "image/svg+xml"
-
-			}
 		}
 	]
 }

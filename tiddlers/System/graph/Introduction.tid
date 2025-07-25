@@ -1,5 +1,13 @@
 title: $:/graph/Introduction
+edges.fields: [all[]] -tags wrote builds-upon
 filter: [tag[Introduction]]
 type: application/json
 
-{}
+{
+    "Flibbles": "62,-129",
+    "Uglify": "-60,-289",
+    "Relink": "-80,-184",
+    "Graph": "0,0",
+    "Vis-Network": "-133,76",
+    "TiddlyWiki": "147,4"
+}
