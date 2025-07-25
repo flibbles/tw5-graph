@@ -22,7 +22,7 @@ You can see [[Widgets]] for a complete list. The documentation for each listed u
 ; <<.wlink Properties.ConfiguredWidget>>
 : All contained nodes and edges, and the graph containing this widget, will not onlyu gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined in the passed <<.attr $view>>, if a view is passed. Useful for creating graphs which take advantage of whatever settings the user has configured.
 ; <<.wlink Edges.TypedWidget>>
-: If you went through the [[Top-Down Tutorial]], you explored configuring [[Formulas EdgeTypes]] and [[Fields EdgeTypes]]. This lets you create edges the same way through its <<.attr $formulas>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
+: If you went through the [[Top-Down Tutorial]], you explored configuring [[Formula edge types|Formulas EdgeType]] and [[Field edge types|Fields EdgeType]]. This lets you create edges the same way through its <<.attr $formulas>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
 
 This is just scraping the surface of what's available. Again, check out the [[Widgets]] to explore them all.
 
