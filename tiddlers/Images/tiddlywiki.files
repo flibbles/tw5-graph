@@ -1,17 +1,19 @@
 {
-	"directories": [
+	"tiddlers": [
 		{
-			"path": ".",
-			"filesRegExp": "^.*\\.jpg$",
+			"file": "./Shih_tzu.jpg",
 			"isTiddlerFile": false,
-			"searchSubdirectories": true,
 			"fields": {
 				"title": {
 					"source": "filename"
 				},
+				"author": "Cameron Fischer",
 				"type": "image/jpeg"
 			}
-		},
+		}
+
+	],
+	"directories": [
 		{
 			"path": ".",
 			"filesRegExp": "^.*\\.svg$",
