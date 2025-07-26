@@ -1,5 +1,9 @@
 title: $:/
 
+SiteTitle: TW5-Graph
+SiteSubtitle: 
+
+
 DefaultTiddlers: Graph [tag[Demo]] [[Other plugins by Flibbles]]
 themes/tiddlywiki/vanilla/metrics/storyright: 970px
 themes/tiddlywiki/vanilla/metrics/storywidth: 970px

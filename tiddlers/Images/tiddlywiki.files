@@ -10,8 +10,15 @@
 				"artist": "Cameron Fischer",
 				"type": "image/jpeg"
 			}
+		},
+		{
+			"file": "./favicon.png",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": "$:/favicon.ico",
+				"type": "image/png"
+			}
 		}
-
 	],
 	"directories": [
 		{
