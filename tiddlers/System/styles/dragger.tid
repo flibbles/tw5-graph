@@ -47,8 +47,10 @@ a.graph-dragger.tc-tiddlylink {
   text-transform: uppercase;
 }
 
-a.graph-dragger.graph-dragger-engine.tc-tiddlylink {
+a.graph-dragger.graph-dragger-engine.tc-tiddlylink, a.graph-dragger.graph-dragger-plugin.tc-tiddlylink {
   padding: 1rem 2rem;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
 a.graph-dragger.tc-tiddlylink:hover {
@@ -62,4 +64,8 @@ a.graph-dragger.tc-tiddlylink:hover {
 
 .graph-dragger img {
 	width: 4em;
+}
+
+.graph-dragger svg {
+	fill: <<colour muted-foreground>>;
 }

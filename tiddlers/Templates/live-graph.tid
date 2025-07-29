@@ -8,15 +8,24 @@ Live views are designed to rapidly change to show differing sets of nodes and co
 
 This template can recreate the Live view used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
 
-# First, install the 3rd party [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
+# Install the [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
 #* This is a step that even TiddlyMap required you to do.
-# Drag over this button onto your project and import it when prompted.
+# Install the [[TopStoryView]] plugin.
+#* Not technically required, but it makes it possible to scroll your river low enough that even your bottom-most tiddler can be focused.
+#* If you choose to use this, make sure to switch to use "top" view in [[$:/ControlPanel]]->Appearance->Story View.
+# Install the Live View that's part of this documentation.
+
+
+''In other words,'' drag these three buttons onto your project and click "import" when prompted.
 
 @@text-align:center;
-<$link to="$:/graph/Live View" class="graph-dragger graph-dragger-view">TiddlyMap Live View</$link>
+<$link to="$:/plugins/Gk0Wk/focused-tiddler" class="graph-dragger graph-dragger-plugin">{{$:/core/images/plugin-generic-plugin|4em}}<br>Focused-Tiddler</$link>
+<$link to="$:/plugins/felixhayashi/topstoryview" class="graph-dragger graph-dragger-plugin">{{$:/core/images/plugin-generic-plugin|4em}}<br>Top Story View</$link>
+
+<$link to="$:/graph/Live View" class="graph-dragger graph-dragger-view">Live View</$link>
 @@
 
-This tiddler contains all the configurations to act similarly to the TiddlyMap live view, including box nodes, proper node spacing, and focusing on <<.tid $:/temp/focussedTiddler>>
+The Live View tiddler contains all the configurations to act similarly to the TiddlyMap live view, including box nodes, proper node spacing, and focusing on <<.tid $:/temp/focussedTiddler>>
 
 That's all. When the live view is display, it will rerender itself dynamically to display the tiddler and neighbors of whatever tiddler you've currently got live on your story river.
 
