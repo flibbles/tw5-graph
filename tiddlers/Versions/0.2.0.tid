@@ -1,0 +1,9 @@
+created: 20250730201643549
+
+First public early release of <<.graph>>. All documentation is complete, and the outward behavior shouldn't change that much. The internal `graphengine` module is not finalized yet.
+
+* :cache handles variables now
+* Neighbor system works
+* Bottom-Up tutorial complete
+* Node icons and graph background support
+* Bug fixes with the help of @pmario
