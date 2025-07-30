@@ -32,10 +32,7 @@
 
 <%if [<$interedges>!match[no]] ~[<toTiddler>search:title:regexp<regexp>] %>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
-	id=<<id>>
-	$mode=inline
-	$fillignore=yes />
+<$edge $id=<<id>> />
 
 <%endif%></$edges.typed></$list>
 

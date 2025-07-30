@@ -23,10 +23,7 @@ $(fieldName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
-	id=<<id>>
-	$mode=inline
-	$fillignore=yes />
+<$edge $id=<<id>> />
 
 </$slot></$vars></$list></$properties></$let></$list>
 
@@ -50,10 +47,7 @@ $(formulaName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/edge"
-	id=<<id>>
-	$mode=inline
-	$fillignore=yes />
+<$edge $id=<<id>> />
 
 </$slot></$vars></$tiddler></$list></$properties></$let></$list>
 \end
