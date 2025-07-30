@@ -1,0 +1,53 @@
+title: Node.DefaultWidget
+tags: Widgets [[Macro Widgets]]
+caption: node.default
+
+! Introduction
+
+<<.wid node.default>> is an alternative to <<.wlink NodeWidget>>. While you can use <<.wid node>> to create a raw [[node object|Nodes GraphObject]] with only the properties that you specify, <<.wid node.default>> instead creates properties for itself based on the fields of its <<.attr $tiddler>> which can save you the keystrokes.
+
+More importantly, <<.wid node.default>> is used by all the other [[Macro Widgets|Widgets]] which create nodes, so you can override <<.wid node.default>> in order to customize exactly what kind of nodes those widgets create.
+
+! Contents and Attributes
+
+Any content of the <<.wid node.default>> are ignored.
+
+It does not accept any attributes. It makes a node based on whatever <<.value currentTiddler>> is set to. The reason for this inflexibility is to make the widget simpler to override, rather than to use.
+
+This widget also does not accept attributes that allow you to set custom [[Graph Properties]]. <<.attr $tiddler>> is its only accepted attribute. Use a <<.wlink PropertiesWidget>> widget to set additional properties.
+
+<$doc.implementation />
+
+! Behavior
+
+The standard <<.wid node.default>> sets the following properties if it can.
+
+;label
+: It will always set a label. It prefers a caption field if one exists, which it will treat as wikitext. If not caption field exists, it will use the tiddler's title, which it will
+;color
+: If a tiddler has a <<.field color>> field, its node will adopt that same color
+;image
+: If a tiddler has an <<.field icon>> field, that will be used as the node's image in place of a shape.
+;$pos
+: It will attempt to set the node's position using a defined `<<pos>>` macro, like the kind defined by <<.wlink Properties.PersistentWidget>>.
+
+! Examples
+
+<$doc.example
+	description="Simple override"
+	narrative="""The real strength of this widget is that you can override it to alter the behavior of the other macro widgets. In this case, <<.wid nodes.neighbors>>.
+
+We're creating our own <<.wid node.default>> to customize the label for each node to use the tiddler's title's base name as a label instead of it's entire title. This isn't something we could do with <<.wid properties>> alone since each node will have its own label. We also extract custom "shape" values from a <<.field shape>> field in each tiddler""" >
+<$data title="Output" list="File/Path/A File/Path/B File/Other/Path/C" text="""\widget $node.default()
+<$node label={{{ [<currentTiddler>split[/]last[]] }}} shape={{!!shape}} />
+\end
+
+<$graph>
+  <$node />
+  <$edges.typed />
+  <$nodes.neighbors $filter="[all[current]]" />
+</$graph>""" />
+<$data title="File/Path/A" shape=square />
+<$data title="File/Path/B" shape=hexagon />
+<$data title="File/Other/Path/C" shape=diamond />
+</$doc.example>

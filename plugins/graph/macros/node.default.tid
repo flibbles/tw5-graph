@@ -1,0 +1,10 @@
+\widget $node.default()
+\whitespace trim
+<%if [{!!title}has[caption]] %>
+  <$wikify name=label text={{!!caption}}>
+    <$node $pos=<<pos>> label=<<label>> color={{!!color}} image={{!!icon}} />
+  </$wikify>
+<%else%>
+  <$node $pos=<<pos>> label={{!!title}} color={{!!color}} image={{!!icon}} />
+<%endif%>
+\end

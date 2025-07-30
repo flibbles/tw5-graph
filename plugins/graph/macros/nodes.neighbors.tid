@@ -24,7 +24,7 @@
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+<$node.default />
 
 </$slot>
 
@@ -45,7 +45,7 @@
 
 <$slot $name=ts-raw>
 
-<$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+<$node.default />
 
 </$slot>
 

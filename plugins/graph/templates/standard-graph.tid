@@ -22,7 +22,7 @@ tags: $:/tags/flibbles/graph/template
             <%endif%>
             <$properties.persistent $dataTiddler=<<currentTiddler>> >
               <$nodes.writable $field=filter>
-                <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+                <$node.default/>
                 <$edges.typed
                   $formulas=<<formulasFilter>>
                   $fields=<<fieldsFilter>>
