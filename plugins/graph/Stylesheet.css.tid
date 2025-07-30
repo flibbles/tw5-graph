@@ -141,6 +141,7 @@ tags: $:/tags/Stylesheet
 	text-shadow: none;
 	line-height: 1.4;
 	overflow: scroll;
+	overscroll-behavior: contain;
 }
 
 .graph-popup .tc-drop-down {
