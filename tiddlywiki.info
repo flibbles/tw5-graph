@@ -20,9 +20,16 @@
 		],
 		"index": [
 			"--output", "./docs/",
-			"--rendertiddler", "$:/core/save/all", "index.html", "text/plain", "",
-				"publishFilter",
-				"-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/plugins/flibbles/relink]] -[prefix[$:/UpgradeLibrary]]"
+			"--render",
+				"$:/core/save/offline-external-js",
+				"index.html",
+				"text/plain",
+				"",
+				"publishFilter", "-[prefix[$:/test/]] -$:/plugins/tiddlywiki/jasmine -[prefix[$:/plugins/flibbles/relink]] -[prefix[$:/UpgradeLibrary]]",
+				"coreURL", "tiddlywikicore.js",
+			"--render",
+				"$:/core/templates/tiddlywiki5.js",
+				"tiddlywikicore.js","text/plain"
 		]
 	}
 }
