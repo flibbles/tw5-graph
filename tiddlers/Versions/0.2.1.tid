@@ -1,0 +1,8 @@
+created: 20250801041351554
+
+First round of publicly-found bug fixes
+
+* Probably fixed sporatic issue some are seeing where ResizeObserver loop error happens immediately.
+* Fix for issue #40: Background image on graphs would disappear after other graph property manipulation
+* Typo fix on main page
+* Split demo up to use external core as part of a move to make project more CPL friendly
