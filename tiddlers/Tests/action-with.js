@@ -14,7 +14,7 @@ beforeEach(function() {
 	var oldCreate = $tw.fakeDocument.createElement;
 	spyOn($tw.fakeDocument, "createElement").and.callFake(function(tag) {
 		var element = oldCreate(tag);
-		$tw.utils.extend(element, $tw.test.mock.EventHandler.prototype);
+		$tw.utils.extend(element, $tw.test.mock.EventTarget.prototype);
 		return element;
 	});
 });

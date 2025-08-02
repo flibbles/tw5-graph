@@ -5,9 +5,9 @@ Mock window for testing on Node.JS and the sort
 
 \*/
 
-var EventHandler = function() { };
+var EventTarget = function() { };
 
-EventHandler.prototype.addEventListener = function(type, method) {
+EventTarget.prototype.addEventListener = function(type, method) {
 	if (!this.eventListeners) {
 		this.eventListeners = new Set();
 	}
@@ -15,13 +15,13 @@ EventHandler.prototype.addEventListener = function(type, method) {
 	this.eventListeners.add(method);
 };
 
-EventHandler.prototype.removeEventListener = function(type, method) {
+EventTarget.prototype.removeEventListener = function(type, method) {
 	if (this.eventListeners && method.type === type) {
 		this.eventListeners.delete(method);
 	}
 };
 
-EventHandler.prototype.dispatchEvent = function(event) {
+EventTarget.prototype.dispatchEvent = function(event) {
 	if (this.eventListeners) {
 		for (var listener of this.eventListeners) {
 			if (listener.type === event.type) {
@@ -35,4 +35,4 @@ EventHandler.prototype.dispatchEvent = function(event) {
 	}
 };
 
-exports.EventHandler = EventHandler;
+exports.EventTarget = EventTarget;

@@ -7,6 +7,7 @@ Action widget that creates a modal to select an existing tiddler, or specify a n
 "use strict";
 
 var Widget = require("$:/core/modules/widgets/widget.js").widget;
+var utils = require("../utils.js");
 
 /**
  * This points to whatever action invoked the current modal. It assumes that
@@ -69,15 +70,52 @@ ModalWidget.prototype.invokeAction = function(triggeringWidget, event) {
 		}
 	}
 	if (this.modalTiddler) {
-		// Used to be "variables: event.paramObject", not sure why.
-		this.modal.display(this.modalTiddler, {
-			variables: variables,
-			event: event});
+		var self = this;
+		// We need to delay the assignment of click handlers for a few
+		// milliseconds. See Issue #43. If we don't, a click event might
+		// follow right after the "make modal" which closes the modal
+		// immediately.
+		delayEventListenerAssignment(function() {
+			self.modal.display(self.modalTiddler, {
+				variables: variables,
+				event: event});
+		});
 	}
+
 };
 
 ModalWidget.prototype.allowActionPropagation = function() {
 	return false;
+};
+
+function delayEventListenerAssignment(method) {
+	var assignments = [];
+	// We use this requested window instead of just accessing directly
+	// so that the test framework can mock it up.
+	var window = utils.window();
+	var oldListener = window.EventTarget.prototype.addEventListener;
+	window.EventTarget.prototype.addEventListener = function(type) {
+		var args = Array.prototype.slice.call(arguments);
+		if (type === "click") {
+			// This is the click which might accidentally apply to the
+			// backdrop if we're on mobile. Delay it.
+			assignments.push({self: this, args: args});
+		} else {
+			// Just call through. We don't care about this handler.
+			oldListener.apply(this, args);
+		}
+	};
+	try {
+		method();
+	} finally {
+		window.EventTarget.prototype.addEventListener = oldListener;
+	}
+	setTimeout(function() {
+		for (var i = 0; i < assignments.length; i++) {
+			var set = assignments[i];
+			set.self.addEventListener.apply(set.self, set.args);
+		}
+	}, 10);
 };
 
 exports["action-modal"] = ModalWidget;

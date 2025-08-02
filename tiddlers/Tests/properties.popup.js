@@ -10,12 +10,12 @@ var wiki, oldPopup;
 
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
-	$tw.popup = new $tw.utils.Popup({rootElement: new $tw.test.mock.EventHandler()});
+	$tw.popup = new $tw.utils.Popup({rootElement: new $tw.test.mock.EventTarget()});
 	$tw.test.setSpies();
 	var oldCreate = $tw.fakeDocument.createElement;
 	spyOn($tw.fakeDocument, "createElement").and.callFake(function(tag) {
 		var element = oldCreate(tag);
-		$tw.utils.extend(element, $tw.test.mock.EventHandler.prototype);
+		$tw.utils.extend(element, $tw.test.mock.EventTarget.prototype);
 		return element;
 	});
 	await $tw.test.setGlobals(wiki);
