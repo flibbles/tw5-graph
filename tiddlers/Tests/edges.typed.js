@@ -180,11 +180,23 @@ it("can have custom edge fill", function() {
 
 it("currentTiddler remains unchanged for $fields filter", function() {
 	wiki.addTiddlers([
-		{title: "Info", choice: "fieldB"},
-		{title: "from", fieldA: "bad", fieldB: "good"}]);
-	var text = "\\define currentTiddler() Info\n<$edges.typed $fields='[<currentTiddler>get[choice]]' $tiddler=from><<toTiddler>>";
+		relinkConfig("fieldB", "filter"),
+		{title: "Info", choice: "fieldB", fieldD: "InfoD"},
+		{title: "from",
+			choice: "fieldA",
+			fieldA: "bad-fromsChoice",
+			fieldB: "[all[]get[fieldC]] [all[current]get[fieldD]]",
+			fieldC: "gotC",
+			fieldD: "gotD"},
+		{title: "Else", fieldC: "ElseC", fieldD: "ElseD"}]);
+	// We're making sure that currentTiddler is set for...
+	//   Info - the $fields filter
+	//   from - for fields that are filters
+	//   [all[tiddlers]] - for the input of those fields that are filters
+	//   ??? - widget body TODO: Settle this later
+	var text = "\\define currentTiddler() Info\n<$edges.typed $tiddler=from $fields='[<currentTiddler>get[choice]]'><<toTiddler>>=";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(widget.parentDomNode.innerHTML).toBe("<p>good</p>");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>ElseC=gotC=gotD=</p>");
 });
 
 it("can delete edges", function() {
@@ -262,12 +274,19 @@ it("only passes current target to formula filters", function() {
 });
 
 it("preserves currentTiddler when running formula filter", function() {
+	// We're making sure that currentTiddler is set for...
+	//   Template - the $formulas filter
+	//   Target - for currentTiddler of executed formula
+	//   Target - for input of executed formula
+	//   ??? - widget body TODO: Settle this later
 	wiki.addTiddlers([
-		formulaConfig("myField", "[{!!myField}]"),
-		{title: "Target", myField: "bad"},
-		{title: "Template", myField: "good"}]);
-	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.typed $tiddler=Target>=<<toTiddler>>");
-	expect(widget.parentDomNode.innerHTML).toBe("<p>=good</p>");
+		formulaConfig("good", "[get[myField]] [all[tiddlers]prefix{!!title}] -[{!!title}]"),
+		{title: "Target", myField: "Target/field", formulas: "bad"},
+		{title: "Target/nested"},
+		{title: "Template", myField: "Template/field", formulas: "good"},
+		{title: "Template/nested"}]);
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.typed $tiddler=Target $formulas='[{!!formulas}]'><<toTiddler>>=");
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Target/field=Target/nested=</p>");
 });
 
 it("uses currentTiddler as default", function() {

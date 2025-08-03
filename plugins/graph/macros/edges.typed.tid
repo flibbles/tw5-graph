@@ -38,7 +38,7 @@ $(fieldName)$-$(index)$`>
 <$properties $for=edges
 	$tiddler=<<dataTiddler>> >
 
-<$list variable=toTiddler counter=index filter="[<$tiddler>subfilter<formula>]">
+<$list variable=toTiddler counter=index filter="[<$tiddler>] :map:flat[subfilter<formula>] +[!is[blank]]">
 
 <$tiddler tiddler=<<$tiddler>> >
 

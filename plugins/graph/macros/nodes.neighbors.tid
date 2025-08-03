@@ -59,4 +59,4 @@
 <%endif%></$list>
 \end
 
-\relink $nodes.neighbors $filter:filter
+\relink $nodes.neighbors $filter:filter $fields:filter $formulas:filter $whitelist:filter
