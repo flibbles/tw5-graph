@@ -135,6 +135,14 @@ it("makes unique ids for edges", function() {
 	expect(output.split("<br>")).toEqual(expected);
 });
 
+it("currentTiddler within block is unchanged, not $tiddler", function() {
+	wiki.addTiddlers([
+		{title: "target", tags: "A", text: "[[B]]"}]);
+	var text = "\\procedure currentTiddler() outer\n<$edges.typed $tiddler=target><<currentTiddler>>-<<toTiddler>>=";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>outer-A=outer-B=</p>");
+});
+
 /*** Field specific tests ***/
 
 it("uses all fieldTyped edges when no fields specified", function() {
@@ -193,7 +201,6 @@ it("currentTiddler remains unchanged for $fields filter", function() {
 	//   Info - the $fields filter
 	//   from - for fields that are filters
 	//   [all[tiddlers]] - for the input of those fields that are filters
-	//   ??? - widget body TODO: Settle this later
 	var text = "\\define currentTiddler() Info\n<$edges.typed $tiddler=from $fields='[<currentTiddler>get[choice]]'><<toTiddler>>=";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>ElseC=gotC=gotD=</p>");
@@ -278,7 +285,6 @@ it("preserves currentTiddler when running formula filter", function() {
 	//   Template - the $formulas filter
 	//   Target - for currentTiddler of executed formula
 	//   Target - for input of executed formula
-	//   ??? - widget body TODO: Settle this later
 	wiki.addTiddlers([
 		formulaConfig("good", "[get[myField]] [all[tiddlers]prefix{!!title}] -[{!!title}]"),
 		{title: "Target", myField: "Target/field", formulas: "bad"},

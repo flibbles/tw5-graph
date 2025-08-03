@@ -8,22 +8,21 @@
 <$list variable=fieldName filter="+[function[configTiddlers]removeprefix[fields/]subfilter<$fields>]">
 
 <$let
-	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$`
-	currentTiddler=<<$tiddler>> >
+	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$` >
 
 <$properties $for=edges
 	$tiddler=<<dataTiddler>>
 	delete={{{ [<$editable>!match[no]then[<$action-removetyped $tiddler=<<fromTiddler>> $field=<<fieldName>> $value=<<toTiddler>> />]] }}} >
 
 
-<$list variable=toTiddler counter=index filter="[<$tiddler>gettyped<fieldName>]">
+<$list variable=toTiddler counter=index filter="[<$tiddler>] :map:flat[gettyped<fieldName>] +[!is[blank]]">
 
 <$vars id=`$:/edge/fields/$($tiddler)$
 $(fieldName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
-<$edge $id=<<id>> />
+<$edge $from=<<$tiddler>> $id=<<id>> />
 
 </$slot></$vars></$list></$properties></$let></$list>
 
@@ -40,16 +39,14 @@ $(fieldName)$-$(index)$`>
 
 <$list variable=toTiddler counter=index filter="[<$tiddler>] :map:flat[subfilter<formula>] +[!is[blank]]">
 
-<$tiddler tiddler=<<$tiddler>> >
-
 <$vars id=`$:/edge/formulas/$($tiddler)$
 $(formulaName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
-<$edge $id=<<id>> />
+<$edge $from=<<$tiddler>> $id=<<id>> />
 
-</$slot></$vars></$tiddler></$list></$properties></$let></$list>
+</$slot></$vars></$list></$properties></$let></$list>
 \end
 
 \relink $edges.typed $formulas:filter $fields:filter $tiddler:title
