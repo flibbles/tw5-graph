@@ -42,7 +42,7 @@ The content of the <<.wid edges.typed>> widget is executed for each edge type. T
 
 ! $fields
 
-The <<.attr $fields>> attributes can specify which configured field edges should be considered. This is a filter attribute which is passed a list of all configured fields in the TW5-graph settings.
+The <<.attr $fields>> attributes can specify which configured [[field edges|Fields EdgeType]] should be considered. This is a filter attribute which is passed a list of all configured fields in the TW5-graph settings.
 
 <<categoryList fields>>
 
@@ -57,7 +57,7 @@ By default, the value of this attribute is <<value '[all[]]'>>, which means all 
 
 ! $formulas
 
-The <<.attr $formula>> attribute specifies which formulas to use. Otherwise, it works exactly like the <<.attr $fields>> attribute does. By default, <<.graph>> has the following formulas defined:
+The <<.attr $formula>> attribute specifies which [[formulas|Formulas EdgeType]] to use. Otherwise, it works exactly like the <<.attr $fields>> attribute does. By default, <<.graph>> has the following formulas defined:
 
 <<categoryList formulas>>
 
