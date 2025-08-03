@@ -6,8 +6,14 @@
 \procedure configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
 \procedure configs.formulas() :cache[subfilter<configs.all>removeprefix[formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]
 
-\procedure edges.fields() [subfilter<configs.fields>] :map:flat[<..currentTiddler>gettyped{!!title}]
-\procedure edges.formulas() [subfilter<configs.formulas>] :map:flat[<..currentTiddler>subfilter{!!filter}]
+<!-- Holy nuts this is getting complicated, but we need to :map:flat twice
+     in order to switch ..currentTiddler and currentTiddler, as the fields
+     and formulas will expect it. -->
+\procedure edges.fields.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>gettyped<..currentTiddler>]
+\procedure edges.formulas.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>subfilter<..currentTiddler>]
+
+\procedure edges.fields() [subfilter<configs.fields>] :map:flat[<..currentTiddler>subfilter<edges.fields.flipped>]
+\procedure edges.formulas() [subfilter<configs.formulas>get[filter]] :map:flat[<..currentTiddler>subfilter<edges.formulas.flipped>]
 
 \procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.formulas>] +[!is[blank]unique[]]
 \procedure neighbors.cached() [all[]] :cache[subfilter<neighbors.for>]

@@ -117,4 +117,28 @@ it("gets [all[tiddlers] as source for $filter", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>B-C-D-node-</p>");
 });
 
+// Tests for issue #47
+it("properly sets currentTiddler when seeking for neighbors", function() {
+	wiki.addTiddler({
+		title: "$:/config/flibbles/graph/edges/formulas/directory",
+		filter: "[all[tiddlers]prefix<currentTiddler>] -[all[current]]"});
+	wiki.addTiddler({title: "$:/config/flibbles/graph/edges/fields/filter"});
+	wiki.addTiddler({title: "$:/config/flibbles/relink/fields/filter", text: "filter"});
+	wiki.addTiddlers([
+		{title: "Dir/Target", filter: "[all[current]get[field]]", field: "to"},
+		// Test fields incoming
+		{title: "from", filter: "[all[current]get[field]]", field:"Dir/Target"},
+		// Test fields outgoin
+		{title: "to"},
+		// Test formulas outgoing
+		{title: "Dir/Target/A"},
+		// Test formulas incoming
+		{title: "Dir"},
+		// Test that this doesn't get picked up
+		{title: "Obligatory ignored tiddler"}]);
+	var text = "<$nodes.neighbors $filter='Dir/Target'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Dir-from-to-Dir/Target/A-</p>");
+});
+
 });
