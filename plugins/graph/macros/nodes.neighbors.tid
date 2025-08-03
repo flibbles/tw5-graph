@@ -18,7 +18,7 @@
 \procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.formulas>] +[!is[blank]unique[]]
 \procedure neighbors.cached() [all[]] :cache[subfilter<neighbors.for>]
 
-\procedure incoming.raw() [all[tiddlers]subfilter<$whitelist>!search:title:regexp<regexp>] :filter[subfilter<neighbors.cached>search:title:regexp<regexp>]
+\procedure incoming.raw() [all[tiddlers]subfilter<$whitelist>!search:title:regexp,casesensitive<regexp>] :filter[subfilter<neighbors.cached>search:title:regexp,casesensitive<regexp>]
 \procedure incoming.cached() :cache[subfilter<incoming.raw>]
 \whitespace trim
 
@@ -36,7 +36,7 @@
 
 <$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> >
 
-<%if [<$interedges>!match[no]] ~[<toTiddler>search:title:regexp<regexp>] %>
+<%if [<$interedges>!match[no]] ~[<toTiddler>search:title:regexp,casesensitive<regexp>] %>
 
 <$edge $id=<<id>> />
 
@@ -44,7 +44,7 @@
 
 <!-- outgoing neighbors -->
 
-<$list filter="[subfilter<filter.cached>subfilter<neighbors.cached>subfilter<$whitelist>!search:title:regexp<regexp>] -[subfilter<incoming.cached>]">
+<$list filter="[subfilter<filter.cached>subfilter<neighbors.cached>subfilter<$whitelist>!search:title:regexp,casesensitive<regexp>] -[subfilter<incoming.cached>]">
 
 <$slot $name=ts-raw>
 

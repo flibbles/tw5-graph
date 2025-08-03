@@ -117,6 +117,47 @@ it("gets [all[tiddlers] as source for $filter", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>B-C-D-node-</p>");
 });
 
+/*** Case sensitivity ***/
+// Three tests for problems found while fixing issue #47
+
+it("handles capitalization mismatch with incoming neighbors", function() {
+	wiki.addTiddlers([
+		{title: "target"},
+		// This shouldn't get removed just because it's similar to focused node
+		{title: "Target", tags: "target"},
+		{title: "no", tags: "Target"},
+		{title: "yes", tags: "target"}]);
+	var text = "<$nodes.neighbors $filter=target>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Target-yes-</p>");
+});
+
+// Can't test incoming and outgoing at the same time effectively
+it("handles capitalization mismatch with outgoing neighbors", function() {
+	wiki.addTiddlers([
+		{title: "target", tags: "Target"},
+		// This shouldn't get removed just because it's similar to focused node
+		{title: "Target"}]);
+	var text = "<$nodes.neighbors $filter=target>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Target-</p>");
+});
+
+// Testing edge creation requires creating actual graphs. Can't cheat it.
+it("handles capitalization mismatch with neighbor interedges", function() {
+	wiki.addTiddlers([
+		{title: "target", tags: "Target"},
+		// This is pointing to both targets, but the edge to the wrong one
+		// shouldn't appear if inter-edges are off.
+		{title: "Side", tags: "target Target"},
+		{title: "Target"}]);
+	var text = "<$graph><$nodes.neighbors $interedges=no $filter=target />";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.keys(objects.nodes).sort()).toEqual(["Side", "Target"]);
+	expect(objects.edges).not.toBeDefined();
+});
+
 // Tests for issue #47
 it("properly sets currentTiddler when seeking for neighbors", function() {
 	wiki.addTiddler({
