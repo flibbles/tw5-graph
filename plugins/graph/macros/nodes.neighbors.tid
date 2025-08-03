@@ -1,4 +1,4 @@
-\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges:no, $whitelist:'[!is[system]]')
+\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges, $whitelist:'[!is[system]]')
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
 \procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]
@@ -36,7 +36,7 @@
 
 <$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> >
 
-<%if [<$interedges>!match[no]] ~[<toTiddler>search:title:regexp,casesensitive<regexp>] %>
+<%if [<$interedges>match[yes]] ~[<toTiddler>search:title:regexp,casesensitive<regexp>] %>
 
 <$edge $id=<<id>> />
 
@@ -52,7 +52,7 @@
 
 </$slot>
 
-<%if [<$interedges>!match[no]] %>
+<%if [<$interedges>match[yes]] %>
 
 <$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> />
 

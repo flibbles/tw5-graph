@@ -90,6 +90,20 @@ it("can optionally create inter-edges", async function() {
 		{from: "NE", to: "SE", label: label}]);
 });
 
+it("blank interedges means no interedges", function() {
+	// important so views don't always have to be explicit about this value.
+	wiki.addTiddlers([
+		{title: "target", tags: "C D"},
+		{title: "A", tags: "target B"},
+		{title: "B", tags: "target"},
+		{title: "C", tags: "D"},
+		{title: "D"}]);
+	var text = "<$graph><$nodes.neighbors $filter=target $interedges='' />";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(objects.edges).toBeUndefined();
+});
+
 it("can whitelist out system tiddlers by default", function() {
 	wiki.addTiddlers([
 		{title: "A", tags: "home"}, {title: "B"},
