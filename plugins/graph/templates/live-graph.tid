@@ -18,7 +18,9 @@ tags: $:/tags/flibbles/graph/template
             formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
           <$properties.configured $view={{!!title}} >
             <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
-            <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+            <$vars currentTiddler=<<focusTiddler>> >
+              <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+            </$vars>
             <$properties color=<<muted>> >
               <$nodes.neighbors $filter="[<focusTiddler>]" $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
             </$properties>
