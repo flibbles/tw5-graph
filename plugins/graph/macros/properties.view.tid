@@ -1,0 +1,31 @@
+\widget $properties.view()
+\whitespace trim
+
+<$properties.popup
+  $enabled={{!!popup}}
+  $width={{{ [{!!title}get[popup.width]else[300px]] }}}
+  $height={{{ [{!!title}get[popup.height]else[200px]] }}} >
+
+<$properties.river>
+
+<$let
+  fieldsFilter={{{ [{!!edges.fields}!is[blank]] ~"[all[]]" }}}
+  formulasFilter={{{ [{!!edges.formulas}!is[blank]] ~"[all[]]" }}}>
+
+<$slot $name="ts-raw" $depth=3 />
+
+<%if [{!!neighbors.incoming}] =[{!!neighbors.outgoing}] +[match[1]count[]match[2]] %>
+
+<$wikify name=muted text="<<colour muted-foreground>>">
+
+<$properties color=<<muted>> >
+ 
+<$nodes.neighbors
+  $filter={{!!filter}}
+  $formulas=<<formulasFilter>>
+  $fields=<<fieldsFilter>>
+  $interedges={{!!neighbors.interedges}}
+  $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />
+
+</$properties></$wikify><%endif%></$let></$properties.river></$properties.popup>
+\end

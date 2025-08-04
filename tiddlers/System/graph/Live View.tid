@@ -2,5 +2,7 @@ title: $:/graph/Live View
 filter: [{$:/temp/focussedTiddler}]
 graph.graph: {"springLength":"100","springConstant":"0.17","gravitationalConstant":"-150","centralGravity":"0","damping":"0.4"}
 graph.nodes: {"shape":"box"}
+neighbors.incoming: 1
+neighbors.outgoing: 1
 template: $:/plugins/flibbles/graph/templates/live-graph
 
