@@ -29,4 +29,13 @@ it("properly sets label using title or caption", function() {
 		B: {label: "label"}});
 });
 
+it("does not introduce DOM content", function() {
+	//Block Mode
+	var widget = $tw.test.renderGlobal(wiki, "<$node.default />\n");
+	expect(widget.parentDomNode.innerHTML).toBe("", "block mode");
+	//Inline Mode
+	widget = $tw.test.renderGlobal(wiki, "<$node.default />");
+	expect(widget.parentDomNode.innerHTML).toBe("<p></p>", "inline mode");
+});
+
 });

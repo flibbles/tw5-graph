@@ -1,8 +1,9 @@
 \widget $node.default()
-\whitespace trim
 <$wikify name=label
 	mode=inline
 	text={{{ [{!!title}get[caption]else[<$text text={{!!title}} />]] }}} >
+
   <$node $pos=<<pos>> label=<<label>> color={{!!color}} image={{!!icon}} />
+
 </$wikify>
 \end

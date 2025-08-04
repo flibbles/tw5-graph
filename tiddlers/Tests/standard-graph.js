@@ -78,13 +78,15 @@ it("wikifies captions but not titles", async function() {
 });
 
 it("does not create unnecessary textContent", function() {
-	wiki.addTiddlers([ view({filter: `A B`}), {title: "A", tags: "B"}]);
+	wiki.addTiddlers([ view({filter: `A B`, "neighbors.incoming": "1", "neighbors.outgoing": "1"}), {title: "A", tags: "B Outgoing"}, {title: "Incoming", tags: "A"}]);
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
 	var objects = init.calls.first().args[1];
-	expect($tw.utils.count(objects.nodes)).toBe(2);
-	expect($tw.utils.count(objects.edges)).toBe(1);
+	expect($tw.utils.count(objects.nodes)).toBe(4);
+	expect($tw.utils.count(objects.edges)).toBe(3);
 	// This is the main test. No text content should be created
 	expect(widget.parentDomNode.textContent).toBe("");
+	// p -> div.graph-canvas -> (nothing)
+	expect(widget.parentDomNode.children[0].children[0].innerHTML).toBe("");
 });
 
 it("has proper default settings in river", async function() {
