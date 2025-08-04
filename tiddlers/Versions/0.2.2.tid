@@ -1,0 +1,12 @@
+created: 20250804221403321
+
+More fixes and tweaks
+
+* Fix for #43: graph modal wouldn't open correctly on mobile
+* Fixed case-sensitivity issue with finding neighbors
+* Fixed issue where $nodes.neighbors didn't properly set currentTiddler when evaluating formula edges.
+* Better documentation for various stuff, including making information on neighbors more discoverable.
+* Added "neighbors" support for standard graph, and made it configurable for live-graph
+* Fixed $node.default and how it was introducing DOM elements
+
+There are some backward-incompatible changes with this, particularly with live view, and more are to follow. Things should stablize soon though.
