@@ -52,6 +52,8 @@
 
 <!-- We aren't using the popup type because we need to be more dynamic about placing the popup in different directions. The text must be a coord because of $action-popup, but we don't use it. -->
 
+<%if [<$enabled>match[yes]] %>
+
 <$reveal
   type=match
   text="(0,0,0,0)"
