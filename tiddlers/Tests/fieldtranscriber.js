@@ -220,14 +220,25 @@ it("broken json", async function() {
 it("only replaces outside of runs", async function() {
 	async function test(textValue, expectedField, expectedText) {
 		expectedText = expectedText || textValue;
+		// Set the state to the textValue first...
 		wiki.addTiddler({title: state, text: textValue});
 		await $tw.test.flushChanges();
+		// The target field should have gotten the expected value
 		expect(wiki.getTiddler("Target").fields.field).toBe(expectedField);
+		// Now clear that field...
 		wiki.addTiddler({title: "Target"});
 		await $tw.test.flushChanges();
+		// We've got to do it twice, because the flush causes the transcriber
+		// to delete the state, which requires another flush before we
+		// recreate it, or else we'll end up deleting it again.
+		// NOTE: This problem only seems to occur on the browser
+		await $tw.test.flushChanges();
+		// Should make the state disappear
 		expect(wiki.tiddlerExists(state)).toBe(false);
+		// But now we put that expected field back in...
 		wiki.addTiddler({title: "Target", field: expectedField});
 		await $tw.test.flushChanges();
+		// The state should reappear with the expected text.
 		expect(wiki.getTiddlerText(state)).toBe(expectedText);
 	};
 	$tw.test.renderText(wiki, `<$fieldtranscriber state='${state}' tiddler=Target field=field type='application/x-tiddler-filter' />`);
