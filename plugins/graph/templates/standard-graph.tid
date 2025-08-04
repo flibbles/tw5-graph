@@ -28,6 +28,14 @@ tags: $:/tags/flibbles/graph/template
                   $fields=<<fieldsFilter>>
                   $editable=yes />
               </$nodes.writable>
+              <%if [{!!neighbors.incoming}] =[{!!neighbors.outgoing}] +[match[1]count[]match[2]] %>
+                <$nodes.neighbors
+                  $filter={{!!filter}}
+                  $formulas=<<formulasFilter>>
+                  $fields=<<fieldsFilter>>
+                  $interedges={{!!neighbors.interedges}}
+                  $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />
+              <%endif%>
             </$properties.persistent>
           </$properties.configured>
         </$let>

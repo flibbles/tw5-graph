@@ -113,4 +113,22 @@ it("has proper override settings in river", async function() {
 	expect(objects.graph.navigation).toBe(true);
 });
 
+it("neighbors are disabled by default", function() {
+	wiki.addTiddlers([
+		view({filter: "target"}),
+		{title: "target", tags: "A B"}]);
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var objects = init.calls.first().args[1];
+	expect(Object.keys(objects.nodes).sort()).toEqual(["target"]);
+});
+
+it("neighbor whitelist defaults to [!is[system]]", function() {
+	wiki.addTiddlers([
+		view({filter: "target", "neighbors.incoming": "1", "neighbors.outgoing": "1"}),
+		{title: "target", tags: "A B $:/C"}]);
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
+	var objects = init.calls.first().args[1];
+	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "B", "target"]);
+});
+
 });

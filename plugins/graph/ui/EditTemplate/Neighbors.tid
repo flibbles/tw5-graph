@@ -1,0 +1,35 @@
+caption: Neighbors
+
+\whitespace trim
+
+You can enable popups when hovering over a node.
+
+<!-- This uses 1 and 0 as values instead of yes and no, because someday, I
+     may allow for deeper depth of neighbors. Those would use 2+ -->
+
+<!-- It sets two fields, `neighbors.incoming` and `neighbors.outgoing` for
+     the same reason. Some day, we may configure those separately, and if so,
+     this will be better for backward compatibility. -->
+
+<$checkbox field="neighbors.incoming"
+	checked=1
+	unchecked=0
+	default=0
+	checkactions="""<$action-setfield $field="neighbors.outgoing" $value=1 />"""
+	uncheckactions="""<$action-setfield $field="neighbors.outgoing" />"""
+>
+&#32;Enable neighbors
+</$checkbox>
+
+<$reveal type="match"
+	text="1"
+	stateTitle={{!!title}}
+	stateField="neighbors.incoming"
+	retain="yes"
+	animate="yes">
+
+|tc-table-no-border |k
+|Allowed neighbors |<$edit-text field="neighbors.whitelist" placeholder="[!is[system]]" /> |
+|Edges between neighbors |<$checkbox field="neighbors.interedges" checked=yes unchecked=no default=no /> |
+
+</$reveal>
