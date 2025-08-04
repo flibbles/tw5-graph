@@ -4,7 +4,7 @@ caption: Popups
 
 You can enable popups when hovering over a node.
 
-<$checkbox field="popups"
+<$checkbox field="popup"
 	checked=yes
 	unchecked=no
 	default=no>
@@ -14,12 +14,12 @@ You can enable popups when hovering over a node.
 <$reveal type="match"
 	text="yes"
 	stateTitle={{!!title}}
-	stateField="popups"
+	stateField="popup"
 	retain="yes"
 	animate="yes">
 
 |tc-table-no-border |k
-|Popup maximum width |<$edit-text field="popups.width" placeholder="300px"/> |
-|Popup maximum height |<$edit-text field="popups.height" placeholder="200px" /> |
+|Popup maximum width |<$edit-text field="popup.width" placeholder="300px"/> |
+|Popup maximum height |<$edit-text field="popup.height" placeholder="200px" /> |
 
 </$reveal>
