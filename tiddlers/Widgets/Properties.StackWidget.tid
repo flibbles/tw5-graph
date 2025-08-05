@@ -1,21 +1,21 @@
-title: Properties.ConfiguredWidget
+title: Properties.StackWidget
 tags: Widgets [[Macro Widgets]]
-caption: properties.configured
+caption: properties.stack
 
 ! Introduction
 
-The <<.wid properties.configured>> widget applies all relevant configured properties to your graph. This includes the [[stack of node properties|Stack NodeType]], as well as view-specific properties if a view is specified. This allows you to easily apply all your globally assigned object properties to whatever graph you're making.
+The <<.wid properties.stack>> widget applies all the [[node stack properties|Stack NodeType]] to any contained nodes. It is careful to apply them in the proper order, and to the proper nodes.
 
-In theory, this widget could apply stacks of properties to edges or graphs too, but that sophisticated yet.
+In theory, this widget could apply stacks of properties to edges too, but that sophisticated yet.
 
 The node property stack can be configured in the ''properties'' tab from the <$link to="$:/plugins/flibbles/graph"><<.graph>> configuration</$link>.
 
 ! Contents and Attributes
 
-Any nodes defined within <<.wid properties.configured>> will inherit all properties relevant to them. Any graph containing this widget will also gain any such grpah properties.
+Any nodes defined within <<.wid properties.stack>> will inherit all properties relevant to them. Any graph containing this widget will also gain any such grpah properties.
 
 |!Attribute | !Description |
-|$view |Specify a view tiddler which may contain fields specifying properties for specific object types |
+|//(none)// |>|
 
 <$doc.implementation />
 
@@ -23,13 +23,13 @@ Any nodes defined within <<.wid properties.configured>> will inherit all propert
 
 <$doc.example
 	description="node property stack"
-	narrative="""This demo site has several node properties configured in its settings. Here, all we have to do is wrap the nodes in <<.wid properties.configured>>, and those settings will apply to the correct nodes."""
+	narrative="""This demo site has several node properties configured in its settings. Here, all we have to do is wrap the nodes in <<.wid properties.stack>>, and those settings will apply to the correct nodes."""
 	content="""<$graph>
-  <$properties.configured>
+  <$properties.stack>
     <$list filter="[!is[system]]">
       <$node label={{!!title}} />
     </$list>
-  </$properties.configured>
+  </$properties.stack>
 </$graph>""">
 <$data title="Charles Darwin" tags="Scientist Male Biologist" />
 <$data title="Barbara McClintock" tags="Scientist Female Biologist" />

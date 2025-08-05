@@ -1,4 +1,4 @@
-\widget $properties.configured($view)
+\widget $properties.stack($view)
 \procedure $properties.stack.recurse(nth)
 \procedure node.stack() [list[$:/config/flibbles/graph/nodes/stack]] =[all[shadows+tiddlers]prefix[$:/config/flibbles/graph/nodes/stack/]sort[]] +[unique[]is[tiddler]]
 \whitespace trim
@@ -12,14 +12,8 @@
 \end $properties.stack.recurse
 \whitespace trim
 
-<$properties $tiddler=<<$view>> $field="graph.graph" $for=graph />
-
-<$properties $tiddler=<<$view>> $field="graph.edges" $for=edges >
-
-<$properties $tiddler=<<$view>> $field="graph.nodes" $for=nodes >
-
 <$transclude $variable=$properties.stack.recurse nth=1 $fillignore=yes />
 
 \end
 
-\relink $properties.configured $view:title
+\relink $properties.stack $view:title

@@ -8,6 +8,10 @@
 
 <$properties.river>
 
+<$properties $tiddler={{!!title}} $field="graph.edges" $for=edges >
+
+<$properties $tiddler={{!!title}} $field="graph.nodes" $for=nodes >
+
 <$let
   fieldsFilter={{{ [{!!edges.fields}!is[blank]] ~"[all[]]" }}}
   formulasFilter={{{ [{!!edges.formulas}!is[blank]] ~"[all[]]" }}}>
@@ -27,5 +31,8 @@
   $interedges={{!!neighbors.interedges}}
   $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />
 
-</$properties></$wikify><%endif%></$let></$properties.river></$properties.popup>
+</$properties></$wikify><%endif%></$let></$properties></$properties>
+<$properties $tiddler={{!!title}} $field="graph.graph" $for=graph />
+
+</$properties.river></$properties.popup>
 \end

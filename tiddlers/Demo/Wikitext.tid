@@ -8,12 +8,12 @@ The following code is a simple example of all you might need to make a graph.
 <$doc.demo
 	description="simple example"
 	code="""<$graph>
-  <$properties.configured>
+  <$properties.stack>
     <$list filter="[tag[Norse]]">
       <$node label={{!!title}} />
       <$edges.typed $fields="[all[]]" />
     </$list>
-  </$properties.configured>
+  </$properties.stack>
 </$graph>""" />
 
 However, TW5-Graph is also built with a system of premade templates, views, and configuration menus, so that you can design and manipulate graphs without ever touching wikitext.

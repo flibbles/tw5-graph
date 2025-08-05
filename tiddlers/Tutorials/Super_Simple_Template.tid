@@ -1,21 +1,12 @@
 title: Super Simple Template
 
 <$graph>
-  <$let
-    defaultEdgeFilter="[all[]]"
-    fieldsFilter={{{ [{!!edges.fields}!is[blank]else<defaultEdgeFilter>] }}}
-    formulasFilter={{{ [{!!edges.formulas}!is[blank]else<defaultEdgeFilter>] }}}>
-    <$properties.popup $enabled={{!!popup}} $width={{{ [{!!title}get[popup.width]else[300px]] }}} $height={{{ [{!!title}get[popup.height]else[200px]] }}} >
-    <$properties.river>
-    <$properties.configured $view={{!!title}} >
+  <$properties.view>
     <$properties.persistent $dataTiddler={{!!title}} >
       <$nodes.writable $field="filter">
-        <$transclude $tiddler="$:/plugins/flibbles/graph/templates/node" />
+        <$node.default />
         <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
       </$nodes.writable>
     </$properties.persistent>
-    </$properties.configured>
-    </$properties.river>
-    </$properties.popup>
-  </$let>
+  </$properties.view>
 </$graph>

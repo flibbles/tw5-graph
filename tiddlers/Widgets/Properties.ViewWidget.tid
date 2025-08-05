@@ -4,7 +4,7 @@ caption: properties.view
 
 ! Introduction
 
-The <<.wid properties.configured>> widget applies properties to a view that correspond to the view's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
+The <<.wid properties.view>> widget applies properties to a view that correspond to the view's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
 
 * It applies popups to the nodes of the view is configured to do so.
 * It makes the view behave appropriately depending on whether it's in the sidebar, or shown in your story river.

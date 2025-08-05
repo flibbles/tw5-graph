@@ -4,7 +4,7 @@ Tests the live-graph template
 
 \*/
 
-describe('standard-graph template', function() {
+describe('live-graph template', function() {
 
 var wiki, init, update;
 
@@ -29,9 +29,9 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
-it("physics only applies to non-recorded nodes", function() {
+it("can properly evaluate formula neighbors", function() {
 	wiki.addTiddlers([
-		view({filter: "target"}),
+		view({filter: "target", "neighbors.incoming": "1", "neighbors.outgoing": "1"}),
 		formulaConfig("nested", "[all[tiddlers]prefix{!!title}]"),
 		{title: "target/file"},
 		{title: "ignore/file"}]);
