@@ -1,0 +1,53 @@
+title: Properties.ViewWidget
+tags: Widgets [[Macro Widgets]]
+caption: properties.view
+
+! Introduction
+
+The <<.wid properties.configured>> widget applies properties to a view that correspond to the view's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
+
+* It applies popups to the nodes of the view is configured to do so.
+* It makes the view behave appropriately depending on whether it's in the sidebar, or shown in your story river.
+* It provides variables to inner content that correspond to how the view's edge types are configured.
+* It renders neighbor nodes for your view's nodes, if the view is configured to do so, and it styles those nodes.
+* It applies the stack of node configuration to your view's nodes.
+
+! Contents and Attributes
+
+Any graph objects contained within are rendered once, with all the view settings applied to them.
+
+This widget takes no attributes. It assumes the <<.var currentTiddler>> is the view it should model itself off of.
+
+|!Attribute | !Description |
+|//(none)// |>|
+
+<$doc.implementation />
+
+! Examples
+
+<$doc.example
+	description="Example view"
+	narrative="""This example template renders an example ''Artists'' view. You can mess with the settings below, and you'll see it reflected in the graph thanks to the <<.wid properties.view>> widget""" >
+<$data title="Output" caption="''Artists''" filter="[tag[Artist]]" edges.fields="[all[]] born weapon" text="""<$graph>
+  <$properties.view>
+    <$list filter={{!!filter}} >
+      <$node.default />
+      <$edges.typed $fields=<<fieldsFilter>> $formulas=<<formulasFilter>> />
+    </$list>
+  </$properties.view>
+</$graph>
+
+{{||$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate}}"""/>
+<$data title="Michelangelo" tags="Artist" weapon="nunchaku" born="[[Republic of Florence]]" text="Michelangelo was an Italian sculpter and painter most famous for the [[Pieta]] and [[David]].
+
+He also loves skateboarding."/>
+<$data title="Donatello" born="Florence" weapon="[[bo staff]]" tags="Artist" text="this Italian sculpter worked heavily in creating the human form, using mediums such as clay, bronze, and stucco.
+
+He prefers using gadgets over hand-to-hand combat." />
+<$data title="Leonardo Da Vinci" born="Vinci" weapon="katanas" tags="Artist" text="Often known as the greatest of the Renaissance man. He's not only well known for his artistry, but also his contributions to the sciences, and his inventions.
+
+As a leader, he keeps other Italian artists like [[Michelangelo]], [[Donatello]], and [[Raphael]] in line."/>
+<$data title="Raphael" tags="Artist" born="Sanzio" weapon="[[twin sai]]" text="Raphael was an Italian painter and architect known for his clarity of form. Much of his work can be found in the [[Vatican]].
+
+However, he is known as a hothead. Frequently at odds with his brothers. When he's not painting for the Vatican, he's fighting [[Shredder]]'s forces." />
+</$doc.example>
