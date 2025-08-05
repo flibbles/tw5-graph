@@ -4,15 +4,14 @@ tags: $:/tags/flibbles/graph/template
 
 \whitespace trim
 
-\procedure state() $:/state/flibbles/graph/doc/live
-\procedure gotoAction() <$action-setfield $tiddler=<<state>> $value=<<nodeTiddler>> />
-
 <$vars focusTiddler={{{ [subfilter{!!filter}] }}}>
   <$graph>
-    <$properties $for=nodes doubleclick=<<gotoAction>> >
+    <$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
       <$properties.view>
-        <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
-        <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+        <$list filter={{!!filter}}>
+          <$node.default />
+          <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+        </$list>
       </$properties.view>
     </$properties>
   </$graph>
