@@ -1,10 +1,10 @@
 \widget $properties.stack($view)
-\procedure $properties.stack.recurse(nth)
+\procedure $properties.stack.recurse(zth)
 \procedure node.stack() [list[$:/config/flibbles/graph/nodes/stack]] =[all[shadows+tiddlers]prefix[$:/config/flibbles/graph/nodes/stack/]sort[]] +[unique[]is[tiddler]]
 \whitespace trim
-<%if :cache[subfilter<node.stack>] +[nth<nth>] %>
+<%if :cache[subfilter<node.stack>] +[zth<zth>] %>
   <$properties $filter={{{ [<condition>get[filter]] }}} $tiddler=<<condition>> >
-    <$transclude $variable=$properties.stack.recurse $fillignore=yes nth={{{ [<nth>add[1]] }}} />
+    <$transclude $variable=$properties.stack.recurse $fillignore=yes zth={{{ [<zth>add[1]] }}} />
   </$properties>
 <%else%>
   <$slot $name=ts-raw />
@@ -12,7 +12,7 @@
 \end $properties.stack.recurse
 \whitespace trim
 
-<$transclude $variable=$properties.stack.recurse nth=1 $fillignore=yes />
+<$transclude $variable=$properties.stack.recurse zth=0 $fillignore=yes />
 
 \end
 
