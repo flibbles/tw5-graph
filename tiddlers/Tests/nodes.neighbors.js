@@ -47,14 +47,32 @@ it("prevents overlaps", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>Y-Z-C-D-</p>");
 });
 
-it("can specify $fields and $formulas for to neighbors", function() {
+it("can specify edge Types for to outgoing neighbors and edges", function() {
 	wiki.addTiddlers([
-		{title: "A"}, {title: "B"}, {title: "C"},
-		{title: "L"}, {title: "T"},
-		{title: "home", tags: "A B", list: "A C", text: "[[L]] {{T}}"}]);
-	var text = "<$nodes.neighbors $filter='home' $fields='[all[]] -tags' $formulas='[all[]] -links'>{{!!title}}-";
+		{title: "A", tags: "A", list: "C"}, {title: "B"}, {title: "C"},
+		{title: "T", text: "[[T]] {{X}}"}, {title: "L"}, {title: "X"},
+		{title: "home", tags: "A B", list: "A C", text: "[[X]] [[L]] {{X}} {{T}}"}]);
+	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $formulas='[all[]] -links'/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	expect(widget.parentDomNode.innerHTML).toBe("<p>A-C-T-</p>");
+	var objects = init.calls.first().args[1];
+	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "C", "T", "X"]);
+	expect(Object.values(objects.edges).map((x) => x.to)).toEqual(["C", "X"]);
+});
+
+it("can specify edge Types for to incoming neighbors and edges", function() {
+	wiki.addTiddlers([
+		{title: "home"},
+		{title: "A", tags: "home A", list: "home C"},
+		{title: "B", tags: "home"},
+		{title: "C", list: "home"},
+		{title: "X", text: "[[home]] {{home}} [[X]] {{T}}"},
+		{title: "L", text: "[[home]]"},
+		{title: "T", text: "{{home}}"}]);
+	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $formulas='[all[]] -links'/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "C", "T", "X"]);
+	expect(Object.values(objects.edges).map((x) => x.to)).toEqual(["C", "T"]);
 });
 
 it("can optionally create inter-edges", async function() {

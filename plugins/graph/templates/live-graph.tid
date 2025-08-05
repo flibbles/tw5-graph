@@ -8,10 +8,12 @@ tags: $:/tags/flibbles/graph/template
   <$graph>
     <$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
       <$properties.view>
-        <$list filter={{!!filter}}>
-          <$node.default />
-          <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
-        </$list>
+        <$properties physics=no>
+          <$list filter={{!!filter}}>
+            <$node.default />
+            <$edges.typed />
+          </$list>
+        </$properties>
       </$properties.view>
     </$properties>
   </$graph>

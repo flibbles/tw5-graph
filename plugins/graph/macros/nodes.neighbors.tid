@@ -22,7 +22,10 @@
 \procedure incoming.cached() :cache[subfilter<incoming.raw>]
 \whitespace trim
 
-<$vars regexp={{{ [subfilter<filter.cached>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}>
+<$vars
+	regexp={{{ [subfilter<filter.cached>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}
+	formulasFilter=<<$formulas>>
+	fieldsFilter=<<$fields>> >
 
 <!-- incoming neighbors -->
 
@@ -34,7 +37,7 @@
 
 </$slot>
 
-<$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> >
+<$edges.typed>
 
 <%if [<$interedges>match[yes]] ~[<toTiddler>search:title:regexp,casesensitive<regexp>] %>
 
@@ -54,7 +57,7 @@
 
 <%if [<$interedges>match[yes]] %>
 
-<$edges.typed $formulas=<<$formulas>> $fields=<<$fields>> />
+<$edges.typed />
 
 <%endif%></$list>
 \end

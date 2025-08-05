@@ -1,7 +1,10 @@
-\widget $edges.typed($formulas:'[all[]]' $fields:'[all[]]' $editable:no)
+\widget $edges.typed($editable:no)
 \function configTiddlers() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \whitespace trim
-<$parameters $$tiddler=<<currentTiddler>> >
+<$parameters
+	$$formulas={{{ [<formulasFilter>!is[blank]] ~"[all[]]" }}}
+	$$fields={{{ [<fieldsFilter>!is[blank]] ~"[all[]]" }}}
+	$$tiddler=<<currentTiddler>> >
 
 <!-- First create edges for field types -->
 
