@@ -12,11 +12,13 @@
 
 <$properties $tiddler={{!!title}} $field="graph.nodes" $for=nodes >
 
+<$properties.stack>
+
 <$let
   fieldsFilter={{{ [{!!edges.fields}!is[blank]] ~"[all[]]" }}}
   formulasFilter={{{ [{!!edges.formulas}!is[blank]] ~"[all[]]" }}}>
 
-<$slot $name="ts-raw" $depth=3 />
+<$slot $name="ts-raw" $depth=4 />
 
 <%if [{!!neighbors.incoming}] =[{!!neighbors.outgoing}] +[match[1]count[]match[2]] %>
 
@@ -31,7 +33,7 @@
   $interedges={{!!neighbors.interedges}}
   $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />
 
-</$properties></$wikify><%endif%></$let></$properties></$properties>
+</$properties></$wikify><%endif%></$let></$properties.stack></$properties></$properties>
 <$properties $tiddler={{!!title}} $field="graph.graph" $for=graph />
 
 </$properties.river></$properties.popup>

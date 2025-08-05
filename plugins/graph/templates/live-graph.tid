@@ -10,12 +10,10 @@ tags: $:/tags/flibbles/graph/template
 <$vars focusTiddler={{{ [subfilter{!!filter}] }}}>
   <$graph>
     <$properties $for=nodes doubleclick=<<gotoAction>> >
-      <$properties.stack>
-        <$properties.view>
-          <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
-          <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
-        </$properties.view>
-      </$properties.stack>
+      <$properties.view>
+        <$node $tiddler=<<focusTiddler>> label=<<focusTiddler>> physics=no doubleclick="<$action-navigate $to=<<nodeTiddler>> />"/>
+        <$edges.typed $tiddler=<<focusTiddler>> $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+      </$properties.view>
     </$properties>
   </$graph>
 </$vars>

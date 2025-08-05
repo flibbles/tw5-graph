@@ -13,19 +13,17 @@ tags: $:/tags/flibbles/graph/template
           image="$:/core/images/options-button"
           doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Views" /><$action-setfield $tiddler="$:/state/flibbles/graph/views-378203405" text=<<currentTiddler>> />""" />
       <%endif%>
-      <$properties.stack>
-        <$properties.persistent $dataTiddler=<<currentTiddler>> >
-          <$properties.view>
-            <$nodes.writable $field=filter>
-              <$node.default/>
-              <$edges.typed
-                $formulas=<<formulasFilter>>
-                $fields=<<fieldsFilter>>
-                $editable=yes />
-            </$nodes.writable>
-          </$properties.view>
-        </$properties.persistent>
-      </$properties.stack>
+      <$properties.persistent $dataTiddler=<<currentTiddler>> >
+        <$properties.view>
+          <$nodes.writable $field=filter>
+            <$node.default/>
+            <$edges.typed
+              $formulas=<<formulasFilter>>
+              $fields=<<fieldsFilter>>
+              $editable=yes />
+          </$nodes.writable>
+        </$properties.view>
+      </$properties.persistent>
     </$properties>
   </$properties>
 </$graph>
