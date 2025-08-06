@@ -52,5 +52,5 @@ Set graph and node properties.
 
 <$doc.show show="Show graphTiddler settings">
 
-{{$:/graph/Default||$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate}}
+{{$:/graph/Default||$:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate}}
 </$doc.show>

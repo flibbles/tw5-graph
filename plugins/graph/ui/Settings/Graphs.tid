@@ -1,6 +1,6 @@
-title: $:/plugins/flibbles/graph/ui/Settings/Views
+title: $:/plugins/flibbles/graph/ui/Settings/Graphs
 tags: $:/tags/flibbles/graph/settingsTab
-caption: Views
+caption: Graphs
 
 \whitespace trim
 \procedure graphList() :cache[all[shadows+tiddlers]insertafter{$:/config/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
@@ -8,7 +8,7 @@ caption: Views
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
 	tabsList=<<graphList>>
 	default={{{ [subfilter<graphList>] }}}
-	state="$:/state/flibbles/graph/views"
+	explicitState="$:/state/flibbles/graph/settings/graphs"
 >
   <$fill $name=addButton>
     <$button class="group-tab-new">
@@ -29,7 +29,7 @@ caption: Views
   </$fill>
   <$fill $name=body>
     <$let currentTiddler=<<currentTab>> >
-      <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate" $mode=block />
+      <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate" $mode=block />
     </$let>
 
     <$button>

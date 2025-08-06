@@ -1,4 +1,4 @@
-title: $:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate
+title: $:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate
 
 \procedure templateSelector()
 \whitespace trim

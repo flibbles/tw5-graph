@@ -37,7 +37,7 @@ This widget takes no attributes. It assumes the <<.var currentTiddler>> is the g
   </$properties.view>
 </$graph>
 
-{{||$:/plugins/flibbles/graph/ui/Settings/Views/EditTemplate}}"""/>
+{{||$:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate}}"""/>
 <$data title="Michelangelo" tags="Artist" weapon="nunchaku" born="[[Republic of Florence]]" text="Michelangelo was an Italian sculpter and painter most famous for the [[Pieta]] and [[David]].
 
 He also loves skateboarding."/>

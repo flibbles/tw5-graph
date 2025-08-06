@@ -24,5 +24,5 @@ tags: Demo
 |!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
 
 //All// graph settings are dynamic. And there are many more.
-<$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/views--1382248499" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
-Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/ui/Settings/Views]] and fiddle with the Pantheon graph to play with all of them.
+<$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
+Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/settings]] and fiddle with the Pantheon graph to play with all of them.
