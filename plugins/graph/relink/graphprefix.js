@@ -3,7 +3,7 @@ title: $:/plugins/flibbles/graph/relink/graphprefix.js
 type: application/javascript
 module-type: relinkprefix
 
-Takes care of relinking everything view related.
+Takes care of relinking everything graphTiddler related.
 Such as the tiddlers in the $:/graph/ namespace.
 
 \*/

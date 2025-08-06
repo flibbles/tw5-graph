@@ -7,7 +7,7 @@ list-after:
 	tabsList="graph nodes edges"
 	default=graph
 	class=""
-	state= "$:/state/flibbles/graph/views/editTemplate">
+	state= "$:/state/flibbles/graph/editTemplate/properties">
 
 <$fill $name=body>
 

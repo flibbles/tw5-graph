@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/ViewTemplateBodyFilter/graph
+list-before: $:/config/ViewTemplateBodyFilters/code-body
+tags: $:/tags/ViewTemplateBodyFilter
+
+[{!!title}] [get[draft.of]] +[prefix[$:/graph/]then[$:/plugins/flibbles/graph/ui/ViewTemplate/graph]]
