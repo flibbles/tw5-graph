@@ -1,4 +1,4 @@
-\widget $properties.stack($view)
+\widget $properties.stack()
 \procedure $properties.stack.recurse(zth)
 \procedure node.stack() [list[$:/config/flibbles/graph/nodes/stack]] =[all[shadows+tiddlers]prefix[$:/config/flibbles/graph/nodes/stack/]sort[]] +[unique[]is[tiddler]]
 \whitespace trim
@@ -15,5 +15,3 @@
 <$transclude $variable=$properties.stack.recurse zth=0 $fillignore=yes />
 
 \end
-
-\relink $properties.stack $view:title
