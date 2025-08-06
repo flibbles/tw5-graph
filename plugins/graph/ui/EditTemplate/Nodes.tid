@@ -2,7 +2,7 @@ caption: Nodes filter
 
 \whitespace trim
 
-Configure a filter describing what nodes this view shows
+Configure a filter describing what nodes this graph shows
 
 <$fieldtranscriber type="application/x-tiddler-filter" field=filter>
 

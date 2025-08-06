@@ -3,17 +3,17 @@ tags: $:/tags/flibbles/graph/settingsTab
 caption: Views
 
 \whitespace trim
-\procedure viewList() :cache[all[shadows+tiddlers]insertafter{$:/config/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
+\procedure graphList() :cache[all[shadows+tiddlers]insertafter{$:/config/flibbles/graph/sidebar}prefix[$:/graph/]else[$:/graph/Default]sort[]]
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
-	tabsList=<<viewList>>
-	default={{{ [subfilter<viewList>] }}}
+	tabsList=<<graphList>>
+	default={{{ [subfilter<graphList>] }}}
 	state="$:/state/flibbles/graph/views"
 >
   <$fill $name=addButton>
     <$button class="group-tab-new">
       {{$:/core/images/new-button}}
-      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewView">
+      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewGraph">
         <$vars newTitle=`$:/graph/$(selection)$`>
           <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
           <$action-setfield $tiddler=<<qualifiedState>> text=<<newTitle>> />
@@ -34,8 +34,8 @@ caption: Views
 
     <$button>
 
-      <$vars viewName={{{ [<currentTab>removeprefix[$:/graph/]] }}}>
-        <$action-confirm $message=`Are you sure you wish to delete '$(viewName)$'`>
+      <$vars graphName={{{ [<currentTab>removeprefix[$:/graph/]] }}}>
+        <$action-confirm $message=`Are you sure you wish to delete '$(graphName)$'`>
           <%if [{$:/config/flibbles/graph/sidebar}match<currentTab>] %>
             <$action-deletetiddler $tiddler="$:/config/flibbles/graph/sidebar"/>
           <%endif%>
@@ -43,7 +43,7 @@ caption: Views
         </$action-confirm>
       </$vars>
 
-      Delete View
+      Delete Graph
     </$button>
   </$fill>
 </$transclude>

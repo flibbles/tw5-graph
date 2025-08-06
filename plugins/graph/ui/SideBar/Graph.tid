@@ -3,7 +3,7 @@ caption: Graph
 tags: $:/tags/SideBar
 
 \whitespace trim
-\parameters (state: "$:/config/flibbles/graph/sidebar", defaultView: "$:/graph/Default")
+\parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
 \procedure fs-state() $:/config/flibbles/graph/fullscreen
 \procedure fs-actions()
 \whitespace trim
@@ -19,7 +19,7 @@ tags: $:/tags/SideBar
 \whitespace trim
 
 <$parameters
-  graph={{{ [<state>get[text]else<defaultView>] }}}
+  graph={{{ [<state>get[text]else<defaultGraph>] }}}
   defaultTemplate={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
 
 <$keyboard key="escape" actions=<<fs-kill>> >
@@ -44,9 +44,9 @@ tags: $:/tags/SideBar
   height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
   <div class="graph-sidebar-banner">
     <$slot $name="banner">
-      View:
-      <$select tiddler=<<state>> default=<<defaultView>> actions=<<fs-refocus>> >
-        <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultView>]"  >
+      Graph:
+      <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
+        <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
           <option value=<<currentTiddler>> >
             <$view field=caption>
               <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />

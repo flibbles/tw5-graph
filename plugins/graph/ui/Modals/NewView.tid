@@ -1,5 +1,5 @@
-title: $:/plugins/flibbles/graph/ui/Modals/NewView
-subtitle: New View
+title: $:/plugins/flibbles/graph/ui/Modals/NewGraph
+subtitle: New Graph
 footer: {{$:/plugins/flibbles/graph/ui/Modals/Select!!footer}}
 mask-closable: yes
 
@@ -7,7 +7,7 @@ mask-closable: yes
 
 <em class="tc-edit tc-small-gap-right">
 
-<$text text="Type in the name for a new view."/>
+<$text text="Type in the name for a new graph."/>
 
 </em></p>
 
