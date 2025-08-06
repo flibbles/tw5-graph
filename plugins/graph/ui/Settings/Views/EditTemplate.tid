@@ -19,7 +19,7 @@ Template: <<templateSelector>>
 
 <$list variable="segment" filter="[[$:/tags/flibbles/graph/View/EditTemplate]tagging[]]">
 
-<div class="graph-view-edit-template">
+<div class="graph-tiddler-edit-template">
 
 !! <$transclude $tiddler=<<segment>> $field="caption"/>
 

@@ -5,7 +5,7 @@ caption: Edge Types
 <$vars fieldName=`edges.$(category)$`>
   <$edit-text field=<<fieldName>> placeholder=<<default>> />
   <br>
-  <span class="graph-views-edgelist">
+  <span class="graph-tiddlers-edgelist">
     <$vars masterFilter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]sort[]]"
            customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
       <$list filter=<<masterFilter>> join=", ">

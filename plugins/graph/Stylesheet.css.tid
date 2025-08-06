@@ -306,23 +306,23 @@ button.group-tab-new svg {
 
 /*** Settings: Views ***/
 
-.graph-views-edgelist {
+.graph-tiddlers-edgelist {
 	color: <<colour muted-foreground>>;
 }
 
-.graph-views-edgelist .active {
+.graph-tiddlers-edgelist .active {
 	color: <<colour foreground>>;
 }
 
 /*** View Edit-template ***/
 
-.graph-view-edit-template {
+.graph-tiddler-edit-template {
 	border-top: 1px solid <<colour blockquote-bar>>;
 }
 
-.graph-view-edit-template table,
-.graph-view-edit-template table textarea,
-.graph-view-edit-template table input {
+.graph-tiddler-edit-template table,
+.graph-tiddler-edit-template table textarea,
+.graph-tiddler-edit-template table input {
 	width: 100%;
 }
 
