@@ -2,6 +2,6 @@ Graphs are made up of multiple node objects. Each one is defined by the use of t
 
 All node objects will correspond to a tiddler in your wiki. This tiddler must be unique, but it does not have to exist.
 
-There is a single pre-defined type of node object used by [[View]]:
+There is a single pre-defined type of node object used by [[GraphTiddlers|GraphTiddler]]:
 
 <<list-links "[tag<currentTiddler>]">>

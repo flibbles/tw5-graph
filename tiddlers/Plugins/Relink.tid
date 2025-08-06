@@ -4,7 +4,7 @@ source: https://github.com/flibbles/tw5-relink
 
 TW5-Relink is a plugin which manages renaming all occurrences of a tiddler in your wiki whenever you rename a tiddler. It's highly useful and very well made. (If I do say so myself. I made it.)
 
-Relink is not a requirement for TW5-Graph, but I highly recommend it, not only for TW5-Graph, but for TiddlyWiki in general. If you rename tiddlers, Relink will make sure that all your graph views will update any references to them, including in their position ledgers and engine properties.
+Relink is not a requirement for TW5-Graph, but I highly recommend it, not only for TW5-Graph, but for TiddlyWiki in general. If you rename tiddlers, Relink will make sure that all your [[graphTiddlers|GraphTiddler]] will update any references to them, including in their position ledgers and engine properties.
 
 Without Relink, these references might fall out of sync, as would any references in your wiki.
 

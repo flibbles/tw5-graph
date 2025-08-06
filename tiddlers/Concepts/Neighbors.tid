@@ -3,7 +3,7 @@ tags: Concepts
 
 "Neighbors" refers to to nodes connected to a given node (or set of nodes) by edges. Some types of graphs, particularly a [[Live View|Live Graph Template]], will often include the neighbors for its given tiddlers on the graph, even though those nodes are not directly specified themselves.
 
-For most templates, showing neighbors is a customizable feature through a [[View]]'s settings. If you're making graphs through wikitext, check out <<.wlink Nodes.NeighborsWidget>> for discovering and creating links to and from neighbors.
+For most templates, showing neighbors is a customizable feature through a [[GraphTiddler]]'s settings. If you're making graphs through wikitext, check out <<.wlink Nodes.NeighborsWidget>> for discovering and creating links to and from neighbors.
 
 !!! TiddlyMap
 

@@ -14,7 +14,7 @@ Let's click over to the "nodes" tab, and you'll see... //nothing//! Just a verti
 
 !! What is the stack
 
-The stack is a bunch of property types which apply to all nodes in a view, depending on whether any given node fits that type's filter criteria.
+The stack is a bunch of property types which apply to all nodes in advanced graphs like [[graphTiddlers|GraphTiddler]], depending on whether any given node fits that type's filter criteria.
 
 It's probably easier to show you.
 

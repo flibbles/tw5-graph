@@ -1,6 +1,6 @@
 In The <<.graph>> GUI, you can define types of edges connecting a node to others based on the output from passing each node through custom filters. The formulas edge type allows you to style these nodes with their own [[properties|Graph Properties]].
 
-These formula types, once configured, can optionally appear in your [[views|View]] and [[graph templates|Templates]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.TypedWidget>> widget.
+These formula types, once configured, can optionally appear in your [[graphTiddlers|GraphTiddler]] that take advantage of them (most of them). Or any custom graphs you make that use the <<.wlink Edges.TypedWidget>> widget.
 
 
 ! Creating your own
@@ -11,7 +11,7 @@ When you create your own formula edge-types (by clicking the <<.plus>> at the bo
 
 <<.graph>> executes the formula's filter by passing tiddler titles into it one at a time, and by assigning <<.var currentTiddler>> to that title as well. Every title outputted is considered a node that an edge should be created to point to.
 
-For instance, there is a preconfigured <<.value links>> formula edge type. It has a custom-assigned filter of <$transclude $variable=.value _={{$:/config/flibbles/graph/edges/formulas/links!!filter}} />. For every node in your view, the title of that node's corresponding tiddler is passed into that filter, and edges will be made for the output. In other words, a <<.value links>> type edge will be made for every link in a tiddler's body.
+For instance, there is a preconfigured <<.value links>> formula edge type. It has a custom-assigned filter of <$transclude $variable=.value _={{$:/config/flibbles/graph/edges/formulas/links!!filter}} />. For every node in your graph, the title of that node's corresponding tiddler is passed into that filter, and edges will be made for the output. In other words, a <<.value links>> type edge will be made for every link in a tiddler's body.
 
 <<.var currentTiddler>> also gets set to the incoming node, which allows you to make filters like this, for example: <<.value "[all[tiddlers]is[image]prefix<currentTiddler>]">>. This creates an edge from a node, to every image tiddler which as that node's title as a prefix.
 

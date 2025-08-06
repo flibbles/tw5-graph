@@ -2,11 +2,11 @@ title: Live Graph Template
 
 <$doc.implementation />
 
-Live views are designed to rapidly change to show differing sets of nodes and connections. It shows not only whatever node is specified in its node filter, but any immediate [[Neighbors]].
+Live graphs are designed to rapidly change to show differing sets of nodes and connections. It shows not only whatever node is specified in its node filter, but any immediate [[Neighbors]].
 
-! TiddlyMap's Live view
+! TiddlyMap's "Live view"
 
-This template can recreate the Live view used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
+This template can recreate the "Live View" used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
 
 # Install the [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
 #* This is a step that even TiddlyMap required you to do.

@@ -4,19 +4,19 @@ caption: properties.view
 
 ! Introduction
 
-The <<.wid properties.view>> widget applies properties to a view that correspond to the view's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
+The <<.wid properties.view>> widget applies properties to a [[GraphTiddler]] that correspond to the graphTiddler's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
 
-* It applies popups to the nodes of the view is configured to do so.
-* It makes the view behave appropriately depending on whether it's in the sidebar, or shown in your story river.
-* It provides variables to inner content that correspond to how the view's edge types are configured.
-* It renders neighbor nodes for your view's nodes, if the view is configured to do so, and it styles those nodes.
-* It applies the stack of node configuration to your view's nodes.
+* It applies popups to the nodes if the graphTiddler is configured to do so.
+* It makes the graph behave appropriately depending on whether it's in the sidebar, or shown in your story river.
+* It provides variables to inner content that correspond to how the graphTiddler's edge types are configured.
+* It renders neighbor nodes for your graph's nodes, if the graphTiddler is configured to do so, and it styles those nodes.
+* It applies the stack of node configuration to your graph's nodes.
 
 ! Contents and Attributes
 
-Any graph objects contained within are rendered once, with all the view settings applied to them.
+Any graph objects contained within are rendered once, with all the graphTiddler's settings applied to them.
 
-This widget takes no attributes. It assumes the <<.var currentTiddler>> is the view it should model itself off of.
+This widget takes no attributes. It assumes the <<.var currentTiddler>> is the graphTiddler it should model itself off of.
 
 |!Attribute | !Description |
 |//(none)// |>|
@@ -26,8 +26,8 @@ This widget takes no attributes. It assumes the <<.var currentTiddler>> is the v
 ! Examples
 
 <$doc.example
-	description="Example view"
-	narrative="""This example template renders an example ''Artists'' view. You can mess with the settings below, and you'll see it reflected in the graph thanks to the <<.wid properties.view>> widget""" >
+	description="Example graphTiddler"
+	narrative="""This example template renders an example ''Artists'' graphTiddler. You can mess with the settings below, and you'll see it reflected in the graph thanks to the <<.wid properties.view>> widget""" >
 <$data title="Output" caption="''Artists''" filter="[tag[Artist]]" edges.fields="[all[]] born weapon" text="""<$graph>
   <$properties.view>
     <$list filter={{!!filter}} >

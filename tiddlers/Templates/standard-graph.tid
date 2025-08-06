@@ -3,7 +3,7 @@ list-before:
 
 <$doc.implementation />
 
-This is the standard template that all views use by default. It's simple, editable, and keeps track of manually placed nodes in its data.
+This is the standard template that all [[graphTiddlers|GraphTiddler]] use by default. It's simple, editable, and keeps track of manually placed nodes in its data.
 
 It has the following simple characteristics:
 

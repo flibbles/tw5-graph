@@ -28,17 +28,17 @@ Pretty simple, right? Any graph object attribute that does not start with a "$" 
 
 ! What properties are available
 
-The GUI neatly present a table of all available properties when you're configuring [[Views|View]]. It isn't as convenient with the API, but APIs never are.
+The GUI neatly present a table of all available properties when you're configuring [[graphTiddlers|GraphTiddler]]. It isn't as convenient with the API, but APIs never are.
 
 [[Check out this page listing the properties per object per engine.|Engines]] This is a complete list. If you don't want to bother visiting this documentation while working on your wikitext, you could also open up the <$link to="$:/plugins/flibbles/graph/settings"><<.graph>> settings page</$link> in your wiki and look at the tables. Any property listed there is available for your currently installed engine. It will also give you an idea what property values are allowed.
 
 ! What property values are allowed
 
-Different properties can be different types. The property tables in view settings handle this by having different kinds of input fields (textfields, dropdowns, etc...). When assigning values to attributes, you don't get that. You just need to know the acceptable values, but it's usually pretty intuitive.
+Different properties can be different types. The property tables in graphTiddler settings handle this by having different kinds of input fields (textfields, dropdowns, etc...). When assigning values to attributes, you don't get that. You just need to know the acceptable values, but it's usually pretty intuitive.
 
 |!Type |!Example properties |!Example values |
 |String |<<.attr label>> |Any string value is allowed |
-|Enum |<<.attr shape>> |Options vary depending on property and engine. See the dropdown in view settings to get the list. |
+|Enum |<<.attr shape>> |Options vary depending on property and engine. See the dropdown in a graphTiddler's settings to get the list. |
 |Boolean |<<.attr physics>>, <<.attr smooth>> |<<.value yes>> or <<.value no>> |
 |Color |<<.attr color>>, <<.attr borderColor>> |Any acceptable CSS color specification, like <<.value DarkSalmon>>, or <<.value #E9967A>>, or <<.value "rgb(233, 150, 122)">> |
 |Image |<<.attr image>>, <<.attr background>> |The title of an image tiddler, or a URL to an image. |

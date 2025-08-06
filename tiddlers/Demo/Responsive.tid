@@ -25,4 +25,4 @@ tags: Demo
 
 //All// graph settings are dynamic. And there are many more.
 <$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/views--1382248499" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
-Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/ui/Settings/Views]] and fiddle with the Pantheon view to play with all of them.
+Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/ui/Settings/Views]] and fiddle with the Pantheon graph to play with all of them.

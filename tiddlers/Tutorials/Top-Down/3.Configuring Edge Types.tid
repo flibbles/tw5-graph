@@ -1,6 +1,6 @@
 \procedure actions() <$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list slayed" edges.formulas="--" />
 
-You've probably noticed that after you've typed in a fset of nodes for our view to display, there are already a lot of edges connecting your nodes together. That's because <<.graph>> views automatically show relationships between tiddlers unless you specify otherwise.
+You've probably noticed that after you've typed in a set of nodes for our graph to display, there are already a lot of edges connecting your nodes together. That's because <<.graph>> graphTiddlers automatically show relationships between tiddlers unless you specify otherwise.
 
 Let's specify otherwise.
 

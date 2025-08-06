@@ -2,13 +2,13 @@ In the sidebar of your wiki, you'll see a new "Graph" tab. Click on that, and it
 
 (In the future, the "Gear" button along the graph's top bar will take you to the same configuration menu.)
 
-The tiddler that just popped up is the <<.graph>> settings page, and its tabs are open to the configuration for the "Default" view, which is the name of the empty view we're looking at.
+The tiddler that just popped up is the <<.graph>> settings page, and its tabs are open to the configuration for "Default", which is the name of the empty graph we're looking at.
 
 There are other tabs in the <<.graph>> settings, but lets not worry about them for now. We're just going to focus on setting up "Default"
 
-!!! Creating new views
+!!! Creating new graphs
 
-If you want your view to have a different name, or you just want to make more views, look for the vertical list of tabs along the left side. At the bottom, there will be a <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button at the bottom. Click that and type in the name of the view you want to create.
+If you want your graph to have a different name, or you just want to make more graphs, look for the vertical list of tabs along the left side. At the bottom, there will be a <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button at the bottom. Click that and type in the name of the graph you want to create.
 
 <$doc.inhouse>
 

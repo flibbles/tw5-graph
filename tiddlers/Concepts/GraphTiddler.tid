@@ -1,0 +1,28 @@
+title: GraphTiddler
+tags: Concepts
+
+In <<.graph>>, a graphTiddler is a data tiddler which brings together two parts to define a complete graph instance:
+
+# A graph template. The title of this template is stored in the graphTiddlers's <<.field template>> field. The [[Standard Editable Graph Template]] is used by default if no template is specified.
+# A set of information that the template would use to render a graph, such as:
+#* a set of node [[positions|Position]] stored in its body as a data tiddler would for its data.
+#* custom fields specifically used by the graphTiddler's template
+#* [[Property set|Property Sets]] stored as json in <<.field graph.*>> style fields
+
+GraphTiddlers have the advantage of being editable, in order to persist changes made in the graph.
+
+! The `$:/graph/` namespace
+
+GraphTiddlers are usually prefixed with `$:/graph/`, as are all graphTiddlers created through <<.graph>>'s settings menu. This allows them to show up in the dropdown menu in the [[Sidebar]] graph viewer. It also allows them to render directly as their graph if viewed in the story river.
+
+However, it is not strictly necessary for graphTiddlers to be in this namespace. It simply won't show up in the sidebar, nor will it be easily configurable through <<.graph>>'s settings.
+
+! Transcluding graphTiddlers
+
+Transcluding a graphTiddler the way you'd transclude a tiddler, such as `{{$:/graph/Example}}`, will just show the graphTiddler's raw data. Instead, you can use the <<.wid Graph.ViewWidget>>, like so:
+
+```
+<$graph.view $tiddler="$:/graph/Example" />
+```
+
+This will render that graphTiddler's graph exactly as you'd expect, using the correct graph template. See the <$link to=Graph.ViewWidget><<.wid graph.view>> widget's documentation</$link> for more information.

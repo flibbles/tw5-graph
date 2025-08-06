@@ -3,11 +3,11 @@
 <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Properties"/>
 \end
 
-You've probably figured out that you can change your edges for your view with that edge tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
+You've probably figured out that you can change your edges for your graph with that edge tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
 
 !! The "Properties" tab
 
-This tab is along the top of the Control Panel you've been working with, as appose to the "View" tab we've been looking at so far.
+This tab is along the top of the Control Panel you've been working with, as appose to the "Graph" tab we've been looking at so far.
 
 <$doc.inhouse>
 
@@ -16,7 +16,7 @@ This tab is along the top of the Control Panel you've been working with, as appo
 Switch to "Properties" tab.
 </$button></$doc.inhouse>
 
-Another line of tabs! The choices are <<.value edges>> and <<.value nodes>>. Let's look at the <<.value edges>> if we're not already. Along the side is now a vertical tab list for all those edge types we specified earlier. This is where we can set the graph properties for specific types of edges ''across all views''.
+Another line of tabs! The choices are <<.value edges>> and <<.value nodes>>. Let's look at the <<.value edges>> if we're not already. Along the side is now a vertical tab list for all those edge types we specified earlier. This is where we can set the graph properties for specific types of edges ''across all graphTiddlers''.
 
 Let's get to work.
 

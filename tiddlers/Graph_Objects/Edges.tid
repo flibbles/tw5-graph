@@ -2,6 +2,6 @@ Graphs may be made of multiple edges connecting [[nodes|Nodes GraphObject]] toge
 
 Every edge object must go <<.value from>> a node <<.value to>> a node or it will be filtered out. Both of these nodes must be defined in your graph, but they can both be the same node. That just gives you an edge that circles back around.
 
-There are two pre-defined types of edge objects used by the [[View system|View]]:
+There are two pre-defined types of edge objects used by the [[graphTiddler system|GraphTiddler]]:
 
 <<list-links "[tag<currentTiddler>]">>

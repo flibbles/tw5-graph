@@ -5,6 +5,6 @@ Super easy:
 <$doc.demo description="graph.view widget" code="""<$graph.view $tiddler="$:/graph/Default" />
 """ />
 
-You'll need to prepend your view's name with <<.value $:/graph/>>. That's because it's possible to create views unrelated to the sidebar, but that's a discussion for another time.
+You'll need to prepend your graph's name with <<.value $:/graph/>>. That's because it's possible to create graphTiddlers unrelated to the sidebar, but that's a discussion for another time.
 
-You can check out <<.wlink Graph.ViewWidget>> for more options on how to transclude your views, but the default settings are certainly enough for now.
+You can check out <<.wlink Graph.ViewWidget>> for more options on how to transclude your graphTiddlers, but the default settings are certainly enough for now.

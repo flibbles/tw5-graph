@@ -16,6 +16,6 @@ The following code is a simple example of all you might need to make a graph.
   </$properties.stack>
 </$graph>""" />
 
-However, TW5-Graph is also built with a system of premade templates, views, and configuration menus, so that you can design and manipulate graphs without ever touching wikitext.
+However, TW5-Graph is also built with a system of premade templates and configuration menus, so that you can design and manipulate graphs without ever touching wikitext.
 
 See the [[Documentation]] to learn more about <<.graph>>'s [[API]].

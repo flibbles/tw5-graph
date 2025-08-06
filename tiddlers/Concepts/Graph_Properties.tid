@@ -13,7 +13,7 @@ Here's the most important thing to understand about graph properties
 
 ''<<.graph>> has no idea what graph properties exist.'' Meaning it has no concept of colors or shapes or physics.
 
-That's because graph properties are defined by visualization libraries like [[Vis-Network]], and <<.graph>> merely scans those modules and presents them to you in a table when you're configuring views and property sets, or writing out attributes. <<.graph>> then takes whatever properties you configure and blindly passes them to the engine.
+That's because graph properties are defined by visualization libraries like [[Vis-Network]], and <<.graph>> merely scans those modules and presents them to you in a table when you're configuring graphTiddlers and property sets, or writing out attributes. <<.graph>> then takes whatever properties you configure and blindly passes them to the engine.
 
 This also means that the graph properties you see in the tables may be different depending on what engine you have active.
 

@@ -1,7 +1,7 @@
 title: Documentation
 list: Installation Tutorials Concepts API Plugins
 
-TW5-Graph provides a toolbox of widgets and operators to create custome graphs to suit your needs, but it also provides a broad system of views and configuration GUIs to make creating graphs simple.
+TW5-Graph provides a toolbox of widgets and operators to create custome graphs to suit your needs, but it also provides a broad system of configuration menus to make creating graphs simple.
 
 This documention will walk you get started, walk you through the concepts, and provide documentation on all TW5-Graph tools.
 

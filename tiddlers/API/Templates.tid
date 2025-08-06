@@ -1,7 +1,7 @@
-<<.graph>> makes use of templates as a means of treating [[Views|View]] as the source of a graph, while using a template to describe how that view should be displayed, very much in line with TiddlyWiki's //Philosophy of Tiddlers// that information should be kept small and reusable. And graph templating does indeed work very much the same way that tiddler templating works.
+<<.graph>> makes use of templates as a means of treating [[graphTiddlers|GraphTiddler]] as the source of a graph, while using a template to describe how that graphTiddler should be displayed, very much in line with TiddlyWiki's //Philosophy of Tiddlers// that information should be kept small and reusable. And graph templating does indeed work very much the same way that tiddler templating works.
 
 ```
-{{MyView||MyTemplate}}
+{{MyGraph||MyTemplate}}
 ```
 
 Exactly like you would when transcluding other tiddlers with templates.
@@ -9,13 +9,13 @@ Exactly like you would when transcluding other tiddlers with templates.
 
 <$doc.example
 	description="Simple template example"
-	narrative="Here's an example that applies two filters to the same view. One is a graph filter, the other is a simple tiddler that makes a table out of the view."
-	content="""{{View||TableTemplate}}
+	narrative="Here's an example that applies two filters to the same graphTiddler. One is a graph filter, the other is a simple tiddler that makes a table."
+	content="""{{GraphTiddler||TableTemplate}}
 
 ---
 
-{{View||GraphTemplate}}""">
-<$data title=View type="application/json" text='{
+{{GraphTiddler||GraphTemplate}}""">
+<$data title=GraphTiddler type="application/json" text='{
     "A": "-100,0",
     "B": "0,0",
     "C": "100,0"
@@ -37,20 +37,20 @@ Exactly like you would when transcluding other tiddlers with templates.
 </table>""" />
 </$doc.example>
 
-Graph templates don't have to be applied to views. You can easily create graph templates that can be applied to any ol' tiddler. You could even add a graph template to the <<tag $:/tags/ViewTemplate>> so that //every// tiddler in the story river has its own graph.
+Graph templates don't have to be applied to graphTiddlers. You can easily create graph templates that can be applied to any ol' tiddler. You could even add a graph template to the <<tag $:/tags/ViewTemplate>> so that //every// tiddler in the story river has its own graph.
 
 !! Assigning templates
 
-[[Views|View]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a view, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a view, which you can set to any tiddler you want.
+[[GraphTiddlers|GraphTiddler]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a graphTiddler, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a graphTiddler, which you can set to any tiddler you want.
 
 !! Default rendering
 
-Since a [[View]] is nothing more than a set of information describing settings, properties, and positions, it requires a template. If you haven't assigned one, and you're not transcluding with a template, <<.graph>> renders the view with the [[Standard Editable Graph Template]].
+Since a graphTiddler is nothing more than a set of information describing settings, properties, and positions, it requires a template. If you haven't assigned one, and you're not transcluding with a template, <<.graph>> renders the graphTiddler with the [[Standard Editable Graph Template]].
 
-If you want to change the default template for //all// views that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tid $:/tags/flibbles/graph/template>>.
+If you want to change the default template for //all// graphTiddlers that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tid $:/tags/flibbles/graph/template>>.
 
 !! Built-in templates
 
-While you can make your own templates, <<.graph>> comes with a few templates which create fleshed-out graphs out of views with some useful functionality.
+While you can make your own templates, <<.graph>> comes with a few templates which create fleshed-out graphs out of graphTiddlers with some useful functionality.
 
 <<list-links "[tag[Templates]]">>
