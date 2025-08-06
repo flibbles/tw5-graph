@@ -17,12 +17,10 @@ These are more guidelines than rules. Specific macro widgets may have exceptions
 
 You can see [[Widgets]] for a complete list. The documentation for each listed under ''Macro Widgets'' includes full descriptions and examples, but we'll briefly cover some widgets here.
 
-<!-- TODO: Need to update this list after the back-incompatible changes -->
-
 ; <<.wlink Nodes.WritableWidget>>
 : This creates a slew of nodes based on the <<.attr $field>> of the <<.attr $tiddler>> you pass it. This also introduces properties to those nodes, and to the graph, that allow you to add and remove nodes to the graph by modifying the field you passed to this widget (assuming your installed [[engine|Engines]] supports that.)
-; <<.wlink Properties.ConfiguredWidget>>
-: All contained nodes and edges, and the graph containing this widget, will not only gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined in the passed <<.attr $view>>, if a view is passed. Useful for creating graphs which take advantage of whatever settings the user has configured.
+; <<.wlink Properties.ViewWidget>>
+: All contained nodes and edges, and the graph containing this widget, will not only gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined a [[GraphTiddler]]'s settings, assuming that graphTiddler is the <<.var currentTiddler>>.
 ; <<.wlink Edges.TypedWidget>>
 : If you went through the [[Top-Down Tutorial]], you explored configuring [[Formula edge types|Formulas EdgeType]] and [[Field edge types|Fields EdgeType]]. This lets you create edges the same way through its <<.attr $formulas>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
 

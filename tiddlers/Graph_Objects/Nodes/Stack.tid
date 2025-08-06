@@ -11,7 +11,7 @@
 
 In The <<.graph>> GUI, you can define a class of node properties which can selectively apply to nodes based on whether that node's corresponding tiddler title produces results when passed through a filter.
 
-For instance, if you have a stack node type called <<.value Felines>>, and it is configured with the filter <<.value "[tag[Feline]]">>, then all tiddlers that are nodes within your [[graphTiddler|GraphTiddler]] (or contained within <<.wlink Properties.ConfiguredWidget>> which are tagged with <<.value Feline>>, will inherit the properties defined in the <<.value Felines>> stack node type. Any tiddlers that don't have that tag will not be changed.
+For instance, if you have a stack node type called <<.value Felines>>, and it is configured with the filter <<.value "[tag[Feline]]">>, then all tiddlers that are nodes within your [[graphTiddler|GraphTiddler]] (or contained within <<.wlink Properties.StackWidget>> which are tagged with <<.value Feline>>, will inherit the properties defined in the <<.value Felines>> stack node type. Any tiddlers that don't have that tag will not be changed.
 
 !! Why is it called Stack?
 

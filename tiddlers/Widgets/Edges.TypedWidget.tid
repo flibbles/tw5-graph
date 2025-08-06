@@ -26,8 +26,8 @@ Within the widget block, <<.wid edges.typed>> defines the tiddler <<.value toTid
 
 |!Attribute | !Description |
 |$tiddler |The tiddler whose fields are used to create edges (defaults to "[all[]]") |
-|$formulas |Filter to decide which formulas to render (defaults to all formulas configured in TW5-graph property settings |
-|$fields |Filter to decide which fields to render (defaults to all fields configured in TW5-graph property settings |
+|$formulas |Filter to decide which formulas to render (if not set, inherits value. See below) |
+|$fields |Filter to decide which fields to render (if not set, inherits value. See below) |
 |$editable |If 'yes', any created field edges will be deletable, which will modify the corresponding fields (defaults to 'no') |
 
 <$doc.implementation />
@@ -62,5 +62,14 @@ The <<.attr $formula>> attribute specifies which [[formulas|Formulas EdgeType]] 
 <<categoryList formulas>>
 
 By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Refer to <<.attr $field>> above for examples on how to include or exclude formulas.
+
+! Inheriting values for $formulas and $fields
+
+The attributes <<.attr $formulas>> and <<.attr $fields>> will inherit their values from parent widgets, so you should rarely have to actually set a value. This inheritance is done through the variables <<.var formulasFilter>> and <<.var fieldsFilter>>.
+
+If you use <<.wid edges.typed>> inside of <<.wlink Nodes.NeighborsWidget>>, the attributes assume the same values you passed to that widget.
+
+If you use <<.wid edges.typed>> inside of <<.wlink Properties.ViewWidget>>, the attributes will assume the values set in the associated GraphTiddler's settings.
+
 
 [[Examples|Edges.TypedWidget (Examples)]]

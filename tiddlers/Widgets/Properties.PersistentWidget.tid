@@ -12,7 +12,7 @@ Node locations are stored in a data tiddler, with tiddler titles used as keys. I
 
 ! Contents and Attributes
 
-Any nodes defined within a <<.wlink Properties.ConfiguredWidget>> widget will get actions associated with them that take care of position persistence.
+Any nodes defined within a <<.wid properties.persistent>> widget will get actions associated with them that take care of position persistence.
 
 |!Attribute | !Description |
 |$dataTiddler |Name of a tiddler which this widget will use to record node locations |
