@@ -304,7 +304,7 @@ button.group-tab-new svg {
 	margin-right: auto;
 }
 
-/*** Settings: Views ***/
+/*** Settings: Graphs ***/
 
 .graph-tiddlers-edgelist {
 	color: <<colour muted-foreground>>;
@@ -314,7 +314,7 @@ button.group-tab-new svg {
 	color: <<colour foreground>>;
 }
 
-/*** View Edit-template ***/
+/*** GraphTiddler Edit-template ***/
 
 .graph-tiddler-edit-template {
 	border-top: 1px solid <<colour blockquote-bar>>;
