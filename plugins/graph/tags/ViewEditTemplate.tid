@@ -1,2 +1,2 @@
-title: $:/tags/flibbles/graph/View/EditTemplate
+title: $:/tags/flibbles/graph/EditTemplate
 list: [[$:/plugins/flibbles/graph/ui/EditTemplate/Nodes]] [[$:/plugins/flibbles/graph/ui/EditTemplate/Edges]]

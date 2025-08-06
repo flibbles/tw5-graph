@@ -9,7 +9,7 @@
 					"source": "basename",
 					"prefix": "$:/plugins/flibbles/graph/ui/EditTemplate/"
 				},
-				"tags": "$:/tags/flibbles/graph/View/EditTemplate"
+				"tags": "$:/tags/flibbles/graph/EditTemplate"
 			}
 		}
 	]

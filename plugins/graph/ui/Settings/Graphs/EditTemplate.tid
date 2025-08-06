@@ -17,7 +17,7 @@ title: $:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate
 
 Template: <<templateSelector>>
 
-<$list variable="segment" filter="[[$:/tags/flibbles/graph/View/EditTemplate]tagging[]]">
+<$list variable="segment" filter="[[$:/tags/flibbles/graph/EditTemplate]tagging[]]">
 
 <div class="graph-tiddler-edit-template">
 
