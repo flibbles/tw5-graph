@@ -1,4 +1,4 @@
-\widget $properties.view()
+\widget $properties.set()
 \whitespace trim
 
 <$properties.popup

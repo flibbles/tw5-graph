@@ -1,12 +1,12 @@
 title: Super Simple Template
 
 <$graph>
-  <$properties.view>
+  <$properties.set>
     <$properties.persistent $dataTiddler={{!!title}} >
       <$nodes.writable $field="filter">
         <$node.default />
         <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
       </$nodes.writable>
     </$properties.persistent>
-  </$properties.view>
+  </$properties.set>
 </$graph>

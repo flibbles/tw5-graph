@@ -69,7 +69,7 @@ The attributes <<.attr $formulas>> and <<.attr $fields>> will inherit their valu
 
 If you use <<.wid edges.typed>> inside of <<.wlink Nodes.NeighborsWidget>>, the attributes assume the same values you passed to that widget.
 
-If you use <<.wid edges.typed>> inside of <<.wlink Properties.ViewWidget>>, the attributes will assume the values set in the associated GraphTiddler's settings.
+If you use <<.wid edges.typed>> inside of <<.wlink Properties.SetWidget>>, the attributes will assume the values set in the associated GraphTiddler's settings.
 
 
 [[Examples|Edges.TypedWidget (Examples)]]

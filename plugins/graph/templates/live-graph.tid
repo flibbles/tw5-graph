@@ -7,14 +7,14 @@ tags: $:/tags/flibbles/graph/template
 <$vars focusTiddler={{{ [subfilter{!!filter}] }}}>
   <$graph>
     <$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
-      <$properties.view>
+      <$properties.set>
         <$properties physics=no>
           <$list filter={{!!filter}}>
             <$node.default />
             <$edges.typed />
           </$list>
         </$properties>
-      </$properties.view>
+      </$properties.set>
     </$properties>
   </$graph>
 </$vars>

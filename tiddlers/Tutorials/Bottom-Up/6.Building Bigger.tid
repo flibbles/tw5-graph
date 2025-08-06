@@ -19,7 +19,7 @@ You can see [[Widgets]] for a complete list. The documentation for each listed u
 
 ; <<.wlink Nodes.WritableWidget>>
 : This creates a slew of nodes based on the <<.attr $field>> of the <<.attr $tiddler>> you pass it. This also introduces properties to those nodes, and to the graph, that allow you to add and remove nodes to the graph by modifying the field you passed to this widget (assuming your installed [[engine|Engines]] supports that.)
-; <<.wlink Properties.ViewWidget>>
+; <<.wlink Properties.SetWidget>>
 : All contained nodes and edges, and the graph containing this widget, will not only gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined a [[GraphTiddler]]'s settings, assuming that graphTiddler is the <<.var currentTiddler>>.
 ; <<.wlink Edges.TypedWidget>>
 : If you went through the [[Top-Down Tutorial]], you explored configuring [[Formula edge types|Formulas EdgeType]] and [[Field edge types|Fields EdgeType]]. This lets you create edges the same way through its <<.attr $formulas>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
