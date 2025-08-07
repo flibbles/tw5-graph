@@ -14,12 +14,12 @@ tags: $:/tags/flibbles/graph/template
   <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
     <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
       <$properties.persistent $dataTiddler=<<currentTiddler>> >
-        <$properties.set>
+        <$properties.settings>
           <$nodes.writable $field=filter>
             <$node.default/>
             <$edges.typed $editable=yes />
           </$nodes.writable>
-        </$properties.set>
+        </$properties.settings>
       </$properties.persistent>
     </$properties>
   </$properties>

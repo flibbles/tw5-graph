@@ -1,10 +1,10 @@
-title: Properties.SetWidget
+title: Properties.SettingsWidget
 tags: Widgets [[Macro Widgets]]
-caption: properties.set
+caption: properties.settings
 
 ! Introduction
 
-The <<.wid properties.set>> widget applies properties to a [[GraphTiddler]] that correspond to the graphTiddler's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
+The <<.wid properties.settings>> widget applies properties to a [[GraphTiddler]] that correspond to the graphTiddler's settings, and to <<.graph>> settings. Using this allows different kinds of templates to still look, behave, and be configurable in a consistent way. It applies the following:
 
 * It applies popups to the nodes if the graphTiddler is configured to do so.
 * It makes the graph behave appropriately depending on whether it's in the sidebar, or shown in your story river.
@@ -27,14 +27,14 @@ This widget takes no attributes. It assumes the <<.var currentTiddler>> is the g
 
 <$doc.example
 	description="Example graphTiddler"
-	narrative="""This example template renders an example ''Artists'' graphTiddler. You can mess with the settings below, and you'll see it reflected in the graph thanks to the <<.wid properties.set>> widget""" >
+	narrative="""This example template renders an example ''Artists'' graphTiddler. You can mess with the settings below, and you'll see it reflected in the graph thanks to the <<.wid properties.settings>> widget""" >
 <$data title="Output" caption="''Artists''" filter="[tag[Artist]]" edges.fields="[all[]] born weapon" text="""<$graph>
-  <$properties.set>
+  <$properties.settings>
     <$list filter={{!!filter}} >
       <$node.default />
       <$edges.typed $fields=<<fieldsFilter>> $formulas=<<formulasFilter>> />
     </$list>
-  </$properties.set>
+  </$properties.settings>
 </$graph>
 
 {{||$:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate}}"""/>

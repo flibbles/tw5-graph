@@ -1,10 +1,10 @@
 /*\
 
-Tests the properties.set global widget.
+Tests the properties.settings global widget.
 
 \*/
 
-describe('properties.set \\widget', function() {
+describe('properties.settings \\widget', function() {
 
 var wiki, init, update;
 var stackPrefix = "$:/config/flibbles/graph/nodes/stack/";
@@ -28,7 +28,7 @@ it("can take properties from the view", function() {
 		"graph.nodes": '{"value": "nProp"}',
 		"graph.edges": '{"value": "eProp"}',
 		"graph.graph": '{"value": "gProp"}'});
-	var text = "<$let currentTiddler=View><$graph><$properties.set><$node $tiddler=X/><$node $tiddler=Y/><$edge $from=X $to=Y/>";
+	var text = "<$let currentTiddler=View><$graph><$properties.settings><$node $tiddler=X/><$node $tiddler=Y/><$edge $from=X $to=Y/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(objects.nodes).toEqual({X: {value: "nProp"}, Y: {value: "nProp"}});
@@ -40,7 +40,7 @@ it("passes edge settings to internal $edges.typed", function() {
 	wiki.addTiddlers([
 		{title: "root", tags: "A", list: "B", text: "[[C]] {{D}}"},
 		{title: "View", "edges.fields": "tags", "edges.formulas": "links"}]);
-	var text = "<$let currentTiddler=View><$graph><$properties.set><$edges.typed $tiddler=root><<toTiddler>>-";
+	var text = "<$let currentTiddler=View><$graph><$properties.settings><$edges.typed $tiddler=root><<toTiddler>>-";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.textContent).toBe("A-C-");
 });
