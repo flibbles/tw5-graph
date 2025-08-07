@@ -1,0 +1,14 @@
+created: 20250807031104177
+
+Many backward incompatible changes. Trying to get them out of the way.
+
+* Created `<$properties.settings>` widget, which imports all settings of a view so that you don't have to. This way, templates can be more consistent with each other for less work.
+* Renamed the concepts of "Views" to GraphTiddlers throughout the project, as @linonetwo pointed out, the way I was using the term was a misnomeer. GraphTiddlers should be more accurate.
+* Renamed `<$properties.configured>` to `<$properties.stack>`, because its job of importing view property settings now falls to the new `<$properties.settings>`.
+* Fixed up standard-graph and live-graph template to be cleaner and more consistent with each other, thanks to the new widget
+* Exposed Neighbors as a graphTiddler editTemplate. You can now specify neighbors for both live and standard graphs.
+ 
+
+Vis-Network
+
+* Exposed zoomSpeed graph property
