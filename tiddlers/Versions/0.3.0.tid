@@ -1,0 +1,7 @@
+created: 20250808044903505
+
+Tentative support for the Mermaid library
+
+Also, backward incompatible change regarding Vis-Network
+
+* Changed "dashed" properties to be "stroke", so it's more adaptable with how other libraries work, like Mermaid.
