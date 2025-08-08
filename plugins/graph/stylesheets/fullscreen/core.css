@@ -1,0 +1,7 @@
+.tc-topbar, .tc-story-river, .tc-sidebar-scrollable .graph-sidebar-disabled {
+	display: none !important;
+}
+
+.tc-dropzone > p {
+	margin: 0px;
+}

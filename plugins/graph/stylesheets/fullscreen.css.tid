@@ -1,0 +1,18 @@
+title: $:/plugins/flibbles/graph/stylesheets/fullscreen.css
+tags: $:/tags/Stylesheet
+
+.graph-sidebar-enabled.graph-fullscreen {
+	display: flex !important;
+	position: fixed !important;
+	height: 100% !important;
+	width: 100% !important;
+	top: 0 !important;
+	left: 0 !important;
+	z-index: 999 !important;
+}
+
+<%if [[$:/config/flibbles/graph/fullscreen]is[tiddler]] %>
+
+<$list filter="[all[shadows+tiddlers]tag[$:/tags/flibbles/graph/FullscreenStylesheet]!is[draft]]">
+<$transclude mode="block"/>
+</$list><%endif%>
