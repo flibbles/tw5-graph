@@ -8,6 +8,7 @@ type: application/json
     "Uglify": "-30,-106",
     "Relink": "0,-227",
     "Graph": "0,0",
-    "Vis-Network": "-133,76",
-    "TiddlyWiki": "147,4"
+    "Vis-Network": "-135,75",
+    "TiddlyWiki": "147,4",
+    "Mermaid": "-135,-60"
 }

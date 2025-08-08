@@ -34,4 +34,4 @@ Drag the following pill onto your wiki's browser window. Then confirm the import
 
 !!! Node.JS
 
-Go to the <$link to={{$:/plugins/flibbles/vis-network!!source}}>Vis-Network plugin page here</$link> to check out the code and follow the install instructions you find there.
+Go to the <a href={{$:/plugins/flibbles/vis-network!!source}} target=_blank>Vis-Network plugin page here</a> to check out the code and follow the install instructions you find there.

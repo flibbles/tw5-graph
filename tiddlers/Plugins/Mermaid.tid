@@ -1,0 +1,52 @@
+title: Mermaid
+tags: Plugins Engines Introduction
+icon: $:/plugins/orange/mermaid-tw5/icon
+builds-upon: Graph
+
+''Note: This plugin adaption is just a Proof of Concept!! It's far from complete! I'm not even sure if I'm going to use this particular plugin to provide Mermaid support.''
+
+Mermaid-tw5 wraps [[mermaid.js|https://github.com/mermaid-js/mermaid]], a diagramming library for making simple represenration of nodes and edges using SVG.
+
+Compared to Vis-Network, it's very simple for graphing. There is no physics, no placing of nodes, and a mere fraction of the styling choices. But in turn, it's far better for creating simple diagrams without having to worry about placing nodes.
+
+Additionally, Mermaid is capable of creating many other kinds of diagrams besides flowcharts, but we don't support that right now.
+
+! Pros
+
+* Very simple and straight forward graphs with a one-click interface.
+* Can do more than just graphs and flowcharts (but that's not exposed yet)
+* The plugin functions independently. You create your own mermaid charts without using <<.graph>>
+
+<$doc.demo
+	description="Custom Mermaid widget"
+	code="""
+<$mermaid text='
+  graph
+    A --> B
+    B --> C
+    C --> A
+    D --> C
+'></$mermaid>""" />
+
+It uses something called DOT language. It's documented on the [[Mermaid main website|https://mermaid.js.org/intro/]]
+
+! Cons
+
+* No physics, no dragging of nodes around.
+* It's not great for large graphs.
+* It cannot update on-the-fly. For every change, Mermaid graphs are completely regenerated.
+
+! Installation
+
+!!! Tiddlywiki files
+
+Drag the following pill onto your wiki's browser window. Then confirm the import.
+
+@@text-align:center;
+<$link to="$:/plugins/orange/mermaid-tw5" class="graph-dragger graph-dragger-engine">{{$:/plugins/orange/mermaid-tw5/icon}}<br>Mermaid-tw5</$link>
+@@
+
+! Links
+
+* [[Mermaid-tw5 Demo site|https://efurlanm.github.io/mermaid-tw5/]]
+* [[Source code|https://github.com/efurlanm/mermaid-tw5]]

@@ -34,5 +34,3 @@ Here is a stress test of orb's efficiency: a rendering tree of all shadow tiddle
 
 <$graph $engine=Orb $height=800px >
   <$transclude $variable=directory source= {{{ [[$:/core]plugintiddlers[]format:titlelist[]join[ ]] }}}/>""" />
-
-<<graph>>
