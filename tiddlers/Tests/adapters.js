@@ -29,7 +29,9 @@ it("matches the basic subset of actions", function() {
 				var adapterProperty = properties[name];
 				var blurb = category+"##"+name;
 				expect(adapterProperty).not.toBeUndefined(blurb);
-				expect(adapterProperty.variables || []).withContext(blurb).toEqual(property.variables || []);
+				if (adapterProperty) {
+					expect(adapterProperty.variables || []).withContext(blurb).toEqual(property.variables || []);
+				}
 			}
 		});
 	}
