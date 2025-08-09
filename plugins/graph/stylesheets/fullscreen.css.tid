@@ -1,6 +1,12 @@
 title: $:/plugins/flibbles/graph/stylesheets/fullscreen.css
 tags: $:/tags/Stylesheet
 
+<!--
+	If you need to tweak css for whenever fullscreen mode is active,
+	create a tiddler with the $:/tags/flibbles/graph/FullscreenStylesheet
+	tag rather than trying to test against the fullscreen state tiddler.
+-->
+
 .graph-sidebar-enabled.graph-fullscreen {
 	display: flex !important;
 	position: fixed !important;

@@ -1,3 +1,7 @@
+/* CSS tweaks for core elements when fullscreen is active.
+   Make your own tiddler with $:/tags/flibbles/graph/FullscreenStylesheet
+   to add your own tweaks. */
+ 
 .tc-topbar, .tc-story-river, .tc-sidebar-scrollable .graph-sidebar-disabled {
 	display: none !important;
 }
