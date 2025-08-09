@@ -198,16 +198,6 @@ GraphWidget.refreshColors = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.resize = function() {
-	var style = this.graphElement.style;
-	if (this.graphWidth) {
-		style.width = this.graphWidth;
-	}
-	if (this.graphHeight) {
-		style.height = this.graphHeight;
-	}
-};
-
 GraphWidget.destroy = function() {
 	if (this.graphEngine) {
 		this.graphEngine.destroy();
