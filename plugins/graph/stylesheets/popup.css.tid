@@ -1,0 +1,107 @@
+title: $:/plugins/flibbles/graph/stylesheets/popup.css
+tags: $:/tags/Stylesheet
+
+.graph-popup {
+	position: absolute;
+	z-index: 1000;
+	border: 1px solid <<colour dropdown-border>>;
+	color: <<colour foreground>>;
+	fill: <<colour foreground>>;
+	background-color: <<colour dropdown-background>>;
+	padding: 7px 0 7px 0;
+	margin: 4px 0 0 0;
+	text-shadow: none;
+	line-height: 1.4;
+	overflow: scroll;
+	overscroll-behavior: contain;
+}
+
+.graph-popup .tc-drop-down {
+	margin-left: 14px;
+}
+
+.graph-popup button svg, .graph-popup a svg  {
+	fill: <<colour foreground>>;
+}
+
+.graph-popup button:disabled svg {
+	fill: <<colour muted-foreground>>;
+}
+
+.graph-popup button.tc-btn-invisible:hover svg {
+	fill: <<colour background>>;
+}
+
+.graph-popup .tc-drop-down-info {
+	padding-left: 14px;
+}
+
+.graph-popup p {
+	padding: 0 14px 0 14px;
+}
+
+.graph-popup a.tc-tiddlylink {
+	color: <<colour tiddler-link-foreground>>;
+}
+
+.graph-popup svg {
+	width: 1em;
+	height: 1em;
+}
+
+.graph-popup img {
+	width: 1em;
+}
+
+.graph-popup .tc-tab-set .tc-tab-buttons button {
+	display: inline-block;
+	width: auto;
+	margin-bottom: 0px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.graph-popup .tc-prompt {
+	padding: 0 14px;
+}
+
+.graph-popup .tc-chooser {
+	border: none;
+}
+
+.graph-popup .tc-chooser .tc-swatches-horiz {
+	font-size: 0.4em;
+	padding-left: 1.2em;
+}
+
+.graph-popup .tc-file-input-wrapper {
+	width: 100%;
+}
+
+.graph-popup .tc-file-input-wrapper button {
+	color: <<colour foreground>>;
+}
+
+.graph-popup a:hover, .graph-popup button:hover, .graph-popup .tc-file-input-wrapper:hover button {
+	color: <<colour tiddler-link-background>>;
+	background-color: <<colour tiddler-link-foreground>>;
+	text-decoration: none;
+}
+
+.graph-popup .tc-tab-buttons button {
+	background-color: <<colour dropdown-tab-background>>;
+}
+
+.graph-popup .tc-tab-buttons button.tc-tab-selected {
+	background-color: <<colour dropdown-tab-background-selected>>;
+	border-bottom: 1px solid <<colour dropdown-tab-background-selected>>;
+}
+
+.graph-popup .tc-drop-down-bullet {
+	display: inline-block;
+	width: 0.5em;
+}
+
+.graph-popup .tc-tab-contents a {
+	padding: 0 0.5em 0 0.5em;
+}
