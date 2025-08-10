@@ -153,45 +153,6 @@ it("detects when to destroy itself", async function() {
 	expect(destroy).toHaveBeenCalled();
 });
 
-/*** dimensions ***/
-
-it("resizes on literal dimension changes", async function() {
-	wiki.addTiddler({title: "dimensions", text: "247"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}}>\n\n<$node $tiddler=A/>\n");
-	await $tw.test.flushChanges();
-	expect(init).toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("height:247");
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:247");
-	wiki.addTiddler({title: "dimensions", text: "300"});
-	await $tw.test.flushChanges();
-	// We want to update the dimensions, but not refresh the graph
-	expect(update).not.toHaveBeenCalled();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("height:300");
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:300");
-});
-
-it("can remove dimension attributes", async function() {
-	wiki.addTiddler({title: "dimensions", text: "27"});
-	var widgetNode = $tw.test.renderText(wiki, "<$graph $height={{dimensions}} $width={{dimensions}} />\n\n");
-	await $tw.test.flushChanges();
-	expect(widgetNode.parentDomNode.innerHTML).toContain("width:27;height:27;");
-	wiki.addTiddler({title: "dimensions"});
-	await $tw.test.flushChanges();
-	// There will still be style="height:;width:;", but I don't know how to
-	// get rid of that.
-	expect(widgetNode.parentDomNode.innerHTML).not.toContain(":27;");
-});
-
-it("does not write any style info if no dimensions supplied", function() {
-	function render(text) {
-		return wiki.renderText("text/html", "text/vnd.tiddlywiki", text);
-	};
-	expect(render("<$graph/>\n\n")).toBe('<div class="graph-canvas"></div>');
-	expect(render("<$graph $width='' $height=''/>\n\n")).toBe('<div class="graph-canvas"></div>');
-	expect(render("<$graph $width=5px/>\n\n")).toBe('<div class="graph-canvas" style="width:5px;"></div>');
-	expect(render("<$graph $height=5px/>\n\n")).toBe('<div class="graph-canvas" style="height:5px;"></div>');
-});
-
 /*** color palette ***/
 
 it('sends style update if palette changes', async function() {
@@ -300,7 +261,6 @@ it("performs complete refresh if engine changes", async function() {
 	expect(objects.nodes).toEqual({A: {}, B: {}});
 	expect(Object.values(objects.edges)).toEqual([{from: "A", to: "B"}]);
 	// make sure dimensions carry over
-	expect(widget.parentDomNode.innerHTML).toContain("width:50px;height:30px;");
 	// make sure the graph properties properly carry over
 	expect(objects.graph).toEqual({property: "persists"});
 });

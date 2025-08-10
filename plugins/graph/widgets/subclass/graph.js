@@ -51,13 +51,6 @@ GraphWidget.render = function(parent, nextSibling) {
 		className += " graph-engine-" + this.graphEngineName.toLowerCase();
 	}
 	this.graphElement.className = className;
-	var style = this.graphElement.style;
-	if (this.graphWidth) {
-		style.width = this.graphWidth;
-	}
-	if (this.graphHeight) {
-		style.height = this.graphHeight;
-	}
 	this.graphElement.addEventListener("mousemove", this);
 	this.domNodes.push(this.graphElement);
 	parent.insertBefore(this.graphElement, nextSibling);
@@ -92,8 +85,6 @@ GraphWidget.execute = function() {
 	this.colorWidgets = {};
 	this.graphEngineName = this.getEngineName();
 	this.setVariable("graphengine", this.graphEngineName);
-	this.graphWidth = this.getAttribute("$width");
-	this.graphHeight = this.getAttribute("$height");
 	this.executeColors();
 	this.mouse = {x: "0", y: "0"};
 	var Engine = utils.getEngine(this.graphEngineName);
@@ -135,8 +126,8 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		newEngineName = this.getEngineName();
-	if(changedAttributes["$engine"] || changedAttributes["$width"] || changedAttributes["$height"] || (this.graphEngineName !== newEngineName)) {
+		newName = this.getEngineName();
+	if(changedAttributes["$engine"] || (this.graphEngineName !== newName)) {
 		this.refreshSelf();
 		return true;
 	}
