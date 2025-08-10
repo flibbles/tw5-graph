@@ -51,4 +51,12 @@ it("defaults to Default View if no $tiddler given", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>Temp: Default content</p>");
 });
 
+it("does not introduce unneeded DOM elements when used as block", function() {
+	wiki.addTiddlers([
+		{title: "Template", text: "<$text text='TemplateBody'/>\n"}]);
+	var text =  "<div>\n\n<$graph.view $template=Template/>\n\n</div>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<div>TemplateBody</div>");
+});
+
 });

@@ -5,16 +5,24 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$vars focusTiddler={{{ [subfilter{!!filter}] }}}>
-  <$graph>
-    <$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
-      <$properties.settings>
-        <$properties physics=no>
-          <$list filter={{!!filter}}>
-            <$node.default />
-            <$edges.typed />
-          </$list>
-        </$properties>
-      </$properties.settings>
-    </$properties>
-  </$graph>
+
+<$graph>
+
+<$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
+
+<$properties.settings>
+
+<$properties physics=no>
+
+<$list filter={{!!filter}}>
+
+<$node.default />
+
+<$edges.typed />
+
+</$list>
+</$properties>
+</$properties.settings>
+</$properties>
+</$graph>
 </$vars>

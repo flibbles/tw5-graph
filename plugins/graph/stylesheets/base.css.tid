@@ -13,7 +13,17 @@ tags: $:/tags/Stylesheet
 	border-color: <<colour graph-border>>;
 	background-color: <<colour graph-background>>;
 	width: 100%;
-	height: 400px;
+}
+
+.boundingbox {
+	display: flex;
+	flex-direction: column;
+}
+
+.boundingbox > .graph-canvas {
+	width: 100%;
+	height: 0%;
+	flex-grow: 1;
 }
 
 /*** Basic graph overlay options ***/
@@ -54,9 +64,6 @@ tags: $:/tags/Stylesheet
 
 .tc-sidebar-scrollable .graph-sidebar-enabled {
 	position: absolute;
-	min-height: 350px;
-	display: flex;
-	flex-direction: column;
 }
 
 .graph-sidebar-banner {
@@ -71,19 +78,9 @@ tags: $:/tags/Stylesheet
 	margin-left: 3px;
 }
 
-.tc-sidebar-scrollable .graph-sidebar-enabled .graph-canvas {
-	width: 100%;
-	flex-grow: 1;
-}
-
 @media (max-width: <<sidebarbreakpoint>>) {
 	.tc-sidebar-scrollable .graph-sidebar-enabled {
 		display: none;
-	}
-
-	.tc-sidebar-scrollable .graph-sidebar-enabled {
-		position: relative;
-		height: 400px !important;
 	}
 
 	.tc-sidebar-scrollable .graph-sidebar-disabled {

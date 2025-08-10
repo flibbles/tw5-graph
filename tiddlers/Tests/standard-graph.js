@@ -85,8 +85,8 @@ it("does not create unnecessary textContent", function() {
 	expect($tw.utils.count(objects.edges)).toBe(3);
 	// This is the main test. No text content should be created
 	expect(widget.parentDomNode.textContent).toBe("");
-	// p -> div.graph-canvas -> (nothing)
-	expect(widget.parentDomNode.children[0].children[0].innerHTML).toBe("");
+	// div.graph-canvas -> (nothing)
+	expect(widget.parentDomNode.children[0].innerHTML).toBe("");
 });
 
 it("has proper default settings in river", async function() {

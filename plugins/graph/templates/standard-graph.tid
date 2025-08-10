@@ -5,22 +5,33 @@ tags: $:/tags/flibbles/graph/template
 \whitespace trim
 
 <$graph>
-  <%if [{!!filter}is[blank]] %>
-    <$node $tiddler="$:/plugins/flibbles/graph/settings"
-      label="Double click me to configure this graph"
-      image="$:/core/images/options-button"
-      doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<currentTiddler>> />""" />
-  <%endif%>
-  <$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
-    <$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
-      <$properties.persistent $dataTiddler=<<currentTiddler>> >
-        <$properties.settings>
-          <$nodes.writable $field=filter>
-            <$node.default/>
-            <$edges.typed $editable=yes />
-          </$nodes.writable>
-        </$properties.settings>
-      </$properties.persistent>
-    </$properties>
-  </$properties>
+
+<%if [{!!filter}is[blank]] %>
+
+<$node $tiddler="$:/plugins/flibbles/graph/settings"
+  label="Double click me to configure this graph"
+  image="$:/core/images/options-button"
+  doubleclick="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<currentTiddler>> />""" />
+
+<%endif%>
+
+<$properties physics=yes doubleclick="<$action-navigate $to=<<nodeTiddler>> />">
+
+<$properties $filter="[all[]] :filter[<..currentTiddler>getindex{!!title}]" physics=no>
+
+<$properties.persistent $dataTiddler=<<currentTiddler>> >
+
+<$properties.settings>
+
+<$nodes.writable $field=filter>
+
+<$node.default/>
+
+<$edges.typed $editable=yes />
+
+</$nodes.writable>
+</$properties.settings>
+</$properties.persistent>
+</$properties>
+</$properties>
 </$graph>

@@ -47,6 +47,8 @@ GraphWidget.render = function(parent, nextSibling) {
 	var className = "graph-canvas";
 	if (!this.graphEngine) {
 		className += " graph-error";
+	} else {
+		className += " graph-engine-" + this.graphEngineName.toLowerCase();
 	}
 	this.graphElement.className = className;
 	var style = this.graphElement.style;
@@ -88,24 +90,24 @@ Compute the internal state of the widget
 */
 GraphWidget.execute = function() {
 	this.colorWidgets = {};
-	this.engineValue = this.getEngineName();
-	this.setVariable("graphengine", this.engineValue);
+	this.graphEngineName = this.getEngineName();
+	this.setVariable("graphengine", this.graphEngineName);
 	this.graphWidth = this.getAttribute("$width");
 	this.graphHeight = this.getAttribute("$height");
 	this.executeColors();
 	this.mouse = {x: "0", y: "0"};
-	var Engine = utils.getEngine(this.engineValue);
+	var Engine = utils.getEngine(this.graphEngineName);
 	if (!Engine || this.errorState) {
 		var message;
 		if (this.errorState) {
 			message = this.errorState;
 			this.errorState = null;
-		} else if (!this.engineValue) {
+		} else if (!this.graphEngineName) {
 			message = "No graphing libraries installed.";
 		} else if (this.getAttribute("$engine")) {
-			message = "'" + this.engineValue + "' graphing library not found.";
+			message = "'" + this.graphEngineName + "' graphing library not found.";
 		} else {
-			message = "Graph plugin configured to use missing '" + this.engineValue + "' engine. Fix this in plugin settings.";
+			message = "Graph plugin configured to use missing '" + this.graphEngineName + "' engine. Fix this in plugin settings.";
 		}
 		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
 		this.graphEngine = undefined;
@@ -133,8 +135,8 @@ Selectively refreshes the widget if needed. Returns true if the widget or any of
 */
 GraphWidget.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes(),
-		newEngineValue = this.getEngineName();
-	if(changedAttributes["$engine"] || changedAttributes["$width"] || changedAttributes["$height"] || (this.engineValue !== newEngineValue)) {
+		newEngineName = this.getEngineName();
+	if(changedAttributes["$engine"] || changedAttributes["$width"] || changedAttributes["$height"] || (this.graphEngineName !== newEngineName)) {
 		this.refreshSelf();
 		return true;
 	}
@@ -211,7 +213,8 @@ GraphWidget.isGarbage = function() {
 
 GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine")
-		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine");
+		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine")
+		|| Object.keys(utils.getEngineMap())[0];
 };
 
 GraphWidget.getColor = function(color) {
