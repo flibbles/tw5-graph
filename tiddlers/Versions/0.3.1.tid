@@ -1,0 +1,4 @@
+created: 20250811023549092
+
+* Removed $width and $height from $graph
+* Graphs are more respectful of width and height settings of $boundingbox
