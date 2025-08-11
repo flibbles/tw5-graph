@@ -3,7 +3,11 @@ tags: Demo
 
 \procedure graph() $:/graph/Pantheon
 
+<$boundingbox width=100% height=400px>
+
 <$graph.view $tiddler="$:/graph/Pantheon" />
+
+</$boundingbox>
 
 <$list variable=type filter="[enlist[graph nodes edges]]">
 

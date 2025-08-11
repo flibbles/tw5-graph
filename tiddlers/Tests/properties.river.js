@@ -29,7 +29,8 @@ it("correctly identifies when inside the sidebar", function() {
 	win.innerHeight = 34;
 	var widget = $tw.test.renderGlobal(wiki, '<$transclude $tiddler="$:/plugins/flibbles/graph/ui/SideBar" graph=Graph />');
 	expect(init).toHaveBeenCalled();
-	expect(init.calls.first().args[1].graph.zoom).toBe(undefined);
+	// This was undefined before I explicitly set to true
+	expect(init.calls.first().args[1].graph.zoom).toBe(true);
 });
 
 it("can toggle when used in river", async function() {
@@ -40,7 +41,8 @@ it("can toggle when used in river", async function() {
 	$tw.test.dispatchEvent(wiki, { type: "focus", objectType: "graph"});
 	await $tw.test.flushChanges();
 	expect(update).toHaveBeenCalled();
-	expect(update.calls.first().args[0].graph.zoom).toBe(undefined);
+	// This was undefined before I explicitly set to true
+	expect(update.calls.first().args[0].graph.zoom).toBe(true);
 	// Make sure we got a state tiddler that's actually a state tiddler
 	var states = wiki.filterTiddlers("[prefix[$:/state/]search:title[river]]");
 	expect(states.length).toBe(1);

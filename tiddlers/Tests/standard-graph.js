@@ -98,7 +98,8 @@ it("has proper default settings in river", async function() {
 	$tw.test.dispatchEvent(wiki, { type: "focus", objectType: "graph"});
 	await $tw.test.flushChanges();
 	objects = update.calls.first().args[0];
-	expect(objects.graph.zoom).toBe(undefined);
+	// This used to be undefined before I explicitly set it to true
+	expect(objects.graph.zoom).toBe(true);
 	expect(objects.graph.navigation).toBe(undefined);
 });
 
