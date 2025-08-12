@@ -22,6 +22,7 @@ exports.properties = {
 		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
 	},
 	nodes: {
+		actions: {type: "actions", expected: true},
 		color: {type: "color", expected: true},
 		size: {type: "number", min: 0},
 		label: {type: "string", expected: true},

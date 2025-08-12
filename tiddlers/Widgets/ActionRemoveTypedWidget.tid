@@ -32,7 +32,7 @@ The content of an <<.wid action-removetyped>> widget is ignored.
 
 <$graph>
 	<$list filter="[list[]]">
-		<$node label={{!!title}} doubleclick=<<remove>> />
+		<$node label={{!!title}} actions=<<remove>> />
 	</$list>
 </$graph>""" />
 </$doc.example>

@@ -8,7 +8,7 @@ tags: $:/tags/flibbles/graph/template
 
 <$graph>
 
-<$properties $for=nodes doubleclick="<$action-navigate $to=<<nodeTiddler>> />" >
+<$properties $for=nodes actions="<$action-navigate $to=<<nodeTiddler>> />" >
 
 <$properties.settings>
 

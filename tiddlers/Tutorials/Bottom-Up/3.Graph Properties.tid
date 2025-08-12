@@ -43,6 +43,6 @@ Different properties can be different types. The property tables in graphTiddler
 |Color |<<.attr color>>, <<.attr borderColor>> |Any acceptable CSS color specification, like <<.value DarkSalmon>>, or <<.value #E9967A>>, or <<.value "rgb(233, 150, 122)">> |
 |Image |<<.attr image>>, <<.attr background>> |The title of an image tiddler, or a URL to an image. |
 |Number |<<.attr size>>, <<.attr x>>, <<.attr y>> |Any number. Range inputs will define a range that number should reasonably be within, but you can put whatever you want at your discretion. |
-|Actions |<<.attr doubleclick>>, <<.attr hover>> |Wikitext of action widgets to execute when the given event occurs |
+|Actions |<<.attr actions>>, <<.attr hover>>, <<.attr drag>> |Wikitext of action widgets to execute when the given event occurs |
 
 There will probably be more information on each property and its type in this documentation soon. But for now, a little experimentation is really all you need to figure out how to use any given property.

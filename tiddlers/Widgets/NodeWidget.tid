@@ -16,7 +16,8 @@ All node widgets correspond to a tiddler. This tiddler does not have to exist.
 |$tiddler |The tiddler this node corresponds to (defaults to the [[current tiddler|Current Tiddler]]) |
 |$pos |A [[Position]] value which indicates a starting location |
 |//{attributes not starting with $)// |Any other attributes that do not start with a dollar sign are passed to the graphing engine as properties of this node |
-|!Below are commonly-used properties used by all engines. |<|
+|!Below are commonly-used properties used by most engines. |<|
+|actions |A string containing [[ActionWidgets|Widgets]] to be triggered when the node is clicked/doubleclicked (depending on the engine) |
 |color |Sets the color of the node. If not set, takes color from current palette. |
 |label |Sets a label that appears with the node. |
 |x |Sets the starting X coordinate of the node. Gets preferred over <<.attr $pos>> |

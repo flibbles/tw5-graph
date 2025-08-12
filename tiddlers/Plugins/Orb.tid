@@ -26,7 +26,7 @@ Here is a stress test of orb's efficiency: a rendering tree of all shadow tiddle
     <$vars currentTiddler=`$(prefix)$$(dir)$`>
       <$edge $from=<<prefix>> $to={{!!title}} />
       <%if [{!!title}is[shadow]] %>
-        <$node label=<<dir>> doubleclick="<$action-navigate />"/>
+        <$node label=<<dir>> actions="<$action-navigate />"/>
       <% else %>
         <$node label=<<dir>> size=0 />
         <$transclude $variable=directory prefix={{!!title}} source={{{ [enlist<source>prefix{!!title}format:titlelist[]join[ ]] }}} />
