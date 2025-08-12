@@ -2,8 +2,8 @@ title: $:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate
 
 \procedure templateSelector()
 \whitespace trim
-<$select field=template default={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
-  <$list filter="[[$:/tags/flibbles/graph/template]tagging[]]">
+<$select field=template default={{{ [[$:/tags/flibbles/graph/Template]tagging[]] }}} >
+  <$list filter="[[$:/tags/flibbles/graph/Template]tagging[]]">
     <option value={{!!title}}>
       <$view field=caption>
         <$view field=title />

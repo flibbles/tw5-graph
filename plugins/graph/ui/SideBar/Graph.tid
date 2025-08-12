@@ -20,7 +20,7 @@ tags: $:/tags/SideBar
 
 <$parameters
   graph={{{ [<state>get[text]else<defaultGraph>] }}}
-  defaultTemplate={{{ [[$:/tags/flibbles/graph/template]tagging[]] }}} >
+  defaultTemplate={{{ [[$:/tags/flibbles/graph/Template]tagging[]] }}} >
 
 <$keyboard key="escape" actions=<<fs-kill>> >
 

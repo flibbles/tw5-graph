@@ -41,13 +41,13 @@ Graph templates don't have to be applied to graphTiddlers. You can easily create
 
 !! Assigning templates
 
-[[GraphTiddlers|GraphTiddler]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a graphTiddler, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a graphTiddler, which you can set to any tiddler you want.
+[[GraphTiddlers|GraphTiddler]] always use a template to render their graph when viewed in the [[Sidebar]], or when transcluded without a template. When you edit a graphTiddler, you'll get a dropdown where you can select a template. This list shows all templates tagged with the <<tag $:/tags/flibbles/graph/Template>> tag, and you can add your own templates to that list by using that tag. But that doesn't mean you have to use a tagged template. That dropdown sets the <<.field template>> field of a graphTiddler, which you can set to any tiddler you want.
 
 !! Default rendering
 
 Since a graphTiddler is nothing more than a set of information describing settings, properties, and positions, it requires a template. If you haven't assigned one, and you're not transcluding with a template, <<.graph>> renders the graphTiddler with the [[Standard Editable Graph Template]].
 
-If you want to change the default template for //all// graphTiddlers that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tid $:/tags/flibbles/graph/template>>.
+If you want to change the default template for //all// graphTiddlers that don't specify a template, you can create assign a different template the <<tag $:/tags/flibbles/graph/Template>> and make sure it is the //first// template in that tag list. You can do this using standard tag-ordering methods, such as the <<.field list-before>> field, or altering the <<.field list>> of <<.tid $:/tags/flibbles/graph/Template>>.
 
 !! Built-in templates
 

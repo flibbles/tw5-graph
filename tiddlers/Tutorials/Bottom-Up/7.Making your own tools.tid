@@ -16,7 +16,7 @@ When you make a [[GraphTiddler]] through the [[GUI]], there's a point in the opt
 
 Okay. Maybe not super simple, but this provides all the basic functionality when a graph rendered using this template. But it provides a whole slew of common features that one might expect from a graph. And multiple graphs can be created using your template, with each graph storing its complete state within its corresponding [[GraphTiddler]].
 
-To make your templates available in the [[GUI]] dropdown, just tag your template tiddlers with <<tag $:/tags/flibbles/graph/template>>.
+To make your templates available in the [[GUI]] dropdown, just tag your template tiddlers with <<tag $:/tags/flibbles/graph/Template>>.
 
 If you don't tag your template, you're still free to use it like any other TiddlyWiki template. Also, you can use it with the <<.wlink Graph.ViewWidget>> like so:
 
