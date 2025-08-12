@@ -25,13 +25,13 @@ it("matches the basic subset of actions", function() {
 		var properties = adapter.properties[category];
 		expect(properties).not.toBeUndefined(category);
 		$tw.utils.each(Test.properties[category], function(property, name) {
-			if (property.type === "actions") {
-				var adapterProperty = properties[name];
-				var blurb = category+"##"+name;
-				expect(adapterProperty).not.toBeUndefined(blurb);
-				if (adapterProperty) {
-					expect(adapterProperty.variables || []).withContext(blurb).toEqual(property.variables || []);
-				}
+			var blurb = category+"##"+name;
+			var adapterProperty = properties[name];
+			if (property.expected) {
+				expect(adapterProperty).toBeDefined(blurb);
+			}
+			if (property.type === "actions" && adapterProperty) {
+				expect(adapterProperty.variables || []).withContext(blurb).toEqual(property.variables || []);
 			}
 		});
 	}

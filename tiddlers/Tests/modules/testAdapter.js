@@ -11,9 +11,9 @@ exports.name = "Test";
 
 exports.properties = {
 	graph: {
-		focus: {type: "actions"},
-		blur: {type: "actions"},
-		zoom: {type: "boolean"},
+		focus: {type: "actions", expected: true},
+		blur: {type: "actions", expected: true},
+		zoom: {type: "boolean", expected: true},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
 		navigation: {type: "boolean", default: false},
@@ -22,9 +22,9 @@ exports.properties = {
 		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
 	},
 	nodes: {
-		color: {type: "color"},
+		color: {type: "color", expected: true},
 		size: {type: "number", min: 0},
-		label: {type: "string"},
+		label: {type: "string", expected: true},
 		hidden: {type: "boolean"},
 		image: {type: "image"},
 		physics: {type: "boolean"},
