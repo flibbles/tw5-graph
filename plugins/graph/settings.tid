@@ -3,7 +3,7 @@ tags: [[$:/tags/ControlPanel/SettingsTab]]
 caption: Graph
 
 \procedure filterTab() [!has[filter]] ~[subfilter{!!filter}]
-\procedure settingsTabs() [[$:/tags/flibbles/graph/settingsTab]tagging[]filter<filterTab>]
+\procedure settingsTabs() [[$:/tags/flibbles/graph/SettingsTab]tagging[]filter<filterTab>]
 
 Settings page for TW5-Graph. See the [ext[project website|https://flibbles.github.io/tw5-graph]] for complete documentation.
 

@@ -1,2 +1,2 @@
-title: $:/tags/flibbles/graph/settingsTab
+title: $:/tags/flibbles/graph/SettingsTab
 list: [[$:/plugins/flibbles/graph/ui/Settings/Engine]] [[$:/plugins/flibbles/graph/ui/Settings/Graphs]]

@@ -1,5 +1,5 @@
 title: $:/plugins/flibbles/graph/ui/Settings/Properties
-tags: $:/tags/flibbles/graph/settingsTab
+tags: $:/tags/flibbles/graph/SettingsTab
 caption: Properties
 
 \function .tabs() :cache[all[shadows+tiddlers]removeprefix[$:/plugins/flibbles/graph/presettypes/]splitbefore[/]removesuffix[/]unique[]sort[]]
