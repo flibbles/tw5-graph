@@ -32,7 +32,7 @@ This widget takes no attributes. It assumes the <<.var currentTiddler>> is the g
   <$properties.settings>
     <$list filter={{!!filter}} >
       <$node.default />
-      <$edges.typed $fields=<<fieldsFilter>> $formulas=<<formulasFilter>> />
+      <$edges.typed />
     </$list>
   </$properties.settings>
 </$graph>

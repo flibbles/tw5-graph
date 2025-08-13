@@ -5,7 +5,7 @@ title: Super Simple Template
     <$properties.persistent $dataTiddler={{!!title}} >
       <$nodes.writable $field="filter">
         <$node.default />
-        <$edges.typed $formulas=<<formulasFilter>> $fields=<<fieldsFilter>> />
+        <$edges.typed />
       </$nodes.writable>
     </$properties.persistent>
   </$properties.settings>
