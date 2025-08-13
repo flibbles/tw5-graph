@@ -39,7 +39,7 @@ it("can take properties from the view", function() {
 it("passes edge settings to internal $edges.typed", function() {
 	wiki.addTiddlers([
 		{title: "root", tags: "A", list: "B", text: "[[C]] {{D}}"},
-		{title: "View", "edges.fields": "tags", "edges.formulas": "links"}]);
+		{title: "View", "edges.fields": "tags", "edges.functions": "links"}]);
 	var text = "<$let currentTiddler=View><$graph><$properties.settings><$edges.typed $tiddler=root><<toTiddler>>-";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.textContent).toBe("A-C-");

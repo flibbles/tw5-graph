@@ -29,8 +29,8 @@
 
 
 <$doc.example
-	description="edges.typed with $formulas attribute"
-	narrative="""Formula edges are a way to generate edges for any given tiddler based on the output of a filter when that tiddler is passed to it. In this case, we rely on the pre-existing "links" formula, but we also define our own "bibliography" formula, which points to supplemental tiddlers.""">
+	description="edges.typed with $functions attribute"
+	narrative="""Function edges are a way to generate edges for any given tiddler based on the output of a filter when that tiddler is passed to it. In this case, we rely on the pre-existing "links" function, but we also define our own "bibliography" function, which points to supplemental tiddlers.""">
 <$data
 	title=Output
 	text="""<$graph>
@@ -52,7 +52,7 @@
 <$data title="Robert Jordan/bibliography" tags=Bibliography text="# Wheel of Time series
 # Conan the Barbarian
 # Warrior of the Altaii" />
-<$data title="$:/config/flibbles/graph/edges/formulas/bibliography" caption="''//Bibliography// edge''" type="application/json" filter="[addsuffix[/bibliography]]" text='{
+<$data title="$:/config/flibbles/graph/edges/functions/bibliography" caption="''//Bibliography// edge''" type="application/json" filter="[addsuffix[/bibliography]]" text='{
     "arrows": "to"
 }' />
 </$doc.example>

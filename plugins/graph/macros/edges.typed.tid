@@ -2,7 +2,7 @@
 \function configTiddlers() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \whitespace trim
 <$parameters
-	$$formulas={{{ [<formulasFilter>!is[blank]] ~"[all[]]" }}}
+	$$functions={{{ [<functionsFilter>!is[blank]] ~"[all[]]" }}}
 	$$fields={{{ [<fieldsFilter>!is[blank]] ~"[all[]]" }}}
 	$$tiddler=<<currentTiddler>> >
 
@@ -29,21 +29,21 @@ $(fieldName)$-$(index)$`>
 
 </$slot></$vars></$list></$properties></$let></$list>
 
-<!-- Now create edges for formula types -->
+<!-- Now create edges for function types -->
 
-<$list variable=formulaName filter="[function[configTiddlers]removeprefix[formulas/]subfilter<$formulas>]">
+<$list variable=functionName filter="[function[configTiddlers]removeprefix[functions/]subfilter<$functions>]">
 
 <$let
-	dataTiddler=`$:/config/flibbles/graph/edges/formulas/$(formulaName)$`
-	formula={{{ [<dataTiddler>get[filter]] }}} >
+	dataTiddler=`$:/config/flibbles/graph/edges/functions/$(functionName)$`
+	function={{{ [<dataTiddler>get[filter]] }}} >
 
 <$properties $for=edges
 	$tiddler=<<dataTiddler>> >
 
-<$list variable=toTiddler counter=index filter="[<$tiddler>] :map:flat[subfilter<formula>] +[!is[blank]]">
+<$list variable=toTiddler counter=index filter="[<$tiddler>] :map:flat[subfilter<function>] +[!is[blank]]">
 
-<$vars id=`$:/edge/formulas/$($tiddler)$
-$(formulaName)$-$(index)$`>
+<$vars id=`$:/edge/functions/$($tiddler)$
+$(functionName)$-$(index)$`>
 
 <$slot $name=ts-raw>
 
@@ -52,4 +52,4 @@ $(formulaName)$-$(index)$`>
 </$slot></$vars></$list></$properties></$let></$list>
 \end
 
-\relink $edges.typed $formulas:filter $fields:filter $tiddler:title
+\relink $edges.typed $functions:filter $fields:filter $tiddler:title

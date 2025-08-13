@@ -7,4 +7,4 @@ filter: filter
 # These, however, are unique to TW5-Graph
 template: title
 edges.fields: filter
-edges.formulas: filter
+edges.functions: filter

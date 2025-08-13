@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/presettypes/edges/functions
+
+"Function" edges define properties for edges generated from input nodes //individually// into a filter, and then creating an edge from that node to each of the filter's output.
+
+Filter: <$edit-text field=filter />

@@ -25,9 +25,9 @@ function fieldConfig(name, properties) {
 		type: "application/json"};
 };
 
-function formulaConfig(name, filter, properties) {
+function functionConfig(name, filter, properties) {
 	return {
-		title: "$:/config/flibbles/graph/edges/formulas/" + name,
+		title: "$:/config/flibbles/graph/edges/functions/" + name,
 		filter: filter,
 		text: JSON.stringify(properties || {}),
 		type: "application/json"};
@@ -42,7 +42,7 @@ it("passes along filter arguments to internal macros", function() {
 		fieldConfig("fieldA", {}),
 		fieldConfig("fieldB", {}),
 		{title: "Target", fieldA: "A", fieldB: "B", text: "[[L]] {{T}}"}]);
-	var text = "<$edges.typed $formulas=links $fields=fieldB $tiddler=Target><<toTiddler>>";
+	var text = "<$edges.typed $functions=links $fields=fieldB $tiddler=Target><<toTiddler>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>BL</p>");
 });
@@ -114,8 +114,8 @@ it("makes unique ids for edges", function() {
 		fieldConfig("A", {value: "1"}),
 		fieldConfig("B", {value: "2"}),
 		relinkConfig("A", "filter"),
-		formulaConfig("A", "[all[]] =[all[]]", {value: "3"}),
-		formulaConfig("B", "[all[]]", {value: "4"}),
+		functionConfig("A", "[all[]] =[all[]]", {value: "3"}),
+		functionConfig("B", "[all[]]", {value: "4"}),
 		{title: "Target", "A": "Target =Target", "B": "Target"}]);
 	var text = "<$graph><$edges.typed $tiddler=Target />" + nodesFor("Target");
 	var widget = $tw.test.renderGlobal(wiki, text);
@@ -239,7 +239,7 @@ it("can update edges when type is changed", async function() {
 	expect(edges).toEqual({[id]: {from: "from", to: "to there", value: "B"}});
 });
 
-/*** Formula specific tests ***/
+/*** Function specific tests ***/
 
 it("can make link and transclude edges for graphs", function() {
 	wiki.addTiddlers([
@@ -260,38 +260,38 @@ it("can use a custom non-graph block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink=toTransclude</p>");
 });
 
-it("can hand-pick formulas", function() {
+it("can hand-pick functions", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas=links $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $functions=links $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink</p>");
 });
 
-it("can hand-remove formulas", function() {
+it("can hand-remove functions", function() {
 	wiki.addTiddler({title: "Target", text: "[[toLink]] {{toTransclude}}"});
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas='[all[]] -links' $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $functions='[all[]] -links' $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toTransclude</p>");
 });
 
-it("only passes current target to formula filters", function() {
+it("only passes current target to function filters", function() {
 	wiki.addTiddlers([
 		{title: "Target", text: "[[toLink]] {{toTransclude}}"},
 		{title: "Target2", text: "[[other]] {{bad}}"}]);
-	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $formulas=links $tiddler=Target>=<<toTiddler>>");
+	var widget = $tw.test.renderGlobal(wiki, "<$edges.typed $functions=links $tiddler=Target>=<<toTiddler>>");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>=toLink</p>");
 });
 
-it("preserves currentTiddler when running formula filter", function() {
+it("preserves currentTiddler when running function filter", function() {
 	// We're making sure that currentTiddler is set for...
-	//   Template - the $formulas filter
-	//   Target - for currentTiddler of executed formula
-	//   Target - for input of executed formula
+	//   Template - the $functions filter
+	//   Target - for currentTiddler of executed function
+	//   Target - for input of executed function
 	wiki.addTiddlers([
-		formulaConfig("good", "[get[myField]] [all[tiddlers]prefix{!!title}] -[{!!title}]"),
-		{title: "Target", myField: "Target/field", formulas: "bad"},
+		functionConfig("good", "[get[myField]] [all[tiddlers]prefix{!!title}] -[{!!title}]"),
+		{title: "Target", myField: "Target/field", functions: "bad"},
 		{title: "Target/nested"},
-		{title: "Template", myField: "Template/field", formulas: "good"},
+		{title: "Template", myField: "Template/field", functions: "good"},
 		{title: "Template/nested"}]);
-	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.typed $tiddler=Target $formulas='[{!!formulas}]'><<toTiddler>>=");
+	var widget = $tw.test.renderGlobal(wiki, "\\define currentTiddler() Template\n<$edges.typed $tiddler=Target $functions='[{!!functions}]'><<toTiddler>>=");
 	expect(widget.parentDomNode.innerHTML).toBe("<p>Target/field=Target/nested=</p>");
 });
 

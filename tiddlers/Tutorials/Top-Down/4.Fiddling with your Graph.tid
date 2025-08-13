@@ -20,4 +20,4 @@ If you're using Vis-Network, you can remove nodes through the buttons that engin
 
 Using those edit buttons, you can draw edges between nodes by clicking and dragging, and then using the super-quick modal that pops up. You can use this this easy means to create new "field edges" such as the <<.field list>> or <<.field tags>> (or any field really, although if you draw an edge for a field your graph doesn't show, it won't show up!)
 
-You can't add or remove "formula fields" this way. Nothing will happen, because those are created procedurely. (<<.graph>> can't know what to do if you asked it to add a "link".)
+You can't add or remove "function edges" this way. Nothing will happen, because those are created procedurely. (<<.graph>> can't know what to do if you asked it to add a "link".)

@@ -14,7 +14,7 @@ caption: edges.typed
 
 ! Introduction
 
-<<.wid edges.typed>> provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured formula.
+<<.wid edges.typed>> provides a quick way to introduce for a given tiddler all edges which are configured in the <<.graph>> properties configuration. This includes all edges corresponding to configured fields, and any that would exist from a configured function.
 
 Fields are parsed using their [[Relink settings|Relink]], which can also be configured through the edge settings as well, in case Relink is not installed.
 
@@ -26,7 +26,7 @@ Within the widget block, <<.wid edges.typed>> defines the tiddler <<.value toTid
 
 |!Attribute | !Description |
 |$tiddler |The tiddler whose fields are used to create edges (defaults to "[all[]]") |
-|$formulas |Filter to decide which formulas to render (if not set, inherits value. See below) |
+|$functions |Filter to decide which functions to render (if not set, inherits value. See below) |
 |$fields |Filter to decide which fields to render (if not set, inherits value. See below) |
 |$editable |If 'yes', any created field edges will be deletable, which will modify the corresponding fields (defaults to 'no') |
 
@@ -55,17 +55,17 @@ By default, the value of this attribute is <<value '[all[]]'>>, which means all 
 ; [all[]] otherField
 : Uses all configured fields, and also the unconfigured "otherField". (Unconfigured fields are treated as a list field.)
 
-! $formulas
+! $functions
 
-The <<.attr $formula>> attribute specifies which [[formulas|Formulas EdgeType]] to use. Otherwise, it works exactly like the <<.attr $fields>> attribute does. By default, <<.graph>> has the following formulas defined:
+The <<.attr $function>> attribute specifies which [[functions|Functions EdgeType]] to use. Otherwise, it works exactly like the <<.attr $fields>> attribute does. By default, <<.graph>> has the following functions defined:
 
-<<categoryList formulas>>
+<<categoryList functions>>
 
-By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Refer to <<.attr $field>> above for examples on how to include or exclude formulas.
+By default, the value of this attribute is <<value '[all[]]'>>, which means all configured fields will be used. Refer to <<.attr $field>> above for examples on how to include or exclude functions.
 
-! Inheriting values for $formulas and $fields
+! Inheriting values for $functions and $fields
 
-The attributes <<.attr $formulas>> and <<.attr $fields>> will inherit their values from parent widgets, so you should rarely have to actually set a value. This inheritance is done through the variables <<.var formulasFilter>> and <<.var fieldsFilter>>.
+The attributes <<.attr $functions>> and <<.attr $fields>> will inherit their values from parent widgets, so you should rarely have to actually set a value. This inheritance is done through the variables <<.var functionsFilter>> and <<.var fieldsFilter>>.
 
 If you use <<.wid edges.typed>> inside of <<.wlink Nodes.NeighborsWidget>>, the attributes assume the same values you passed to that widget.
 

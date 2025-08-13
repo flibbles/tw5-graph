@@ -52,7 +52,7 @@ it("can specify edge Types for to outgoing neighbors and edges", function() {
 		{title: "A", tags: "A", list: "C"}, {title: "B"}, {title: "C"},
 		{title: "T", text: "[[T]] {{X}}"}, {title: "L"}, {title: "X"},
 		{title: "home", tags: "A B", list: "A C", text: "[[X]] [[L]] {{X}} {{T}}"}]);
-	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $formulas='[all[]] -links'/>";
+	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $functions='[all[]] -links'/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "C", "T", "X"]);
@@ -68,7 +68,7 @@ it("can specify edge Types for to incoming neighbors and edges", function() {
 		{title: "X", text: "[[home]] {{home}} [[X]] {{T}}"},
 		{title: "L", text: "[[home]]"},
 		{title: "T", text: "{{home}}"}]);
-	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $formulas='[all[]] -links'/>";
+	var text = "<$graph><$nodes.neighbors $filter='home' $interedges=yes $fields='[all[]] -tags' $functions='[all[]] -links'/>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	var objects = init.calls.first().args[1];
 	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "C", "T", "X"]);
@@ -193,7 +193,7 @@ it("handles capitalization mismatch with neighbor interedges", function() {
 // Tests for issue #47
 it("properly sets currentTiddler when seeking for neighbors", function() {
 	wiki.addTiddler({
-		title: "$:/config/flibbles/graph/edges/formulas/directory",
+		title: "$:/config/flibbles/graph/edges/functions/directory",
 		filter: "[all[tiddlers]prefix<currentTiddler>] -[all[current]]"});
 	wiki.addTiddler({title: "$:/config/flibbles/graph/edges/fields/filter"});
 	wiki.addTiddler({title: "$:/config/flibbles/relink/fields/filter", text: "filter"});
@@ -203,9 +203,9 @@ it("properly sets currentTiddler when seeking for neighbors", function() {
 		{title: "from", filter: "[all[current]get[field]]", field:"Dir/Target"},
 		// Test fields outgoin
 		{title: "to"},
-		// Test formulas outgoing
+		// Test functions outgoing
 		{title: "Dir/Target/A"},
-		// Test formulas incoming
+		// Test functions incoming
 		{title: "Dir"},
 		// Test that this doesn't get picked up
 		{title: "Obligatory ignored tiddler"}]);

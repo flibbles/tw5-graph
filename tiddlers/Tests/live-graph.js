@@ -15,9 +15,9 @@ function view(fields) {
 	return Object.assign({title: title, template: liveGraph, type: "application/json"}, fields);
 };
 
-function formulaConfig(name, filter, properties) {
+function functionConfig(name, filter, properties) {
 	return {
-		title: "$:/config/flibbles/graph/edges/formulas/" + name,
+		title: "$:/config/flibbles/graph/edges/functions/" + name,
 		filter: filter,
 		text: JSON.stringify(properties || {}),
 		type: "application/json"};
@@ -29,10 +29,10 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
-it("can properly evaluate formula neighbors", function() {
+it("can properly evaluate function neighbors", function() {
 	wiki.addTiddlers([
 		view({filter: "target", "neighbors.incoming": "1", "neighbors.outgoing": "1"}),
-		formulaConfig("nested", "[all[tiddlers]prefix{!!title}]"),
+		functionConfig("nested", "[all[tiddlers]prefix{!!title}]"),
 		{title: "target/file"},
 		{title: "ignore/file"}]);
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${liveGraph}}}`);

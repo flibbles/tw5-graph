@@ -16,7 +16,7 @@ beforeEach(async function() {
 */
 
 it("renders data tiddlers using viewTemplate", function() {
-	var widget = $tw.test.renderText($tw.wiki, "{{$:/config/flibbles/graph/edges/formulas/links||$:/core/ui/ViewTemplate/body}}");
+	var widget = $tw.test.renderText($tw.wiki, "{{$:/config/flibbles/graph/edges/functions/links||$:/core/ui/ViewTemplate/body}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure the table renders
 	expect(html).toContain("<table");
@@ -34,7 +34,7 @@ it("renders plugin tab", function() {
 	var widget = $tw.test.renderGlobal($tw.wiki, "{{$:/plugins/flibbles/graph/ui/Settings/Properties|edges}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure we're getting those default object type categories
-	expect(html).toContain("Formulas");
+	expect(html).toContain("Functions");
 	// Make sure we're finding the types within the categories too
 	expect(html).toContain(">links<");
 });

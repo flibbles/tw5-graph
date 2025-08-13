@@ -16,7 +16,7 @@
 
 <$let
   fieldsFilter={{{ [{!!edges.fields}!is[blank]] ~"[all[]]" }}}
-  formulasFilter={{{ [{!!edges.formulas}!is[blank]] ~"[all[]]" }}}>
+  functionsFilter={{{ [{!!edges.functions}!is[blank]] ~"[all[]]" }}}>
 
 <$slot $name="ts-raw" $depth=4 />
 
@@ -28,7 +28,7 @@
  
 <$nodes.neighbors
   $filter={{!!filter}}
-  $formulas=<<formulasFilter>>
+  $functions=<<functionsFilter>>
   $fields=<<fieldsFilter>>
   $interedges={{!!neighbors.interedges}}
   $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />

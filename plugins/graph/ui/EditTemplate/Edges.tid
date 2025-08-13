@@ -19,4 +19,4 @@ Decide which of the preconfigured edge types will connect your nodes
 
 |tc-max-width tc-edit-max-width tc-table-no-border |k
 |Fields |<<edgelist fields "[all[]]">> |
-|Formulas |<<edgelist formulas "[all[]]">> |
+|Functions |<<edgelist functions "[all[]]">> |

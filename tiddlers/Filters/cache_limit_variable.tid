@@ -4,9 +4,9 @@ tags: [[Cache Tip]]
 
 It's important to realize that while it //can// execute filter runs that require variables, ''the more changing variables the internal run calls, the less effective the cache becomes''. This is because it must cache each output uniquely based on the values of all used variables.
 
-For instance, let's take an example used within <<.graph>>. It needs to access all edge types of a certain category (such as <<.value fields>> or <<.value formulas>>). Here's a naive use of the cache:
+For instance, let's take an example used within <<.graph>>. It needs to access all edge types of a certain category (such as <<.value fields>> or <<.value functions>>). Here's a naive use of the cache:
 
-<$doc.demo description="Naive solution" code="""<$list variable="category" filter="fields formulas">
+<$doc.demo description="Naive solution" code="""<$list variable="category" filter="fields functions">
 
 !! <<category>>
 <$list filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]removeprefix<category>removeprefix[/]]"/>
@@ -14,7 +14,7 @@ For instance, let's take an example used within <<.graph>>. It needs to access a
 
 This seems to list all of the edge types by category efficiently, but in reality, the cache cannot reuse its results, all all shadows+tiddlers in your wiki get iterated over //twice//. That's because in both loops, <<.value category>> is different, so the cache must generate results for each combination of changing variables (in this case, only <<.value category>>). Here is a better approach:
 
-<$doc.demo description="Better solution" code="""<$list variable="category" filter="fields formulas">
+<$doc.demo description="Better solution" code="""<$list variable="category" filter="fields functions">
 
 !! <<category>>
 <$list filter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]]"/>

@@ -1,21 +1,21 @@
-\widget $nodes.neighbors($filter, $fields:'[all[]]', $formulas:'[all[]]', $interedges, $whitelist:'[!is[system]]')
+\widget $nodes.neighbors($filter, $fields:'[all[]]', $functions:'[all[]]', $interedges, $whitelist:'[!is[system]]')
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
 \procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]
 \procedure configs.all() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \procedure configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
-\procedure configs.formulas() :cache[subfilter<configs.all>removeprefix[formulas/]subfilter<$formulas>addprefix[$:/config/flibbles/graph/edges/formulas/]]
+\procedure configs.functions() :cache[subfilter<configs.all>removeprefix[functions/]subfilter<$functions>addprefix[$:/config/flibbles/graph/edges/functions/]]
 
 <!-- Holy nuts this is getting complicated, but we need to :map:flat twice
      in order to switch ..currentTiddler and currentTiddler, as the fields
-     and formulas will expect it. -->
+     and functions will expect it. -->
 \procedure edges.fields.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>gettyped<..currentTiddler>]
-\procedure edges.formulas.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>subfilter<..currentTiddler>]
+\procedure edges.functions.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>subfilter<..currentTiddler>]
 
 \procedure edges.fields() [subfilter<configs.fields>] :map:flat[<..currentTiddler>subfilter<edges.fields.flipped>]
-\procedure edges.formulas() [subfilter<configs.formulas>get[filter]] :map:flat[<..currentTiddler>subfilter<edges.formulas.flipped>]
+\procedure edges.functions() [subfilter<configs.functions>get[filter]] :map:flat[<..currentTiddler>subfilter<edges.functions.flipped>]
 
-\procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.formulas>] +[!is[blank]unique[]]
+\procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.functions>] +[!is[blank]unique[]]
 \procedure neighbors.cached() [all[]] :cache[subfilter<neighbors.for>]
 
 \procedure incoming.raw() [all[tiddlers]subfilter<$whitelist>!search:title:regexp,casesensitive<regexp>] :filter[subfilter<neighbors.cached>search:title:regexp,casesensitive<regexp>]
@@ -24,7 +24,7 @@
 
 <$vars
 	regexp={{{ [subfilter<filter.cached>escaperegexp[]join[|]addprefix[^(?:]addsuffix[)$]] }}}
-	formulasFilter=<<$formulas>>
+	functionsFilter=<<$functions>>
 	fieldsFilter=<<$fields>> >
 
 <!-- incoming neighbors -->
@@ -62,4 +62,4 @@
 <%endif%></$list>
 \end
 
-\relink $nodes.neighbors $filter:filter $fields:filter $formulas:filter $whitelist:filter
+\relink $nodes.neighbors $filter:filter $fields:filter $functions:filter $whitelist:filter

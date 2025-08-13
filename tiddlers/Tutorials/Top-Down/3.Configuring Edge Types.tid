@@ -1,10 +1,10 @@
-\procedure actions() <$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list slayed" edges.formulas="--" />
+\procedure actions() <$action-setfield $tiddler="$:/graph/Default" edges.fields="[all[]] -list slayed" edges.functions="--" />
 
 You've probably noticed that after you've typed in a set of nodes for our graph to display, there are already a lot of edges connecting your nodes together. That's because <<.graph>> graphTiddlers automatically show relationships between tiddlers unless you specify otherwise.
 
 Let's specify otherwise.
 
-Underneath the "Nodes" textbox we filled out earlier, you'll see two other text boxes labeled Edges, fields" and "Edges, formulas". These two categories derive edges by looking at each node individually.
+Underneath the "Nodes" textbox we filled out earlier, you'll see two other text boxes labeled Edges, fields" and "Edges, functions". These two categories derive edges by looking at each node individually.
 
 There are some preconfigured types here which you'll see listed directly underneath their corresponding text-field.
 
@@ -15,9 +15,9 @@ Field edges look at a tiddler's fields to make edges. Two are configured by defa
 |!list |This makes edges for each title in a tiddler's <<.field list>> field. |
 |!tags |This does the same, but for the <<.field tags>> field. |
 
-!!! Edges, formulas
+!!! Edges, functions
 
-This category makes edges by running each tiddler through custom formulas (i.e. filters). Two types are premade.
+This category makes edges by running each tiddler through custom functions (i.e. filters). Two types are premade.
 
 |!links |This type makes an edge for every wikilink inside a tiddler's body. |
 |!transcludes |This makes edges for every transclusion in a tiddler's body. |
@@ -30,7 +30,7 @@ By default, //all// edge types are enabled. That's what the `[all[]]` value mean
 
 # Let's first get rid of <<.field list>> edges, and just have <<.field tags>> edges represented instead. So let's replace `[all[]]` that's already there with `[all[]] -list`, which is filter-speak for "everything, except lists". If you do it right, you'll see "list" beneath that text box gray out, and all "list" edges will instantly disappear from your graph.
 #* You can also append any field you want here, not just <<.field tags>> and <<.field list>>, and the corresponding edges will appear for each item listed in that field. <$doc.inhouse>For our demo, let's go ahead and add <<.field slayed>> to our field-type edges, because we want to represent who slayed what in our graph of mythology. Our final result will be `[all[]] -list slayed`, which says "everything, except lists, but also slayed".</$doc.inhouse>
-# Now let's get rid of //all// formula-type edges, because we want our graph not to make edges based on the contents of our tiddlers' bodies. So in the "Edges, formulas" text box, replace the `[all[]]` with `--`, which is a filter-speak short hand for "[[Nothing, please]]". Now all those "links to" edges will disappear.
+# Now let's get rid of //all// function-type edges, because we want our graph not to make edges based on the contents of our tiddlers' bodies. So in the "Edges, functions" text box, replace the `[all[]]` with `--`, which is a filter-speak short hand for "[[Nothing, please]]". Now all those "links to" edges will disappear.
 
 Now we've got a graph that shows our nodes, and all the tagging relationships between them. Let's move on.
 

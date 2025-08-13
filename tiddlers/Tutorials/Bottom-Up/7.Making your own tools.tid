@@ -35,8 +35,8 @@ Maybe you want a graph to appear for every tiddler, like every tiddler might hav
     <$graph physics="no">
       <$properties.river>
         <$node label={{!!title}} shape="text"/>
-        <$edges.typed $formulas="links"/>
-        <$nodes.neighbors $filter="[all[current]]" $formulas="links" $fields="--" />
+        <$edges.typed $functions="links"/>
+        <$nodes.neighbors $filter="[all[current]]" $functions="links" $fields="--" />
       </$properties.river>
     </$graph>
   <%else %>

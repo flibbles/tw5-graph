@@ -25,7 +25,7 @@ Any content of the <<.wid nodes.neighbors>> widget will get executed for every n
 |!Attribute | !Description |
 |$filter |Filter argument specifying which nodes whose neighbors to fetch |
 |$fields |Filter specifying which configured fields to use to determine neighbors. See <<.wlink Edges.TypedWidget>> for more details. Defaults to <<.value [all[]]>> |
-|$formulas |Filter specifying which configured formulas to use to determine neighbors. See <<.wlink Edges.TypedWidget>> for more details. Defaults to <<.value [all[]]>> |
+|$functions |Filter specifying which configured functions to use to determine neighbors. See <<.wlink Edges.TypedWidget>> for more details. Defaults to <<.value [all[]]>> |
 |$interedges |Specify <<.value yes>> or <<.value no>> on whether to generate edges that connect neighbors to other neighbors. Defaults to <<.value no>> |
 |$whitelist |Filter detailing which tiddlers can be considered for neighbors. Defaults to <<.value [!is[system]]>> |
 
