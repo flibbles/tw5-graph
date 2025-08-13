@@ -1,0 +1,7 @@
+created: 20250813041004730
+
+Last of the backward incompatible changes, or at least enough that only module developers should be bothered from here on.
+
+* Fixed the names of several graph system tags
+* Changed the `nodes##doubleclick` and `edges##doubleclick` action properties to `nodes##actions` and `edges##actions`. This is so end-users have one action property to set for standard interact behavior that will work across all engines.
+* [ext[Issue #53|https://github.com/flibbles/tw5-graph/issues/53]]: Changed the name of Formula Edge types to Function Edge types
