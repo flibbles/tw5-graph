@@ -2,9 +2,8 @@
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
 \procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]
-\procedure configs.all() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
-\procedure configs.fields() :cache[subfilter<configs.all>removeprefix[fields/]subfilter<$fields>]
-\procedure configs.functions() :cache[subfilter<configs.all>removeprefix[functions/]subfilter<$functions>addprefix[$:/config/flibbles/graph/edges/functions/]]
+\procedure configs.fields() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.fields}subfilter<$fields>]
+\procedure configs.functions() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.functions}subfilter<$functions>addprefix[$:/config/flibbles/graph/edges/functions/]]
 
 <!-- Holy nuts this is getting complicated, but we need to :map:flat twice
      in order to switch ..currentTiddler and currentTiddler, as the fields

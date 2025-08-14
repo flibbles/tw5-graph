@@ -1,5 +1,4 @@
 \widget $edges.typed($editable:no)
-\function configTiddlers() :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 \whitespace trim
 <$parameters
 	$$functions={{{ [<functionsFilter>!is[blank]] ~"[all[]]" }}}
@@ -8,7 +7,7 @@
 
 <!-- First create edges for field types -->
 
-<$list variable=fieldName filter="+[function[configTiddlers]removeprefix[fields/]subfilter<$fields>]">
+<$list variable=fieldName filter="+[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.fields}subfilter<$fields>]">
 
 <$let
 	dataTiddler=`$:/config/flibbles/graph/edges/fields/$(fieldName)$` >
@@ -31,7 +30,7 @@ $(fieldName)$-$(index)$`>
 
 <!-- Now create edges for function types -->
 
-<$list variable=functionName filter="[function[configTiddlers]removeprefix[functions/]subfilter<$functions>]">
+<$list variable=functionName filter="[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.functions}subfilter<$functions>]">
 
 <$let
 	dataTiddler=`$:/config/flibbles/graph/edges/functions/$(functionName)$`

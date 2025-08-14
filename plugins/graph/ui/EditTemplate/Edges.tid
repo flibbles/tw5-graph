@@ -2,11 +2,11 @@ caption: Edge Types
 
 \procedure edgelist(category, default)
 \whitespace trim
-<$vars fieldName=`edges.$(category)$`>
+<$vars fieldName=`edges.$(category)$` subfilterName=`edgetypes.$(category)$`>
   <$edit-text field=<<fieldName>> placeholder=<<default>> />
   <br>
   <span class="graph-tiddlers-edgelist">
-    <$vars masterFilter=":cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]] +[removeprefix<category>removeprefix[/]sort[]]"
+    <$vars masterFilter="[[$:/plugins/flibbles/graph/subfilters]getindex<subfilterName>] :map:flat[subfilter{!!title}sort[]]"
            customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
       <$list filter=<<masterFilter>> join=", ">
         <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>

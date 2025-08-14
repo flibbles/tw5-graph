@@ -1,6 +1,6 @@
 title: $:/plugins/flibbles/graph/ui/Modals/SelectField
 subtitle: Select field
-first-search-filter: [all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/fields/]search:title{$:/temp/graph/select}sort[title]limit[10]]
+first-search-filter: [subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.fields}search:title{$:/temp/graph/select}sort[title]limit[10]]
 footer: {{$:/plugins/flibbles/graph/ui/Modals/Select!!footer}}
 mask-closable: yes
 
