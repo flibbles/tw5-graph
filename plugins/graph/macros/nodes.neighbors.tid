@@ -2,8 +2,6 @@
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
 \procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]
-\procedure configs.fields() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.fields}subfilter<$fields>]
-\procedure configs.functions() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.functions}subfilter<$functions>addprefix[$:/config/flibbles/graph/edges/functions/]]
 
 <!-- Holy nuts this is getting complicated, but we need to :map:flat twice
      in order to switch ..currentTiddler and currentTiddler, as the fields
@@ -11,8 +9,8 @@
 \procedure edges.fields.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>gettyped<..currentTiddler>]
 \procedure edges.functions.flipped() [<..currentTiddler>] :map:flat[<currentTiddler>subfilter<..currentTiddler>]
 
-\procedure edges.fields() [subfilter<configs.fields>] :map:flat[<..currentTiddler>subfilter<edges.fields.flipped>]
-\procedure edges.functions() [subfilter<configs.functions>get[filter]] :map:flat[<..currentTiddler>subfilter<edges.functions.flipped>]
+\procedure edges.fields() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.fields}subfilter<$fields>] :map:flat[<..currentTiddler>subfilter<edges.fields.flipped>]
+\procedure edges.functions() :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes.functions}subfilter<$functions>addprefix[$:/config/flibbles/graph/edges/functions/]get[filter]] :map:flat[<..currentTiddler>subfilter<edges.functions.flipped>]
 
 \procedure neighbors.for() [subfilter<edges.fields>] [subfilter<edges.functions>] +[!is[blank]unique[]]
 \procedure neighbors.cached() [all[]] :cache[subfilter<neighbors.for>]
