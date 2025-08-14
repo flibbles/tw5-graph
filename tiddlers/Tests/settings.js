@@ -8,12 +8,11 @@ describe('Settings', function() {
 
 var wiki, modal, oldModal;
 
-/*
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
+	$tw.test.setSpies();
 	await $tw.test.setGlobals(wiki);
 });
-*/
 
 it("renders data tiddlers using viewTemplate", function() {
 	var widget = $tw.test.renderText($tw.wiki, "{{$:/config/flibbles/graph/edges/functions/links||$:/core/ui/ViewTemplate/body}}");
@@ -31,12 +30,38 @@ it("renders data tiddlers using viewTemplate", function() {
 });
 
 it("renders plugin tab", function() {
-	var widget = $tw.test.renderGlobal($tw.wiki, "{{$:/plugins/flibbles/graph/ui/Settings/Properties|edges}}");
+	var widget = $tw.test.renderGlobal(wiki, "{{$:/plugins/flibbles/graph/ui/Settings/Properties|edges}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure we're getting those default object type categories
 	expect(html).toContain("Functions");
 	// Make sure we're finding the types within the categories too
 	expect(html).toContain(">links<");
+});
+
+/*** Edgetype settings ***/
+
+it("property sets classes on edgelists", function() {
+	wiki.addTiddler({title: "Target",
+		"edges.fields": "[all[]] -tags",
+		"edges.functions": "[all[]] -links"});
+	var widget = $tw.test.renderGlobal(wiki, "{{Target||$:/plugins/flibbles/graph/ui/EditTemplate/Edges}}");
+	expect(widget.parentDomNode.innerHTML).toContain('class="inactive">tags<');
+	expect(widget.parentDomNode.innerHTML).toContain('class="active">list<');
+	expect(widget.parentDomNode.innerHTML).toContain('class="inactive">links<');
+	expect(widget.parentDomNode.innerHTML).toContain('class="active">transcludes<');
+});
+
+it("allows for custom field edges, but not custom function edges", function() {
+	wiki.addTiddler({title: "Target",
+		"edges.fields": "[all[]] customField",
+		"edges.functions": "[all[]] customFunction"});
+	var widget = $tw.test.renderGlobal(wiki, "{{Target||$:/plugins/flibbles/graph/ui/EditTemplate/Edges}}");
+	// A usual suspects
+	expect(widget.parentDomNode.innerHTML).toContain(">tags<");
+	expect(widget.parentDomNode.innerHTML).toContain(">transcludes<");
+	// A custom written one
+	expect(widget.parentDomNode.innerHTML).toContain(">customField<");
+	expect(widget.parentDomNode.innerHTML).not.toContain(">customFunction<");
 });
 
 });

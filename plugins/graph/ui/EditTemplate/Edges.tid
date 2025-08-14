@@ -1,6 +1,6 @@
 caption: Edge Types
 
-\procedure edgelist(category, default)
+\procedure edgelist(category, default, customAllowed)
 \whitespace trim
 <$vars fieldName=`edges.$(category)$` subfilterName=`edgetypes.$(category)$`>
   <$edit-text field=<<fieldName>> placeholder=<<default>> />
@@ -8,7 +8,7 @@ caption: Edge Types
   <span class="graph-tiddlers-edgelist">
     <$vars masterFilter="[[$:/plugins/flibbles/graph/subfilters]getindex<subfilterName>] :map:flat[subfilter{!!title}sort[]]"
            customFilter={{{ [{!!title}get<fieldName>!is[blank]else<default>]}}}>
-      <$list filter=<<masterFilter>> join=", ">
+      <$list filter="[<customAllowed>match[yes]] :map:flat[subfilter<masterFilter>subfilter<customFilter>] [subfilter<masterFilter>]" join=", ">
         <span class={{{ [subfilter<masterFilter>subfilter<customFilter>match{!!title}] :then[[active]] ~inactive }}}>
           <$text text={{!!title}} />
 \end
@@ -18,5 +18,5 @@ caption: Edge Types
 Decide which of the preconfigured edge types will connect your nodes
 
 |tc-max-width tc-edit-max-width tc-table-no-border |k
-|Fields |<<edgelist fields "[all[]]">> |
-|Functions |<<edgelist functions "[all[]]">> |
+|Fields |<<edgelist fields "[all[]]" yes>> |
+|Functions |<<edgelist functions "[all[]]" no>> |
