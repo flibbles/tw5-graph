@@ -1,8 +1,8 @@
 title: Documentation
-list: Installation Tutorials Concepts API Plugins
+list: Installation Tutorials FAQ Concepts API Versions
 
 TW5-Graph provides a toolbox of widgets and operators to create custome graphs to suit your needs, but it also provides a broad system of configuration menus to make creating graphs simple.
 
 This documention will walk you get started, walk you through the concepts, and provide documentation on all TW5-Graph tools.
 
-{{TableOfContents|toc}}
+{{TableOfContents|toc-tabbed-external-nav|[tag[Doc Leaf]tagging[]]}}

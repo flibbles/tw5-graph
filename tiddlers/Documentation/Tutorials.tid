@@ -1,5 +1,5 @@
 title: Tutorials
-tags: Documentation
+tags: Documentation [[Doc Leaf]]
 
 <<.graph>> is designed to accomodate both people who just want a simple visualization of their tiddlers, and also those who need to construct sophisticated graphs with custom behavior, and those who simply want to quick visualizations of their data.
 
