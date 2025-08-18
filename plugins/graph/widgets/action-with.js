@@ -43,8 +43,8 @@ WithWidget.prototype.invokeAction = function(triggeringWidget, event) {
 			var mouse = graph.mouse,
 				x = mouse.x.toString(),
 				y = mouse.y.toString();
-			this.setVariable(this.withOffset + "-posx", x);
-			this.setVariable(this.withOffset + "-posy", y);
+			this.setVariable(this.withOffset + "-x", x);
+			this.setVariable(this.withOffset + "-y", y);
 		}
 		if (this.withCanvas) {
 			var element = graph.graphElement;

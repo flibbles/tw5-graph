@@ -22,8 +22,8 @@ When <<.wid action-with>> is invoked, all actions contained within it are invoke
 
 Setting this creates two variables set according to the value you assign:
 
-* `<$offset-variable-name>-posx` is set to a number representing the mouse horizontal offest from the graph's left border.
-* `<$offset-variable-name>-posy` is set to a number representing the mouse vertical offset from the graph's top border.
+* `<$offset-variable-name>-x` is set to a number representing the mouse horizontal offest from the graph's left border.
+* `<$offset-variable-name>-y` is set to a number representing the mouse vertical offset from the graph's top border.
 
 This doesn't work if it's not inside a graph.
 
@@ -45,7 +45,7 @@ This also doesn't work if it's not inside a graph.
 Double click within the graph to move the div element."""
 	content="""\procedure actions()
 <$action-with $offset="mouse">
-	<$action-setfield $tiddler="Pos" x=<<mouse-posx>> y=<<mouse-posy>> />
+	<$action-setfield $tiddler="Pos" x=<<mouse-x>> y=<<mouse-y>> />
 </$action-with>
 \end
 

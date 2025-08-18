@@ -15,12 +15,12 @@
       <$action-delay $state=<<delayState>> $ms=<<$ms>> >
         <$action-with $offset="mouse" $canvas=canvas>
           <$vars
-              lr={{{ [<mouse-posx>multiply[2]compare:number:gt<canvas-width>then[right]else[left]] }}}
-              tb={{{ [<mouse-posy>multiply[2]compare:number:gt<canvas-height>then[bottom]else[top]] }}} >
+              lr={{{ [<mouse-x>multiply[2]compare:number:gt<canvas-width>then[right]else[left]] }}}
+              tb={{{ [<mouse-y>multiply[2]compare:number:gt<canvas-height>then[bottom]else[top]] }}} >
             <$action-popup $state=<<$state>> $coords="(0,0,0,0)"/>
             <$action-setfield $tiddler=<<$state>>
-              x={{{ [<lr>match[left]then<mouse-posx>] ~[<canvas-width>subtract<mouse-posx>] }}}
-              y={{{ [<tb>match[top]then<mouse-posy>] ~[<canvas-height>subtract<mouse-posy>] }}}
+              x={{{ [<lr>match[left]then<mouse-x>] ~[<canvas-width>subtract<mouse-x>] }}}
+              y={{{ [<tb>match[top]then<mouse-y>] ~[<canvas-height>subtract<mouse-y>] }}}
               lr=<<lr>>
               tb=<<tb>>
               target=<<targetTiddler>> />

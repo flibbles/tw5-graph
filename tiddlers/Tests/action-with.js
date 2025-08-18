@@ -20,7 +20,7 @@ beforeEach(function() {
 });
 
 it("works", function() {
-	var widgetNode = $tw.test.renderText(wiki,"<$graph zoom='<$action-with $offset=test><$action-test X=<<test-posx>> Y=<<test-posy>> />' />\n");
+	var widgetNode = $tw.test.renderText(wiki,"<$graph zoom='<$action-with $offset=test><$action-test X=<<test-x>> Y=<<test-y>> />' />\n");
 	// This should be the graph element
 	var element = widgetNode.parentDomNode.children[0];
 	element.dispatchEvent({type: "mousemove", offsetX: 13, offsetY: 17});
