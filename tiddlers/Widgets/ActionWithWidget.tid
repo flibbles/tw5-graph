@@ -1,0 +1,57 @@
+title: ActionWithWidget
+tags: ActionWidgets Widgets [[Core Widgets]]
+caption: action-with
+
+! Introduction
+
+The <<.wid action-with>> widget provides a means to access certain context and information while executing actions, for instance, graph dimensions or mouse location. This information is not normally available (for instance, through a state tiddler or a variable), because it updates too frequently. Instead, this widget requests the wanted variables at the time of execution and assigns them to accessable variables.
+
+Currently, this widget doesn't have much practical use outside of graphs, since all the information it collects relates to graphs somehow.
+
+''I don't actually recommend using this right now. I created it to implement pop-ups, but it's pretty brittle at the moment, and could probably be designed much better.''
+
+! Contents and Attributes
+
+When <<.wid action-with>> is invoked, all actions contained within it are invoked with the specified context.
+
+|!Attribute | !Description |
+|$offset |Variable prefix to assign mouse position values in reference to a containing graph |
+|$canvas |Variable prefix to assign the pixel dimensions of the containing graph |
+
+! <<.attr $offset>> attribute
+
+Setting this creates two variables set according to the value you assign:
+
+* `<$offset-variable-name>-posx` is set to a number representing the mouse horizontal offest from the graph's left border.
+* `<$offset-variable-name>-posy` is set to a number representing the mouse vertical offset from the graph's top border.
+
+This doesn't work if it's not inside a graph.
+
+! <<.attr $canvas>> attribute
+
+Setting this creates two variables set according to the value you assign:
+
+* `<$canvas-variable-name>-width` is set to the width of the containing graph.
+* `<$canvas-variable-name>-height` is set to the height of the containing graph.
+
+This also doesn't work if it's not inside a graph.
+
+! Examples
+
+<$doc.example
+	description="Using mouse offsets"
+	narrative="""This example shows how this widget can be used to overlay content overtop of a graph.
+
+Double click within the graph to move the div element."""
+	content="""\procedure actions()
+<$action-with $offset="mouse">
+	<$action-setfield $tiddler="Pos" x=<<mouse-posx>> y=<<mouse-posy>> />
+</$action-with>
+\end
+
+<$graph>
+	<$properties $for="graph" doubleclick=<<actions>> />
+	<$vars left={{Pos!!x}} top={{Pos!!y}}>
+		<div style=`left:$(left)$px;top:$(top)$px;position:absolute;border:solid navy;border-radius:1em;padding:1em` />
+	</$vars>
+</$graph>"""/>
