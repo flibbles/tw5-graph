@@ -1,0 +1,8 @@
+title: How do I style certain sets of tiddlers differently?
+tags: FAQ
+
+Maybe you want all tiddlers with the <<tag Event>> tag to be represented with square nodes. Maybe you want all tiddlers that don't actually exist to be colored red.
+
+You can use the [[Node Stack|Stack NodeType]] to accomplish this. The node types in the stack allow you to specify properties for nodes that match a filter that you specify. For instance, the [[ruler type|$:/config/flibbles/graph/nodes/stack/ruler]] makes all tiddlers that match the filter <$transclude $variable=.value _={{$:/config/flibbles/graph/nodes/stack/ruler!!filter}} /> and makes them into a star.
+
+You can read more about this in the [[Top-Down Tutorial]], particularly in [[The Node Stack step|Top-Down: 7.The Node Stack]].
