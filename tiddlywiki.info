@@ -18,6 +18,13 @@
 				"-$:/DefaultTiddlers -[!is[system]] -[prefix[$:/state]] -[prefix[$:/graph/]] -[prefix[$:/editions/]] -[prefix[$:/themes/]!has[plugin-type]] -[prefix[$:/config/]!match[$:/config/flibbles/graph/engine]]",
 			"--test"
 		],
+		"bundle": [
+			"--render",
+				"$:/plugins/flibbles/graph",
+				"graph.json",
+				"text/plain",
+				"$:/core/templates/html-json-tiddler"
+		],
 		"index": [
 			"--output", "./docs/",
 			"--render",
