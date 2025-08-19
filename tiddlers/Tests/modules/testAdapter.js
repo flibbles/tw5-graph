@@ -19,7 +19,7 @@ exports.properties = {
 		navigation: {type: "boolean", default: false},
 		addNode: {type: "actions", variables: ['x', 'y']},
 		addEdge: {type: "actions", variables: ['fromTiddler', 'toTiddler']},
-		doubleclick: {type: "actions", variables: ['x', 'y', 'xView', 'yView']}
+		doubleclick: {type: "actions", variables: ['x', 'y']}
 	},
 	nodes: {
 		actions: {type: "actions", expected: true},
@@ -33,7 +33,7 @@ exports.properties = {
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},
-		hover: {type: "actions", variables: ['x', 'y', 'xView', 'yView']},
+		hover: {type: "actions", variables: ['x', 'y']},
 		blur: {type: "actions"},
 		drag: {type: "actions", variables: ['x', 'y']},
 		free: {type: "actions", variables: ['x', 'y']}

@@ -17,11 +17,11 @@ beforeEach(function() {
 
 it('can send events to $property', function() {
 	var event = {objectType: "nodes", id: "target", type: "hover"};
-	var variables ={x: 23, y: 27, xView: 67, yView: 71};
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties hover='<$action-test targetTiddler x y xView yView/>'><$node $tiddler=target />");
+	var variables ={x: 23, y: 27};
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties hover='<$action-test targetTiddler x y />'><$node $tiddler=target />");
 	$tw.test.dispatchEvent(wiki, event, $tw.utils.extend({}, variables));
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "target", x: "23", y: "27", xView: "67", yView: "71"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "target", x: "23", y: "27"});
 	// Change the event type.
 	event.type = "free";
 	$tw.test.dispatchEvent(wiki, event, $tw.utils.extend({}, {x: 3, y:7}));
@@ -29,10 +29,10 @@ it('can send events to $property', function() {
 });
 
 it('handles double click events to canvas', function() {
-	var widgetNode = $tw.test.renderText(wiki, "<$graph doubleclick='<$action-test x y xView yView />'><$node $tiddler=test><$action-test bad=node /></$node><$edge $from=test $to=test><$action-test bad=edge />");
-	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: 'doubleclick'}, {x: 37, y: 43, xView: 101, yView: 103});
+	var widgetNode = $tw.test.renderText(wiki, "<$graph doubleclick='<$action-test x y />'><$node $tiddler=test><$action-test bad=node /></$node><$edge $from=test $to=test><$action-test bad=edge />");
+	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: 'doubleclick'}, {x: 37, y: 43});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
-	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "37", y: "43", xView: "101", yView: "103"});
+	expect($tw.test.actionMethod).toHaveBeenCalledWith({x: "37", y: "43"});
 });
 
 it("can send custom events to nodes", function() {
