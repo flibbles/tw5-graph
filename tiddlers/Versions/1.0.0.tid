@@ -1,0 +1,10 @@
+created: 20250819024318109
+
+This release should have all (most) backward incompatible changes now complete, and thus it's safe for the general public to begin using <<.graph>>.
+
+* Reduced expectations on a few engine properties.
+** <<.value graph##doubleclick>> no longer has xview and yview.
+** <<.value node##hover>> no longer has xview and yview.
+* Edit template for graphTiddler fields now reflects when custom fields are inputted.
+* Documentation for <<.wid action-with>>
+* Better table of contents for the documentation
