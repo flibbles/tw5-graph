@@ -54,15 +54,9 @@ tags: $:/tags/SideBar
           </option>
         </$list>
       </$select>
-      <$button to="$:/plugins/flibbles/graph/settings" actions="""
-          <<fs-kill>>
-          <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" />
-          <$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
-        {{$:/core/images/options-button}}
-      </$button>
-      <$button class=graph-fullscreen-button actions=<<fs-actions>> >
-        {{$:/core/images/full-screen-button}}
-      </$button>
+      <$list filter="[[$:/tags/flibbles/graph/SideBarBanner]tagging[]!is[draft]]" variable=listItem>
+        <$transclude tiddler=<<listItem>> mode=inline />
+      </$list>
     </$slot>
   </div>
   <$tiddler tiddler=<<graph>> >

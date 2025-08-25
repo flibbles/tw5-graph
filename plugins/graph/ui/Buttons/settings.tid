@@ -1,0 +1,16 @@
+title: $:/plugins/flibbles/graph/ui/Buttons/settings
+description: Open graph settings for the current sidebar graph
+caption: {{$:/core/images/options-button}} settings
+tags: $:/tags/flibbles/graph/SideBarBanner
+
+\whitespace trim
+<$button to="$:/plugins/flibbles/graph/settings" actions="""\whitespace trim
+    <<fs-kill>>
+    <$action-setfield
+      $tiddler="$:/state/flibbles/graph/settings"
+      text="$:/plugins/flibbles/graph/ui/Settings/Graphs" />
+    <$action-setfield
+      $tiddler="$:/state/flibbles/graph/settings/graphs"
+      text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
+  {{$:/core/images/options-button}}
+</$button>
