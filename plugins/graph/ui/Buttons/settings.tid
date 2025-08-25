@@ -12,5 +12,12 @@ tags: $:/tags/flibbles/graph/SideBarBanner
     <$action-setfield
       $tiddler="$:/state/flibbles/graph/settings/graphs"
       text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
-  {{$:/core/images/options-button}}
+  <%if [<tv-config-toolbar-icons>match[yes]] %>
+    {{$:/core/images/options-button}}
+  <%endif%>
+  <%if [<tv-config-toolbar-text>match[yes]] %>
+    <span class="tc-btn-text">
+      <$text text="settings" />
+    </span>
+  <%endif%>
 </$button>
