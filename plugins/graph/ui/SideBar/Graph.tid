@@ -5,15 +5,13 @@ tags: $:/tags/SideBar
 \whitespace trim
 \parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
 \procedure fs-state() $:/config/flibbles/graph/fullscreen
-\procedure fs-actions()
+\procedure fs-refocus()
 \whitespace trim
-<% if [<fs-state>is[tiddler]] %>
-  <$action-deletetiddler $tiddler=<<fs-state>> />
-<% else %>
-  <$action-setfield $tiddler=<<fs-state>> text=graph-fullscreen />
-<% endif %>
+<!--Refocus on the fullscreen button so that hitting escape will still disable fullscreen mode -->
+<$action-delay>
+  <!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
+  <$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/>
 \end
-\procedure fs-refocus() <$action-delay><$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/><!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
 \procedure fs-kill() <%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />
 
 \whitespace trim
@@ -27,16 +25,7 @@ tags: $:/tags/SideBar
 <div class="graph-sidebar-disabled graph-error tc-page-controls">
 <!-- Sidebar only works in fullscreen during mobile mode.
      Otherwise, it's taking up too much space. -->
-  <$button class=tc-btn-invisible actions="<<fs-actions>><<fs-refocus>>" >
-    <%if [<tv-config-toolbar-icons>match[yes]] %>
-      {{$:/core/images/full-screen-button}}
-    <%endif%>
-    <%if [<tv-config-toolbar-text>match[yes]] %>
-      <span class="tc-btn-text">
-        <$text text="fullscreen" />
-      </span>
-    <%endif%>
-  </$button>
+  {{$:/plugins/flibbles/graph/ui/Buttons/fullscreen|tc-btn-invisible}}
 </div>
 <$boundingbox
   class={{{ graph-sidebar-enabled [<fs-state>get[text]] +[join[ ]] }}}

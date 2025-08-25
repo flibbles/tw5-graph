@@ -3,7 +3,25 @@ description: Toggle fullscreen mode with sidebar graph
 caption: {{$:/core/images/full-screen-button}} fullscreen
 tags: $:/tags/flibbles/graph/SideBarBanner
 
+\procedure fs-actions()
 \whitespace trim
-<$button class=graph-fullscreen-button actions=<<fs-actions>> >
-  {{$:/core/images/full-screen-button}}
+<% if [<fs-state>is[tiddler]] %>
+  <$action-deletetiddler $tiddler=<<fs-state>> />
+<% else %>
+  <$action-setfield $tiddler=<<fs-state>> text=graph-fullscreen />
+<% endif %>
+\end
+
+\parameters (class:graph-fullscreen-button)
+\whitespace trim
+
+<$button class={{{ [<class>] +[join[ ]] }}} actions="<<fs-actions>><<fs-refocus>>" >
+  <%if [<tv-config-toolbar-icons>match[yes]] %>
+    {{$:/core/images/full-screen-button}}
+  <%endif%>
+  <%if [<tv-config-toolbar-text>match[yes]] %>
+    <span class="tc-btn-text">
+      <$text text="fullscreen" />
+    </span>
+  <%endif%>
 </$button>
