@@ -44,6 +44,10 @@ exports.properties = {
 	}
 };
 
+exports.messages = {
+	"graph-test": true
+};
+
 exports.init = function(element, objects) {
 	$tw.test.latestEngine = this;
 	this.element = element;
@@ -60,6 +64,16 @@ exports.update = function(objects) {
 exports.destroy = function() {
 	if ($tw.test.latestEngine === this) {
 		$tw.test.latestEngine = null;
+	}
+};
+
+exports.handleMessage = function(event) {
+	if (event.type === "graph-test") {
+		// This is intended to be spied upon.
+		$tw.test.actionMethod(event.type);
+		if (event.param){
+			return event.param === "true";
+		}
 	}
 };
 

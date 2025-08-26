@@ -25,3 +25,7 @@ exports.init = function(element, objects) {
 
 exports.update = function() {};
 exports.destroy = function() {};
+
+exports.dispatchEvent = function(params, variables) {
+	this.onevent(params, variables);
+};

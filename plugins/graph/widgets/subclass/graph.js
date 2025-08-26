@@ -6,10 +6,8 @@ Widget for creating graphs.
 
 "use strict";
 
-var Widget = require("$:/core/modules/widgets/widget.js").widget;
 var utils = require("../../utils.js");
 
-var Engines = $tw.modules.applyMethods("graphengine");
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 var graphColors = {
@@ -339,6 +337,20 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 		}
 	}
 	return objects;
+};
+
+/**
+ * This handles messages bubbling up from internal graph widgets
+ */
+GraphWidget.dispatchEvent = function(event) {
+	if (this.graphEngine.messages && this.graphEngine.messages[event.type]) {
+		if (this.graphEngine.handleMessage(event) === false) {
+			return false;
+		}
+	}
+	if (this.parentWidget) {
+		return this.parentWidget.dispatchEvent(event);
+	}
 };
 
 GraphWidget.handleGraphEvent = function(graphEvent, variables) {
