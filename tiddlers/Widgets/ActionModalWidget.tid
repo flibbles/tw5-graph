@@ -6,6 +6,8 @@ caption: action-modal
 
 The <<.wid action-modal>> widget provides a mean to activate a tiddler as a modal, and then use an output variable from that modal to execute its contained actions. This makes action-modal effective for executing actions which require additional input.
 
+Core TiddlyWiki has the <<.val tm-modal>> message, which does almost the exact same thing as this. The primary difference is that this will call its internal content //after// that modal has been closed, which can't be done using the message.
+
 ! Contents and Attributes
 
 Any content of action-modal gets executed as an action once the modal emits a <<value tm-modal-finish>>.
