@@ -48,9 +48,11 @@ tags: $:/tags/SideBar
       </$list>
     </$slot>
   </div>
-  <$tiddler tiddler=<<graph>> >
-    <$vars graph-sidebar=yes>
-      <$transclude $tiddler={{{ [{!!template}!is[blank]else<defaultTemplate>] }}} $mode=inline />
-    </$vars>
-  </$tiddler>
+  <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
+    <$tiddler tiddler=<<graph>> >
+      <$vars graph-sidebar=yes>
+        <$transclude $tiddler={{{ [{!!template}!is[blank]else<defaultTemplate>] }}} $mode=inline />
+      </$vars>
+    </$tiddler>
+  </$linkcatcher>
 </$boundingbox>
