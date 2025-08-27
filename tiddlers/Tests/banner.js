@@ -31,7 +31,7 @@ it("changes navigates to modals when in fullscreen mode", async function() {
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({message: "tm-navigate"});
 	$tw.test.actionMethod.calls.reset();
-	wiki.addTiddler({title: "$:/config/flibbles/graph/fullscreen", text: "graph-fullscreen"});
+	wiki.addTiddler({title: "$:/state/flibbles/graph/fullscreen", text: "graph-fullscreen"});
 	$tw.test.dispatchEvent(wiki, {type: "actions", objectType: "nodes", id: "Target"});
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({message: "tm-modal"});

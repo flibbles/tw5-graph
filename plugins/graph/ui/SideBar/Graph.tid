@@ -4,7 +4,7 @@ tags: $:/tags/SideBar
 
 \whitespace trim
 \parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
-\procedure fs-state() $:/config/flibbles/graph/fullscreen
+\procedure fs-state() $:/state/flibbles/graph/fullscreen
 \procedure fs-refocus()
 \whitespace trim
 <!--Refocus on the fullscreen button so that hitting escape will still disable fullscreen mode -->
