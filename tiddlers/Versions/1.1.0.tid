@@ -2,3 +2,4 @@ created:
 
 * Feature #62: Clicking links in fullscreen mode now opens modal instead
 * Fixed issue where modal appeared behind fullscreen graphs in mobile mode
+* Made banner buttons modular so more can be plugged in easily
