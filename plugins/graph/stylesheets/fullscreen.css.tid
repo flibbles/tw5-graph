@@ -14,7 +14,8 @@ tags: $:/tags/Stylesheet
 	width: 100% !important;
 	top: 0 !important;
 	left: 0 !important;
-	z-index: 999 !important;
+	// This puts us one below the modal at 900, which should still overlap fullscreen.
+	z-index: 899 !important;
 }
 
 <%if [[$:/config/flibbles/graph/fullscreen]is[tiddler]] %>
