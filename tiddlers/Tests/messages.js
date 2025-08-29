@@ -14,6 +14,8 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
+/*** Bubbling ***/
+
 it("can block bubbling", function() {
 	var event = {objectType: "nodes", id: "target", type: "actions"};
 	var text = "<$messagecatcher $graph-test='<$action-test caught=yes/>'><$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test $param=false />' />";
@@ -21,7 +23,7 @@ it("can block bubbling", function() {
 	var method = spyOn($tw.test, "actionMethod");
 	$tw.test.dispatchEvent(wiki, event);
 	expect(method).toHaveBeenCalledTimes(1);
-	expect(method).toHaveBeenCalledWith("graph-test");
+	expect(method.calls.first().args[0]).toBe("graph-test");
 });
 
 it("can specify further bubbling", function() {
@@ -31,7 +33,7 @@ it("can specify further bubbling", function() {
 	var method = spyOn($tw.test, "actionMethod");
 	$tw.test.dispatchEvent(wiki, event);
 	expect(method).toHaveBeenCalledTimes(2);
-	expect(method).toHaveBeenCalledWith("graph-test");
+	expect(method.calls.first().args[0]).toBe("graph-test");
 });
 
 it("by default allow further bubbling", function() {
@@ -41,7 +43,8 @@ it("by default allow further bubbling", function() {
 	var method = spyOn($tw.test, "actionMethod");
 	$tw.test.dispatchEvent(wiki, event);
 	expect(method).toHaveBeenCalledTimes(2);
-	expect(method).toHaveBeenCalledWith("graph-test");
+	expect(method.calls.first().args[0]).toBe("graph-test");
+	expect(method.calls.argsFor(1)).toEqual([{caught: "yes"}]);
 });
 
 it("do not stop unknown messages from bubbling", function() {
@@ -61,6 +64,26 @@ it("do not need to exist in the engine", function() {
 	var method = spyOn($tw.test, "actionMethod");
 	$tw.test.dispatchEvent(wiki, event);
 	expect(method).toHaveBeenCalledWith({caught: "test"});
+});
+
+/*** Parameters ***/
+
+it("can convert declared parameters", function() {
+	var event = {objectType: "nodes", id: "target", type: "actions"};
+	var text = "<$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test number=4 />' />";
+	var widget = $tw.test.renderText(wiki, text);
+	var method = spyOn($tw.test, "actionMethod");
+	$tw.test.dispatchEvent(wiki, event);
+	expect(method).toHaveBeenCalledWith("graph-test", {number: 4});
+});
+
+it("undeclared parameters are passed as-is", function() {
+	var event = {objectType: "nodes", id: "target", type: "actions"};
+	var text = "<$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test undeclared=25 />' />";
+	var widget = $tw.test.renderText(wiki, text);
+	var method = spyOn($tw.test, "actionMethod");
+	$tw.test.dispatchEvent(wiki, event);
+	expect(method).toHaveBeenCalledWith("graph-test", {undeclared: "25"});
 });
 
 });

@@ -45,7 +45,9 @@ exports.properties = {
 };
 
 exports.messages = {
-	"graph-test": true
+	"graph-test": {
+		number: {type: "number"}
+	}
 };
 
 exports.init = function(element, objects) {
@@ -67,12 +69,12 @@ exports.destroy = function() {
 	}
 };
 
-exports.handleMessage = function(event) {
-	if (event.type === "graph-test") {
+exports.handleMessage = function(message, params) {
+	if (message.type === "graph-test") {
 		// This is intended to be spied upon.
-		$tw.test.actionMethod(event.type);
-		if (event.param){
-			return event.param === "true";
+		$tw.test.actionMethod(message.type, params);
+		if (message.param){
+			return message.param === "true";
 		}
 	}
 };

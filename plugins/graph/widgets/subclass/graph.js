@@ -247,12 +247,16 @@ GraphWidget.traversePropertyWidgets = function(method) {
 	}
 };
 
-GraphWidget.typecastProperties = function(properties, type) {//type, key, value) {
+GraphWidget.typecastProperties = function(properties, type) {
+	var engineDefinitions = this.graphEngine.properties;
+	var catalog = (engineDefinitions && engineDefinitions[type]) || {};
+	return this.typecastSet(properties, catalog);
+};
+
+GraphWidget.typecastSet = function(properties, catalog) {//type, key, value) {
 	var output = Object.create(null);
-	var catalog = this.graphEngine.properties;
-	var category = (catalog && catalog[type]) || {};
 	for (var key in properties) {
-		var info = category[key];
+		var info = catalog[key];
 		if (info && PropertyTypes[info.type]) {
 			var value = PropertyTypes[info.type].toProperty(info, properties[key], {widget: this});
 			if (value !== null) {
@@ -343,8 +347,10 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
  * This handles messages bubbling up from internal graph widgets
  */
 GraphWidget.dispatchEvent = function(event) {
-	if (this.graphEngine.messages && this.graphEngine.messages[event.type]) {
-		if (this.graphEngine.handleMessage(event) === false) {
+	var messageDef = this.graphEngine.messages && this.graphEngine.messages[event.type];
+	if (messageDef) {
+		var params = this.typecastSet(event.paramObject, messageDef);
+		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}
 	}
