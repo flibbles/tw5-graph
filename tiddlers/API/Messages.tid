@@ -1,0 +1,28 @@
+Some [[graph engines|Engines]] are able to perform special actions when requested to do so though a TiddlyWiki message, such as those sent with the <<.wid action-sendmessage>> widget.
+
+Here are a list of messages, and which engines accept them. Click on them to see what parameters they take for each particular engine.
+
+<table>
+  <tr>
+    <th align=left>Message</th>
+    <$list filter="[[graphengine]modules[]shadowsource[]]">
+      <th style="width:2em;padding:1px;">
+        <$link to={{!!name}}>
+          <$transclude $tiddler=`$(currentTiddler)$/icon` />
+        </$link>
+      </th>
+    </$list>
+  </tr>
+  <$list variable=message filter="[[graphengine]modules[]moduleproperty[messages]jsonindexes[]unique[]sort[]]">
+    <tr>
+      <td><$link to=`WidgetMessage: $(message)$`><<message>></$link></td>
+      <$list filter="[[graphengine]modules[]]">
+        <td>
+          <$list filter=`[{!!title}] :cache[{!!title}moduleproperty[messages]jsonindexes[]] +[match<message>]`>✓</$list>
+        </td>
+      </$list>
+    </tr>
+  </$list>
+</table>
+
+Different engines will have support for different messages, and may support different parameters, although engine developers are advised to implement messages as similarly to other engines as possible.

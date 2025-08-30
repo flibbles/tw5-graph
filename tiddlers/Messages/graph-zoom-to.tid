@@ -1,0 +1,24 @@
+You can send this message to your graph in order to change the viewport/
+
+<$doc.example description="Click-to-zoom" narrative="One practical use of this message is to allow for a double-click-to-zoom feature, like Google Maps has.
+
+We take advantage of how the graph's doubleclick action supplies <<.var x>> and <<.var y>> position of where the click occurred." content="""\procedure action()
+<$action-sendmessage $message="graph-zoom-to"
+	x=<<x>>
+	y=<<y>>
+	zoom="1.2"
+/>
+\end
+
+<$graph>
+  <$properties $for=graph doubleclick=<<action>> />
+  <$list filter="messenger [tag[messenger]]">
+    <$node.default />
+    <$edges.typed />
+  </$list>
+</$graph>""">
+  <$data title="Paul Revere" tags="messenger" />
+  <$data title="Pheidippides" tags="messenger" />
+  <$data title="Ann Hennis Trotter Bailey" tags="messenger" />
+  <$data title="Cher Ami" tags="messenger" />
+</$doc.example>
