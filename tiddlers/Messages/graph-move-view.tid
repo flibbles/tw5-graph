@@ -1,12 +1,20 @@
-You can send this message to your graph in order to change the viewport/
+You can send this message to your graph in order to change the viewport of your graph. It usually requires the following properties on the event object.
+
+|!Name |!Description |
+|x |Optional number. If this and <<.value y>> are set, sets the view to center on that location |
+|y |Optional number. If this and <<.value x>> are set, sets the view to center on that location |
+|scale |Optional number >0. Sets the zoom scale of the view. Overrides scaleBy |
+|scaleBy |Optional number >0. Multiplies the existing zoom scale of the view by this number. |
+
+! Examples
 
 <$doc.example description="Click-to-zoom" narrative="One practical use of this message is to allow for a double-click-to-zoom feature, like Google Maps has.
 
 We take advantage of how the graph's doubleclick action supplies <<.var x>> and <<.var y>> position of where the click occurred." content="""\procedure action()
-<$action-sendmessage $message="graph-zoom-to"
+<$action-sendmessage $message="graph-move-view"
 	x=<<x>>
 	y=<<y>>
-	zoom="1.2"
+	scaleBy="1.2"
 />
 \end
 
