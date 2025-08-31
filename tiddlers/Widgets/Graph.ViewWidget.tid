@@ -12,11 +12,12 @@ The reason for the `$:/graph/` namespace is because all graphTiddlers available 
 
 ! Content and Attributes
 
-This widget currently ignores any inner content.
+Any widget contents, including any <<.wid fill>> widgets, are passed along to the template as though the template were transcluded directly.
 
 |!Attribute |!Description |
 |$tiddler |The title of a graphTiddler to render (defaults to `$:/graph/Default` if not specified) |
 |$template |Optional template to override whatever template the graphTiddler would ordinarily use |
+|//{attributes not starting with $}// |Any other attributes that do not start with a dollar sign are passed to the template as parameters, just as though the template were transcluded directly. |
 
 <$doc.implementation />
 
@@ -35,6 +36,8 @@ Is functionally the same as this:
 	code="""{{$:/graph/Alchemy||$:/plugins/flibbles/graph/templates/standard-graph}}""" />
 
 Although obviously this widget provides other attributes and functionality, as well as respecting the <<.field template>> field of the targetted tiddler when no template is specified.
+
+Unlike transclusion, <<.wid graph.view>> uses <<.tid $:/graph/Default>> as its default <<.attr $tiddler>> instead of <<.var currentTiddler>> to avoid a common pitfal. If you are making graphs of the current tiddler //inadvertently//, then you may accidentally blast all of the current tiddler's text content if you move a single node in the render graph. (Because the default editable template will use the current tiddler as a [[DataTiddler]] to store node positions).
 
 ! Example
 
