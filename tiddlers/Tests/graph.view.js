@@ -14,6 +14,8 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
+/*** $tiddler and $template attributes ***/
+
 it("uses a standard graph if no template specified", function() {
 	wiki.addTiddler({title: "Target", filter: "A"});
 	var text = "<$graph.view $tiddler=Target />\n";
@@ -57,6 +59,25 @@ it("does not introduce unneeded DOM elements when used as block", function() {
 	var text =  "<div>\n\n<$graph.view $template=Template/>\n\n</div>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<div>TemplateBody</div>");
+});
+
+/*** Parameters and blocks ***/
+
+it("can supply parameters to templates", function() {
+	wiki.addTiddlers([
+		{title: "Template", text: "\\parameters (A, B:defaultB, C, D:defaultD)\n<<A>>-<<B>>-<<C>>-<<D>>"}]);
+	var text = "<$graph.view $template=Template A=inputA B=inputB />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>inputA-inputB--defaultD</p>");
+});
+
+it("it does not pass along $dollar parameters", function() {
+	wiki.addTiddlers([
+		{title: "Template", text: "\\parameters (arg $template:$temExpect, $tiddler:$tidExpect, $other:othExpect, $ignored:ignExpect)\n<<arg>>-<<$template>>-<<$tiddler>>-<<$other>>-<<$ignored>>-<<$undeclared>>"}]);
+	// Make sure to specify arg at the very end, it makes sure attr values don't misalign after $dollar attrs are removed
+	var text = "<$graph.view $template=Template $other=wrong $undeclared=wrong type=div $type=div $$type=div arg=works/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>works-$temExpect-$tidExpect-othExpect-ignExpect-</p>");
 });
 
 });

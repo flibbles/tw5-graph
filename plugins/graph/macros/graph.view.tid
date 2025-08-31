@@ -1,10 +1,10 @@
 \widget $graph.view($tiddler:"$:/graph/Default")
 \whitespace trim
-<$parameters $$template={{{ [<$tiddler>get[template]else[$:/plugins/flibbles/graph/templates/standard-graph]] }}}>
+<$parameters $params=viewParams $$template={{{ [<$tiddler>get[template]else[$:/plugins/flibbles/graph/templates/standard-graph]] }}}>
 
 <$vars currentTiddler=<<$tiddler>> >
 
-<$transclude $tiddler=<<$template>> />
+<$genesis $type="$transclude" $$tiddler=<<$template>> $names="[<viewParams>jsonindexes[]!prefix[$]]" $values="[<viewParams>jsonindexes[]!prefix[$]] :map[<viewParams>jsonget{!!title}]" />
 
 </$vars></$parameters>
 \end
