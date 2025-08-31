@@ -61,7 +61,7 @@ it("does not introduce unneeded DOM elements when used as block", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<div>TemplateBody</div>");
 });
 
-/*** Parameters and blocks ***/
+/*** Parameters and fills ***/
 
 it("can supply parameters to templates", function() {
 	wiki.addTiddlers([
@@ -78,6 +78,22 @@ it("it does not pass along $dollar parameters", function() {
 	var text = "<$graph.view $template=Template $other=wrong $undeclared=wrong type=div $type=div $$type=div arg=works/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<p>works-$temExpect-$tidExpect-othExpect-ignExpect-</p>");
+});
+
+it("can pass along raw fills", function() {
+	wiki.addTiddlers([
+		{title: "Template", text: "B-<$slot $name=ts-raw/>-A"}]);
+	var text = "<$graph.view $template=Template>\n\n<$text text='Content'/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>B-Content-A</p>");
+});
+
+it("can pass along named fills", function() {
+	wiki.addTiddlers([
+		{title: "Template", text: "B-<$slot $name=named/>-A"}]);
+	var text = "<$graph.view $template=Template>\n\n<$fill $name=named>\n\n<$text text='Named'/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>B-Named-A</p>");
 });
 
 });
