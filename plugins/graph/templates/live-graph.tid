@@ -4,17 +4,19 @@ tags: $:/tags/flibbles/graph/Template
 
 \whitespace trim
 
-<$vars focusTiddler={{{ [subfilter{!!filter}] }}}>
+<$parameters nodes={{!!filter}} >
+
+<$vars focusTiddler={{{ [subfilter<nodes>] }}}>
 
 <$graph>
 
 <$properties $for=nodes actions="<$action-navigate $to=<<nodeTiddler>> />" >
 
-<$properties.settings>
+<$properties.settings nodes=<<nodes>> >
 
 <$properties physics=no>
 
-<$list filter={{!!filter}}>
+<$list filter=<<nodes>> >
 
 <$node.default />
 
@@ -26,3 +28,4 @@ tags: $:/tags/flibbles/graph/Template
 </$properties>
 </$graph>
 </$vars>
+</$parameters>

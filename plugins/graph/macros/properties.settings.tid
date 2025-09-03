@@ -1,6 +1,8 @@
 \widget $properties.settings()
 \whitespace trim
 
+<$parameters nodes={{!!filter}} >
+
 <$properties.popup
   $enabled={{!!popup}}
   $width={{{ [{!!title}get[popup.width]else[300px]] }}}
@@ -27,7 +29,7 @@
 <$properties color=<<muted>> >
  
 <$nodes.neighbors
-  $filter={{!!filter}}
+  $filter=<<nodes>>
   $functions=<<functionsFilter>>
   $fields=<<fieldsFilter>>
   $interedges={{!!neighbors.interedges}}

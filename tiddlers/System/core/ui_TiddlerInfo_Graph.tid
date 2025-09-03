@@ -1,0 +1,9 @@
+title: $:/core/ui/TiddlerInfo/Graph
+tags: $:/tags/TiddlerInfo
+caption: Graph
+
+<$let currentNode=<<currentTiddler>> >
+
+<$graph.view $tiddler="$:/graph/Info View" nodes="[<currentNode>]" />
+
+</$let>

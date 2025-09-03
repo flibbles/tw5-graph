@@ -4,9 +4,26 @@ title: Live Graph Template
 
 Live graphs are designed to rapidly change to show differing sets of nodes and connections. It shows not only whatever node is specified in its node filter, but any immediate [[Neighbors]].
 
+|Parameters |Description |
+|nodes |Optional filter which overrides the nodes specified by the GraphTiddler. See below. |
+
+! Overriding <<.attr nodes>> for an on-the-fly graph for every tiddler
+
+When you're rendering live graphs through transclusion or the <<.wlink Graph.ViewWidget>> widget, you can specify the nodes parameter to override the nodes the given GraphTiddler using this template would use.
+
+This is an //exceptionally powerful trick// which allows you to use the same GraphTiddler to specify the properties for countless live graphs.
+
+For example. If you want to have a ViewTemplate which provides a graph for every open tiddler, this is the best way to do it.
+
+# You create a GraphTiddler using the live template; let's call it <<.tid $:/graph/viewTemplate>>.
+# You specify the properties you want in it.
+# Then in your ViewTemplate, you invoke that GraphTiddler with `<$graph.view $tiddler="$:/graph/viewTemplate" nodes="[all[current]]" />`.
+
+Now you get the benefit of having a custom on-the-fly graph for every open tiddler, but you can also tweak the properties and style of these graphs using <<.graph>>'s user-friendly property editor GUI simply by tweaking the <<.tid $:/graph/viewTemplate>> graph in the settings.
+
 ! TiddlyMap's "Live view"
 
-This template can recreate the "Live View" used in TiddlyMap, which is a graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
+This template can recreate the "Live View" used in TiddlyMap, which is a [[Sidebar]] graph that shows whatever tiddler happens to be "live" at the moment (i.e. top of the displayed story river). TiddlyMap had this by default, while in <<.graph>>, you to set one up, but it isn't hard. Here are the steps
 
 # Install the [[Focused Tiddler]] plugin (or the [[HotZone]] plugin, although that plugin is older and unmaintained).
 #* This is a step that even TiddlyMap required you to do.

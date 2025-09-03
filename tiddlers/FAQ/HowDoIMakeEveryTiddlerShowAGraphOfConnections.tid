@@ -1,0 +1,37 @@
+title: How do I make every open tiddler show a graph of its connections
+tags: FAQ
+
+You want every open tiddler in your story river to have a graph at the bottom, or maybe in its TiddlerInfo panel, which shows all of the graph's links, tags, transcludes, etc... both coming and going.
+
+This is a common use case. And here is the best way to do it. This walks you through every step, but you can also skip lower down where I have the GraphTiddler and a sample ViewTemplate premade.
+
+!! Make it yourself
+
+# Create a new [[GraphTiddler]] in the <<.graph>> settings. The [[Top-Down Tutorial]] covers how to do this. We'll call it <<.tid "$:/graph/Info view">>.
+# Configure it.
+#* In that graph's settings, set it's //Template// to the [[Live Graph|Live Graph Template]].
+#* Lower down in the settings, check the "Enable neighbors". [[Neighbors]] are a node's connections, which is what you're trying to show.
+#* It does not actually matter what you specify in "Nodes", because we'll be overriding it, so just put some tiddler there that makes it easy for you to preview and test your graph properties.
+# Create your viewTemplate (or TiddlerInfo tiddler) by creating a tiddler tagged with <<tag $:/tags/ViewTemplate>> (or <<tag $:/tags/TiddlerInfo>>), and put the following:
+
+```
+<$let currentNode=<<currentTiddler>> >
+
+<$graph.view $tiddler="$:/graph/Info view" nodes="[<currentNode>]" />
+
+```
+
+(You need to move your currentTiddler into currentNode because <<.wid graph.view>> treats its <<.attr $tiddler>> attribute as currentTiddler.)
+
+You'll probably want to put more than that, but that widget will give you the graph you just configured, but using the current tiddler as the node.
+
+Now you have a graph for every open tiddler, and the best part is that you can adjust how that graph looks through the <<.graph>> settings, by configuring your <<.tid viewTemplate>> graph.
+
+!! Or just use mine
+
+This demo project has a TiddlerInfo panel version premade for you to use if you like. Just drag these two tiddlers over. One is the graphTiddler, the other is the TiddlerInfo tiddler that renders an instance of that graph for each tiddler's info panel.
+
+@@text-align:center;
+<$link to="$:/graph/Info View" class="graph-dragger graph-dragger-view">Info View</$link>
+<$link to="$:/core/ui/TiddlerInfo/Graph" class="graph-dragger graph-dragger-view">TiddlerInfo Template</$link>
+@@
