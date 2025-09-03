@@ -1,10 +1,10 @@
 /*\
 
-Tests relinking in properties.
+Tests relinking of dataTiddlers in $:/config/flibbles/graph/...
 
 \*/
 
-describe("Relink properties", function() {
+describe("Relink config prefix", function() {
 
 var jsonType = "application/json";
 var dictType = "application/x-tiddler-dictionary";

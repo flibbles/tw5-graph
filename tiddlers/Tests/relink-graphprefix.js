@@ -1,15 +1,18 @@
 /*\
 
-Tests all relinking.
+Tests all relinking in $:/graph namespace,
+
+and also any that have the $:/tags/flibbles/graph/TiddlerData tag
 
 \*/
 
-describe("Relink views", function() {
+describe("Relink graph tiddlers", function() {
 
 var language = require('$:/plugins/flibbles/relink/js/language.js');
 var dictType = "application/x-tiddler-dictionary";
 var jsonType = "application/json";
 var title = "$:/graph/view/test";
+var tag = "$:/tags/flibbles/graph/TiddlerData";
 var engineConfig = "$:/config/flibbles/graph/engine";
 var wiki, log, failures;
 
@@ -97,69 +100,34 @@ it("does not touch non-data tiddlers inside the namespace", function() {
 	expect(log).not.toHaveBeenCalled();
 });
 
-/*** Property fields ***/
-
-it("reports property fields", function() {
-	wiki.addTiddler({title: title, text: '{"A": "23,34"}', type: "application/json", "graph.graph": '{"addNode":"{{B}}"}'});
-	var report = wiki.getTiddlerRelinkReferences(title);
-	expect(report).toEqual({A: ["23,34"], B: ["#graph - addNode: {{}}"]});
+it("reports data tiddlers with the explicit tag", function() {
+	var json = {A: "3,5"};
+	wiki.addTiddler({title: "test", tags: tag, type: jsonType, text: JSON.stringify(json)});
+	var report = wiki.getTiddlerRelinkReferences("test");
+	expect(report).toEqual({A: ["3,5"]});
+	// Reports must be soft, so these don't show up as "missing" tiddlers.
+	expect(wiki.filterTiddlers(`[[test]relink:references[]]`)).toEqual(["A"]);
+	expect(wiki.filterTiddlers(`[[test]relink:references:hard[]]`)).toEqual([]);
 });
 
-it("report handles corrupt property fields", function() {
-	wiki.addTiddler({title: title, text: '{"A": "23,34"}', type: "application/json", "graph.graph": '{"addNode":'});
+it("does not double report explicit and namespaced tiddlers", function() {
+	var json = {A: "3,5"};
+	wiki.addTiddler({title: title, tags: tag, type: jsonType, text: JSON.stringify(json)});
 	var report = wiki.getTiddlerRelinkReferences(title);
-	expect(report).toEqual({A: ["23,34"]});
+	expect(report).toEqual({A: ["3,5"]});
+	// Reports must be soft, so these don't show up as "missing" tiddlers.
+	expect(wiki.filterTiddlers(`[[${title}]relink:references[]]`)).toEqual(["A"]);
 });
 
-it("relinks property fields", function() {
-	var json = {a: "val", "from here": "3,5", g: "val"};
+it("relinks data tiddlers with the explicit tag", function() {
+	var json = {"from here": "3,5"};
 	var data = JSON.stringify(json);
-	wiki.addTiddler({title: title,
-		type: jsonType,
-		text: '{\n    "from": "2,3"\n}',
-		"graph.graph": '{"addNode":"{{from}}"}',
-		"graph.nodes": '{"delete":"[[cap|from]]"}'});
-	wiki.renameTiddler("from", "to");
-	expect(wiki.getTiddler(title).fields).toEqual({
-		title: title,
-		type: jsonType,
-		text: '{\n    "to": "2,3"\n}',
-		"graph.graph": '{"addNode":"{{to}}"}',
-		"graph.nodes": '{"delete":"[[cap|to]]"}'});
-});
-
-it("relink handles impossibles", function() {
-	wiki.addTiddler({title: title,
-		type: jsonType,
-		"graph.graph": '{"addNode":"<$text text={{from}}/>"}',
-		"graph.nodes": '{"delete":"[[cap|from]]"}'});
-	wiki.renameTiddler("from", "t}}o");
-	expect(wiki.getTiddler(title).fields).toEqual({
-		title: title,
-		type: jsonType,
-		"graph.graph": '{"addNode":"<$text text={{from}}/>"}',
-		"graph.nodes": '{"delete":"[[cap|t}}o]]"}'});
-	expect(failures).toHaveBeenCalled();
-});
-
-// I do this for now in case of empty data-tiddlers never getting set,
-// but if I switch to a custom MIME type, this will have to change.
-it("relinks non-dataTiddler property fields", function() {
-	wiki.addTiddler({title: title, "graph.graph": '{"addNode":"{{from}}"}'});
-	wiki.renameTiddler("from", "to");
-	expect(wiki.getTiddler(title).fields).toEqual({
-		title: title, "graph.graph": '{"addNode":"{{to}}"}'});
-});
-
-it("relink ignores corrupt fields", function() {
-	wiki.addTiddler({title: title,
-		type: jsonType,
-		"graph.nodes": '{"delete":"{{from}}'});
-	wiki.renameTiddler("from", "to");
-	expect(wiki.getTiddler(title).fields).toEqual({
-		title: title,
-		type: jsonType,
-		"graph.nodes": '{"delete":"{{from}}'});
+	wiki.addTiddler({title: "test", tags: tag, type: jsonType, text: data});
+	wiki.renameTiddler("from here", "to there");
+	expect(wiki.getTiddlerData("test")).toEqual({"to there": "3,5"});
+	// Maintains pretty printing
+	// Also, maintains same general order
+	expect(wiki.getTiddlerText("test")).toEqual('{\n    "to there": "3,5"\n}');
 });
 
 });

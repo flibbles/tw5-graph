@@ -1,10 +1,10 @@
 /*\
 
-Tests relinking in properties.
+Tests relinking of field edge names in $:/config/flibbles/graph/edges/fields/...
 
 \*/
 
-describe("Relink fieldEdges", function() {
+describe("Relink fieldEdge prefix", function() {
 
 var language = require('$:/plugins/flibbles/relink/js/language.js');
 // A common title for a graph properties tiddler
