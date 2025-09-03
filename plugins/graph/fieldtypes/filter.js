@@ -8,12 +8,24 @@ module-type: fieldtype
 exports.name = "filter";
 
 exports.get = function(tiddler, field, options) {
-	var filterStr = tiddler.getFieldString(field);
-	if (filterStr) {
-		return options.wiki.filterTiddlers(filterStr, options.widget);
-	} else {
-		return [];
+	// We optimize by storing a cache of compiled filters for this tiddler
+	// We will need them a lot, especially if our graphs are doing neighbor
+	// evaluation, which will call on these filters with every single change.
+	var fieldCache = options.wiki.getCacheForTiddler(tiddler.fields.title, "filter-fields", function() {
+		return Object.create(null);
+	});
+	var method = fieldCache[field];
+	if (method === undefined) {
+		// We haven't cached this filter function yet
+		var filterStr = tiddler.getFieldString(field);
+		if (filterStr) {
+			method = options.wiki.compileFilter(filterStr);
+		} else {
+			method = function() { return []; };
+		}
+		fieldCache[field] = method;
 	}
+	return method.call(options.wiki, null, options.widget);
 };
 
 exports.add = function(tiddler, field, value, options) {

@@ -236,6 +236,23 @@ it("does not call compile or filter empty strings", function() {
 	expect(compile).not.toHaveBeenCalled();
 });
 
+it("does not recompile for unrelated changes", function() {
+	wiki.addTiddlers([
+		relinkConfig("filter"),
+		{title: "Target", field: "[{Unrelated}]"},
+		{title: "Unrelated", text: "First"}]);
+	var operator = wiki.compileFilter("[[Target]gettyped[field]]");
+	// Now that we have our test filter, make sure we don't compile any more.
+	var compile = spyOn($tw.Wiki.prototype, "compileFilter").and.callThrough();
+	expect(operator.call(wiki)).toEqual(["First"]);
+	expect(compile).toHaveBeenCalledTimes(1);
+	compile.calls.reset();
+	// Change unrelated and make sure our filter field didn't have to recompile.
+	wiki.addTiddler({title: "Unrelated", text: "Second"});
+	expect(operator.call(wiki)).toEqual(["Second"]);
+	expect(compile).not.toHaveBeenCalled();
+});
+
 /*** Standard behavior between all fieldtypes ***/
 
 $tw.utils.each($tw.wiki.filterTiddlers("[[fieldtype]modules[]moduleproperty[name]]"), function(fieldType) {
