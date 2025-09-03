@@ -1,5 +1,11 @@
-created: 
+created: 20250903160051929
 
+* Introduced graph messaging system so that graph-specific features can be activated via TiddlyWiki messages
+** For instance, you can now instruce vis-network graphs to pan and zoom through actions.
+* Made it so the nodes used by the Live Graph template can be overridden.
+** This allows you to use a GraphTiddler with different sets of nodes, which is the optimal way to create ViewTemplate graphs.
+** Included documentation, including a FAQ, on how best to use this new feature.
 * Feature #62: Clicking links in fullscreen mode now opens modal instead
 * Fixed issue where modal appeared behind fullscreen graphs in mobile mode
-* Made banner buttons modular so more can be plugged in easily
+* Made banner buttons modular so more can be plugged in easily. This will be more important later.
+* Applied some optimizations to filterType fields and how they cache and call their filters. This is more important for people with massive TiddlyWikis with lots of filterType fields (mainly, me).
