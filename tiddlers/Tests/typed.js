@@ -224,6 +224,18 @@ it("can reassemble various types of filter structures", function() {
 	testAdd("[[ot' \"her]]", "[[ot' \"her]] value");
 });
 
+/*** Minimizing filter evaluation on get. ***/
+
+it("does not call compile or filter empty strings", function() {
+	wiki.addTiddler({title: "Target", field: ""});
+	wiki.addTiddler(relinkConfig("filter"));
+	var operator = wiki.compileFilter("[[Target]gettyped[field]]");
+	// Now that we have our test filter, make sure we don't compile any more.
+	var compile = spyOn($tw.Wiki.prototype, "compileFilter").and.callThrough();
+	expect(operator.call(wiki)).toEqual([]);
+	expect(compile).not.toHaveBeenCalled();
+});
+
 /*** Standard behavior between all fieldtypes ***/
 
 $tw.utils.each($tw.wiki.filterTiddlers("[[fieldtype]modules[]moduleproperty[name]]"), function(fieldType) {

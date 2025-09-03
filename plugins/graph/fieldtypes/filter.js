@@ -9,7 +9,11 @@ exports.name = "filter";
 
 exports.get = function(tiddler, field, options) {
 	var filterStr = tiddler.getFieldString(field);
-	return options.wiki.filterTiddlers(filterStr, options.widget);
+	if (filterStr) {
+		return options.wiki.filterTiddlers(filterStr, options.widget);
+	} else {
+		return [];
+	}
 };
 
 exports.add = function(tiddler, field, value, options) {
