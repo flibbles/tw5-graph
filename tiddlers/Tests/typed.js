@@ -253,6 +253,36 @@ it("does not recompile for unrelated changes", function() {
 	expect(compile).not.toHaveBeenCalled();
 });
 
+it("does not recompile for simple filters", function() {
+	wiki.addTiddlers([
+		relinkConfig("filter"),
+		{title: "Target", field: "First 'Second' \"Third\""}]);
+	var operator = wiki.compileFilter("[[Target]gettyped[field]]");
+	// Now that we have our test filter, let's capture the next filter
+	// function created. That will be are field filter. We'll track how
+	// many times it's called too. Can't figure out how to do it with spies,
+	// So we'll just track a counter of its call with "calls".
+	var oldCompile = $tw.Wiki.prototype.compileFilter;
+	var calls = 0;
+	var compile = spyOn($tw.Wiki.prototype, "compileFilter").and.callFake(function(filterString) {
+		var results = oldCompile.call(this, filterString);
+		return function() {
+			calls++;
+			return results.apply(this, arguments);
+		};
+	});
+	expect(operator.call(wiki)).toEqual(["First", "Second", "Third"]);
+	expect(compile).toHaveBeenCalledTimes(1);
+	expect(calls).toBe(1);
+	compile.calls.reset();
+	calls = 0;
+	// Now we call it again, and we make sure we neither compile a new filter
+	// or call the old one. The filter output should be cached.
+	expect(operator.call(wiki)).toEqual(["First", "Second", "Third"]);
+	expect(compile).not.toHaveBeenCalled();
+	expect(calls).toBe(0);
+});
+
 /*** Standard behavior between all fieldtypes ***/
 
 $tw.utils.each($tw.wiki.filterTiddlers("[[fieldtype]modules[]moduleproperty[name]]"), function(fieldType) {

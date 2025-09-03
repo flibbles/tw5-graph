@@ -18,12 +18,7 @@ exports.get = function(tiddler, field, options) {
 	if (method === undefined) {
 		// We haven't cached this filter function yet
 		var filterStr = tiddler.getFieldString(field);
-		if (filterStr) {
-			method = options.wiki.compileFilter(filterStr);
-		} else {
-			method = function() { return []; };
-		}
-		fieldCache[field] = method;
+		fieldCache[field] = method = getFilterFunction(filterStr, options.wiki);
 	}
 	return method.call(options.wiki, null, options.widget);
 };
@@ -104,6 +99,25 @@ exports.remove = function(tiddler, field, value, options) {
 	if (changed) {
 		return filterString;
 	}
+};
+
+// This returns a compiled filter given a string. It optimizes where it can.
+function getFilterFunction(filterStr, wiki) {
+	var method;
+	if (filterStr) {
+		method = wiki.compileFilter(filterStr);
+		// A further optimization here.
+		// If the filter is very simple, as in nothing by titles,
+		// then we can just call it now and cache the output,
+		// because it will never change.
+		if (filterStr.indexOf("[") < 0) {
+			var results = method.call(wiki);
+			method = function() { return results; };
+		}
+	} else {
+		method = function() { return []; };
+	}
+	return method;
 };
 
 // If this is a single title, return the title, otherwise null
