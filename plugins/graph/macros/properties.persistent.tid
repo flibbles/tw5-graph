@@ -4,10 +4,16 @@
 \function pos() [<$dataTiddler>getindex{!!title}]
 
 \procedure recordPosition(title)
+\whitespace trim
 <$action-setfield
   $tiddler=<<$dataTiddler>>
   $index=<<title>>
   $value=`$(x)$,$(y)$`/>
+<%if [<$dataTiddler>!prefix[$:/graph/]] %>
+  <$fieldmangler tiddler=<<$dataTiddler>> >
+    <$action-sendmessage $message=tm-add-tag $param="$:/tags/flibbles/graph/TiddlerData" />
+  </$fieldmangler>
+<%endif%>
 \end recordPosition
 
 <$properties
