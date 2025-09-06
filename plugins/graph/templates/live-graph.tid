@@ -16,6 +16,8 @@ tags: $:/tags/flibbles/graph/Template
 
 <$properties physics=no>
 
+<$slot $name=ts-raw $depth=5 />
+
 <$list filter=<<nodes>> >
 
 <$node.default />

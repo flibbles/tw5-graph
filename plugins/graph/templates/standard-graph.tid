@@ -23,6 +23,8 @@ tags: $:/tags/flibbles/graph/Template
 
 <$properties.settings>
 
+<$slot $name=ts-raw $depth=6 />
+
 <$nodes.writable $field=filter>
 
 <$node.default/>

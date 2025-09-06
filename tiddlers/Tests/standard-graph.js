@@ -134,4 +134,18 @@ it("neighbor whitelist defaults to [!is[system]]", function() {
 	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "B", "target"]);
 });
 
+it("exposes raw blocks once", function() {
+	wiki.addTiddler({title: title, filter: "A B", "graph.nodes": '{"color": "#00ff00"}'});
+	var widget = $tw.test.renderGlobal(wiki, `<$tiddler tiddler="${title}"><$transclude $tiddler="${standardGraph}">MyContent<$node $tiddler=X/>`);
+	var objects = init.calls.first().args[1];
+	// The filter nodes should be there, and our custom one too.
+	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "B", "X"]);
+	// The custom block was inside of our $property widgets, and so picked up
+	// our graphTiddler.
+	expect(objects.nodes.X.color).toBe("#00ff00");
+	// Our custom content should only have showed up once.
+	// So when splitting by it, we should end up with only two parts.
+	expect(widget.parentDomNode.innerHTML.split("MyContent").length).toBe(2);
+});
+
 });
