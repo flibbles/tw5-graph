@@ -46,6 +46,26 @@ it('does not send update if no graph objects changed', async function() {
 	expect(update).not.toHaveBeenCalled();
 });
 
+it("handles add and removal of overriding node", async function() {
+	// For some reason, adding an override, and then removing it, could fail
+	// Just having it there to start, and then removing it: not a problem
+	wiki.addTiddler({title: "List", list: ""});
+	await $tw.test.flushChanges();
+	var widgetNode = $tw.test.renderText(wiki, "<$graph><$node $tiddler=Target label=first/><$list filter='[list[List]]'><$node label=second/>");
+	expect(onlyCallOf(init)[1].nodes).toEqual({Target: {label: "first"}});
+	// Now let's add an override
+	wiki.addTiddler({title: "List", list: "Target"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	expect(update).toHaveBeenCalledWith({nodes: {Target: {label: "second"}}});
+	// Now we remove the override and let the first node definition through
+	update.calls.reset();
+	wiki.addTiddler({title: "List", list: ""});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalledTimes(1);
+	expect(update).toHaveBeenCalledWith({nodes: {Target: {label: "first"}}});
+});
+
 /*** garbage handling ***/
 
 it("detects when to destroy itself", async function() {

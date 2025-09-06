@@ -317,8 +317,9 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = null;
-				} else if (is[id].changed) {
-					// It changed. updated it.
+				} else if (is[id].changed || is[id] !== was[id]) {
+					// It changed, or is another instance of the same ID.
+					// Updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = this.typecastProperties(is[id].properties, type);
