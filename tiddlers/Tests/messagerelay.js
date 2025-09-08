@@ -6,11 +6,11 @@ Tests the messagerelay widget.
 
 describe('MessageRelayWidget', function() {
 
-var wiki, actionMethod;
+var wiki, actionMethod, register;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
-	$tw.test.setSpies();
+	({register} = $tw.test.setSpies());
 	actionMethod = spyOn($tw.test, "actionMethod");
 	var oldCreate = $tw.fakeDocument.createElement;
 	spyOn($tw.fakeDocument, "createElement").and.callFake(function(tag) {
@@ -49,7 +49,7 @@ it("transmits to matched relay points only", function() {
 	expect(actionMethod).not.toHaveBeenCalledWith({value: "no"});
 });
 
-it("handles no receiver", function() {
+it("handles no receivers", function() {
 	expect(function() {
 		var widget = $tw.test.renderText(wiki, `<$messagerelay to=yes>
 		  <$button class=target actions='<$action-sendmessage $message=tm-test />'/>`);
@@ -57,20 +57,106 @@ it("handles no receiver", function() {
 	}).not.toThrow();
 });
 
-xit("ignores removed relays", async function() {
+it("handles no matching receivers", function() {
+	expect(function() {
+		var widget = $tw.test.renderText(wiki, `<$messagerelay name=mismatch/>
+		<$messagerelay to=yes>
+		  <$button class=target actions='<$action-sendmessage $message=tm-test />'/>`);
+		triggerChildren(widget, "target");
+	}).not.toThrow();
+});
+
+/*** Removal and readjusting ***/
+
+it("ignores removed relays", async function() {
 	wiki.addTiddler({title: "List", list: "A B"});
-	var widget = $tw.test.renderText(wiki, `<$messagerelay to=target>
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+	<$messagerelay to=target>
 	  <$button class=target actions='<$action-sendmessage $message=tm-test />'/>
 	</$messagerelay>
 	<$list filter="[list[List]]">
 	  <$messagecatcher $tm-test='<$action-test tiddler={{!!title}} />'>
-	    <$messagerelay name=target>`);
+	    <$messagerelay name=target />`);
 	wiki.addTiddler({title: "List", list: "A"});
 	await $tw.test.flushChanges();
 	triggerChildren(widget, "target");
 	expect(actionMethod).toHaveBeenCalledTimes(1);
 	expect(actionMethod).toHaveBeenCalledWith({tiddler: "A"});
 	expect(actionMethod).not.toHaveBeenCalledWith({tiddler: "B"});
+});
+
+it("can redirect 'to' without a full refresh", async function () {
+	wiki.addTiddler({title: "Name", text: "first"});
+	var logWidget = $tw.modules.applyMethods("widget")["action-log"];
+	var log = spyOn(logWidget.prototype, "log");
+	// We spy on this too so the log doesn't auto-refresh and re-log anyway
+	spyOn(logWidget.prototype, "refreshSelf");
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+	<$messagerelay to={{Name}} >
+	  <$button class=target actions='<$action-sendmessage $message=tm-test />'/>
+	  <$log called=true />
+	</$messagerelay>
+	<$list filter="first second">
+	  <$messagecatcher $tm-test='<$action-test name={{!!title}} />'>
+	    <$messagerelay name={{!!title}} />`);
+	expect(log).toHaveBeenCalled();
+	log.calls.reset();
+	wiki.addTiddler({title: "Name", text: "second"});
+	await $tw.test.flushChanges();
+	// Now we call an event to hit that changed relayer
+	triggerChildren(widget, "target");
+	// It should have hit the relay corresponding to the updated name
+	expect(actionMethod).toHaveBeenCalledTimes(1);
+	expect(actionMethod).toHaveBeenCalledWith({name: "second"});
+	// And we check to make sure the log widget wasn't recreated
+	expect(log).not.toHaveBeenCalled();
+});
+
+it("properly unregisters old name when renamed", async function() {
+	wiki.addTiddler({title: "Name", text: "first"});
+	var widget = $tw.test.renderText(wiki, `\\whitespace trim
+	<$list filter="first second">
+	  <$messagerelay to={{!!title}} >
+	    <$button class={{!!title}} actions='<$action-sendmessage $message=tm-test />'/>
+	  </$messagerelay>
+	</$list>
+	<$messagecatcher $tm-test='<$action-test />'>
+	  <$messagerelay name={{Name}} />`);
+	wiki.addTiddler({title: "Name", text: "second"});
+	await $tw.test.flushChanges();
+	// First we call the old name, and make sure it deregistered
+	triggerChildren(widget, "first");
+	expect(actionMethod).not.toHaveBeenCalled();
+	// Now we call the new name, and make sure it DID register
+	triggerChildren(widget, "second");
+	expect(actionMethod).toHaveBeenCalledTimes(1);
+});
+
+// messagerelays must register for cleanup, because it's possible for them to
+// detach from the widget tree, but never get a chance to clean up on their own
+it("detects when to destroy itself", async function() {
+	register.and.callThrough();
+	wiki.addTiddler({title: "View", text: "yes"});
+	var widgetNode = $tw.test.renderText(wiki, "<%if [{View}!match[no]] %>\n\n<$messagerelay name=test />\n");
+	var relayWidget = widgetNode;
+	// Find the relay widget, which will be at the bottom of the widget stack
+	while (relayWidget.children.length > 0) {
+		relayWidget = relayWidget.children[0];
+	}
+	var destroy = spyOn(relayWidget, "destroy").and.callThrough();
+	var check = spyOn(relayWidget, "isGarbage").and.callThrough();
+	await $tw.test.flushChanges();
+	expect(register).toHaveBeenCalled();
+	$tw.test.utils.upkeep();
+	expect(check).toHaveBeenCalled();
+	expect(destroy).not.toHaveBeenCalled();
+	// Now we put in a change that will remove it
+	check.calls.reset();
+	wiki.addTiddler({title: "View", text: "no"});
+	await $tw.test.flushChanges();
+	$tw.test.utils.upkeep();
+	expect(check).toHaveBeenCalled();
+	expect(destroy).toHaveBeenCalled();
 });
 
 /*** Infinite loops ***/
