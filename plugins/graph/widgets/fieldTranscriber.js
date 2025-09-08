@@ -1,6 +1,6 @@
 /*\
 
-EditCatcherWidget for transcribing the text of one data tiddler
+Widget for transcribing the text of one data tiddler
 into the field of another. and vice-versa.
 
 \*/

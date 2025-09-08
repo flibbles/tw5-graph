@@ -1,6 +1,6 @@
 /*\
 
-Tests the boundingbox widget.
+Tests the fieldtranscriber widget.
 
 \*/
 
