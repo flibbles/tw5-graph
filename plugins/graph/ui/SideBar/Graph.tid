@@ -43,7 +43,7 @@ tags: $:/tags/SideBar
           </option>
         </$list>
       </$select>
-      <$list filter="[[$:/tags/flibbles/graph/SideBarBanner]tagging[]!is[draft]]" variable=listItem>
+      <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
         <$transclude tiddler=<<listItem>> mode=inline />
       </$list>
     </$slot>

@@ -1,7 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/Buttons/settings
 description: Open graph settings for the current sidebar graph
 caption: {{$:/core/images/options-button}} settings
-tags: $:/tags/flibbles/graph/SideBarBanner
+tags: $:/tags/flibbles/graph/Toolbar
 
 \whitespace trim
 <$button to="$:/plugins/flibbles/graph/settings" actions="""\whitespace trim

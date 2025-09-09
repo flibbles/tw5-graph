@@ -1,7 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/Buttons/fullscreen
 description: Toggle fullscreen mode with sidebar graph
 caption: {{$:/core/images/full-screen-button}} fullscreen
-tags: $:/tags/flibbles/graph/SideBarBanner
+tags: $:/tags/flibbles/graph/Toolbar
 
 \procedure fs-actions()
 \whitespace trim

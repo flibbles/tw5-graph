@@ -1,2 +1,2 @@
-title: $:/tags/flibbles/graph/SideBarBanner
+title: $:/tags/flibbles/graph/Toolbar
 list: [[$:/plugins/flibbles/graph/ui/Buttons/settings]] [[$:/plugins/flibbles/graph/ui/Buttons/fullscreen]]
