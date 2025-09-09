@@ -4,6 +4,6 @@ caption: Graph
 
 <$let currentNode=<<currentTiddler>> >
 
-<$graph.view $tiddler="$:/graph/Info View" nodes="[<currentNode>]" />
+<$graph.view $tiddler="$:/graph/Info View" />
 
 </$let>
