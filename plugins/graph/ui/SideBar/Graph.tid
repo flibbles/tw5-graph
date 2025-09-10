@@ -31,28 +31,28 @@ tags: $:/tags/SideBar
   class={{{ graph-sidebar-enabled [<fs-state>get[text]] +[join[ ]] }}}
   width="[<windowWidth>subtract<boundingLeft>subtract[15]addsuffix[px]]"
   height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
-  <div class="graph-sidebar-banner">
-    <$slot $name="banner">
-      Graph:
-      <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
-        <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
-          <option value=<<currentTiddler>> >
-            <$view field=caption>
-              <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
-            </$view>
-          </option>
+  <$tiddler tiddler=<<graph>> >
+    <div class="graph-sidebar-banner">
+      <$slot $name="banner">
+        Graph:
+        <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
+          <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
+            <option value=<<currentTiddler>> >
+              <$view field=caption>
+                <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
+              </$view>
+            </option>
+          </$list>
+        </$select>
+        <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
+          <$transclude tiddler=<<listItem>> mode=inline />
         </$list>
-      </$select>
-      <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
-        <$transclude tiddler=<<listItem>> mode=inline />
-      </$list>
-    </$slot>
-  </div>
-  <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
-    <$tiddler tiddler=<<graph>> >
+      </$slot>
+    </div>
+    <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
       <$vars graph-sidebar=yes>
         <$transclude $tiddler={{{ [{!!template}!is[blank]else<defaultTemplate>] }}} $mode=inline />
       </$vars>
-    </$tiddler>
-  </$linkcatcher>
+    </$linkcatcher>
+  </$tiddler>
 </$boundingbox>

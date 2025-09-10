@@ -1,0 +1,74 @@
+title: $:/plugins/flibbles/graph/ui/selector
+code-body: yes
+
+\whitespace trim
+\procedure select-accept-actions()
+\whitespace trim
+<$vars selectedTiddler={{$:/temp/graph/select/tiddler}}>
+<$slot $name=action />
+<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
+</$vars>
+\end
+
+\procedure select-click-actions()
+<$messagecatcher $completed="""<$transclude $variable=select-accept-actions $fillignore=yes />""" >
+  <$action-setfield $tiddler="$:/temp/graph/select/tiddler" text=<<navigateTo>> />
+  <$action-sendmessage $message=completed />
+\end
+
+\procedure select-close-actions()
+\whitespace trim
+<$slot $name=cancel />
+<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
+\end
+
+\procedure select-cancel-actions()
+\whitespace trim
+<% if [{$:/temp/graph/select}match[]] %>
+	<$transclude $variable=select-close-actions $fillignore=yes />
+<% elseif [{$:/temp/graph/select}!match{$:/temp/graph/select/tiddler}] %>
+	<$action-setfield $tiddler="$:/temp/graph/select/tiddler" text={{$:/temp/graph/select}}/>
+	<$action-deletetiddler $filter="$:/temp/graph/select/selected-item" />
+	<$action-setfield $tiddler="$:/temp/graph/select/refresh" text="yes"/>
+<% else %>
+	<$action-deletetiddler $filter="[[$:/temp/graph/select]] [[$:/temp/graph/select/tiddler]] [[$:/temp/graph/select/selected-item]] [[$:/temp/graph/select/refresh]]" />
+<% endif %>
+\end
+
+\parameters (configTiddler)
+
+<$transclude
+	$variable=keyboard-driven-input
+	$fillignore=yes
+	$mode=inline
+	storeTitle="$:/temp/graph/select"
+	tiddler="$:/temp/graph/select/tiddler"
+	refreshTitle="$:/temp/graph/select/refresh"
+	selectionStateTitle="$:/temp/graph/select/selected-item"
+	configTiddlerFilter="[<configTiddler>]"
+	tag=input
+	placeholder="Type something"
+	class="tc-edit-texteditor graph-select"
+	focus=yes
+	inputCancelActions=<<select-cancel-actions>>
+	inputAcceptActions=<<select-accept-actions>>
+/>
+
+<p>
+
+<$linkcatcher actions=<<select-click-actions>> >
+
+<$list filter={{{ [<configTiddler>get[first-search-filter]] }}} >
+
+<$list-empty>
+
+<$text text="New result" />
+
+</$list-empty>
+<$list-template>
+
+<span class={{{[{$:/temp/graph/select/tiddler}match<currentTiddler>then[tc-list-item-selected]] }}}>
+
+<$slot $name=list-item>
+
+<$transclude tiddler="$:/core/ui/ListItemTemplate" mode=inline/>
