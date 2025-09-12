@@ -36,7 +36,6 @@ RelayWidget.prototype.execute = function() {
 		var register = this.wiki.relayRegister = this.wiki.relayRegister || Object.create(null);
 		register[this.relayName] = register[this.relayName] || [];
 		register[this.relayName].push(this);
-		this.relayRootWidget = rootWidget(this);
 	}
 	this.makeChildWidgets();
 };
@@ -76,8 +75,8 @@ RelayWidget.prototype.dispatchEvent = function(event) {
 };
 
 RelayWidget.prototype.isGarbage = function() {
-	var oldRoot = this.relayRootWidget;
-	return oldRoot !== rootWidget(this);
+	var root = rootWidget(this);
+	return root !== $tw.rootWidget;
 };
 
 RelayWidget.prototype.destroy = function() {

@@ -55,7 +55,13 @@ it("relays messages from the sidebar into the graph", function() {
 		{title: "Button", tags: "$:/tags/flibbles/graph/Toolbar", text: "<$button class=graph-test-button actions='<$action-sendmessage $message=graph-test relayed=true/>'/>\n"}]);
 	var text = "<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' graph=Main />\n";
 	var widgetNode = $tw.test.renderGlobal(wiki, text);
-	triggerChildren(widgetNode, "graph-test-button");
+	var oldRoot = $tw.rootWidget;
+	try {
+		$tw.rootWidget = widgetNode;
+		triggerChildren(widgetNode, "graph-test-button");
+	} finally {
+		$tw.rootWidget = oldRoot;
+	}
 	expect(method).toHaveBeenCalledWith("graph-test", {relayed: "true"});
 });
 

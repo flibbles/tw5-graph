@@ -42,12 +42,12 @@ Object.defineProperty(test, 'adapterAlso', {
 /*
  * Renders text into a widget tree.
  */
-test.renderText = function(wiki, text) {
+test.renderText = function(wiki, text, options) {
 	if (!wiki.tiddlerExists(engineConfig)) {
 		wiki.addTiddler({title: engineConfig, text: "Test"});
 	}
 	var parser = wiki.parseText("text/vnd.tiddlywiki", text);
-	var widgetNode = wiki.makeWidget(parser);
+	var widgetNode = wiki.makeWidget(parser, options);
 	var container = $tw.fakeDocument.createElement("div");
 	wiki.addEventListener("change", function(changes) {
 		widgetNode.refreshChildren(changes);
