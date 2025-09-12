@@ -5,6 +5,8 @@ module-type: fieldtype
 
 \*/
 
+"use strict";
+
 exports.name = "title";
 
 exports.add = function(tiddler, field, value, options) {

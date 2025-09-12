@@ -5,6 +5,8 @@ module-type: fieldtype
 
 \*/
 
+"use strict";
+
 exports.name = "filter";
 
 exports.get = function(tiddler, field, options) {

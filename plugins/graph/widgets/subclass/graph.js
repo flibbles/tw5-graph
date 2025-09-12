@@ -202,8 +202,7 @@ GraphWidget.isGarbage = function() {
 
 GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine")
-		|| this.wiki.getTiddlerText("$:/config/flibbles/graph/engine")
-		|| Object.keys(utils.getEngineMap())[0];
+		|| $tw.macros.graphengine.get(this.wiki);
 };
 
 GraphWidget.getColor = function(color) {
