@@ -2,8 +2,6 @@ title: $:/plugins/flibbles/graph/ui/SideBar
 caption: Graph
 tags: $:/tags/SideBar
 
-\whitespace trim
-\parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
 \procedure fs-state() $:/state/flibbles/graph/fullscreen
 \procedure fs-refocus()
 \whitespace trim
@@ -16,9 +14,8 @@ tags: $:/tags/SideBar
 
 \whitespace trim
 
-<$parameters
-  graph={{{ [<state>get[text]else<defaultGraph>] }}}
-  defaultTemplate={{{ [[$:/tags/flibbles/graph/Template]tagging[]] }}} >
+\parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
+<$parameters graph={{{ [<state>get[text]else<defaultGraph>] }}} >
 
 <$keyboard key="escape" actions=<<fs-kill>> >
 
@@ -55,9 +52,9 @@ tags: $:/tags/SideBar
       </div>
     </$messagerelay>
     <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
-        <$transclude $tiddler={{{ [{!!template}!is[blank]else<defaultTemplate>] }}} $mode=inline>
-          <$messagerelay name=<<relayState>> />
-        </$transclude>
+      <$graph.view $tiddler=<<graph>> >
+        <$messagerelay name=<<relayState>> />
+      </$graph.view>
     </$linkcatcher>
   </$vars>
 </$boundingbox>

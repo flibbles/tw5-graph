@@ -1,6 +1,7 @@
 title: $:/plugins/flibbles/graph/ui/Buttons/find
 description: Find a node in the graph
 caption: {{$:/core/images/advanced-search-button}} find
+tags: $:/tags/flibbles/graph/Toolbar
 first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[title]limit[10]]
 
 \whitespace trim

@@ -1,6 +1,6 @@
 \widget $graph.view($tiddler:"$:/graph/Default")
 \whitespace trim
-<$parameters $params=viewParams $$template={{{ [<$tiddler>get[template]else[$:/plugins/flibbles/graph/templates/standard-graph]] }}}>
+<$parameters $params=viewParams $$template={{{ [<$tiddler>get[template]] ~[[$:/tags/flibbles/graph/Template]tagging[]first[]] }}}>
 
 <$vars currentTiddler=<<$tiddler>> >
 
