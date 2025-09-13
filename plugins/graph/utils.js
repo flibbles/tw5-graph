@@ -24,14 +24,7 @@ exports.getEngineMap = function() {
 
 exports.getEngine = function(name) {
 	var engineMap = exports.getEngineMap();
-	if (name) {
-		return engineMap[name] || null;
-	}
-	for (var entry in engineMap) {
-		// take the first one
-		return engineMap[entry];
-	}
-	return null;
+	return engineMap[name] || null;
 };
 
 /*

@@ -43,7 +43,7 @@ exports.getRelinker = function(propertyInfo) {
 };
 
 exports.getEngine = function(wiki) {
-	var value = wiki.getTiddlerText("$:/config/flibbles/graph/engine");
+	var value = $tw.macros.graphengine.get(wiki);
 	return baseUtils.getEngine(value);
 };
 

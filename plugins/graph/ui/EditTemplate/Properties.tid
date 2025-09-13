@@ -19,4 +19,4 @@ list-after:
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
 	type=<<currentTab>>
-	engine={{{ [[$:/config/flibbles/graph/engine]get[text]] ~[[graphengine]modules[]moduleproperty[name]first[]] }}} />
+	engine=<<graphengine>> />

@@ -201,8 +201,7 @@ GraphWidget.isGarbage = function() {
 };
 
 GraphWidget.getEngineName = function() {
-	return this.getAttribute("$engine")
-		|| $tw.macros.graphengine.get(this.wiki);
+	return this.getAttribute("$engine") || this.getVariable("graphengine");
 };
 
 GraphWidget.getColor = function(color) {
