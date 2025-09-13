@@ -35,7 +35,6 @@ tags: $:/tags/SideBar
     <$messagerelay to=<<relayState>> >
       <div class="graph-sidebar-banner">
         <$slot $name="banner">
-          Graph:
           <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
             <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
               <option value=<<currentTiddler>> >

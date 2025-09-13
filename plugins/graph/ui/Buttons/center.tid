@@ -8,7 +8,7 @@ first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[
 
 <%if [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonextract[graph-center-node]] %>
   <$vars state=<<qualify "$:/state/flibbles/graph/popup/find">> >
-    <$button popup=<<state>> class=graph-find-button actions="" >
+    <$button popup=<<state>> class=graph-center-button actions="" >
       <%if [<tv-config-toolbar-icons>match[yes]] %>
         {{$:/core/images/advanced-search-button}}
       <%endif%>
@@ -19,7 +19,7 @@ first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[
       <%endif%>
     </$button>
     <$reveal state=<<state>> type="popup" position="below" animate="yes">
-      <div class="tc-drop-down">
+      <div class="tc-drop-down graph-center-button-dropdown">
         <$let tv-config-toolbar-icons="yes" tv-config-toolbar-text="yes" tv-config-toolbar-class="tc-btn-invisible">
           <$transclude $tiddler="$:/plugins/flibbles/graph/ui/selector" configTiddler="$:/plugins/flibbles/graph/ui/Buttons/find">
             <$fill $name=action>

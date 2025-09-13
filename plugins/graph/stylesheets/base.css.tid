@@ -97,6 +97,17 @@ tags: $:/tags/Stylesheet
 	}
 }
 
+/*** Sidebar Center button ***/
+
+.graph-center-button-dropdown {
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+.graph-center-button-dropdown input {
+	width: 100%;
+}
+
 /*** Engine toggle buttons ***/
 
 .graph-engine-button-list {
