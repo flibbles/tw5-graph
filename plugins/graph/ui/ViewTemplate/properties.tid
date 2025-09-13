@@ -59,10 +59,10 @@ title: $:/plugins/flibbles/graph/ui/ViewTemplate/properties
     <<row>>
 \end
 
-\parameters (type, engine)
+\parameters (type)
 \whitespace trim
 
-<$list variable=json filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<engine>] +[moduleproperty[properties]jsonextract<type>]" >
+<$list variable=json filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[properties]jsonextract<type>]" >
 
 <table class=graph-property>
 

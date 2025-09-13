@@ -18,5 +18,4 @@ list-after:
 <$vars currentTiddler=<<state>>>
 
 <$transclude $tiddler="$:/plugins/flibbles/graph/ui/ViewTemplate/properties"
-	type=<<currentTab>>
-	engine=<<graphengine>> />
+	type=<<currentTab>> />
