@@ -12,6 +12,19 @@
 				"tags": "$:/tags/Stylesheet",
 				"code-body": "yes"
 			}
+		},
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.css$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"prefix": "$:/editions/tw5-graph/styles/",
+					"source": "filename"
+				},
+				"type": "text/css",
+				"tags": "$:/tags/Stylesheet"
+			}
 		}
 	]
 }

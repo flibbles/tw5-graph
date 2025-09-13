@@ -1,0 +1,4 @@
+/* Fixes issue where lists in table-of-content panes would be bolded for no good reason.*/
+.tc-table-of-contents .tc-tabbed-table-of-contents-content li {
+	font-weight: normal;
+}

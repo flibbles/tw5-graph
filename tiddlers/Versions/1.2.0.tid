@@ -1,0 +1,10 @@
+created: 20250913161751938
+
+* Introduced new graphengine message that centers specified nodes within a graph. Also introduced sidebar button to utilize this message.
+* Fixed issue where custom graphTiddlers outside of `$:/graph/` namespace wouldn't relink. There now exists a special tag (<<tag $:/tags/flibbles/graph/TiddlerData>>) which specifies that a data tiddler contains tiddler data. It gets automatically assigned to graph tiddlers that need it when location data gets written.
+* Fixed issue where removing an override of a node could not properly update to the no-longer-overridden node properties.
+* <<.wid graph.view>> can pass along parameters and blocks to the template it renders, just like <<.wid transclude>> can, although currently I don't use this in any way.
+* Introduced <<.wid messagerelay>> as a means to forward messages to graphs so that buttons for a graph can exist outside of that graph. Documentation pending finalization.
+** Using this widget to allow buttons in the sidebar to affect the sidebar graph.
+* Made the sidebar toolbar more extensible, with custom buttons possible through the <<tag $:/tags/flibbles/graph/Toolbar>> tag.
+
