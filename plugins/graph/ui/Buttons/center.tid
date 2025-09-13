@@ -1,14 +1,15 @@
-title: $:/plugins/flibbles/graph/ui/Buttons/find
-description: Find a node in the graph
+description: Center on a graph node
 caption: {{$:/core/images/advanced-search-button}} find
-tags: $:/tags/flibbles/graph/Toolbar
 first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[title]limit[10]]
 
 \whitespace trim
 
 <%if [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonextract[graph-center-node]] %>
   <$vars state=<<qualify "$:/state/flibbles/graph/popup/find">> >
-    <$button popup=<<state>> class=graph-center-button actions="" >
+    <$button
+        popup=<<state>>
+        tooltip="Center on a graph node"
+        class=graph-center-button>
       <%if [<tv-config-toolbar-icons>match[yes]] %>
         {{$:/core/images/advanced-search-button}}
       <%endif%>

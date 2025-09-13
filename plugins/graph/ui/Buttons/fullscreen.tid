@@ -1,7 +1,5 @@
-title: $:/plugins/flibbles/graph/ui/Buttons/fullscreen
-description: Toggle fullscreen mode with sidebar graph
+description: Toggle graph fullscreen mode
 caption: {{$:/core/images/full-screen-button}} fullscreen
-tags: $:/tags/flibbles/graph/Toolbar
 
 \procedure fs-actions()
 \whitespace trim
@@ -15,7 +13,10 @@ tags: $:/tags/flibbles/graph/Toolbar
 \parameters (class:graph-fullscreen-button)
 \whitespace trim
 
-<$button class={{{ [<class>] +[join[ ]] }}} actions="<<fs-actions>><<fs-refocus>>" >
+<$button
+    tooltip="Toggle graph fullscreen mode"
+    class={{{ [<class>] +[join[ ]] }}}
+    actions="<<fs-actions>><<fs-refocus>>" >
   <%if [<tv-config-toolbar-icons>match[yes]] %>
     {{$:/core/images/full-screen-button}}
   <%endif%>

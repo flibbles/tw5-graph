@@ -1,10 +1,11 @@
-title: $:/plugins/flibbles/graph/ui/Buttons/settings
-description: Open graph settings for the current sidebar graph
+description: Open graph settings
 caption: {{$:/core/images/options-button}} settings
-tags: $:/tags/flibbles/graph/Toolbar
 
 \whitespace trim
-<$button to="$:/plugins/flibbles/graph/settings" actions="""\whitespace trim
+<$button
+    tooltip="Open graph settings"
+    to="$:/plugins/flibbles/graph/settings"
+    actions="""\whitespace trim
     <<fs-kill>>
     <$action-setfield
       $tiddler="$:/state/flibbles/graph/settings"
