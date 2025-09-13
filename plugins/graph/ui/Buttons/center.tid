@@ -1,0 +1,37 @@
+title: $:/plugins/flibbles/graph/ui/Buttons/find
+description: Find a node in the graph
+caption: {{$:/core/images/advanced-search-button}} find
+tags: $:/tags/flibbles/graph/Toolbar
+first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[title]limit[10]]
+
+\whitespace trim
+
+<%if [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonextract[graph-center-node]] %>
+  <$vars state=<<qualify "$:/state/flibbles/graph/popup/find">> >
+    <$button popup=<<state>> class=graph-find-button actions="" >
+      <%if [<tv-config-toolbar-icons>match[yes]] %>
+        {{$:/core/images/advanced-search-button}}
+      <%endif%>
+      <%if [<tv-config-toolbar-text>match[yes]] %>
+        <span class="tc-btn-text">
+          <$text text="find" />
+        </span>
+      <%endif%>
+    </$button>
+    <$reveal state=<<state>> type="popup" position="below" animate="yes">
+      <div class="tc-drop-down">
+        <$let tv-config-toolbar-icons="yes" tv-config-toolbar-text="yes" tv-config-toolbar-class="tc-btn-invisible">
+          <$transclude $tiddler="$:/plugins/flibbles/graph/ui/selector" configTiddler="$:/plugins/flibbles/graph/ui/Buttons/find">
+            <$fill $name=action>
+              <$action-sendmessage $message=graph-center-node id=<<selectedTiddler>> />
+              <$action-deletetiddler $tiddler=<<state>> />
+            </$fill>
+            <$fill $name=cancel>
+              <$action-deletetiddler $tiddler=<<state>> />
+            </$fill>
+          </$transclude>
+        </$let>
+      </div>
+    </$reveal>
+  </$vars>
+<%endif%>
