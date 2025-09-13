@@ -41,16 +41,6 @@ it("can properly evaluate function neighbors", function() {
 	expect($tw.utils.count(objects.edges)).toBe(1);
 });
 
-it("can override graphTiddler node filter", function() {
-	wiki.addTiddlers([
-		view({filter: "boring", "neighbors.incoming": "1", "neighbors.outgoing": "1", template: liveGraph}),
-		{title: "boring", tags: "alsoBoring"},
-		{title: "exciting", tags: "alsoExciting"}]);
-	var widget = $tw.test.renderGlobal(wiki, `<$graph.view $tiddler="${title}" nodes=exciting />\n`);
-	var objects = init.calls.first().args[1];
-	expect(Object.keys(objects.nodes).sort()).toEqual(["alsoExciting","exciting"]);
-});
-
 it("exposes raw blocks once", function() {
 	wiki.addTiddler({title: title, filter: "A B", "graph.nodes": '{"color": "#00ff00"}'});
 	var widget = $tw.test.renderGlobal(wiki, `<$tiddler tiddler="${title}"><$transclude $tiddler="${liveGraph}">MyContent<$node $tiddler=X/>`);

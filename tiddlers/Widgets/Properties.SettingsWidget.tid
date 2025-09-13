@@ -19,7 +19,7 @@ Any graph objects contained within are rendered once, with all the graphTiddler'
 This widget takes no attributes. It assumes the <<.var currentTiddler>> is the graphTiddler it should model itself off of.
 
 |!Attribute | !Description |
-|nodes |Filter indicating the nodes for which neighbors are made. Defaults to the filter field of the currentTiddler. |
+|//(none)// |>|
 
 <$doc.implementation />
 

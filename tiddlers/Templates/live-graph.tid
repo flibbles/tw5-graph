@@ -4,22 +4,25 @@ title: Live Graph Template
 
 Live graphs are designed to rapidly change to show differing sets of nodes and connections. It shows not only whatever node is specified in its node filter, but any immediate [[Neighbors]].
 
-|Parameters |Description |
-|nodes |Optional filter which overrides the nodes specified by the GraphTiddler. See below. |
+! Creating on-the-fly graph for every tiddler
 
-! Overriding <<.attr nodes>> for an on-the-fly graph for every tiddler
 
-When you're rendering live graphs through transclusion or the <<.wlink Graph.ViewWidget>> widget, you can specify the nodes parameter to override the nodes the given GraphTiddler using this template would use.
+When you're rendering live graphs through transclusion or the <<.wlink Graph.ViewWidget>> widget, you can specify its nodes filter to vary depending on an outside variable.
 
-This is an //exceptionally powerful trick// which allows you to use the same GraphTiddler to specify the properties for countless live graphs.
+This is an //exceptionally powerful trick// which allows you to use the same GraphTiddler to specify the properties for countless live graphs showing different nodes.
 
 For example. If you want to have a ViewTemplate which provides a graph for every open tiddler, this is the best way to do it.
 
-# You create a GraphTiddler using the live template; let's call it <<.tid $:/graph/viewTemplate>>.
+# You create a GraphTiddler configured to use the live template; let's call it <<.tid $:/graph/viewTemplate>>.
 # You specify the properties you want in it.
-# Then in your ViewTemplate, you invoke that GraphTiddler with `<$graph.view $tiddler="$:/graph/viewTemplate" nodes="[all[current]]" />`.
+# You specify its node filter to be `[<currentNode>]`
+# Then in your ViewTemplate, you invoke that GraphTiddler with something like the following:<$codeblock code="""<$let currentNode=<<currentTiddler>> >
+  <$graph.view $tiddler="$:/graph/viewTemplate" />
+</$let>""" />
 
 Now you get the benefit of having a custom on-the-fly graph for every open tiddler, but you can also tweak the properties and style of these graphs using <<.graph>>'s user-friendly property editor GUI simply by tweaking the <<.tid $:/graph/viewTemplate>> graph in the settings.
+
+This strategy is discussed more fully in [[the corresponding FAQ|How do I make every open tiddler show a graph of its connections]].
 
 ! TiddlyMap's "Live view"
 
