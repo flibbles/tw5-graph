@@ -53,12 +53,42 @@ it("defaults to Default View if no $tiddler given", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>Temp: Default content</p>");
 });
 
+/*** $mode: block and inline ***/
+
 it("does not introduce unneeded DOM elements when used as block", function() {
 	wiki.addTiddlers([
 		{title: "Template", text: "<$text text='TemplateBody'/>\n"}]);
 	var text =  "<div>\n\n<$graph.view $template=Template/>\n\n</div>";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	expect(widget.parentDomNode.innerHTML).toBe("<div>TemplateBody</div>");
+});
+
+it("can render implicitly as block", function() {
+	wiki.addTiddler({title: "Template", text: "*X"});
+	var text = "<$graph.view $template=Template />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<ul><li>X</li></ul>");
+});
+
+it("can render implicitly as inline", function() {
+	wiki.addTiddler({title: "Template", text: "*X"});
+	var text = "<$graph.view $template=Template />";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>*X</p>");
+});
+
+it("can render explicitly as block", function() {
+	wiki.addTiddler({title: "Template", text: "*X"});
+	var text = "<$graph.view $template=Template $mode=block/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p><ul><li>X</li></ul></p>");
+});
+
+it("can render explicitly as inline", function() {
+	wiki.addTiddler({title: "Template", text: "*X"});
+	var text = "<$graph.view $template=Template $mode=inline/>\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("*X");
 });
 
 /*** Parameters and fills ***/

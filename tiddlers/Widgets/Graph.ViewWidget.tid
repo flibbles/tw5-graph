@@ -17,6 +17,7 @@ Any widget contents, including any <<.wid fill>> widgets, are passed along to th
 |!Attribute |!Description |
 |$tiddler |The title of a graphTiddler to render (defaults to `$:/graph/Default` if not specified) |
 |$template |Optional template to override whatever template the graphTiddler would ordinarily use |
+|$mode |Override the default parsing mode for the given graph to <<.value block>> or <<.value inline>> |
 |//{attributes not starting with $}// |Any other attributes that do not start with a dollar sign are passed to the template as parameters, just as though the template were transcluded directly. |
 
 <$doc.implementation />

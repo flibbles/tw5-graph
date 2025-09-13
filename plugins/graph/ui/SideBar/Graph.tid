@@ -20,39 +20,57 @@ tags: $:/tags/SideBar
 <$keyboard key="escape" actions=<<fs-kill>> >
 
 <div class="graph-sidebar-disabled graph-error tc-page-controls">
+
 <!-- Sidebar only works in fullscreen during mobile mode.
      Otherwise, it's taking up too much space. -->
-  {{$:/plugins/flibbles/graph/ui/Buttons/fullscreen|tc-btn-invisible}}
+
+  <$transclude $tiddler="$:/plugins/flibbles/graph/ui/Buttons/fullscreen" class=tc-btn-invisible $mode=inline />
+
 </div>
 <$boundingbox
   class={{{ graph-sidebar-enabled [<fs-state>get[text]] +[join[ ]] }}}
   width="[<windowWidth>subtract<boundingLeft>subtract[15]addsuffix[px]]"
   height="[<windowHeight>subtract<boundingTop>subtract[15]addsuffix[px]]">
+
   <$vars
       graph-sidebar=yes
       currentTiddler=<<graph>>
       relayState=<<qualify graph-toolbar->> >
+
     <$messagerelay to=<<relayState>> >
+
       <div class="graph-sidebar-banner">
+
         <$slot $name="banner">
-          <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
+
+          <$select tiddler=<<state>> default=<<defaultGraph>> >
+
             <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
+
               <option value=<<currentTiddler>> >
+
                 <$view field=caption>
+
                   <$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} />
+
                 </$view>
               </option>
             </$list>
           </$select>
           <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
+
             <$transclude tiddler=<<listItem>> mode=inline />
+
           </$list>
         </$slot>
       </div>
     </$messagerelay>
     <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
-      <$graph.view $tiddler=<<graph>> >
+
+      <$graph.view $tiddler=<<graph>> $mode=inline >
+
         <$messagerelay name=<<relayState>> />
+
       </$graph.view>
     </$linkcatcher>
   </$vars>

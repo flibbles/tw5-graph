@@ -65,4 +65,15 @@ it("relays messages from the sidebar into the graph", function() {
 	expect(method).toHaveBeenCalledWith("graph-test", {relayed: "true"});
 });
 
+it("does not introduce unneeded <p> blocks", function() {
+	var method = spyOn($tw.test, "actionMethod");
+	wiki.addTiddlers([
+		// The template is deliberately inline. No newlines. Shouldn't matter.
+		{title: "Template", text: "<$graph><$node/>"},
+		{title: "Main", template: "Template"}]);
+	var text = "<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' graph=Main />\n";
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain("<p");
+});
+
 });
