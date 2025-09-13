@@ -24,7 +24,7 @@ first-search-filter: [subfilter{!!filter}search:title{$:/temp/graph/select}sort[
         <$let tv-config-toolbar-icons="yes" tv-config-toolbar-text="yes" tv-config-toolbar-class="tc-btn-invisible">
           <$transclude $tiddler="$:/plugins/flibbles/graph/ui/selector" configTiddler="$:/plugins/flibbles/graph/ui/Buttons/center">
             <$fill $name=action>
-              <$action-sendmessage $message=graph-center-node id=<<selectedTiddler>> scale="1.5" />
+              <$action-sendmessage $message=graph-center-node tiddler=<<selectedTiddler>> scale="1.5" />
               <$action-deletetiddler $tiddler=<<state>> />
             </$fill>
             <$fill $name=cancel>

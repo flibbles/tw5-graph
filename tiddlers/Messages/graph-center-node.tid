@@ -1,0 +1,26 @@
+This message pans a graph's view to center a particular node. It's used by the <<.value center>> button on the [[Sidebar]] toolbar, which only shows up if the current engine supports this message.
+
+|!Name |!Description |
+|tiddler | Title of the tiddler for the node you wish to pan to |
+|scale |Optional number >0. Sets the zoom scale of the view |
+
+! Examples
+
+<$doc.example description="Where's Waldo" narrative="This message is useful for locating nodes in larger graphs." content="""\procedure action()
+<$action-sendmessage
+	$message="graph-center-node"
+	tiddler=<<currentTiddler>>
+	scale="1.5"
+/>
+\end
+
+<$graph $engine="Vis-Network">
+	<$list filter="[list[Characters]] [list[Others]]">
+		<$node.default />
+	</$list>
+	@@position:absolute;top:0px;
+		<$list filter="[list[Characters]]">
+			<$button actions=<<action>>>Find {{!!title}}</$button>""">
+  <$data title="Characters" list="Waldo [[Whitebeard]] Woof" />
+  <$data title="Others" list="Willow Wren Wrenley Winter Willa Winnie Wesley Walker Warren Wade Winston Wyatt Whitelaw Wendy Watson Winona Wilson Whitley Will Whitaker Wolf Warner Wilfred Willis White Wayne Wallen Welma Wally Wallace Wellborn Welby Webster Washborn" />
+</$doc.example>
