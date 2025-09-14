@@ -43,7 +43,7 @@ tags: $:/tags/SideBar
 
         <$slot $name="banner">
 
-          <$select tiddler=<<state>> default=<<defaultGraph>> >
+          <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
 
             <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
 
