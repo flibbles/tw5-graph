@@ -288,6 +288,16 @@ GraphWidget.findGraphObjects = function() {
 };
 
 function withholdObjects(objects) {
+	// Blank nodes get filtered
+	if (objects.nodes) {
+		for (var id in objects.nodes) {
+			if (!id) {
+				objects.nodes[id] = undefined;
+				// This can only happen once
+				break;
+			}
+		}
+	}
 	// Special handling for edge trimming
 	if (objects.edges) {
 		for (var id in objects.edges) {

@@ -13,6 +13,29 @@ beforeEach(function() {
 	({window, init, update} = $tw.test.setSpies());
 });
 
+it("empty-string graph attributes do not count", function() {
+	var widget = $tw.test.renderText(wiki, "<$node $tiddler=N yes=5 no={{missing}} />");
+	expect($tw.test.fetchGraphObjects(widget)).toEqual({nodes: {N: {yes: "5"}}});
+});
+
+/*** $tiddler ***/
+
+it("filters out nodes with empty-string ids", async function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler={{ID}}/><$node $tiddler=present />");
+	var engine = $tw
+	expect(init.calls.first().args[1].nodes).toEqual({present: {}});
+	wiki.addTiddler({title: "ID", text: "added"});
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({added: {}});
+	// Now blank it again and make sure it removes correctly
+	update.calls.reset();
+	wiki.deleteTiddler("ID");
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({added: null});
+});
+
+/*** $pos, x, and y ***/
+
 it("gets coordinates from $pos attribute", function() {
 	var widget;
 	widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store!!pos}} />\n");
@@ -69,11 +92,6 @@ it("prefers explicit axis values over $pos", function() {
 	wiki.addTiddler({title: "Store", pos: "13,11", y: "7.5"});
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store!!pos}} x={{Store!!x}} y={{Store!!y}} />\n");
 	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {x: 13, y: 7.5}});
-});
-
-it("empty-string graph attributes do not count", function() {
-	var widget = $tw.test.renderText(wiki, "<$node $tiddler=N yes=5 no={{missing}} />");
-	expect($tw.test.fetchGraphObjects(widget)).toEqual({nodes: {N: {yes: "5"}}});
 });
 
 });

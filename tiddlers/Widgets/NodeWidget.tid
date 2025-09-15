@@ -6,7 +6,7 @@ caption: node
 
 Use a node widget inside of a <<.wlink GraphWidget>> to define a node. Like all graph objects, nodes can have a variety of properties depending on the engine you're using, which can be set within the widget, or by a containing <<.wlink PropertiesWidget>>.
 
-The node widget does not create any DOM nodes.
+The node widget does not create any DOM elements.
 
 ! Content and Attributes
 
@@ -22,6 +22,10 @@ All node widgets correspond to a tiddler. This tiddler does not have to exist.
 |label |Sets a label that appears with the node. |
 |x |Sets the starting X coordinate of the node. Gets preferred over <<.attr $pos>> |
 |y |Sets the starting Y coordinate of the node. Gets preferred over <<.attr $pos>> |
+
+The <<.attr $tiddler>> attribute must correspond to a tiddler, but that tiddler does not have to exist. If two nodes correspond to the same tiddler, the last-defined node is the only one passed to the graph engine.
+
+If the <<.attr $tiddler>> attribute is blank, the node will not be passed to the graph engine.
 
 ! Starting Position
 
