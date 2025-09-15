@@ -9,6 +9,13 @@ caption: {{$:/core/images/full-screen-button}} fullscreen
   <$action-setfield $tiddler=<<fs-state>> text=graph-fullscreen />
 <% endif %>
 \end
+\procedure fs-refocus()
+\whitespace trim
+<!--Refocus on the fullscreen button so that hitting escape will still disable fullscreen mode -->
+<$action-delay>
+  <!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
+  <$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/>
+\end
 
 \parameters (class:graph-fullscreen-button)
 \whitespace trim

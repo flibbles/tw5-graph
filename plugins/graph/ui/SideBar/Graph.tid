@@ -3,19 +3,13 @@ caption: Graph
 tags: $:/tags/SideBar
 
 \procedure fs-state() $:/state/flibbles/graph/fullscreen
-\procedure fs-refocus()
-\whitespace trim
-<!--Refocus on the fullscreen button so that hitting escape will still disable fullscreen mode -->
-<$action-delay>
-  <!--The delay is necessary, because you can't focus on an element that's currently hidden, and the graph may be hidden when this is called. -->
-  <$action-sendmessage $message="tm-focus-selector" $param=".graph-fullscreen-button"/>
-\end
 \procedure fs-kill() <%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />
 
 \whitespace trim
 
 \parameters (state: "$:/config/flibbles/graph/sidebar", defaultGraph: "$:/graph/Default")
-<$parameters graph={{{ [<state>get[text]else<defaultGraph>] }}} >
+
+\function graph() [<state>get[text]else<defaultGraph>]
 
 <$keyboard key="escape" actions=<<fs-kill>> >
 
@@ -34,7 +28,6 @@ tags: $:/tags/SideBar
 
   <$vars
       graph-sidebar=yes
-      currentTiddler=<<graph>>
       relayState=<<qualify graph-toolbar->> >
 
     <$messagerelay to=<<relayState>> >
@@ -43,7 +36,7 @@ tags: $:/tags/SideBar
 
         <$slot $name="banner">
 
-          <$select tiddler=<<state>> default=<<defaultGraph>> actions=<<fs-refocus>> >
+          <$select tiddler=<<state>> default=<<defaultGraph>> >
 
             <$list filter="[<state>get[text]] [prefix[$:/graph/]else<defaultGraph>]"  >
 
@@ -57,11 +50,14 @@ tags: $:/tags/SideBar
               </option>
             </$list>
           </$select>
-          <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
+          <$vars currentTiddler=<<graph>> >
 
-            <$transclude tiddler=<<listItem>> mode=inline />
+            <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
 
-          </$list>
+              <$transclude tiddler=<<listItem>> mode=inline />
+
+            </$list>
+          </$vars>
         </$slot>
       </div>
     </$messagerelay>
