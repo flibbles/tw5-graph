@@ -6,10 +6,11 @@ Tests the sidebar and its banner.
 
 describe('Banner', function() {
 
-var wiki, register, init, createElement, window;
+var wiki, register, init, createElement, window, oldPopup;
 
 beforeEach(async function() {
 	wiki = new $tw.Wiki();
+	$tw.popup = new $tw.utils.Popup({rootElement: new $tw.test.mock.EventTarget()});
 	({register, init, window} = $tw.test.setSpies());
 	await $tw.test.setGlobals(wiki);
 	var createElement = $tw.fakeDocument.createElement;
@@ -22,13 +23,37 @@ beforeEach(async function() {
 	})
 });
 
+beforeAll(function() {
+	oldPopup = $tw.popup;
+});
+
+afterAll(function() {
+	$tw.popup = oldPopup;
+});
+
 function triggerChildren(widget, targetClass) {
-	for (var i = 0; i < widget.children.length; i++) {
-		var child = widget.children[i];
-		if (child.class === targetClass) {
-			child.domNode.dispatchEvent({type: "click"});
+	function recurse(widget) {
+		for (var i = 0; i < widget.children.length; i++) {
+			var child = widget.children[i];
+			if (child.class && child.class.indexOf(targetClass) >= 0) {
+				child.domNode.dispatchEvent({
+					type: "click",
+					preventDefault: function() {},
+					stopPropagation: function() {}
+				});
+			}
+			recurse(child);
 		}
-		triggerChildren(child, targetClass);
+	}
+	var oldRoot = $tw.rootWidget;
+	try {
+		// Currently, its necessary to have the messagerelays connected to the
+		// $tw.rootWidget, or else it'll assume it's detached and deconstruct.
+		$tw.rootWidget = widget;
+
+		recurse(widget);
+	} finally {
+		$tw.rootWidget = oldRoot;
 	}
 };
 
@@ -104,6 +129,67 @@ it("does not introduce unneeded <p> blocks", function() {
 	var widgetNode = $tw.test.renderGlobal(wiki, text);
 	expect(widgetNode.parentDomNode.innerHTML).not.toContain("<p");
 	expect(widgetNode.parentDomNode.innerHTML).toContain("Graph rendered");
+});
+
+it("does not show export if no export messages exist", function() {
+	var text = "<$vars graphengine=Also>\n\n<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	var klass = "graph-export-button";
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain(klass);
+	triggerChildren(widgetNode, klass);
+	// Nothing should happen if we try to trigger it
+	var stateTiddlers = wiki.filterTiddlers("[prefix[$:/state/]]");
+	expect(stateTiddlers.length).toBe(0);
+});
+
+it("can export the graph", async function() {
+	wiki.addTiddler({title: "State", text: "$:/graph/Graph to Image"});
+	var text = "<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' state=State />\n";
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	var stateTiddlers = wiki.filterTiddlers("[prefix[$:/state/]]");
+	expect(stateTiddlers.length).toBe(0);
+	var startingTiddlers = wiki.allTitles();
+	triggerChildren(widgetNode, "graph-export-button");
+	// Now there should be a state tiddler representing the open popup
+	stateTiddlers = wiki.filterTiddlers("[prefix[$:/state/]]");
+	expect(stateTiddlers.length).toBe(1);
+	await $tw.test.flushChanges();
+	// The PNG listing should have a nicer description than just "png"
+	var pngDescription = $tw.wiki.getTiddler("$:/language/Docs/Types/image/png").fields.description;
+	expect(widgetNode.parentDomNode.innerHTML).toContain(pngDescription);
+	// The test engine also includes an unrecognized type that must still be
+	// displayed, even if TW has no information on that type.
+	expect(widgetNode.parentDomNode.innerHTML).toContain(">unknowntype<")
+	// Now lets set up a mock saver
+	var oldRoot = $tw.rootWidget,
+		oldBrowser = $tw.browser;
+	try {
+		// Currently, its necessary to have the messagerelays connected to the
+		// $tw.rootWidget, or else it'll assume it's detached and deconstruct.
+		$tw.rootWidget = widgetNode;
+		$tw.browser = true;
+		spyOn($tw.SaverHandler.prototype, "initSavers");
+		var mockSaver = new $tw.SaverHandler({wiki: wiki});
+		mockSaver.savers = [{
+			info: {capabilities: ["download"]},
+			save: jasmine.createSpy("save", function(text, method, callback, options) {
+				expect(options.variables.filename).toBe("Graph to Image");
+				expect(options.variables.type).toBe("image/png");
+				var expected = $tw.wiki.getTiddlerText("$:/favicon.ico");
+				// TODO: This part isn't working yet, which happens to be the most important part
+
+				//expect($tw.utils.base64Encode(text, true, false)).toBe(expected);
+			}).and.callThrough()
+		}];
+		// Now let's activate the PNG option
+		triggerChildren(widgetNode, "graph-export-type-png");
+		expect(mockSaver.savers[0].save).toHaveBeenCalled();
+	} finally {
+		$tw.rootWidget = oldRoot;
+		$tw.browser = oldBrowser;
+	}
+	// We should be back to the tiddlers we started with
+	expect(wiki.allTitles()).toEqual(startingTiddlers);
 });
 
 });

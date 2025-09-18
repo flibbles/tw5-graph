@@ -1,0 +1,45 @@
+description: Export graph
+caption: {{$:/core/images/export-button}} export graph
+
+\whitespace trim
+
+<%if [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonindexes[]prefix[graph-export-]] %>
+  <$vars state=<<qualify "$:/state/flibbles/graph/popup/export">>
+    imageStore="$:/temp/flibbles/graph/export">
+    <$button
+        popup=<<state>>
+        tooltip="Export graph as image"
+        class=graph-export-button>
+      <%if [<tv-config-toolbar-icons>match[yes]] %>
+        {{$:/core/images/export-button}}
+      <%endif%>
+      <%if [<tv-config-toolbar-text>match[yes]] %>
+        <span class="tc-btn-text">
+          <$text text="export graph" />
+        </span>
+      <%endif%>
+    </$button>
+    <$reveal state=<<state>> type="popup" position="below" animate="yes">
+      <div class="tc-drop-down graph-export-button-dropdown">
+        <$list variable=type filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonindexes[]removeprefix[graph-export-]]">
+          <$button class=`tc-btn-invisible graph-export-type-$(type)$`>
+            <$action-sendmessage $message=`graph-export-$(type)$`
+              targetTiddler=<<imageStore>> />
+            <$action-sendmessage $message="tm-download-file"
+              $param="$:/plugins/flibbles/graph/GraphFile"
+              currentTiddler=<<imageStore>>
+              filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
+              type={{{ [<imageStore>get[type]] }}} />
+            <$action-deletetiddler $tiddler=<<imageStore>> />
+            <$action-deletetiddler $tiddler=<<state>> />
+            <$transclude $field="description" $tiddler=`$:/language/Docs/Types/image/$(type)$`>
+              <$fill $name="ts-missing">
+                <$text text=<<type>> />
+              </$fill>
+            </$transclude>
+          </$button>
+        </$list>
+      </div>
+    </$reveal>
+  </$vars>
+<%endif%>

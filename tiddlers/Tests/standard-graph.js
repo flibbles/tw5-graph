@@ -134,7 +134,14 @@ it("neighbor whitelist defaults to [!is[system]]", function() {
 	expect(Object.keys(objects.nodes).sort()).toEqual(["A", "B", "target"]);
 });
 
-it("exposes raw blocks once", function() {
+it("exposes raw blocks once when empty", function() {
+	wiki.addTiddler({title: title, "graph.nodes": '{"color": "#00ff00"}'});
+	var widget = $tw.test.renderGlobal(wiki, `<$tiddler tiddler="${title}"><$transclude $tiddler="${standardGraph}">MyContent`);
+	// Our custom content should appear.
+	expect(widget.parentDomNode.innerHTML).toContain("MyContent");
+});
+
+it("exposes raw blocks once when populated", function() {
 	wiki.addTiddler({title: title, filter: "A B", "graph.nodes": '{"color": "#00ff00"}'});
 	var widget = $tw.test.renderGlobal(wiki, `<$tiddler tiddler="${title}"><$transclude $tiddler="${standardGraph}">MyContent<$node $tiddler=X/>`);
 	var objects = init.calls.first().args[1];

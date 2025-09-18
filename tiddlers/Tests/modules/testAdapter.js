@@ -47,13 +47,20 @@ exports.properties = {
 exports.messages = {
 	"graph-test": {
 		number: {type: "number"}
-	}
+	},
+	"graph-export-png": {
+		targetTiddler: {type: "string"}
+	},
+	"graph-export-unknowntype": {
+		targetTiddler: {type: "string"}
+	},
 };
 
-exports.init = function(element, objects) {
+exports.init = function(element, objects, options) {
 	$tw.test.latestEngine = this;
 	this.element = element;
 	this.objects = objects;
+	this.wiki = options.wiki;
 };
 
 exports.update = function(objects) {
@@ -70,12 +77,21 @@ exports.destroy = function() {
 };
 
 exports.handleMessage = function(message, params) {
-	if (message.type === "graph-test") {
+	switch (message.type) {
+	case "graph-test":
 		// This is intended to be spied upon.
 		$tw.test.actionMethod(message.type, params);
 		if (message.param){
 			return message.param === "true";
 		}
+		break;
+	case "graph-export-png":
+		// We just need to create SOME png. Why not use the favico that comes
+		// with the demo?
+		this.wiki.addTiddler(new $tw.Tiddler(
+			$tw.wiki.getTiddler("$:/favicon.ico"),
+			{title: params.targetTiddler}));
+		break;
 	}
 };
 
