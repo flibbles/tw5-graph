@@ -25,16 +25,30 @@ caption: {{$:/core/images/export-button}} export graph
           <$button class=`tc-btn-invisible graph-export-type-$(type)$`>
             <$action-sendmessage $message=`graph-export-$(type)$`
               targetTiddler=<<imageStore>> />
-            <$action-sendmessage $message="tm-download-file"
-              $param="$:/plugins/flibbles/graph/GraphFile"
-              currentTiddler=<<imageStore>>
-              filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
-              type={{{ [<imageStore>get[type]] }}} />
+            <%if [<imageStore>is[image]!type[image/svg+xml]] %>
+              <!-- Don't use tm-download-raw yourself.
+                   It's a hack. A workaround. A solution for chumps.
+                   I'm scrapping it as soon as TW supports image downloads -->
+              <$action-sendmessage $message="tm-download-raw"
+                $param=<<imageStore>>
+                filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
+                type={{{ [<imageStore>get[type]addsuffix[;base64]] }}} />
+            <%else%>
+              <$action-sendmessage $message="tm-download-file"
+                $param="$:/core/templates/plain-text-tiddler"
+                currentTiddler=<<imageStore>>
+                filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
+                type={{{ [<imageStore>get[type]] }}} />
+            <%endif%>
             <$action-deletetiddler $tiddler=<<imageStore>> />
             <$action-deletetiddler $tiddler=<<state>> />
             <$transclude $field="description" $tiddler=`$:/language/Docs/Types/image/$(type)$`>
               <$fill $name="ts-missing">
-                <$text text=<<type>> />
+                <$transclude $field="description" $tiddler={{{ [[$:/tags/Exporter]tagging[]] :filter[{!!title}get[extension]removeprefix[.]match<type>] }}} >
+                  <$fill $name="ts-missing">
+                    <$text text=<<type>> />
+                  </$fill>
+                </$transclude>
               </$fill>
             </$transclude>
           </$button>

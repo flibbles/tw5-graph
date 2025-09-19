@@ -131,6 +131,8 @@ it("does not introduce unneeded <p> blocks", function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("Graph rendered");
 });
 
+/*** Export Button ***/
+
 it("does not show export if no export messages exist", function() {
 	var text = "<$vars graphengine=Also>\n\n<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
 	var widgetNode = $tw.test.renderGlobal(wiki, text);
@@ -142,24 +144,18 @@ it("does not show export if no export messages exist", function() {
 	expect(stateTiddlers.length).toBe(0);
 });
 
-it("can export the graph", async function() {
+async function exportGraph(message, popupLineItem, expectedSaveMethod) {
 	wiki.addTiddler({title: "State", text: "$:/graph/Graph to Image"});
 	var text = "<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' state=State />\n";
 	var widgetNode = $tw.test.renderGlobal(wiki, text);
-	var stateTiddlers = wiki.filterTiddlers("[prefix[$:/state/]]");
-	expect(stateTiddlers.length).toBe(0);
+	expect(wiki.filterTiddlers("[prefix[$:/state/]]").length).toBe(0);
 	var startingTiddlers = wiki.allTitles();
 	triggerChildren(widgetNode, "graph-export-button");
 	// Now there should be a state tiddler representing the open popup
-	stateTiddlers = wiki.filterTiddlers("[prefix[$:/state/]]");
-	expect(stateTiddlers.length).toBe(1);
+	expect(wiki.filterTiddlers("[prefix[$:/state/]]").length).toBe(1);
 	await $tw.test.flushChanges();
-	// The PNG listing should have a nicer description than just "png"
-	var pngDescription = $tw.wiki.getTiddler("$:/language/Docs/Types/image/png").fields.description;
-	expect(widgetNode.parentDomNode.innerHTML).toContain(pngDescription);
-	// The test engine also includes an unrecognized type that must still be
-	// displayed, even if TW has no information on that type.
-	expect(widgetNode.parentDomNode.innerHTML).toContain(">unknowntype<")
+	// Make sure the type showed up as expected in the popup
+	expect(widgetNode.parentDomNode.innerHTML).toContain(popupLineItem);
 	// Now lets set up a mock saver
 	var oldRoot = $tw.rootWidget,
 		oldBrowser = $tw.browser;
@@ -172,17 +168,9 @@ it("can export the graph", async function() {
 		var mockSaver = new $tw.SaverHandler({wiki: wiki});
 		mockSaver.savers = [{
 			info: {capabilities: ["download"]},
-			save: jasmine.createSpy("save", function(text, method, callback, options) {
-				expect(options.variables.filename).toBe("Graph to Image");
-				expect(options.variables.type).toBe("image/png");
-				var expected = $tw.wiki.getTiddlerText("$:/favicon.ico");
-				// TODO: This part isn't working yet, which happens to be the most important part
-
-				//expect($tw.utils.base64Encode(text, true, false)).toBe(expected);
-			}).and.callThrough()
-		}];
-		// Now let's activate the PNG option
-		triggerChildren(widgetNode, "graph-export-type-png");
+			save: jasmine.createSpy("save", expectedSaveMethod).and.callThrough()}];
+		// Now let's activate the corresponding button
+		triggerChildren(widgetNode, "graph-export-type-" + message);
 		expect(mockSaver.savers[0].save).toHaveBeenCalled();
 	} finally {
 		$tw.rootWidget = oldRoot;
@@ -190,6 +178,56 @@ it("can export the graph", async function() {
 	}
 	// We should be back to the tiddlers we started with
 	expect(wiki.allTitles()).toEqual(startingTiddlers);
+};
+
+// TODO: This isn't working yet, which happens to be the most important part
+//       Needs a change to TW core to go through.
+xit("can export png", async function() {
+	var pngLanguage = $tw.wiki.getTiddler("$:/language/Docs/Types/image/png");
+	var pngDescription = pngLanguage.fields.description;
+	spyOn($tw.test, "actionMethod").and.callFake(function(type, params) {
+		expect(type).toBe("graph-export-png");
+		// We just need to create SOME png. Why not use the favico that comes
+		// with the demo?
+		this.wiki.addTiddler(new $tw.Tiddler(
+			$tw.wiki.getTiddler("$:/favicon.ico"),
+			{title: params.targetTiddler}));
+	});
+	expect(widgetNode.parentDomNode.innerHTML).toContain(pngDescription);
+	function saveMethod(text, method, callback, options) {
+		expect(options.variables.filename).toBe("Graph to Image");
+		expect(options.variables.type).toBe("image/png;base64");
+		var expected = $tw.wiki.getTiddlerText("$:/favicon.ico");
+		expect(text).toBe(expected);
+	};
+	await exportGraph("png", pngDescription, saveMethod);
+});
+
+it("can export unknown types", async function() {
+	spyOn($tw.test, "actionMethod").and.callFake(function(type, params) {
+		expect(type).toBe("graph-export-unknowntype");
+		wiki.addTiddler({title: params.targetTiddler, text: "Unknown text", type: "text/vnd.tiddlywiki"});
+	});
+	function saveMethod(text, method, callback, options) {
+		expect(options.variables.filename).toBe("Graph to Image");
+		expect(options.variables.type).toBe("text/vnd.tiddlywiki");
+		expect(text).toBe("Unknown text");
+	};
+	await exportGraph("unknowntype", ">unknowntype<", saveMethod);
+});
+
+it("can export json", async function() {
+	var json = JSON.stringify({wikitext: "<!--comment --> [[link]]", html: "<div>Content</div>"});
+	spyOn($tw.test, "actionMethod").and.callFake(function(type, params) {
+		expect(type).toBe("graph-export-json");
+		wiki.addTiddler({title: params.targetTiddler, text: json, type: "application/json"});
+	});
+	function saveMethod(text, method, callback, options) {
+		expect(options.variables.filename).toBe("Graph to Image");
+		expect(options.variables.type).toBe("application/json");
+		expect(text).toBe(json);
+	};
+	await exportGraph("json", "JSON file", saveMethod);
 });
 
 });

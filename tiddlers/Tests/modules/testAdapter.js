@@ -48,12 +48,9 @@ exports.messages = {
 	"graph-test": {
 		number: {type: "number"}
 	},
-	"graph-export-png": {
-		targetTiddler: {type: "string"}
-	},
-	"graph-export-unknowntype": {
-		targetTiddler: {type: "string"}
-	},
+	"graph-export-png": { targetTiddler: {type: "string"} },
+	"graph-export-json": { targetTiddler: {type: "string"} },
+	"graph-export-unknowntype": { targetTiddler: {type: "string"} },
 };
 
 exports.init = function(element, objects, options) {
@@ -86,11 +83,9 @@ exports.handleMessage = function(message, params) {
 		}
 		break;
 	case "graph-export-png":
-		// We just need to create SOME png. Why not use the favico that comes
-		// with the demo?
-		this.wiki.addTiddler(new $tw.Tiddler(
-			$tw.wiki.getTiddler("$:/favicon.ico"),
-			{title: params.targetTiddler}));
+	case "graph-export-json":
+	case "graph-export-unknowntype":
+		$tw.test.actionMethod(message.type, params);
 		break;
 	}
 };
