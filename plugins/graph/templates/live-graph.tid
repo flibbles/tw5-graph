@@ -4,7 +4,11 @@ tags: $:/tags/flibbles/graph/Template
 
 \whitespace trim
 
-<$vars focusTiddler={{{ [subfilter<nodes>] }}}>
+<!-- By having this unused "focusTiddler" value update when the nodes change,
+     we can enforce a refresh of the live-graph, rather than having it try
+     to update, which might result in a worse presentation for some engines. -->
+
+<$set name="focusTiddler" filter="[subfilter{!!filter}]">
 
 <$graph>
 
@@ -27,4 +31,4 @@ tags: $:/tags/flibbles/graph/Template
 </$properties.settings>
 </$properties>
 </$graph>
-</$vars>
+</$set>

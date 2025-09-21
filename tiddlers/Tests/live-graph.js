@@ -55,4 +55,25 @@ it("exposes raw blocks once", function() {
 	expect(widget.parentDomNode.innerHTML.split("MyContent").length).toBe(2);
 });
 
+it("fully refreshes when its nodes change", async function() {
+	// Vis-Network and other graphs are better able to present fresh data
+	// if it does so fresh, rather than updating an existing graph.
+	wiki.addTiddlers([
+		view({filter: "[subfilter{Target}]"}),
+		{title: "Target", text: "Always TiddlerA"}]);
+	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${liveGraph}}}`);
+	expect(init).toHaveBeenCalled();
+	expect(Object.keys(init.calls.first().args[1].nodes)).toEqual(["Always", "TiddlerA"]);
+	// Now change the targetted tiddler.
+	// This should result in a full graph refresh, not an update.
+	init.calls.reset();
+	// "Always" always stays in the list, and as first. This makes sure we're
+	// not just using the first tiddler in the node list to look for changes.
+	wiki.addTiddler({title: "Target", text: "Always TiddlerB"});
+	await $tw.test.flushChanges();
+	expect(init).toHaveBeenCalled();
+	expect(update).not.toHaveBeenCalled();
+	expect(Object.keys(init.calls.first().args[1].nodes)).toEqual(["Always", "TiddlerB"]);
+});
+
 });
