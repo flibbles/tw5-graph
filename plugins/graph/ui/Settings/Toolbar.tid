@@ -1,0 +1,5 @@
+title: $:/plugins/flibbles/graph/ui/Settings/Toolbar
+tags: $:/tags/flibbles/graph/SettingsTab
+caption: Toolbar
+
+{{$:/plugins/flibbles/graph/ui/Toolbars/GraphToolbar}}
