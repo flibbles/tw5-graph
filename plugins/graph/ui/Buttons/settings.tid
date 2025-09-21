@@ -4,6 +4,7 @@ caption: {{$:/core/images/options-button}} settings
 \whitespace trim
 <$button
     tooltip="Open graph settings"
+    class="graph-settings-button"
     to="$:/plugins/flibbles/graph/settings"
     actions="""\whitespace trim
     <<fs-kill>>

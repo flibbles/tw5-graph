@@ -31,11 +31,15 @@ afterAll(function() {
 	$tw.popup = oldPopup;
 });
 
-function triggerChildren(widget, targetClass) {
+function triggerChildren(widget, condition) {
+	if (typeof condition === "string") {
+		var className = condition;
+		condition = (e) => e.class && e.class.indexOf(className) >= 0;
+	}
 	function recurse(widget) {
 		for (var i = 0; i < widget.children.length; i++) {
 			var child = widget.children[i];
-			if (child.class && child.class.indexOf(targetClass) >= 0) {
+			if (condition(child)) {
 				child.domNode.dispatchEvent({
 					type: "click",
 					preventDefault: function() {},
@@ -100,6 +104,26 @@ it("does not rebuild selector on graph change", async function() {
 	// Confirming that we actually DID change graphs. It'd be dumb if this test
 	// passed only because we weren't actually changing the sidebar graph.
 	expect(widgetNode.parentDomNode.innerHTML).toContain("Graph=$:/graph/B");
+});
+
+it("can hide buttons", async function() {
+	var expected = "graph-settings-button";
+	var text = "{{$:/plugins/flibbles/graph/ui/Toolbars/GraphToolbar}}\n\n<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	// The settings button exists already
+	expect(widgetNode.parentDomNode.innerHTML).toContain(expected);
+	triggerChildren(widgetNode, function(widget) {
+		var node = widget.inputDomNode;
+		if (node && node.tag === "input") {
+			node.dispatchEvent({type: "change",
+				preventDefault: function() {},
+				stopPropagation: function() {}
+			});
+		}
+		return false;
+	});
+	await $tw.test.flushChanges();
+	expect(widgetNode.parentDomNode.innerHTML).not.toContain(expected);
 });
 
 it("relays messages from the sidebar into the graph", function() {
