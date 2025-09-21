@@ -6,6 +6,8 @@ tags: $:/tags/ControlPanel/Toolbars
 
 Choose which buttons are displayed on the sidebar graph's toolbar. Drag and drop to change the ordering
 
+Buttons may not show up anyway if the assigned graph engine does not support them.
+
 <$set name="tv-config-toolbar-icons" value="yes">
 
 <$set name="tv-config-toolbar-text" value="yes">
