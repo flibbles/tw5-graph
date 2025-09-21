@@ -46,7 +46,7 @@ it("can update", function() {
 
 it("can be overridden", function() {
 	wiki.addTiddler({title: "Macro", tags: "$:/tags/Global", text: "\\procedure graphengine() Alternate"});
-	wiki.addTiddler({title: config, text: "Alternate"});
+	expect(engine()).toBe("Alternate");
 });
 
 });

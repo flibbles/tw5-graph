@@ -74,11 +74,12 @@ it('can ignore events for unknown object types', function() {
 		type: "weird",
 		objectType: "ineffables"};
 	var variables = {};
-	var widget = $tw.test.renderText(wiki, "<$graph>");
-	// We're not using the usual dispatchEvent method here, because the event
-	// we're calling is unknown.
-	$tw.test.latestEngine.onevent(wiki, event, variables);
-	// No test here, just shouldn't throw an exception
+	expect(function() {
+		var widget = $tw.test.renderText(wiki, "<$graph>");
+		// We're not using the usual dispatchEvent method here, because
+		// the event we're calling is unknown.
+		$tw.test.latestEngine.onevent(wiki, event, variables);
+	}).not.toThrow();
 });
 
 it("can handle no-argument events like focus", function() {
