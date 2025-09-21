@@ -25,21 +25,27 @@ caption: {{$:/core/images/export-button}} export graph
           <$button class=`tc-btn-invisible graph-export-type-$(type)$`>
             <$action-sendmessage $message=`graph-export-$(type)$`
               targetTiddler=<<imageStore>> />
-            <%if [<imageStore>is[image]!type[image/svg+xml]] %>
-              <!-- Don't use tm-download-raw yourself.
-                   It's a hack. A workaround. A solution for chumps.
-                   I'm scrapping it as soon as TW supports image downloads -->
-              <$action-sendmessage $message="tm-download-raw"
-                $param=<<imageStore>>
-                filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
-                type={{{ [<imageStore>get[type]addsuffix[;base64]] }}} />
-            <%else%>
-              <$action-sendmessage $message="tm-download-file"
-                $param="$:/core/templates/plain-text-tiddler"
-                currentTiddler=<<imageStore>>
-                filename={{{ [{!!title}removeprefix[$:/graph/]] ~[{!!title}] }}}
-                type={{{ [<imageStore>get[type]] }}} />
-            <%endif%>
+            <!-- We wrap our downloading inside action-createtiddler, because
+                 create-tiddler delays refreshing its contents until its
+                 invoked, which we need, since that `<%if` block depends on
+                 content made by prior actions. -->
+            <$action-createtiddler $basetitle=<<state>> $overwrite=yes>
+              <%if [<imageStore>is[image]!type[image/svg+xml]] %>
+                <!-- Don't use tm-download-raw yourself.
+                     It's a hack. A workaround. A solution for chumps.
+                     I'm scrapping it as soon as TW supports image downloads -->
+                <$action-sendmessage $message="tm-download-raw"
+                  $param=<<imageStore>>
+                  filename={{{[{!!title}removeprefix[$:/graph/]] ~[{!!title}]}}}
+                  type={{{ [<imageStore>get[type]addsuffix[;base64]] }}} />
+              <%else%>
+                <$action-sendmessage $message="tm-download-file"
+                  $param="$:/core/templates/plain-text-tiddler"
+                  currentTiddler=<<imageStore>>
+                  filename={{{[{!!title}removeprefix[$:/graph/]] ~[{!!title}]}}}
+                  type={{{ [<imageStore>get[type]] }}} />
+              <%endif%>
+            </$action-createtiddler>
             <$action-deletetiddler $tiddler=<<imageStore>> />
             <$action-deletetiddler $tiddler=<<state>> />
             <$transclude $field="description" $tiddler=`$:/language/Docs/Types/image/$(type)$`>

@@ -45,12 +45,13 @@ exports.properties = {
 };
 
 exports.messages = {
+	"graph-export-json": { targetTiddler: {type: "string"} },
+	"graph-export-png": { targetTiddler: {type: "string"} },
+	"graph-export-svg+xml": { targetTiddler: {type: "string"} },
+	"graph-export-unknowntype": { targetTiddler: {type: "string"} },
 	"graph-test": {
 		number: {type: "number"}
 	},
-	"graph-export-png": { targetTiddler: {type: "string"} },
-	"graph-export-json": { targetTiddler: {type: "string"} },
-	"graph-export-unknowntype": { targetTiddler: {type: "string"} },
 };
 
 exports.init = function(element, objects, options) {
@@ -82,8 +83,9 @@ exports.handleMessage = function(message, params) {
 			return message.param === "true";
 		}
 		break;
-	case "graph-export-png":
 	case "graph-export-json":
+	case "graph-export-svg+xml":
+	case "graph-export-png":
 	case "graph-export-unknowntype":
 		$tw.test.actionMethod(message.type, params);
 		break;

@@ -51,7 +51,7 @@ function triggerChildren(widget, targetClass) {
 		// $tw.rootWidget, or else it'll assume it's detached and deconstruct.
 		$tw.rootWidget = widget;
 
-		recurse(widget);
+		return recurse(widget);
 	} finally {
 		$tw.rootWidget = oldRoot;
 	}
@@ -228,6 +228,20 @@ it("can export json", async function() {
 		expect(text).toBe(json);
 	};
 	await exportGraph("json", "JSON file", saveMethod);
+});
+
+it("can export svg", async function() {
+	var svg = '<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">\n<circle r="40" cx="40" cy="40" />\n</svg>';
+	spyOn($tw.test, "actionMethod").and.callFake(function(type, params) {
+		expect(type).toBe("graph-export-svg+xml");
+		wiki.addTiddler({title: params.targetTiddler, text: svg, type: "image/svg+xml"});
+	});
+	function saveMethod(text, method, callback, options) {
+		expect(options.variables.filename).toBe("Graph to Image");
+		expect(options.variables.type).toBe("image/svg+xml");
+		expect(text).toBe(svg);
+	};
+	await exportGraph("svg+xml", "SVG image", saveMethod);
 });
 
 });
