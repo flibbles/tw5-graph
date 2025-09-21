@@ -1,10 +1,10 @@
 /*\
 
-Tests the sidebar and its banner.
+Tests the sidebar graph and its toolbar.
 
 \*/
 
-describe('Banner', function() {
+describe('Sidebar', function() {
 
 var wiki, register, init, createElement, window, oldPopup;
 
