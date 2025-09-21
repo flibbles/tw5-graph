@@ -9,7 +9,7 @@
 					"source": "basename",
 					"prefix": "$:/plugins/flibbles/graph/ui/Buttons/"
 				},
-				"tags": "$:/tags/flibbles/graph/Toolbar"
+				"tags": "$:/tags/flibbles/graph/GraphToolbar"
 			}
 		}
 	]

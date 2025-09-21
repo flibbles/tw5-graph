@@ -1,0 +1,13 @@
+title: $:/plugins/flibbles/graph/ui/Toolbars/GraphToolbar
+caption: Graph Toolbar
+tags: $:/tags/ControlPanel/Toolbars
+
+\procedure config-base() $:/config/flibbles/graph/GraphToolbarButtons/Visibility/
+
+Choose which buttons are displayed on the sidebar graph's toolbar. Drag and drop to change the ordering
+
+<$set name="tv-config-toolbar-icons" value="yes">
+
+<$set name="tv-config-toolbar-text" value="yes">
+
+<$macrocall $name="list-tagged-draggable" tag="$:/tags/flibbles/graph/GraphToolbar" itemTemplate="$:/core/ui/ControlPanel/Toolbars/ItemTemplate"/>

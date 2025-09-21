@@ -104,7 +104,7 @@ it("does not rebuild selector on graph change", async function() {
 
 it("relays messages from the sidebar into the graph", function() {
 	var method = spyOn($tw.test, "actionMethod");
-	wiki.addTiddler({title: "Button", tags: "$:/tags/flibbles/graph/Toolbar", text: "<$button class=graph-test-button actions='<$action-sendmessage $message=graph-test relayed=true/>'/>\n"});
+	wiki.addTiddler({title: "Button", tags: "$:/tags/flibbles/graph/GraphToolbar", text: "<$button class=graph-test-button actions='<$action-sendmessage $message=graph-test relayed=true/>'/>\n"});
 	var text = "<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
 	var widgetNode = $tw.test.renderGlobal(wiki, text);
 	var oldRoot = $tw.rootWidget;

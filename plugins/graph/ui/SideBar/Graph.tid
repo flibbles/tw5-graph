@@ -52,7 +52,7 @@ tags: $:/tags/SideBar
           </$select>
           <$vars currentTiddler=<<graph>> >
 
-            <$list filter="[[$:/tags/flibbles/graph/Toolbar]tagging[]!is[draft]]" variable=listItem>
+            <$list filter="[[$:/tags/flibbles/graph/GraphToolbar]tagging[]!is[draft]] :filter[{!!title}addprefix[$:/config/flibbles/graph/GraphToolbarButtons/Visibility/]!text[hide]]" variable=listItem>
 
               <$transclude tiddler=<<listItem>> mode=inline />
 
