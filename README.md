@@ -1,8 +1,6 @@
 # Graph for Tiddlywiki
 
-**This is an early release of TW5-Graph. Right now, this project is looking for feedback. Everything is subject to change.**
-
-Tiddlywiki is a great non-linear notebook.
+Tiddlywiki is a great non-linear notebook.   
 The internet has countless amazing visualization libraries for creating graphs.
 
 TW5-Graph brings them together.
