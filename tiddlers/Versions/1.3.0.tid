@@ -1,0 +1,8 @@
+created: 20250925022743848
+
+* Added ability to export the current sidebar graph, assuming the underlying engine supports it.
+* Made sidebar graph toolbar customizable. Buttons can be hidden and rearranged.
+* Fixed issue where sidebar graphs would not be properly blocks in <<.wid graph.view>>
+* Fixed issue where changing graph in sidebar would cause focus loss on selector.
+* Fixed issue where nodes could have blank <<.attr $tiddler>> attributes, creating erroneous nodes.
+* Fixed issue with live-graph templates not refreshing on change in all instances.
