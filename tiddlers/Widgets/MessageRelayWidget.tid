@@ -1,0 +1,74 @@
+title: MessageRelayWidget
+tags: Widgets [[Core Widgets]]
+caption: messagerelay
+
+! Introduction
+
+The <<.wid messagerelay>> widget provides a means to redirect bubbling messages to other locations within the widget tree. This is used by <<.graph>> to send messages from buttons and such to graphs which might not necessarily contain those buttons, and graphs can only capture messages originating from inside itself.
+
+When a message is invoked inside a <<.wid messagerelay>>, and nothing captures it before it gets passed to the relay, the relay will forward the message to any other <<.wid messagerelay>> widgets that exist in the current DOM whose <<.attr name>> matches this relay's <<.attr to>> attribute.
+
+After relaying a message, a <<.wid messagerelay>> does not pass a message along to its parent widget. Meanwhile, any <<.wid messagerelay>> widgets that get relayed a message will immediately pass it to its parent widget.
+
+Currently, it forwards all messages. There is no mechanism to filter what messages it sends.
+
+To prevent infinite loops, a <<.wid messagerelay>> will not relay the same message more than once.
+
+! Content and Attributes
+
+All contents within <<.wid messagerelay>> will render as normal. Any messages that get dispatched within and bubble up to the widget will get captured and relayed.
+
+|!Attribute |!Description |
+|to |name which specifies which relays to send captured messages to |
+|name |Name of this relay |
+
+! Multiple Instances
+
+Multiple <<.wid messagerelay>> widgets can exist with the same <<.attr to>> and <<.attr name>> attributes. A capturing <<.wid messagerelay>> will relay its messages to //all// relays that have its matching name.
+
+A relay can have both <<.attr to>> and <<.attr name>> attributes. These relays can capture messages from dispatching relays sending to <<.attr name>> named relays, and forward them on to other relays it specifies with its <<.attr to>> attribute.
+
+! Examples
+
+These examples are not contained in <<.wid testcase>> widgets because <<.wid messagerelay>> won't relay messages to relays that aren't directly accessable by the root widget.
+
+!!! Simple relay
+
+This shows how a relay can send a message to multiple other relays
+
+<$doc.demo
+	description="Simple relay example"
+	code="""<$messagerelay to="Target">
+	<$button message="tm-button-clicked">
+		Click the button!
+	</$button>
+</$messagerelay>
+
+
+<$messagecatcher $tm-button-clicked="<$action-confirm $message='Captured!'/>">
+	<$messagerelay name="Target" />
+</$messagecatcher>""" />
+
+!!! Graph example
+
+Here's a sophisticated example which demonstrates how this can be useful when working with graphs. Here are two graphs showing different sets of the same data. And the buttons below can send [[graph-center-node|WidgetMessage: graph-center-node]] messages to both graphs.
+
+<$doc.demo
+	description="Graph focusing example"
+	code="""<$graph>
+	<$list filter="[tag[Core Widgets]]"><$node.default/></$list>
+	<$messagerelay name="Focuser"/>
+</$graph>
+<$graph>
+	<$list filter="[tag[ActionWidgets]]"><$node.default/></$list>
+	<$messagerelay name="Focuser"/>
+</$graph>
+
+<$messagerelay to="Focuser">
+	<$list filter="ActionDelayWidget MessageRelayWidget ActionAddTypedWidget">
+		<$button>
+			<$action-sendmessage $message="graph-center-node" tiddler=<<currentTiddler>> />
+			Center {{!!caption}}
+		</$button>
+	</$list>
+</$messagerelay>""" />

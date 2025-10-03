@@ -44,7 +44,7 @@ Correlating nodes with tiddlers is such an intuitive idea, that <<.graph>> will 
   </$list>
 </$graph>""" />
 
-All tiddlers can correlate to tiddlers, but they don't have to. The tiddlers---<<.value Math>>, <<.value History>>, <<.value Science>>, etc...---don't actually exist. They're non-existent tiddlers, or just... you know... //string values//. All that matters is that they're unique.
+All nodes must correlate to tiddlers, but those tiddlers---such as <<.value Math>>, <<.value History>>, <<.value Science>>, etc...---don't actually have to exist. You can use non-existent tiddler titles, or as they're also known... //string values//. All that matters is that they're unique.
 
 By now, we can see that the reason our "Math, History, and Science" example above broke is because all three of those nodes shared the same ID, which was <$transclude $variable=.value _=<<currentTiddler>> />, which happens to be the current tiddler right now. When multiple nodes with the same ID show up, the latest one (<<.value Science>>) always overwrites any earlier ones (<<.value Math>> and <<.value History>>).
 
