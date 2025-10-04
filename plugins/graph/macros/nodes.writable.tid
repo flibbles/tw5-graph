@@ -20,6 +20,7 @@
 <$properties $for=graph
 	doubleclick=<<actionAddnode>>
 	addNode=<<actionAddnode>>
+	drop="""<$action-addtyped $tiddler=<<$tiddler>> $field=<<$field>> $value=<<dropTiddler>> />"""
 	addEdge="""<$action.addedge/>"""
 />
 

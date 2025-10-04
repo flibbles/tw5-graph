@@ -125,4 +125,13 @@ it("integrates with properties.persistent", async function() {
 	expect(wiki.getTiddlerData("Ledger")).toEqual({});
 });
 
+it("allows for dragging and dropping links", function() {
+	var text = "<$graph><$nodes.writable $tiddler=Target $field=list/>";
+	wiki.addTiddler({title: "Target", list: "preexisting"});
+	wiki.addTiddler({title: "dropped"});
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {objectType: "graph", type: "drop"}, {dropTiddler: "dropped"});
+	expect(wiki.getTiddlerList("Target", "list")).toEqual(["preexisting", "dropped"]);
+});
+
 });

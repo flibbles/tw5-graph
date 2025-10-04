@@ -13,6 +13,7 @@ exports.properties = {
 	graph: {
 		focus: {type: "actions", expected: true},
 		blur: {type: "actions", expected: true},
+		drop: {type: "actions", variables: ["dropTiddler"]},
 		zoom: {type: "boolean", expected: true},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
