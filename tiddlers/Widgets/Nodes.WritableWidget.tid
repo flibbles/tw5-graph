@@ -28,6 +28,12 @@ If you have <<.wid nodes.writable>> inside of a <<.wlink Properties.PersistentWi
 
 Likewise, it will also be removed from both if you delete a node from your graph.
 
+!!! Drag and Drop support
+
+This widget will also introduce the ability to drag and drop tiddlers onto your graph. The corresponding tiddlers will automatically be added.
+
+Currently, if you drag and drop something else, such as plain text, nothing will happen. This behavior may change if the feature is requested.
+
 !!! Writable nodes with non-writable nodes.
 
 You might want your graph to be able to add and delete nodes, but also be able to procedurally generate nodes as well from something other than <<.wid node.writable>>'s source. You can do that. Just put other nodes outside of the widget.
