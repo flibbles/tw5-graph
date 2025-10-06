@@ -10,16 +10,17 @@ list-before:
 
 <<.graph>> updates on-the-fly to //any// changes you make. It's kind of fun, actually.
 
-* Play with some of these settings below.
-* Also, you add and remove nodes and edges in the graph above.
+* Play with some of these example settings below.
+* Drag the tiddlers around above. Experience the physics.
+* Also, you add and remove nodes and edges in the graph above using the buttons overlaid on the graph.
 
 |tc-max-width tc-edit-max-width|k
 |!Graph Physics |<$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=yes /> |
-|!Node Color | <$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input tiddler="$:/state/pantheon/nodes" index=color type=color /> |
+|!Color for <<tag Ruler>> tiddlers |<$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input tiddler="$:/config/flibbles/graph/nodes/stack/ruler" index=color type=color /> |
 |!Node Shape | <$select tiddler="$:/state/pantheon/nodes" index=shape ><$list filter="[[graphengine]modules[]] :filter[moduleproperty[name]match{$:/config/flibbles/graph/engine}] +[moduleproperty[properties]jsonget[nodes],[shape],[values]]"><option><$text text=<<currentTiddler>> /></option></$list></$select> |
 |!Father-son Edges |<$checkbox tiddler=<<graph>> field="edges.fields" checked="" unchecked="[all[]] -father" /> |
 |!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
 
 //All// graph settings are dynamic. And there are many more.
 <$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
-Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/settings]] and fiddle with the Pantheon graph to play with all of them.
+Open [[this panel in the plugin settings|$:/plugins/flibbles/graph/settings]] and play with //all// the Pantheon graph settings.

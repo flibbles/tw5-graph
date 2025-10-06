@@ -3,11 +3,11 @@ description: Graphs support dragging and dropping.
 
 \procedure blink(link) <$button dragTiddler=<<link>> to=<<link>> ><$text text=<<link>> />
 
-Graphs can support the ability for you to quickly add tiddlers to them by dragging links and buttons right onto the graph. Try dragging the links and buttons below onto the graph above, or in the side bar.
+Graphs can support the ability for you to quickly add tiddlers to them by dragging links, tags, and buttons right onto the graph. Try dragging the links and buttons below onto the graph above, or in the side bar.
 
 | tc-max-width |k
-| [[Cadmus]] | <<blink Cerberus>> | <<blink Cetus>> | [[Perseus]] |
-| [[Heracles]] | <<blink Hydra>> | <<blink Medusa>> | <<blink Minotaur>> |
+| [[Cadmus]] | <<blink Cerberus>> | <<blink Cetus>> | <<tag Chimera>> |
+| [[Perseus]] | [[Heracles]] | <<blink Medusa>> | <<tag Multi-Headed>> |
 | <<blink Nemean Lion>> | <<blink Orthos>> | <<blink Stymphalian Birds>> | [[Theseus]] |
 
 (If you're wondering why buttons on your tiddler aren't dragging, it's probably because you're missing the <<.attr dragTiddler>> attribute.)

@@ -32,6 +32,8 @@ Likewise, it will also be removed from both if you delete a node from your graph
 
 This widget will also introduce the ability to drag and drop tiddlers onto your graph. The corresponding tiddlers will automatically be added.
 
+If you drag over a tag, all tiddlers with that tag will get added. But they will be listed explicitly to the node list, so if tiddlers are later tagged or untagged with that tag, the graph won't update automatically.
+
 Currently, if you drag and drop something else, such as plain text, nothing will happen. This behavior may change if the feature is requested.
 
 !!! Writable nodes with non-writable nodes.
