@@ -1,0 +1,11 @@
+caption: Palette support
+description: Graphs plays nice with palettes.
+
+TW-Graph fully respects your TiddlyWiki color palette, so you choose not to customize the colors of your nodes, edges, and graph, you can trust your graph will still match with your wiki's aesthetic.
+
+Try playing around with it!
+
+<div class="tc-drop-down graph-demo-palette">
+
+{{$:/snippets/paletteswitcher}}
+</div>

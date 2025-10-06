@@ -1,0 +1,16 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": true,
+			"fields": {
+				"title": {
+					"source": "basename",
+					"suffix": " Showcase"
+				},
+				"tags": "Showcase"
+			}
+		}
+	]
+}

@@ -1,0 +1,30 @@
+title: Graph Features
+tags: Demo
+
+\procedure graph() $:/graph/Pantheon
+
+<$boundingbox width=100% height=400px>
+
+<$graph.view $tiddler="$:/graph/Pantheon" />
+
+</$boundingbox>
+
+<<.graph>> has numerous features and neat tricks. Click through these tabs to explore a quick showcase.
+
+<$transclude $tiddler="$:/plugins/flibbles/graph/ui/grouped-tabs"
+	tabsList="[tag[Showcase]]"
+	default={{{ [tag[Showcase]first[]] }}}
+	class="">
+
+<$fill $name=body>
+
+''<$view tiddler=<<currentTab>> field=description />''
+
+<$transclude $tiddler=<<currentTab>> />
+
+
+</$fill><$fill $name=button>
+
+</$fill></$tranclude>
+
+

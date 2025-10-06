@@ -1,7 +1,8 @@
 \rules only macrocallinline
 
 .graph-demo-palette {
-	width: 50%;
+	width: 100%;
+	font-size: 0.7em;
 }
 
 .graph-dragger,
