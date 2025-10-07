@@ -64,4 +64,16 @@ it("allows for custom field edges, but not custom function edges", function() {
 	expect(widget.parentDomNode.innerHTML).not.toContain(">customFunction<");
 });
 
+/*** GraphTiddler settings and view template***/
+
+it("Renders the GraphTiddler ViewTemplate without fluff", function() {
+	wiki.addTiddler({title: "$:/graph/Test"});
+	var widget = $tw.test.renderGlobal(wiki, "{{$:/graph/Test||$:/core/ui/ViewTemplate/body}}")
+	var html = widget.parentDomNode.innerHTML;
+	expect(html).toContain("graph-canvas");
+	// "issing" as in "Missing Tiddler". That was popping up at one point,
+	// and it shouldn't.
+	expect(html).not.toContain("issing");
+});
+
 });
