@@ -9,6 +9,8 @@ It is a framework plugin for creating graphs in Tiddlywiki. It has a quick and s
 
 For a demonstration and documentation, see the [demo site](https://flibbles.github.io/tw5-graph/).
 
+**TW5-Graph is still being developed! But I'm making a point of not adding features unless someone wants it, so if this plugin doesn't have a feature you think it should have, then open up an issue and make a feature request!**
+
 ## How to install
 
 TW5-Graph requires you to install it **and** at least one other plugin wrapping a visualization engine. Currently, only one is supported.

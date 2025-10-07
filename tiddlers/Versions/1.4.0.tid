@@ -1,0 +1,8 @@
+created: 20251007143905354
+
+* Added support for drag and dropping directly onto the graph.
+* Elaborated demo site to better show off lesser known features.
+* Fixed issue where GraphTiddler view templates always talked about "Missing Tiddlers" at the bottom.
+* Updating project's Vis-network to v10.4
+** Includes engine-side support for drag and drop.
+** Includes fix for periodic crash which could occur from particular node position manipulation.
