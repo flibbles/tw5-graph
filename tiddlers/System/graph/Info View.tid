@@ -1,5 +1,5 @@
 title: $:/graph/Info View
-filter: [<currentNode>] ~[subfilter{$:/DefaultTiddlers}first[]]
+filter: [<currentNode>!is[blank]]  ~[subfilter{$:/DefaultTiddlers}first[]insertafter[This graph is present in the InfoPanel of each tiddler where it shows that tiddler's relationships]insertafter[Here in the side view, this graph defaults to representing the first "home" tiddler]]
 graph.graph: {"springLength":"100","springConstant":"0.17","gravitationalConstant":"-150","centralGravity":"0","damping":"0.4"}
 graph.nodes: {"shape":"box"}
 neighbors.incoming: 1
