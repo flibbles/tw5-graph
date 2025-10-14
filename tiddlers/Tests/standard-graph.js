@@ -9,7 +9,7 @@ describe('standard-graph template', function() {
 var wiki, init, update;
 
 var standardGraph = "$:/plugins/flibbles/graph/templates/standard-graph";
-var title = "$:/graph/test";
+var title = "$:/graph/genericTest";
 
 function view(fields) {
 	return Object.assign({title: title, type: "application/json"}, fields);
@@ -59,6 +59,27 @@ it("filters draft nodes out", function() {
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
 	var nodes = init.calls.first().args[1].nodes;
 	expect(Object.keys(nodes)).toEqual(["Node"]);
+});
+
+it("provides tutorial node when empty", function() {
+	var expected = "$:/plugins/flibbles/graph/settings";
+	var text = `<$messagecatcher $tm-navigate='<$action-test to=<<event-navigateTo>> />'>\n\n{{${title}||${standardGraph}}}`;
+	wiki.addTiddler({title: title});
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var nodes = init.calls.first().args[1].nodes;
+	var keys = Object.keys(nodes);
+	expect(keys.length).toBe(1);
+	var method = spyOn($tw.test, "actionMethod");
+	$tw.test.dispatchEvent(wiki, { type: "actions", objectType: "nodes", id: keys[0]});
+	expect(method).toHaveBeenCalledWith({to: expected});
+	// Now we'll load the page it tried to open and make sure it's showing
+	// the settings page for our current graph.
+	var settingsNode = $tw.test.renderGlobal(wiki, "{{"+expected+"}}");
+	// It will end with </a>, because the title is a link.
+	// If this part fails, it probably just means the settings page has been
+	// tweaked, and so this needs to be tweaked too.
+	var displayTitle = title.replace("$:/graph/", "");
+	expect(settingsNode.parentDomNode.innerHTML).toContain(displayTitle+"</a>");
 });
 
 it("wikifies captions but not titles", async function() {

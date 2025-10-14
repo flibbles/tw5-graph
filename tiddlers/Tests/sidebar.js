@@ -155,6 +155,28 @@ it("does not introduce unneeded <p> blocks", function() {
 	expect(widgetNode.parentDomNode.innerHTML).toContain("Graph rendered");
 });
 
+/*** Settings Button ***/
+
+it("navigates to settings when settings button pressed", function() {
+	var text = "<$messagecatcher $tm-navigate='<$action-test to=<<event-navigateTo>> />'>\n\n<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
+	var expected = "$:/plugins/flibbles/graph/settings";
+	var graph = "$:/graph/MyTestGraph";
+	wiki.addTiddler({title: "$:/config/flibbles/graph/sidebar", text: graph});
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	var klass = "graph-settings-button";
+	expect(widgetNode.parentDomNode.innerHTML).toContain(klass);
+	var method = spyOn($tw.test, "actionMethod");
+	triggerChildren(widgetNode, klass);
+	expect(method).toHaveBeenCalledWith({to: expected});
+	// Now we'll load the page it tried to open and make sure it's showing
+	// the settings page for our current graph.
+	var settingsNode = $tw.test.renderGlobal(wiki, "{{"+expected+"}}");
+	// It will end with </a>, because the title is a link.
+	// If this part fails, it probably just means the settings page has been
+	// tweaked, and so this needs to be tweaked too.
+	expect(settingsNode.parentDomNode.innerHTML).toContain("MyTestGraph</a>");
+});
+
 /*** Export Button ***/
 
 it("does not show export if no export messages exist", function() {

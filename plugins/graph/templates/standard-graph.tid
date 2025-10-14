@@ -11,7 +11,7 @@ tags: $:/tags/flibbles/graph/Template
 <$node $tiddler="$:/plugins/flibbles/graph/settings"
   label="Click on me to configure this graph"
   image="$:/core/images/options-button"
-  actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<currentTiddler>> />""" />
+  actions="""<$action-navigate $to="$:/plugins/flibbles/graph/settings"/><$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<currentTiddler>> />""" />
 
 <%endif%>
 
