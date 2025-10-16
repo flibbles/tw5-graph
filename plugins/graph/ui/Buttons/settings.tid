@@ -1,19 +1,23 @@
 description: Open graph settings
 caption: {{$:/core/images/options-button}} settings
 
+\procedure settingsActions()
+\whitespace trim
+<<fs-kill>>
+<$action-navigate $to="$:/plugins/flibbles/graph/settings"/>
+<$action-setfield
+  $tiddler="$:/state/flibbles/graph/settings"
+  text="$:/plugins/flibbles/graph/ui/Settings/Graphs" />
+<$action-setfield
+  $tiddler="$:/state/flibbles/graph/settings/graphs"
+  text=<<currentTiddler>> />
+\end
+
 \whitespace trim
 <$button
     tooltip="Open graph settings"
     class="graph-settings-button"
-    to="$:/plugins/flibbles/graph/settings"
-    actions="""\whitespace trim
-    <<fs-kill>>
-    <$action-setfield
-      $tiddler="$:/state/flibbles/graph/settings"
-      text="$:/plugins/flibbles/graph/ui/Settings/Graphs" />
-    <$action-setfield
-      $tiddler="$:/state/flibbles/graph/settings/graphs"
-      text={{{ [[$:/config/flibbles/graph/sidebar]get[text]else[$:/graph/Default]] }}} />""">
+    actions=<<settingsActions>> >
   <%if [<tv-config-toolbar-icons>match[yes]] %>
     {{$:/core/images/options-button}}
   <%endif%>
