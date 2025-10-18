@@ -3,7 +3,6 @@ caption: {{$:/core/images/options-button}} settings
 
 \procedure settingsActions()
 \whitespace trim
-<<fs-kill>>
 <$action-navigate $to="$:/plugins/flibbles/graph/settings"/>
 <$action-setfield
   $tiddler="$:/state/flibbles/graph/settings"

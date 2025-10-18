@@ -3,7 +3,6 @@ caption: Graph
 tags: $:/tags/SideBar
 
 \procedure fs-state() $:/state/flibbles/graph/fullscreen
-\procedure fs-kill() <%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />
 
 \whitespace trim
 
@@ -11,7 +10,7 @@ tags: $:/tags/SideBar
 
 \function graph() [<state>get[text]else<defaultGraph>]
 
-<$keyboard key="escape" actions=<<fs-kill>> >
+<$keyboard key="escape" actions="""<%if [<fs-state>is[tiddler]] %><$action-deletetiddler $tiddler=<<fs-state>> />""" >
 
 <div class="graph-sidebar-disabled graph-error tc-page-controls">
 
@@ -61,7 +60,7 @@ tags: $:/tags/SideBar
         </$slot>
       </div>
     </$messagerelay>
-    <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-sendmessage $message=tm-modal $param=<<navigateTo>> /><%else%><$action-navigate $to=<<navigateTo>> />">
+    <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-setfield $tiddler='$:/state/flibbles/graph/modal' text=<<navigateTo>> /><$action-sendmessage $message=tm-modal $param='$:/plugins/flibbles/graph/ui/Modals/Tiddler' /><%else%><$action-navigate $to=<<navigateTo>> />">
 
       <$graph.view $tiddler=<<graph>> $mode=inline >
 

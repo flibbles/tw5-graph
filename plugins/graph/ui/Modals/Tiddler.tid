@@ -1,0 +1,10 @@
+title: $:/plugins/flibbles/graph/ui/Modals/Tiddler
+subtitle: {{$:/state/flibbles/graph/modal}}
+mask-closable: yes
+code-body: yes
+
+<$linkcatcher actions="<$action-setfield $tiddler='$:/state/flibbles/graph/modal' text=<<navigateTo>> />">
+
+<$tiddler tiddler={{$:/state/flibbles/graph/modal}}>
+
+<$transclude />

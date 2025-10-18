@@ -77,6 +77,20 @@ it("changes navigates to modals when in fullscreen mode", async function() {
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({message: "tm-modal"});
 });
 
+it("makes sure modal render shows the target tiddler", function() {
+	wiki.addTiddlers([
+		{title: "$:/graph/Default", template: "Template"},
+		{title: "Target", text: "XYZ Content"},
+		{title: "$:/state/flibbles/graph/fullscreen", text: "graph-fullscreen"},
+		{title: "Template", text: "<$graph><$node $tiddler=Target actions='<$action-navigate $to=Target/>'/>"}]);
+	var text = "<$messagecatcher $tm-modal='<$action-test tiddler=<<event-param>> />'>\n\n<$transclude $tiddler='$:/plugins/flibbles/graph/ui/SideBar' />\n";
+	var widgetNode = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {type: "actions", objectType: "nodes", id: "Target"});
+	var modalTemplate = $tw.test.actionMethod.calls.first().args[0].tiddler;
+	var modalNode = $tw.test.renderGlobal(wiki, "{{"+modalTemplate+"}}");
+	expect(modalNode.parentDomNode.innerHTML).toContain("XYZ Content");
+});
+
 it("does not rebuild selector on graph change", async function() {
 	function findSelector(found, node) {
 		return found
