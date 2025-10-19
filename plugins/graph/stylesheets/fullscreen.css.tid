@@ -21,8 +21,22 @@ tags: $:/tags/Stylesheet
 .graph-modal-tiddler .tc-tiddler-frame {
 	margin-bottom: .5em;
 	padding: 14px;
+	padding-top: 0px;
 	width: inherit;
 	box-shadow: none;
+}
+
+.graph-modal-tiddler-breadcrumbs {
+	white-space: nowrap;
+	overflow: hidden;
+	min-height: 2em;
+}
+
+.graph-modal-tiddler-breadcrumbs svg {
+	fill: <<colour foreground>>;
+	vertical-align: middle;
+	margin-left: 4px;
+	padding: 2px;
 }
 
 <%if [[$:/state/flibbles/graph/fullscreen]is[tiddler]] %>

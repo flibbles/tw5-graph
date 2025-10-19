@@ -1,4 +1,5 @@
 title: $:/plugins/flibbles/graph/ui/Modals/Tiddler
+subtitle: {{$:/plugins/flibbles/graph/ui/Modals/TiddlerHeader}}
 mask-closable: yes
 code-body: yes
 
