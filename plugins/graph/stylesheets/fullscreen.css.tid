@@ -18,6 +18,13 @@ tags: $:/tags/Stylesheet
 	z-index: 899 !important;
 }
 
+.graph-modal-tiddler .tc-tiddler-frame {
+	margin-bottom: .5em;
+	padding: 14px;
+	width: inherit;
+	box-shadow: none;
+}
+
 <%if [[$:/state/flibbles/graph/fullscreen]is[tiddler]] %>
 
 <$list filter="[all[shadows+tiddlers]tag[$:/tags/flibbles/graph/FullscreenStylesheet]!is[draft]]">

@@ -1,10 +1,14 @@
 title: $:/plugins/flibbles/graph/ui/Modals/Tiddler
-subtitle: {{$:/state/flibbles/graph/modal}}
 mask-closable: yes
 code-body: yes
 
-<$linkcatcher actions="<$action-setfield $tiddler='$:/state/flibbles/graph/modal' text=<<navigateTo>> />">
+<$vars
+  tv-config-toolbar-icons={{$:/config/Toolbar/Icons}}
+  tv-config-toolbar-text={{$:/config/Toolbar/Text}}
+  tv-config-toolbar-class={{$:/config/Toolbar/ButtonClass}}>
 
-<$tiddler tiddler={{$:/state/flibbles/graph/modal}}>
+<div class=graph-modal-tiddler>
 
-<$transclude />
+<$tiddler tiddler={{{ [list[$:/state/flibbles/graph/modal]] }}}>
+
+<$transclude $tiddler="$:/core/ui/StoryTiddlerTemplate" $mode=inline />

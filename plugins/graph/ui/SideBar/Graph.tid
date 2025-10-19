@@ -60,7 +60,12 @@ tags: $:/tags/SideBar
         </$slot>
       </div>
     </$messagerelay>
-    <$linkcatcher actions="<%if [<fs-state>is[tiddler]] %><$action-setfield $tiddler='$:/state/flibbles/graph/modal' text=<<navigateTo>> /><$action-sendmessage $message=tm-modal $param='$:/plugins/flibbles/graph/ui/Modals/Tiddler' /><%else%><$action-navigate $to=<<navigateTo>> />">
+    <$linkcatcher actions="""\whitespace trim
+      <%if [<fs-state>is[tiddler]] %>
+        <$action-listops $tiddler='$:/state/flibbles/graph/modal' $filter='[<navigateTo>]' />
+        <$action-sendmessage $message=tm-modal $param='$:/plugins/flibbles/graph/ui/Modals/Tiddler' tv-story-list='$:/state/flibbles/graph/modal' />
+      <%else%>
+        <$action-navigate $to=<<navigateTo>> />""">
 
       <$graph.view $tiddler=<<graph>> $mode=inline >
 
