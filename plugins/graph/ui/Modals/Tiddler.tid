@@ -10,6 +10,13 @@ code-body: yes
 
 <div class=graph-modal-tiddler>
 
+<$linkcatcher actions="""\whitespace trim
+<%if [list[$:/state/flibbles/graph/modal]match<navigateTo>] %>
+  <$action-listops $tiddler='$:/state/flibbles/graph/modal' $subfilter='+[allafter:include<navigateTo>]' />
+<%else%>
+  <$action-navigate $to=<<navigateTo>> />
+""" >
+
 <$tiddler tiddler={{{ [list[$:/state/flibbles/graph/modal]] }}}>
 
 <$transclude $tiddler="$:/core/ui/StoryTiddlerTemplate" $mode=inline />
