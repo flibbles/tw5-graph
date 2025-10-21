@@ -1,0 +1,8 @@
+created: 20251021235053057
+
+* Introduced many improvements to the modal reached when opening tiddlers in fullscreen mode.
+** You can navigate between tiddlers in the modal. It will even maintain its own story.
+** That story will have a breadcrumb in the modal to let you backtrack.
+** You have access to all the ViewTemplate features, including buttons, info panel, and tags, etc...
+** You can edit and save tiddlers in the modal.
+* Fixed issue where standard graph's default node when empty didn't actually open settings.
