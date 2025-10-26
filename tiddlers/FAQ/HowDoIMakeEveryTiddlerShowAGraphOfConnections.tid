@@ -12,7 +12,7 @@ This is a common use case. And here is the best way to do it. This walks you thr
 #* In that graph's settings, set it's //Template// to the [[Live Graph|Live Graph Template]].
 #* Lower down in the settings, check the "Enable neighbors". [[Neighbors]] are a node's connections, which is what you're trying to show.
 #* For "Nodes", put this: `[<currentNode>]`. We'll be setting <<.value currentNode>> for each individual rendering of this graph.
-#** Alternative, you can put `[<currentNode>] ~DefaultTiddler` or some other tiddler to be shown when you show this graph in the [[SideBar]]. That can be helpful to see an example like that when configuring your graph properties.
+#** Alternative, you can put `[<currentNode>] ~DefaultTiddler` or some other tiddler to be shown when you show this graph in the [[Sidebar]]. That can be helpful to see an example like that when configuring your graph properties.
 # Create your viewTemplate (or TiddlerInfo tiddler) by creating a tiddler tagged with <<tag $:/tags/ViewTemplate>> (or <<tag $:/tags/TiddlerInfo>>), and put the following:
 
 ```
