@@ -1,7 +1,7 @@
 title: Sidebar
 tags: GUI
 
-<<.graph>> introduces a new tab to the TiddlyWiki sidebar called "graph", and this is the primary way interact with graphs without resorting to any wikitext. It shows graphs, and along the top it has a banner bar with a "Graph" dropdown where you can select the graph it shows. By default, it will contain the "Default" graph, which will initially be empty apart from a prompt to configure it.
+<<.graph>> introduces a new tab to the TiddlyWiki sidebar called <<.tab graph>>, and this is the primary way interact with graphs without resorting to any wikitext. It shows graphs, and along the top it has a banner bar with a "Graph" dropdown where you can select the graph it shows. By default, it will contain the "Default" graph, which will initially be empty apart from a prompt to configure it.
 
 !! Making more graphs
 

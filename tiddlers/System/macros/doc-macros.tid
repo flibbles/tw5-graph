@@ -11,6 +11,9 @@
 \procedure .value(_) <code class=doc-value><$text text=<<_>> /></code>
 \procedure .var(_) <code class=doc-var><<_>></code>
 \procedure .prop(_) <code class=doc-prop><$text text=<<_>> /></code>
+\procedure .tab(_) <code class=doc-value><$text text=<<_>> /></code>
+
+\widget $doc.note() ''Note:''&#32;<$slot $name=ts-raw />
 
 \procedure .wlink(to) <$link to=<<to>> ><$transclude $variable=.wid _={{{ [<to>get[caption]] }}} /></$link>
 

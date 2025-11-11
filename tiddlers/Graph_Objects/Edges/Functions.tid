@@ -5,7 +5,7 @@ These function types, once configured, can optionally appear in your [[graphTidd
 
 ! Creating your own
 
-When you create your own function edge-types (by clicking the <<.plus>> at the bottom of the the Functions tabs in edge property configuration. See below.) Once you do, you'll have a table of properties to assign, but also an extra dropdown: "Filter". Whatever filter you put in here, each node will be passed individually into it, and each output will define an edge, and where it connects to.
+When you create your own function edge-types (by clicking the <<.plus>> at the bottom of the <<.tab Functions>> tabs in edge property configuration. See below.) Once you do, you'll have a table of properties to assign, but also an extra dropdown: "Filter". Whatever filter you put in here, each node will be passed individually into it, and each output will define an edge, and where it connects to.
 
 !! Filter
 
@@ -19,6 +19,6 @@ For instance, there is a preconfigured <<.value links>> function edge type. It h
 
 Be aware that function filters get called for //every// node in your graph. This can be a problem if your filter is inefficient. Take our <<.value "[all[tiddlers]is[image]prefix<currentTiddler>]">> example above. It will iterate through //every// tiddler in your wiki for each node in your graph. Consider using the [[:cache prefix|Cache Filter Run Prefix]] to improve performance. In this case, try this: <<.value ":cache[all[tiddlers]is[image]] +[prefix<currentTiddler>]">>. This will only iterate through every tiddler once, and then save which ones were the images for each subsequent run during other nodes. Much more efficient.
 
-Here is a transclusion of the Properties tab in <$link to="$:/plugins/flibbles/graph/settings">the <<.graph>> settings</$link>
+Here is a transclusion of the <<.tab Properties>> tab in <$link to="$:/plugins/flibbles/graph/settings">the <<.graph>> settings</$link>
 
 {{$:/plugins/flibbles/graph/ui/Settings/Properties|edges}}

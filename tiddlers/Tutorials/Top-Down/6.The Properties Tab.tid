@@ -3,27 +3,28 @@
 <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Properties"/>
 \end
 
-You've probably figured out that you can change your edges for your graph with that edge tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
+You've probably figured out that you can change your edges for your graph with that <<.tab edge>> tab, but more likely, you'll want to style your edges based on what type of edge they are. For that, let's explore another tab in our settings.
 
-!! The "Properties" tab
+!! The <<.tab Properties>> tab
 
-This tab is along the top of the Control Panel you've been working with, as appose to the "Graph" tab we've been looking at so far.
+This tab is along the top of the Control Panel you've been working with, as appose to the <<.tab Graph>> tab we've been looking at so far.
 
 <$doc.inhouse>
 
 <$button class=doc-button actions=<<actions-optional>> >
 
-Switch to "Properties" tab.
+Switch to <<.tab Properties>> tab.
 </$button></$doc.inhouse>
 
-Another line of tabs! The choices are <<.value edges>> and <<.value nodes>>. Let's look at the <<.value edges>> if we're not already. Along the side is now a vertical tab list for all those edge types we specified earlier. This is where we can set the graph properties for specific types of edges ''across all graphTiddlers''.
+Another line of tabs! The choices are <<.tab edges>> and <<.tab nodes>>. Let's look at the <<.tab edges>> if we're not already. Along the side is now a vertical tab list for all those edge types we specified earlier. This is where we can set the graph properties for specific types of edges ''across all graphTiddlers''.
 
 Let's get to work.
 
-# First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge". Set <<.prop arrows>> to <<.value to>>, and you'll see all your tag fields update.
+# First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge" is.
+#* Click the <$button class=tc-btn-invisible>{{$:/core/images/delete-button}}</$button> button to get rid of the <<.value tagged with>> label. We don't need all that clutter. Default edges like this are only labeled like this by default to help you get oriented while adjusting to <<.graph>>.
 # Next, you might remember that we added our own custom field to the "edges, fields" textbox. <$doc.inhouse>For the demo, that was <<.field slayed>>.</$doc.inhouse> Since it didn't have a corresponding edge-type, those edges had no special styling.
-#* Let's click the <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button the "Fields" grouping to create a new field-edge type, and when prompted, type in your field name <$doc.inhouse>(<<.field slayed>> in the demo's case)</$doc.inhouse>. Now we have a new type to style.
-#* Let's check the box next to <<.prop dashes>> to make those types of edges dashed. That should be good enough for now.
+#* Let's click the <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button in the "Fields" grouping to create a new field-edge type, and when prompted, type in your field name <$doc.inhouse>(<<.field slayed>> in the demo's case)</$doc.inhouse>. Now we have a new type to style.
+#* Set <<.prop stroke>> to <<.value dashed>>, and you'll see all your tag fields update. That should be good enough for now.
 
 There you have it! Now you know how to style edges based on their types.
 

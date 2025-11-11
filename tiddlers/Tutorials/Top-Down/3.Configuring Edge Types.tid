@@ -29,7 +29,8 @@ There are ways to add more types, but for now, let's look at how to enable or di
 By default, //all// edge types are enabled. That's what the `[all[]]` value means in the text box, which basically means, "Yes, please, to everything" in filter-speak.
 
 # Let's first get rid of <<.field list>> edges, and just have <<.field tags>> edges represented instead. So let's replace `[all[]]` that's already there with `[all[]] -list`, which is filter-speak for "everything, except lists". If you do it right, you'll see "list" beneath that text box gray out, and all "list" edges will instantly disappear from your graph.
-#* You can also append any field you want here, not just <<.field tags>> and <<.field list>>, and the corresponding edges will appear for each item listed in that field. <$doc.inhouse>For our demo, let's go ahead and add <<.field slayed>> to our field-type edges, because we want to represent who slayed what in our graph of mythology. Our final result will be `[all[]] -list slayed`, which says "everything, except lists, but also slayed".</$doc.inhouse>
+#* You can also append any field you want here, not just <<.field tags>> and <<.field list>>, and the corresponding edges will appear for each item listed in that field.
+#*.doc-inhouse For our demo, let's go ahead and add <<.field slayed>> to our field-type edges, because we want to represent who slayed what in our graph of mythology. Our final result will be `[all[]] -list slayed`, which says "everything, except lists, but also slayed".
 # Now let's get rid of //all// function-type edges, because we want our graph not to make edges based on the contents of our tiddlers' bodies. So in the "Edges, functions" text box, replace the `[all[]]` with `--`, which is a filter-speak short hand for "[[Nothing, please]]". Now all those "links to" edges will disappear.
 
 Now we've got a graph that shows our nodes, and all the tagging relationships between them. Let's move on.

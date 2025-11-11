@@ -48,4 +48,4 @@ All nodes must correlate to tiddlers, but those tiddlers---such as <<.value Math
 
 By now, we can see that the reason our "Math, History, and Science" example above broke is because all three of those nodes shared the same ID, which was <$transclude $variable=.value _=<<currentTiddler>> />, which happens to be the current tiddler right now. When multiple nodes with the same ID show up, the latest one (<<.value Science>>) always overwrites any earlier ones (<<.value Math>> and <<.value History>>).
 
-''Note:'' The <<.attr label>> attribute does not count as an ID. That's because it's a [[graph property|Graph Properties]]. It specifies how a node is labeled, and it does not have to be unique.
+<$doc.note>The <<.attr label>> attribute does not count as an ID. That's because it's a [[graph property|Graph Properties]]. It specifies how a node is labeled, and it does not have to be unique.</$doc.note>

@@ -1,4 +1,4 @@
-In the sidebar of your wiki, you'll see a new "Graph" tab. Click on that, and it will show you the [[Sidebar Graph|Sidebar]]. And inside of it, you'll see a single node in the shape of an options gear which tells you to "Click me to configure this graph." This is what the standard graph shows when it's not configured. Let's double-click on it.
+In the sidebar of your wiki, you'll see a new <<.tab Graph>> tab. Click on that, and it will show you the [[Sidebar Graph|Sidebar]]. And inside of it, you'll see a single node in the shape of an options gear which tells you to "Click me to configure this graph." This is what the standard graph shows when it's not configured. Let's double-click on it.
 
 (In the future, the "Gear" button along the graph's top bar will take you to the same configuration menu.)
 
@@ -8,7 +8,7 @@ There are other tabs in the <<.graph>> settings, but lets not worry about them f
 
 !!! Creating new graphs
 
-If you want your graph to have a different name, or you just want to make more graphs, look for the vertical list of tabs along the left side. At the bottom, there will be a <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button at the bottom. Click that and type in the name of the graph you want to create.
+If you want your graph to have a different name, or you just want to make more graphs, look for the vertical list of tabs along the left side. At the bottom, there will be a <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button. Click that and type in the name of the graph you want to create.
 
 <$doc.inhouse>
 

@@ -10,7 +10,7 @@
 
 Nodes can be stylized by type just like edges can, but it's a little different.
 
-Let's click over to the "nodes" tab, and you'll see... //nothing//! Just a vertical tab to the left that contains "Stack" and a <<.plus>> button. That's because you don't have any node types yet.
+Let's click over to the <<.tab nodes>> tab, and you'll see... //nothing//! Just a vertical tab to the left that contains <<.tab Stack>> and a <<.plus>> button. That's because you don't have any node types yet.
 
 !! What is the stack
 
@@ -20,7 +20,7 @@ It's probably easier to show you.
 
 Click on that <<.plus>> and type in a name for a new type. <$doc.inhouse>If you can't think of a name, let's say <<.value heroes>>.</$doc.inhouse> Now you get a new property table, along with a description of the stack, and a "Filter" field.
 
-Whatever filter you input describes what nodes these properties will apply to. If you put `[all[]]`, these properties will apply to all nodes. If you put `[tag[Creature]]`, it will apply to all nodes tagged with <<tag Creature>>. That's it.
+Whatever filter you input describes which nodes these properties will apply to. If you put `[all[]]`, these properties will apply to all nodes. If you put `[tag[Creature]]`, it will apply to all nodes tagged with <<tag Creature>>. That's it.
 
 !! What if properties overlap? //(Node-stack order)//
 
@@ -38,8 +38,8 @@ If you're on the demo, let's spruce these nodes up a bit.
 
 # If you haven't, create a node type set called <<.value creatures>>. We'll set the filter to `[tag[Creature]]`, and then change the <<.prop shape>> to <<.value box>>. This will change their appearance to neatly contain their labels.
 # Let's do something special for the heroes in our graph. Create a node type called <<.value heroes>>. Set the filter to `[tag[Heroes]]`, and then set the <<.prop image>> property to `hero.svg`, which is the title of an svg tiddler already included with the demo. This will use that image as the icon in place of an image.
-# Some of those creatures are actually creature categories. Let's differentiate the. Create a type called <<.value categories>>. We'll set the filter to `[tagging[]]`, because the filters work by passing each node individually into the filter and seeing if anything comes out, and since these categories tag the creatures, they'll pass. Now we'll set the <<.prop shape>> to <<.value star>>.
-#* Whoops!! Nothing happened. That's because our category nodes also match with our "creature" type, which is also setting the <<.prop shape>> property, and it's showing up //lower// than "category", it's setting take precedent. No biggie. We can just drag "category" below "creature" in the tabs list to the left.
+# Some of those creatures are actually creature categories. Let's differentiate them. Create a type called <<.value categories>>. We'll set the filter to `[tagging[]]`, because the filters work by passing each node individually into the filter and seeing if anything comes out, and since these categories tag the creatures, they'll pass. Now we'll set the <<.prop shape>> to <<.value star>>.
+#* Whoops!! Nothing happened. That's because our category nodes also match with our "creatures" type, which is also setting the <<.prop shape>> property, and as it's showing up //lower// than "category", its setting takes precedent. No biggie. We can just drag <<.tab categories>> below <<.tab creatures>> in the tabs list to the left.
 
 <$button class=doc-button actions=<<actions>> >
 

@@ -8,7 +8,7 @@ The <<.wid properties.stack>> widget applies all the [[node stack properties|Sta
 
 In theory, this widget could apply stacks of properties to edges too, but that sophisticated yet.
 
-The node property stack can be configured in the ''properties'' tab from the <$link to="$:/plugins/flibbles/graph"><<.graph>> configuration</$link>.
+The node property stack can be configured in the <<.tab properties>> tab from the <$link to="$:/plugins/flibbles/graph"><<.graph>> configuration</$link>.
 
 ! Contents and Attributes
 

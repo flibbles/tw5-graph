@@ -10,7 +10,7 @@ Let's do that!
 
 <$doc.inhouse>
 
-Note: If you don't want to bother yet installing <<.graph>>, you can follow along with this tutorial right here in this demo. Just click the following button, and the demo will present you exactly what a fresh install would.
+<$doc.note>If you don't want to bother yet installing <<.graph>>, you can follow along with this tutorial right here in this demo. Just click the following button, and the demo will present you exactly what a fresh install would.</$doc.note>
 
 <$button class=doc-button actions=<<actions>> >
 

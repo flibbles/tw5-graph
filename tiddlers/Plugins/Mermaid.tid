@@ -3,7 +3,7 @@ tags: Plugins Engines Introduction
 icon: $:/plugins/orange/mermaid-tw5/icon
 builds-upon: Graph
 
-''Note: This plugin adaption is just a Proof of Concept!! It's far from complete! I'm not even sure if I'm going to use this particular plugin to provide Mermaid support.''
+<$doc.note>This plugin adaption is just a Proof of Concept!! It's far from complete! I'm not even sure if I'm going to use this particular plugin to provide Mermaid support.</$doc.note>
 
 Mermaid-tw5 wraps [[mermaid.js|https://github.com/mermaid-js/mermaid]], a diagramming library for making simple represenration of nodes and edges using SVG.
 

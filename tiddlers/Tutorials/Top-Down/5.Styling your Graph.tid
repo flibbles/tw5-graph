@@ -4,7 +4,7 @@ By now, you can create a graph with the nodes you want, connected by the edges y
 
 There are many ways to style graphs. Either by effecting all objects of a given graph, or objects of a certain type across many graphs, etc... But let's just focus on configuring all the objects of our current graph.
 
-If we look back at our graphTiddler configuration, there's an entire section right beneath the settings we've been working called "Graph engine defaults". It contains three tabs, "graph", "nodes", and "edges", and each of those is a table of properties.
+If we look back at our graphTiddler configuration, there's an entire section right beneath the settings we've been working called "Graph engine defaults". It contains three tabs, <<.tab graph>>, <<.tab nodes>>, and <<.tab edges>>, and each of those is a table of properties.
 
 ! What are Properies
 
@@ -12,32 +12,30 @@ Properties are ''engine-specific'' so what you see will depend on which engine y
 
 This tutorial will assume you're working with "Vis-Network", but most engines will have the same properties
 
-Note: //You'll also see that the tables in each graph have two sections. The <<.value Style>> properties, which are shown by default, and the <<.value Actions>> properties, which are hidden by default. Action properties are more advanced, and we'll deal with them later.//
+<$doc.note>You'll also see that the tables in each graph have two sections. The <<.value Style>> properties, which are shown by default, and the <<.value Actions>> properties, which are hidden by default. Action properties are more advanced, and we'll deal with them later.</$doc.note>
 
 !! Turning off physics
 
 How about we turn the physics off for our graph? We don't want any free floating nodes.
 
-# Make sure you're looking at the <<.value graph>> tab, because this is a property that affects the entire graph.
-# Uncheck the checkbox across from "physics"
+# Make sure you're looking at the <<.tab graph>> tab, because this is a property that affects the entire graph.
+# Uncheck the checkbox across from <<.value physics>>
 
-You'll notice two things. All the nodes in your graph no longer float around, also a a little trashcan icon appeared in the same line with that checkbox, and even if you re-check the box, that icon remains. That's because this graph property is now "set". We'll talk more about what that means when we talk about the node property stack in a later section, but for now, know that you can click that "trashcan" to "unset" a property and return it to its default.
+You'll notice two things. All the nodes in your graph no longer float around, also a little trashcan icon appeared in the same line with that checkbox, and even if you re-check the box, that icon remains. That's because this graph property is now "set". We'll talk more about what that means when we talk about the node property stack in a later section, but for now, know that you can click that "trashcan" to "unset" a property and return it to its default.
 
 !! Customizing node appearance
 
-Let's click over to the "nodes" tab. These are properties that will apply to all your nodes, rather than to your graph as a whole.
+Let's click over to the <<.tab nodes>> tab. These are properties that will apply to all your nodes, rather than to your graph as a whole.
 
 # Let's change the color of all our graph nodes by clicking on the black bar beside <<.prop color>>. I think a nice dark red should do. Fitting for the mythological beings.
 
 !! Customizing our edges
 
-Now lets move over to "edges" tab.
+Now lets move over to <<.tab edges>> tab.
 
 # Let's set our edges' <<.attr smooth>> property to <<.value no>>. The default <<.value dynamic>> edge won't work correctly now that we've disabled physics, and while some engines, like [[Vis-Network]] has some settings that would (like <<.value continuous>> which you can use), let's  opt for some nice straight edges.
 
 ! Moving on
-
-If you played around with the other settings in the "edges" tab, you may have noticed that your edges already have color depending on their type, and you can't override it. They've already got style!
 
 There's a little more to understand before customizing edges. We'll address it in the next tutorial, but first, try exploring the other properties you see. There are many ways to customize graphs.
 
