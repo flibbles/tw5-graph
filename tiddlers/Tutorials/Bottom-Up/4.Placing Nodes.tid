@@ -38,7 +38,7 @@ It's a comma-delineated list of numbers that represent <<.attr x>> and <<.attr y
 
 Behold:
 
-<$doc.demo description="Simple" code="""<$graph physics="no">
+<$doc.demo description="pos" code="""<$graph physics="no">
   <$node $pos="50,50" $tiddler="SE" label="South East" />
   <$node $pos="50,-50" $tiddler="NE" label="North East" />
   <$node $pos="-50,50" $tiddler="SW" label="South West"/>

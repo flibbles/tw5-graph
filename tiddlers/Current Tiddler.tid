@@ -1,5 +1,5 @@
 title: Current Tiddler
 
-The <<.val currentTiddler>> is a heavily-used variable in TiddlyWiki which signifies the tiddler which is currently being viewed.
+The <<.value currentTiddler>> is a heavily-used variable in TiddlyWiki which signifies the tiddler which is currently being viewed.
 
 The [[main TiddlyWiki website talks about it in more detail here|https://tiddlywiki.com/#Current%20Tiddler]].

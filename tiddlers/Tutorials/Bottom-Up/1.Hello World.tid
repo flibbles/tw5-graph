@@ -22,11 +22,11 @@ Let's make a graph with a few nodes.
 
 Whoops! We still only have one node: <<.value Science>>. What happened to the other two?
 
-It turns out, we overwrote them, because there is one requirement that nodes must follow: ''All nodes in a graph must have a unique IDs.''
+It turns out, we overwrote them, because there is one requirement that nodes must follow: ''All nodes in a graph must have a unique ID.''
 
 You know what else in TiddlyWiki requires unique identifiers?
 
-Tiddlers, and their titles. So if we correlate our nodes with tiddlers in our wiki, we'll always be sure to have a unique id for our nodes. That's why the attribute we use to specify a node's ID is actually called the <<.attr $tiddler>> attributes. Let's try it.
+Tiddlers, and their titles. So if we correlate our nodes with tiddlers in our wiki, we'll always be sure to have a unique ID for our nodes. That's why the attribute we use to specify a node's ID is actually called the <<.attr $tiddler>> attribute. Let's try it.
 
 <$doc.demo description="Individual" code="""<$graph>
   <$node $tiddler="Math" label="Math" />
@@ -34,7 +34,7 @@ Tiddlers, and their titles. So if we correlate our nodes with tiddlers in our wi
   <$node $tiddler="Science" label="Science" />
 </$graph>""" />
 
-There we go! As long as every node has a unique id, all of them will appear.
+There we go! As long as every node has a unique ID, all of them will appear.
 
 Correlating nodes with tiddlers is such an intuitive idea, that <<.graph>> will //assume// that you'll doing this, and it will assign the value of <<.value currentTiddler>> to any newly defined nodes if it doesn't specify an ID through <<.attr $tiddler>>. This is convenient when used with the <<.wid list>> widget.
 

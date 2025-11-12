@@ -1,6 +1,6 @@
 By now you can make all the nodes and edges you want, but it'd be nice to specify //details// about those nodes and edges, such as what they look like, where they go, and how they behave.
 
-For this, we can assign [[Graph Properties]]. If you've already gone through the [[Top-Down Tutorial]], then you're already familiar with what they are, but really quickly: graph properties differ depending on which [[graph engine|Engines]] you're using. Each type of [[graph object|Graph Objects]] has their own types of properties.
+For this, we can assign [[Graph Properties]]. If you've already gone through the [[Top-Down Tutorial]], then you're already familiar with what they are, but really quickly: graph properties differ depending on which [[graph engine|Engines]] you're using. Each type of [[graph object|Graph Objects]] has its own types of properties.
 
 Through the [[GUI]] we assign properties to object types through [[Property Sets]], but in the API, we can assign an object graph properties simply through attributes, like so:
 

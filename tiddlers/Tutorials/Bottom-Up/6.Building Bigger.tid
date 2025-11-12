@@ -1,4 +1,4 @@
-You now know the four fundamental <<.graph>> widgets: <<.wlink GraphWidget>>, <<.wlink NodeWidget>>, <<.wlink EdgeWidget>>, and <<.wlink PropertiesWidget>>. With these widgets as building blocks, you can theoretically create whatever graph you want, but to do anything sophisticated, you'd have to write a ton of code.
+You now know the four fundamental <<.graph>> widgets: <<.wlink GraphWidget>>, <<.wlink NodeWidget>>, <<.wlink EdgeWidget>>, and <<.wlink PropertiesWidget>>. With these widgets as building blocks, you can theoretically create whatever graph you want, but to do anything sophisticated, you'd have to write a ton of wikitext.
 
 That's why <<.graph>> comes with pre-made macro widgets constructed from those fundamental widgets which act as larger building blocks for common behavior.
 
@@ -6,7 +6,7 @@ These macro widgets always contain a period (`.`) in their name, as all macro wi
 
 |!Name |!Purpose |!Contents |
 |<<.value $graph.*>> |These act as more elaborate graph widgets. They should not be contained within other graphs. |Any graph object contained get rendered once as part of that graph. |
-|<<.value $nodes.*>> |Creates nodes |If content block is given, it's usually executed in place every created node. |
+|<<.value $nodes.*>> |Creates nodes |If content block is given, it's usually executed in place of every created node. |
 |<<.value $edges.*>> |Creates edges |If content block is given, it's usually executed in place of every created edge. |
 |<<.value $properties.*>> |Sets properties on graph or contained graph objects. |All contents is executed once, with properties applied to certain objects. |
 |<<.value $action.*>>|Runs an action |Depends on widget |
@@ -20,7 +20,7 @@ You can see [[Widgets]] for a complete list. The documentation for each listed u
 ; <<.wlink Nodes.WritableWidget>>
 : This creates a slew of nodes based on the <<.attr $field>> of the <<.attr $tiddler>> you pass it. This also introduces properties to those nodes, and to the graph, that allow you to add and remove nodes to the graph by modifying the field you passed to this widget (assuming your installed [[engine|Engines]] supports that.)
 ; <<.wlink Properties.SettingsWidget>>
-: All contained nodes and edges, and the graph containing this widget, will not only gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined a [[GraphTiddler]]'s settings, assuming that graphTiddler is the <<.var currentTiddler>>.
+: All contained nodes and edges, and the graph containing this widget, will not only gain the properties defined in the [[GUI]]'s [[node stack|Stack NodeType]], but also any properties defined in a [[GraphTiddler]]'s settings, assuming that graphTiddler is the <<.var currentTiddler>>.
 ; <<.wlink Edges.TypedWidget>>
 : If you went through the [[Top-Down Tutorial]], you explored configuring [[Function edge types|Functions EdgeType]] and [[Field edge types|Fields EdgeType]]. This lets you create edges the same way through its <<.attr $functions>> and <<.attr $fields>> filter type attributes. It does so for the current tiddler, or whatever tiddler you specify with <<.attr $tiddler>>.
 

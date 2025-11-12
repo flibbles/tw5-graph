@@ -12,7 +12,7 @@ Now that we know how to make nodes. Let's connect them together with the last re
 
 And that's it!
 
-Just as all nodes need to correspond to a "tiddler", every edge needs to have a <<.attr $from>> and a <<.attr $to>>. These do not have to be unique to each other. An edge can point to the same node it's originating from (it just makes a tight loop). But what is required is that both the <<.attr $from>> and the <<.attr $to>> correspond to nodes present in the graph. If not, the edges is filtered out. For instance:
+Just as all nodes need to correspond to a "tiddler", every edge needs to have a <<.attr $from>> and a <<.attr $to>>. These do not have to be unique to each other. An edge can point to the same node it's originating from (it just makes a tight loop). But what is required is that both the <<.attr $from>> and the <<.attr $to>> correspond to nodes present in the graph. If not, the edges are filtered out. For instance:
 
 <$doc.demo description="Best friends" code="""<$graph>
   <$node $tiddler="Science" label="Studying science"/>
@@ -41,7 +41,7 @@ To show an example of this, we'll use some tagged content from this demo site:
   </$list>
 </$graph>""" />
 
-By the time we're calling `<$edge />`, we've already defined <<.var currentTiddler>> as some tiddler from our documentation, and we've assigned <<.var toTiddler>> to each tag that tiddler has (which we did using the handy [[gettyped Operator]], a very handy filter operator when it comes to defining edges that comes with <<.graph>>).
+By the time we're calling `<$edge />`, we've already defined <<.var currentTiddler>> as some tiddler from our documentation, and we've assigned <<.var toTiddler>> to each tag that tiddler has (which we did using the [[gettyped Operator]] that comes with <<.graph>>, a handy filter operator when it comes to defining edges).
 
 We don't //have// to use <<.var currentTiddler>> and <<.var toTiddler>>. They're just convenient shorthands so your <<.wid edge>> widgets don't have to fill out as many attributes. We could have easily defined the above example using whatever variables we wanted. We'd just have to clarify those variables to our graph objects.
 

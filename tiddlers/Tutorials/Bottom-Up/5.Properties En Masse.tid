@@ -12,7 +12,7 @@ With this, you can set properties on all objects of a certain type contained wit
 
 This <<.wid properties>> widget sets some properties that all three of those nodes inherit, and thus do not have to input for themselves. However, objects can //override// properties they inherit, as seen above.
 
-In that example, the <<.wid properties>> widget had the attribute <<.attr $for>> set to <<.value nodes>>, so it set properties for only nodes contained within. If we'd set it to <<.value edges>>. Setting it to <<.value graph>> makes <<.wid properties>> behave a little different, in that it sets properties on the graph //that it is contained within//, not any graph widgets it contains.
+In that example, the <<.wid properties>> widget had the attribute <<.attr $for>> set to <<.value nodes>>, so it sets properties for only nodes contained within. If we'd set it to <<.value edges>>, it would apply to all contained edges instead. Setting it to <<.value graph>> makes <<.wid properties>> behave a little differently, in that it sets properties on the graph //that it is contained within//, not any graph widgets it contains.
 
 If you don't specify <<.attr $for>>, <<.wid properties>> will apply to nodes by default.
 
@@ -37,7 +37,7 @@ Inner <<.wid properties>> take higher priority than outer <<.wid properties>>, w
 
 !! Conditionally applying properties
 
-The real strength of <<.wid properties>> is its ability to apply to only subsets of its contained graph objects using its <<.attr $filter>> attribute. For each contained graph object, that object is passed through the given filter, and if anything is returned, the its properties will apply to that object. If nothing is returned, they won't. Let's see if we can use that ability to simplify the above example.
+The real strength of <<.wid properties>> is its ability to apply to only subsets of its contained graph objects using its <<.attr $filter>> attribute. For each contained graph object, that object is passed through the given filter, and if anything is returned, then its properties will apply to that object. If nothing is returned, they won't. Let's see if we can use that ability to simplify the above example.
 
 <$doc.demo description="Conditional Nested" code="""<$graph>
   <$properties shape="box">

@@ -1,7 +1,7 @@
 title: Graph Properties
 tags: Concepts
 
-Graph properties are properties you attach to graph objects such as nodes, edges, or the graph itself. Common examples might be <<.val color>>, or <<.val shape>>, or <<.val physics>>. You can assign graph properties to objects through attributes to the corresponding graph object widget. For instance, to attach a shape to a node:
+Graph properties are properties you attach to graph objects such as nodes, edges, or the graph itself. Common examples might be <<.value color>>, or <<.value shape>>, or <<.value physics>>. You can assign graph properties to objects through attributes to the corresponding graph object widget. For instance, to attach a shape to a node:
 
 ```
 <$node shape="hexagon" />

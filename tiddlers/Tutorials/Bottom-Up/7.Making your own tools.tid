@@ -14,7 +14,7 @@ When you make a [[GraphTiddler]] through the [[GUI]], there's a point in the opt
 
 </$tiddler>
 
-Okay. Maybe not super simple, but this provides all the basic functionality when a graph rendered using this template. But it provides a whole slew of common features that one might expect from a graph. And multiple graphs can be created using your template, with each graph storing its complete state within its corresponding [[GraphTiddler]].
+Okay. Maybe not super simple, but this provides all the basic functionalities when a graph is rendered using this template. But it provides a whole slew of common features that one might expect from a graph. And multiple graphs can be created using your template, with each graph storing its complete state within its corresponding [[GraphTiddler]].
 
 To make your templates available in the [[GUI]] dropdown, just tag your template tiddlers with <<tag $:/tags/flibbles/graph/Template>>.
 
