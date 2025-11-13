@@ -8,3 +8,4 @@ filter: filter
 template: title
 edges.fields: filter
 edges.functions: filter
+popup.template: wikitext

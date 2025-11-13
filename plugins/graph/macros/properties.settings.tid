@@ -3,8 +3,21 @@
 
 <$properties.popup
   $enabled={{!!popup}}
+  $ms={{{ [{!!title}get[popup.ms]else[600]] }}}
   $width={{{ [{!!title}get[popup.width]else[300px]] }}}
   $height={{{ [{!!title}get[popup.height]else[200px]] }}} >
+
+<$fill $name=tooltip>
+
+<$let currentGraph=<<currentTiddler>>
+	currentTiddler=<<currentTooltip>> >
+
+<$transclude tiddler=<<currentGraph>> field="popup.template">
+
+{{}}
+</$transclude>
+
+</$let></$fill>
 
 <$properties.river>
 
