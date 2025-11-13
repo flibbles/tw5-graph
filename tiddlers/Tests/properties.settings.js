@@ -70,6 +70,23 @@ it("can default templates for popup", async function() {
 	expect(html).not.toContain("</p>");
 });
 
+it("can manage blank templates for popup", async function() {
+	wiki.addTiddlers([
+		{title: "Target", field: "Field Popup", text: "! Text Header"},
+		{title: "View", popup: "yes", "popup.template": "", "popup.ms": "0"}]);
+	var text = "<$let currentTiddler=View>\n\n<$graph>\n\n<$properties.settings>\n\n<$node $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	await $tw.test.flushChanges();
+	await $tw.test.flushChanges();
+	var html = widget.parentDomNode.innerHTML;
+	expect(html).toContain(">Text Header</h1>");
+	// Should be able to render those tooltips as blocks,
+	// but not have unnecessary paragraph breaks.
+	expect(html).not.toContain("</p>");
+});
+
+
 it("can customize templates for popup", async function() {
 	wiki.addTiddlers([
 		{title: "Target", field: "Field Popup", text: "Text Popup"},

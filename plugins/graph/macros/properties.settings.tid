@@ -9,15 +9,18 @@
 
 <$fill $name=tooltip>
 
-<$let currentGraph=<<currentTiddler>>
-	currentTiddler=<<currentTooltip>> >
+<$let
+  currentGraph=<<currentTiddler>>
+  currentTiddler=<<currentTooltip>> >
 
-<$transclude tiddler=<<currentGraph>> field="popup.template">
+<%if [<currentGraph>has[popup.template]] %>
+
+<$transclude $tiddler=<<currentGraph>> $field="popup.template" />
+
+<%else%>
 
 {{}}
-</$transclude>
-
-</$let></$fill>
+<%endif%></$let></$fill>
 
 <$properties.river>
 
