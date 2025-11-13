@@ -8,7 +8,7 @@ tags: $:/tags/Stylesheet
 	color: <<colour foreground>>;
 	fill: <<colour foreground>>;
 	background-color: <<colour dropdown-background>>;
-	padding: 7px 0 7px 0;
+	padding: 7px;
 	margin: 4px 0 0 0;
 	text-shadow: none;
 	line-height: 1.4;
@@ -37,7 +37,7 @@ tags: $:/tags/Stylesheet
 }
 
 .graph-popup p {
-	padding: 0 14px 0 14px;
+	padding: 0 7px 0 7px;
 }
 
 .graph-popup a.tc-tiddlylink {

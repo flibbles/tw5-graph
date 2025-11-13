@@ -52,20 +52,23 @@ Since 2009, he has been the host of StarTalk, which discusses the marvels of the
 <$doc.example
 	description= "Popup with slot"
 	narrative= "This example shows how to use custom template slot for the tooltip."
-	content='<$graph>
+	content=```<$graph>
   <$properties.popup>
     <$node $tiddler=Aphrodite label=Aphrodite />
-    <$node $tiddler=Balder label=Balder />
+    <$node $tiddler=Baldr label=Baldr />
     <$fill $name="tooltip">
 
       <$tiddler tiddler=<<currentTooltip>> >
 
+        !! {{!!title}}
         """
-        Name: {{!!title}}
-        Mother: <$link to={{!!mother}}/>
-        Father: <$link to={{!!father}}/>
+        ''Mother:'' {{!!mother}}
+        ''Father:'' {{!!father}}
         """
       </$tiddler>
     </$fill>
   </$properties.popup>
-</$graph>'/>
+</$graph>```>
+  <$data title=Aphrodite father=Zeus mother=Dione text="Aphrodite is the Greek goddess of love and fertility." />
+  <$data title=Baldr father=Odin mother=Frigga text="Baldr is a Norse mytholigical figure who appears in several epics. His death is often seen as a herald for the comming of Regnarok." />
+</$doc.example>
