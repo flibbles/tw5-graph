@@ -19,6 +19,8 @@ You can enable popups when hovering over a node.
 	animate="yes">
 
 |tc-table-no-border |k
+|Popup template |<$edit-text field="popup.template" placeholder="{{!!text}}" inputActions="<%if [<actionValue>match[]] %><$action-setfield $field='popup.template' />" /> |
+|Popup delay (ms) |<$edit-text field="popup.ms" placeholder="600" type="number" /> |
 |Popup maximum width |<$edit-text field="popup.width" placeholder="300px"/> |
 |Popup maximum height |<$edit-text field="popup.height" placeholder="200px" /> |
 
