@@ -9,6 +9,14 @@ Widget for creating graphs.
 var utils = require("../../utils.js");
 
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
+// Let's collect all the possible graph object types. We might need to
+// reference their base classes later.
+var GraphObjectTypes = {};
+$tw.modules.forEachModuleOfType("widget-subclass", function(title, module) {
+	if (module.baseClass == "graphobject") {
+		GraphObjectTypes[module.prototype.graphObjectType] = module;
+	}
+});
 
 var graphColors = {
 	nodeColor: "graph-node-color",
@@ -389,7 +397,12 @@ GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 			variables = variables || {};
 			// We let the graph object assign some state, such as the id of the
 			// targeted node, or the nodes of the targeted edge.
-			object.addActionContext(variables);
+			var module = GraphObjectTypes[object.graphObjectType];
+			if (module) {
+				$tw.utils.each(module.actionContext, function(name) {
+					variables[name] = object[name];
+				});
+			}
 			// Make sure it's an objects we actually know about
 			var target = object;
 			while (object && object !== this) {

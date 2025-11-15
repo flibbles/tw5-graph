@@ -10,6 +10,9 @@ var nextId = 1;
 
 exports.baseClass = "graphobject";
 exports.name = "edge";
+// These are object properties that will get added to the variable context
+// when action strings are invoked.
+exports.actionContext = ["id", "fromTiddler", "toTiddler"];
 
 exports.constructor = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
@@ -32,12 +35,6 @@ EdgeWidget.execute = function() {
 	this.fromTiddler = this.getAttribute("$from", this.getVariable("currentTiddler"));
 	this.toTiddler = this.getAttribute("$to", this.getVariable("toTiddler"));
 	this.makeChildWidgets();
-};
-
-EdgeWidget.addActionContext = function(variables) {
-	variables.id = this.id;
-	variables.fromTiddler = this.fromTiddler;
-	variables.toTiddler = this.toTiddler;
 };
 
 EdgeWidget.setCustomProperties = function(properties) {
