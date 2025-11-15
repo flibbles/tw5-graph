@@ -14,7 +14,8 @@ var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 var GraphObjectTypes = {};
 $tw.modules.forEachModuleOfType("widget-subclass", function(title, module) {
 	if (module.baseClass == "graphobject") {
-		GraphObjectTypes[module.prototype.graphObjectType] = module;
+		module.graphObjectType = module.prototype.graphObjectType;
+		GraphObjectTypes[module.graphObjectType] = module;
 	}
 });
 

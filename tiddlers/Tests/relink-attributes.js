@@ -61,11 +61,11 @@ it("reports and relinks $nodes", function() {
 });
 
 it("reports and relinks $edges", function() {
-	wiki.addTiddler({title: title, text: "<$edge delete='{{from}}' hover='{{from}}'/>"});
+	wiki.addTiddler({title: title, text: "<$edge delete='{{from}}' noexist='{{from}}'/>"});
 	var report = wiki.getTiddlerRelinkReferences("Test");
 	expect(report).toEqual({from: ['<$edge delete="{{}}" />']});
 	wiki.renameTiddler("from", "to");
-	expect(wiki.getTiddlerText(title)).toBe("<$edge delete='{{to}}' hover='{{from}}'/>");
+	expect(wiki.getTiddlerText(title)).toBe("<$edge delete='{{to}}' noexist='{{from}}'/>");
 });
 
 it("reports and relinks $graph", function() {

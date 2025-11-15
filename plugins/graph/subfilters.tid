@@ -8,3 +8,7 @@ type: application/x-tiddler-dictionary
 edgetypes: :cache[all[shadows+tiddlers]removeprefix[$:/config/flibbles/graph/edges/]]
 edgetypes.fields: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes}removeprefix[fields/]]
 edgetypes.functions: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edgetypes}removeprefix[functions/]]
+
+# This gets you the action context associated with a given graphObjectType, like "nodes" or "edges"
+actioncontext: [all[]] :cache[subfilter{$:/plugins/flibbles/graph/subfilters##actioncontext.internal}]
+actioncontext.internal: [[widget-subclass]modules[]] :filter[moduleproperty[graphObjectType]match<..currentTiddler>] +[moduleproperty[actionContext]jsonget[]]

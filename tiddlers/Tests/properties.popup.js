@@ -141,6 +141,18 @@ it("can customize width and height", async function() {
 	expect(html).toContain("max-height:17em;");
 });
 
+it("can work on edges too", async function() {
+	var expected = '><p>A==B==AB</p></div>';
+	var text =  "<$graph><$properties.popup $for=edges $ms=0>\n\n<$node $tiddler=A/>\n\n<$node $tiddler=B/>\n\n<$edge $from=A $to=B $id=AB />\n\n<$fill $name=tooltip>\n\n<<fromTiddler>>==<<toTiddler>>==<<id>>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "edges", id: "AB"}, {x: 125, y: 150});
+	await doubleFlush();
+	expect(widget.parentDomNode.innerHTML).toContain(expected);
+	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "edges", id: "AB"});
+	await doubleFlush();
+	expect(widget.parentDomNode.innerHTML).not.toContain(expected);
+});
+
 async function testQuadrant(X, Y) {
 	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);

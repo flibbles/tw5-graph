@@ -18,12 +18,13 @@
               lr={{{ [<mouse-x>multiply[2]compare:number:gt<canvas-width>then[right]else[left]] }}}
               tb={{{ [<mouse-y>multiply[2]compare:number:gt<canvas-height>then[bottom]else[top]] }}} >
             <$action-popup $state=<<$state>> $coords="(0,0,0,0)"/>
-            <$action-setfield $tiddler=<<$state>>
+            <$genesis $type=$action-setfield $$tiddler=<<$state>>
+              $names="[<$for>subfilter{$:/plugins/flibbles/graph/subfilters##actioncontext}addprefix[context.]]"
+              $values="[<$for>subfilter{$:/plugins/flibbles/graph/subfilters##actioncontext}getvariable[]]"
               x={{{ [<lr>match[left]then<mouse-x>] ~[<canvas-width>subtract<mouse-x>] }}}
               y={{{ [<tb>match[top]then<mouse-y>] ~[<canvas-height>subtract<mouse-y>] }}}
               lr=<<lr>>
-              tb=<<tb>>
-              target=<<targetTiddler>> />
+              tb=<<tb>> />
           </$vars>
         </$action-pointer>
       </$action-delay>
@@ -62,7 +63,10 @@
   class="graph-popup tc-popup tc-popup-keep"
   style=`$(width)$max-height:$($height)$;$(lr)$:$(x)$px;$(tb)$:$(y)$px;`>
 
-<$vars currentTooltip={{{ [<$state>get[target]] }}}>
+<$genesis $type=$vars
+  $names="[<$state>fields[]removeprefix[context.]]"
+  $values="[<$state>fields[]prefix[context.]] :map[<$state>get{!!title}]"
+  currentTooltip={{{ [<$state>get[context.nodeTiddler]] }}}>
 
 <$slot $name=tooltip>
 
