@@ -36,7 +36,7 @@ Tiddlers, and their titles. So if we correlate our nodes with tiddlers in our wi
 
 There we go! As long as every node has a unique ID, all of them will appear.
 
-Correlating nodes with tiddlers is such an intuitive idea, that <<.graph>> will //assume// that you'll doing this, and it will assign the value of <<.value currentTiddler>> to any newly defined nodes if it doesn't specify an ID through <<.attr $tiddler>>. This is convenient when used with the <<.wid list>> widget.
+Correlating nodes with tiddlers is such an intuitive idea, that <<.graph>> will //assume// that you'll do this, and it will assign the value of <<.value currentTiddler>> to any newly defined nodes if it doesn't specify an ID through <<.attr $tiddler>>. This is convenient when used with the <<.wid list>> widget.
 
 <$doc.demo description="Lists" code="""<$graph>
   <$list filter="Math History Science Geography P.E.">
@@ -48,4 +48,4 @@ All nodes must correlate to tiddlers, but those tiddlers---such as <<.value Math
 
 By now, we can see that the reason our "Math, History, and Science" example above broke is because all three of those nodes shared the same ID, which was <$transclude $variable=.value _=<<currentTiddler>> />, which happens to be the current tiddler right now. When multiple nodes with the same ID show up, the latest one (<<.value Science>>) always overwrites any earlier ones (<<.value Math>> and <<.value History>>).
 
-<$doc.note>The <<.attr label>> attribute does not count as an ID. That's because it's a [[graph property|Graph Properties]]. It specifies how a node is labeled, and it does not have to be unique.</$doc.note>
+<$doc.note>The <<.attr label>> attribute does not count as an ID. That's because it's a [[graph property|Graph Properties]]. It specifies how a node is labeled, and it does not have to be unique. We'll cover graph properties more later.</$doc.note>
