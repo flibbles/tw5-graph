@@ -24,51 +24,20 @@ This widget introduces DOM elements into the graph, and should be used at the to
 
 The <<.wid properties.popup>> widget supplies one optional slot, which if filled will be used to render the popup tooltip. Without this slot, the popup renders the hovered tiddler's rendered text content.
 
-This slot has the variable <<.value currentTooltip>> available to it.
+This slot will have available to it the same variables available to actions for a given [[graph object|Graph Objects]]. In the case this widget is assigning popups for nodes, which is most cases, that means <<.var nodeTiddler>> will be available, specifying the currently hovered node.
+
+Popups for edges will have a different context of variables. See the [[action properties for edges|EdgeWidget]] for the list and explanation of those variables.
+
+!! Popups for things other than nodes
+
+While <<.wid properties.popup>> provides popups for nodes by default, it can provide popups for other graph objects, assuming the underlying engine supports it. Use the <<.attr $for>> attribute to aim it at other types of objects, such as <<.value edges>> to have popups for edges.
+
+The variable context of the "tooltip" slot will be different for different types of objects. While nodes have the <<.var nodeTiddler>> available, popup slots for edges will have <<.var id>>, <<.var fromTiddler>>, and <<.var toTiddler>> instead.
+
+This //does// mean that the default slot behavior, which is to transclude the body of the <<.var nodeTiddler>>, won't work. So you ''must'' provide your own <<.wid fill>> widget to specify what your popup should show. <<.graph>> doesn't do this for you because //what// an edge popup would show will likely be very specific to your case. If you have a sophisticated graph, you may find you'll need to use many <<.wid properties.popup>> widgets, each containing different batches of edges.
+
+Engines can support popups for graph object types like <<.value nodes>> and <<.value edges>> (or other custom object types) by making sure that type has the <<.prop hover>> and <<.prop blur>> action properties properly programmed.
 
 ! Example
 
-<$doc.example
-	description= "Basic popup"
-	narrative= "Here is an example of how the properties.popup applies only to nodes it contains."
-	content="""<$graph>
-  <$properties.popup $ms="1000">
-    <$list filter="[tag[Astronomer]]">
-      <$node label={{!!title}} />
-    </$list>
-  </$properties.popup>
-  <$node $tiddler="David Attenborough" label="David Attenborough" color=green />
-</$graph>""">
-
-<$data title="Carl Sagan" tags=Astronomer text="""Carl Sagan was a famous astronomer, planetary scientist, and science communicator. He was a popular advocate for skeptical scientific inquiry.
-
-His 1985 book __Contact__ got made into a movie.""" />
-<$data title="Neil deGrasse Tyson" tags=Astronomer text="""A fellow astrophysicist who was inspired by [[Carl Sagan]].
-
-Since 2009, he has been the host of StarTalk, which discusses the marvels of the galaxy.""" />
-<$data title="David Attenborough" tags=Biologist test="""Sir David Frederick Attenborough was a biologist and natural historian famous for his //Life// Collection series done with BBC.""" />
-</$doc.example>
-
-<$doc.example
-	description= "Popup with slot"
-	narrative= "This example shows how to use custom template slot for the tooltip."
-	content=```<$graph>
-  <$properties.popup>
-    <$node $tiddler=Aphrodite label=Aphrodite />
-    <$node $tiddler=Baldr label=Baldr />
-    <$fill $name="tooltip">
-
-      <$tiddler tiddler=<<currentTooltip>> >
-
-        !! {{!!title}}
-        """
-        ''Mother:'' {{!!mother}}
-        ''Father:'' {{!!father}}
-        """
-      </$tiddler>
-    </$fill>
-  </$properties.popup>
-</$graph>```>
-  <$data title=Aphrodite father=Zeus mother=Dione text="Aphrodite is the Greek goddess of love and fertility." />
-  <$data title=Baldr father=Odin mother=Frigga text="Baldr is a Norse mytholigical figure who appears in several epics. His death is often seen as a herald for the comming of Regnarok." />
-</$doc.example>
+{{Properties.PopupWidget (Examples)}}

@@ -11,7 +11,7 @@
 
 <$let
   currentGraph=<<currentTiddler>>
-  currentTiddler=<<currentTooltip>> >
+  currentTiddler=<<nodeTiddler>> >
 
 <%if [<currentGraph>has[popup.template]] %>
 

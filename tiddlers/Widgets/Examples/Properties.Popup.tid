@@ -1,0 +1,66 @@
+<$doc.example
+	description= "Basic popup"
+	narrative= "Here is an example of how the properties.popup applies only to nodes it contains."
+	content="""<$graph>
+  <$properties.popup $ms="1000">
+    <$list filter="[tag[Astronomer]]">
+      <$node label={{!!title}} />
+    </$list>
+  </$properties.popup>
+  <$node $tiddler="David Attenborough" label="David Attenborough" color=green />
+</$graph>""">
+
+<$data title="Carl Sagan" tags=Astronomer text="""Carl Sagan was a famous astronomer, planetary scientist, and science communicator. He was a popular advocate for skeptical scientific inquiry.
+
+His 1985 book __Contact__ got made into a movie.""" />
+<$data title="Neil deGrasse Tyson" tags=Astronomer text="""A fellow astrophysicist who was inspired by [[Carl Sagan]].
+
+Since 2009, he has been the host of StarTalk, which discusses the marvels of the galaxy.""" />
+<$data title="David Attenborough" tags=Biologist test="""Sir David Frederick Attenborough was a biologist and natural historian famous for his //Life// Collection series done with BBC.""" />
+</$doc.example>
+
+<$doc.example
+	description= "Popup with slot"
+	narrative= "This example shows how to use custom template slot for the tooltip."
+	content=```<$graph>
+  <$properties.popup>
+    <$node $tiddler=Aphrodite label=Aphrodite />
+    <$node $tiddler=Baldr label=Baldr />
+    <$fill $name="tooltip">
+
+      <$tiddler tiddler=<<currentTooltip>> >
+
+        !! {{!!title}}
+        """
+        ''Mother:'' {{!!mother}}
+        ''Father:'' {{!!father}}
+        """
+      </$tiddler>
+    </$fill>
+  </$properties.popup>
+</$graph>```>
+  <$data title=Aphrodite father=Zeus mother=Dione text="Aphrodite is the Greek goddess of love and fertility." />
+  <$data title=Baldr father=Odin mother=Frigga text="Baldr is a Norse mytholigical figure who appears in several epics. His death is often seen as a herald for the comming of Regnarok." />
+</$doc.example>
+
+<$doc.example
+	description="Edges"
+	narrative="""This example show how to use the widget with edges as well. You'll note that the widget for edges must define its own "tooltip" fill to describe what the popup will show. For non-node graph objects, this is required."""
+	content=```<$graph>
+  <$properties.popup $for="edges">
+    <$properties.popup>
+      <$list filter="[tag[Inventor]] [tag[Invention]]">
+        <$node.default />
+        <$edges.typed />
+      </$list>
+    </$properties.popup>
+    <$fill $name="tooltip">
+      <<fromTiddler>> invented the <<toTiddler>>.
+    </$fill>
+  </$properties.popup>
+</$graph>```>
+  <$data title="Buckminster Fuller" tags="Inventor" text="Richard Buckminster Fuller Jr. is an American architect, writer, designer, inventor, philosopher, and futurist. His most famous works are the geodesic dome, which also led to the naming of the carbon structure of the same design called fullerenes." list="[[Geodesic dome]] [[Dymaxion car]]" />
+  <$data title="Geodesic dome" tags="Invention" text="This is a hemispherical thin-shell structure in polyhedral shape. It has manu uses not only as a building shape, but also a a molecule with theoretical uses in medicine." />
+  <$data title="Dymaxion car" text="This is an experimental car built during the great depression which never really took off. Its name is a portmanteau of //dynamic maximum tension//." />
+  <$data title="Dymaxion car" tags="Invention" text="This is an experimental car built during the great depression which never really took off. Its name is a portmanteau of //dynamic maximum tension//." />
+</$doc.example>

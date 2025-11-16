@@ -1,7 +1,7 @@
-\widget $properties.popup($enabled:yes $ms:600, $width, $height:50%)
+\widget $properties.popup($enabled:yes $ms:600, $width, $height:50%, $for:nodes)
 \whitespace trim
 
-<$parameters $state=<<qualify "$:/state/graph/tooltip">> >
+<$parameters $state={{{ [<qualify "$:/state/graph/tooltip">addsuffix[-]addsuffix<$for>] }}} >
 
 <$let state=<<$state>>
 	delayState=`$(state)$-delay`
@@ -9,7 +9,7 @@
 	draggingState=`$(state)$-dragging`
 	$msLinger=0>
 
-<$properties $for={{{ [<$enabled>match[yes]then[nodes]] }}}
+<$properties $for={{{ [<$enabled>match[yes]then<$for>] }}}
   hover="""\whitespace trim
     <%if [<draggingState>] [<state>] +[is[tiddler]count[]match[0]] %>
       <$action-delay $state=<<delayState>> $ms=<<$ms>> >
@@ -65,12 +65,11 @@
 
 <$genesis $type=$vars
   $names="[<$state>fields[]removeprefix[context.]]"
-  $values="[<$state>fields[]prefix[context.]] :map[<$state>get{!!title}]"
-  currentTooltip={{{ [<$state>get[context.nodeTiddler]] }}}>
+  $values="[<$state>fields[]prefix[context.]] :map[<$state>get{!!title}]" >
 
 <$slot $name=tooltip>
 
-<$transclude $tiddler=<<currentTooltip>> />
+<$transclude $tiddler=<<nodeTiddler>> />
 
 \end
 

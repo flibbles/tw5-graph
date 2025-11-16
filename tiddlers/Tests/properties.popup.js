@@ -66,7 +66,7 @@ it("works with default popup slot", async function() {
 it("works with custom popup slot", async function() {
 	var expected = '><p>Text content</p></div>';
 	wiki.addTiddler({title: "Target", caption: "Text content"});
-	var text =  "<$graph><$properties.popup $ms=0>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<currentTooltip>> >\n\n{{!!caption}}";
+	var text =  "<$graph><$properties.popup $ms=0>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<nodeTiddler>> >\n\n{{!!caption}}";
 	var widget = $tw.test.renderGlobal(wiki, text);
 	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
 	await doubleFlush();
