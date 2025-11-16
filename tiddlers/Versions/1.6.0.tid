@@ -1,0 +1,7 @@
+created: 20251116031323529
+
+* Fixed #66: Broken links in the tutorial
+* Fixed #67, #68, #69: Many typos and inconsistencies in tutorial found by @Evolena
+* Implemented #70: Graph Tiddler configuration allows you to specify a template to use for popups.
+** Also included millisecond configuration.
+* Implemented #71: Allowing for popups on edges, though this won't be supported by the standard editable graph, because what an edge's popup would say is too case-dependent.
