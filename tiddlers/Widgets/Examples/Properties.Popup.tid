@@ -28,7 +28,7 @@ Since 2009, he has been the host of StarTalk, which discusses the marvels of the
     <$node $tiddler=Baldr label=Baldr />
     <$fill $name="tooltip">
 
-      <$tiddler tiddler=<<currentTooltip>> >
+      <$tiddler tiddler=<<nodeTiddler>> >
 
         !! {{!!title}}
         """
