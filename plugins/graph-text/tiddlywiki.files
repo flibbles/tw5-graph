@@ -28,12 +28,12 @@
 		{
 			"path": "templates",
 			"filesRegExp": "^.*\\.tid$",
-			"fields": {
-				"title": {
-					"source": "basename",
-					"prefix": "$:/plugins/flibbles/graph-text/templates/"
-				}
-			}
+			"isTiddlerFile": true
+		},
+		{
+			"path": ".",
+			"filesRegExp": "^readme\\.tid$",
+			"isTiddlerFile": true
 		},
 		{
 			"path": "macros",
