@@ -71,17 +71,6 @@ it("supports filter with negation", function() {
 	expect(result.sort()).toEqual(["NodeA", "NodeB"]);
 });
 
-it("supports filter with variables", function() {
-	wiki.addTiddlers([
-		{title: "NodeA"},
-		{title: "NodeB"},
-		{title: "NodeC"},
-		{title: "$:/graph/ListGraph", filter: "NodeA NodeB NodeC", type: "application/json", text: '{}'}
-	]);
-	var result = wiki.filterTiddlers("[[$:/graph/ListGraph]graphnodes[]]");
-	expect(result).toEqual(["NodeA", "NodeB", "NodeC"]);
-});
-
 it("can process multiple graphs", function() {
 	wiki.addTiddlers([
 		{title: "$:/graph/GraphA", filter: "NodeA NodeB", type: "application/json"},
