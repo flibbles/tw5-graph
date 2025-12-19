@@ -3,12 +3,13 @@ title: $:/plugins/flibbles/graph/filters/graphnodes.js
 type: application/javascript
 module-type: filteroperator
 
-Filter operator that returns all node titles that are members of a specified graph.
+Filter operator that returns all node titles that are members of graphs from the input.
 
-Usage: [graphnodes[$:/graph/MyGraph]]
+Usage: [[$:/graph/MyGraph]graphnodes[]]
+       [prefix[$:/graph/]graphnodes[]]
 
-This operator retrieves the filter field from the graph tiddler and returns
-all the node titles listed in it.
+This operator processes each input tiddler as a graph, retrieves its filter field,
+and returns all the node titles from those graphs.
 
 \*/
 
@@ -16,24 +17,32 @@ all the node titles listed in it.
 
 exports.graphnodes = function(source, operator, options) {
 	var results = [];
-	var graphTitle = operator.operand;
+	var seen = Object.create(null);
 	
-	if (!graphTitle) {
-		return results;
-	}
+	source(function(tiddler, title) {
+		if (!tiddler) {
+			return;
+		}
+		
+		// Get the filter field which contains a filter expression
+		var filterField = tiddler.getFieldString("filter");
+		if (!filterField) {
+			return;
+		}
+		
+		// Execute the filter expression to get the node titles
+		// The filter field is a TiddlyWiki filter expression
+		var nodes = options.wiki.filterTiddlers(filterField, options.widget);
+		
+		// Add nodes to results, avoiding duplicates
+		for (var i = 0; i < nodes.length; i++) {
+			var node = nodes[i];
+			if (!seen[node]) {
+				seen[node] = true;
+				results.push(node);
+			}
+		}
+	});
 	
-	var graphTiddler = options.wiki.getTiddler(graphTitle);
-	if (!graphTiddler) {
-		return results;
-	}
-	
-	// Get the filter field which contains a filter expression
-	var filterField = graphTiddler.getFieldString("filter");
-	if (!filterField) {
-		return results;
-	}
-	
-	// Execute the filter expression to get the node titles
-	// The filter field is a TiddlyWiki filter expression, not just a space-separated list
-	return options.wiki.filterTiddlers(filterField, options.widget);
+	return results;
 };
