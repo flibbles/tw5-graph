@@ -8,6 +8,8 @@ caption: graph.to-text
 
 The <<.value graph.to-text>> macro converts a graph tiddler into Mermaid-friendly diagram syntax. It uses the graph's filter field to discover nodes and edge fields to create connections between them.
 
+''Note:'' This macro is provided by the [[Graph Text|$:/plugins/flibbles/graph-text]] plugin.
+
 !! Usage
 
 ```
