@@ -1,12 +1,12 @@
 /*\
 
-Tests the graph.to-mermaid macro.
+Tests the graph.to-text macro.
 
 \*/
 
-describe('graph.to-mermaid macro', function() {
+describe('graph.to-text macro', function() {
 
-var wiki, toMermaidMacro;
+var wiki, toTextMacro;
 
 beforeEach(function() {
 	wiki = new $tw.Wiki();
@@ -21,10 +21,10 @@ beforeEach(function() {
 	
 	// Get the macro module from TW's module system
 	var macros = $tw.modules.getModulesByTypeAsHashmap("macro");
-	toMermaidMacro = macros["graph.to-mermaid"];
+	toTextMacro = macros["graph.to-text"];
 });
 
-function toMermaid(tiddler) {
+function toText(tiddler) {
 	// Create a mock context for the macro
 	var context = {
 		wiki: wiki,
@@ -34,7 +34,7 @@ function toMermaid(tiddler) {
 		}
 	};
 
-	return toMermaidMacro.run.call(context, tiddler);
+	return toTextMacro.run.call(context, tiddler);
 }
 
 // Normalize macro output for assertions
@@ -47,14 +47,14 @@ function normalize(out) {
 }
 
 it("returns error if graph tiddler not found", function() {
-	var result = normalize(toMermaid("$:/graph/NonExistent"));
+	var result = normalize(toText("$:/graph/NonExistent"));
 	expect(result).toContain("Error");
 	expect(result).toContain("not found");
 });
 
 it("returns error if graph has no filter", function() {
 	wiki.addTiddler({title: "$:/graph/Test"});
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	expect(result).toContain("Error");
 	expect(result).toContain("no filter field");
 });
@@ -64,7 +64,7 @@ it("returns warning if filter produces no nodes", function() {
 		title: "$:/graph/Test",
 		filter: "[tag[NonExistent]]"
 	});
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	expect(result).toContain("Warning");
 	expect(result).toContain("No nodes found");
 });
@@ -80,7 +80,7 @@ it("generates basic mermaid graph with nodes", function() {
 		filter: "NodeA NodeB NodeC"
 	});
 	
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	
 	expect(result).toContain("graph TD");
 	expect(result).toContain("NodeA");
@@ -97,7 +97,7 @@ it("generates edges based on tags field by default", function() {
 		filter: "Parent Child"
 	});
 	
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	
 	expect(result).toContain("graph TD");
 	expect(result).toMatch(/-->/);
@@ -116,7 +116,7 @@ it("generates edges based on custom edge fields", function() {
 		"edges.fields": "customfield"
 	});
 	
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	
 	expect(result).toContain("graph TD");
 	expect(result).toMatch(/A\s*-->(?:\|[^|]+\|\s*)?B/);
@@ -134,7 +134,7 @@ it("handles multiple edge fields", function() {
 		"edges.fields": "tags links"
 	});
 	
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	
 	expect(result).toContain("graph TD");
 	// Should have edges from Node1 to both Node2 and Node3
@@ -152,7 +152,7 @@ it("sanitizes special characters in node names", function() {
 		filter: "[[Node-With-Dashes]] [[Node With Spaces]] [[$System/Node]]"
 	});
 	
-	var result = normalize(toMermaid("$:/graph/Test"));
+	var result = normalize(toText("$:/graph/Test"));
 	
 	// IDs should be sanitized but labels should show original names
 	expect(result).toContain("graph TD");
@@ -229,7 +229,7 @@ it("uses default graph if no tiddler specified", function() {
 	};
 	
 	// Call without tiddler parameter to use default
-	var result = normalize(toMermaidMacro.run.call(context));
+	var result = normalize(toTextMacro.run.call(context));
 	
 	expect(result).toContain("graph TD");
 	expect(result).toContain("A");

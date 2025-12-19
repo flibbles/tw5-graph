@@ -1,13 +1,13 @@
 /*\
 Macro to convert a graph tiddler to Mermaid graph format.
 
-Usage: <<graph.to-mermaid "$:/graph/MyGraph">>
+Usage: <<graph.to-text "$:/graph/MyGraph">>
 
 \*/
 
 "use strict";
 
-exports.name = "graph.to-mermaid";
+exports.name = "graph.to-text";
 exports.params = [
 	{name: "tiddler", default: "$:/graph/Default"}
 ];

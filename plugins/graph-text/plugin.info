@@ -1,0 +1,11 @@
+{
+	"name": "Graph Text",
+	"title": "$:/plugins/flibbles/graph-text",
+	"description": "Optional text-only rendering helpers for TW5-Graph (Mermaid-friendly).",
+	"author": "Flibbles",
+	"version": "0.0.1",
+	"stability": "STABILITY_1_EXPERIMENTAL",
+	"core-version": ">=5.3.7",
+	"plugin-type": "plugin",
+	"list": "readme"
+}

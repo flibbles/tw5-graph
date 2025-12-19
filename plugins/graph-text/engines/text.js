@@ -1,6 +1,6 @@
 /*\
 A simple read-only engine that renders the graph as Mermaid text via the
-`graph.to-mermaid` macro. It is intended for non-interactive display.
+`graph.to-text` macro. It is intended for non-interactive display.
 \*/
 
 "use strict";
@@ -36,7 +36,7 @@ exports.init = function(element, objects, options) {
 	this.wiki = options && options.wiki;
 	// Cache macro lookup
 	var macros = $tw.modules.getModulesByTypeAsHashmap("macro");
-	this.mermaidMacro = macros["graph.to-mermaid"];
+	this.mermaidMacro = macros["graph.to-text"];
 	this.renderOnce();
 };
 
@@ -66,7 +66,7 @@ exports.renderOnce = function() {
 	if (!this.wiki || !this.element) return;
 	var title = findRenderedTiddlerTitle(this.element) || "$:/graph/Default";
 	if (!this.mermaidMacro || !this.mermaidMacro.run) {
-		this.element.innerHTML = "Error: graph.to-mermaid macro missing";
+		this.element.innerHTML = "Error: graph.to-text macro missing";
 		return;
 	}
 	// Call the macro directly with a minimal context

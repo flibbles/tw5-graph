@@ -1,0 +1,46 @@
+{
+	"directories": [
+		{
+			"path": "engines",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"source": "filename",
+					"prefix": "$:/plugins/flibbles/graph-text/engines/"
+				},
+				"type": "application/javascript",
+				"module-type": "graphengine"
+			}
+		},
+		{
+			"path": "stylesheets",
+			"filesRegExp": "^.*\\.css$",
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph-text/styles/"
+				},
+				"type": "text/css",
+				"tags": "$:/tags/Stylesheet"
+			}
+		},
+		{
+			"path": "templates",
+			"filesRegExp": "^.*\\.tid$"
+		},
+		{
+			"path": "macros",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": false,
+			"fields": {
+				"title": {
+					"source": "filename",
+					"prefix": "$:/plugins/flibbles/graph-text/macros/"
+				},
+				"type": "application/javascript",
+				"module-type": "macro"
+			}
+		}
+	]
+}

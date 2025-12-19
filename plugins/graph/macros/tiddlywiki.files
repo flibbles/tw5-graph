@@ -12,19 +12,6 @@
 				"tags": "$:/tags/Global",
 				"code-body": "yes"
 			}
-		},
-		{
-			"path": ".",
-			"filesRegExp": "^.*\\.js$",
-			"isTiddlerFile": false,
-			"fields": {
-				"title": {
-					"source": "filename",
-					"prefix": "$:/plugins/flibbles/graph/macros/"
-				},
-				"type": "application/javascript",
-				"module-type": "macro"
-			}
 		}
 	]
 }

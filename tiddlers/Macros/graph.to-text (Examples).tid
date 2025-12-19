@@ -1,15 +1,15 @@
-title: graph.to-mermaid Macro (Examples)
+title: graph.to-text Macro (Examples)
 
 !! Basic Example with Deity Graph
 
 The Example graph shows all deity tiddlers:
 
 ```
-<<graph.to-mermaid "$:/graph/Example">>
+<<graph.to-text "$:/graph/Example">>
 ```
 
 <pre>
-<<graph.to-mermaid "$:/graph/Example">>
+<<graph.to-text "$:/graph/Example">>
 </pre>
 
 !! Pantheon Graph
@@ -17,11 +17,11 @@ The Example graph shows all deity tiddlers:
 The Pantheon graph is similar but uses a slightly different filter:
 
 ```
-<<graph.to-mermaid "$:/graph/Pantheon">>
+<<graph.to-text "$:/graph/Pantheon">>
 ```
 
 <pre>
-<<graph.to-mermaid "$:/graph/Pantheon">>
+<<graph.to-text "$:/graph/Pantheon">>
 </pre>
 
 !! Alchemy Graph with Custom Edge Fields
@@ -29,11 +29,11 @@ The Pantheon graph is similar but uses a slightly different filter:
 The Alchemy graph uses a custom `relates` field to define edges:
 
 ```
-<<graph.to-mermaid "$:/graph/Alchemy">>
+<<graph.to-text "$:/graph/Alchemy">>
 ```
 
 <pre>
-<<graph.to-mermaid "$:/graph/Alchemy">>
+<<graph.to-text "$:/graph/Alchemy">>
 </pre>
 
 This graph has:
@@ -46,11 +46,11 @@ This graph has:
 The Introduction graph demonstrates multiple edge fields:
 
 ```
-<<graph.to-mermaid "$:/graph/Introduction">>
+<<graph.to-text "$:/graph/Introduction">>
 ```
 
 <pre>
-<<graph.to-mermaid "$:/graph/Introduction">>
+<<graph.to-text "$:/graph/Introduction">>
 </pre>
 
 This graph uses a complex edges configuration:

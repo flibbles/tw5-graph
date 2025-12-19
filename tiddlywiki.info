@@ -4,6 +4,7 @@
 		"flibbles/relink",
 		"flibbles/relink-fieldnames",
 		"flibbles/vis-network",
+		"flibbles/graph-text",
 		"tiddlywiki/jasmine",
 		"tiddlywiki/railroad"
 	],
