@@ -27,7 +27,13 @@
 		},
 		{
 			"path": "templates",
-			"filesRegExp": "^.*\\.tid$"
+			"filesRegExp": "^.*\\.tid$",
+			"fields": {
+				"title": {
+					"source": "basename",
+					"prefix": "$:/plugins/flibbles/graph-text/templates/"
+				}
+			}
 		},
 		{
 			"path": "macros",

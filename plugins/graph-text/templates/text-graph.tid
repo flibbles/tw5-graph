@@ -1,6 +1,4 @@
 caption: Text read-only graph
 tags: $:/tags/flibbles/graph/Template
 
-\whitespace trim
-
 <$graph $engine="Text" />

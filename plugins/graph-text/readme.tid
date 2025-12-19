@@ -1,0 +1,36 @@
+title: $:/plugins/flibbles/graph-text/readme
+
+! Graph Text Plugin
+
+A supplemental plugin for TW5-Graph that provides text-only rendering of graphs.
+
+!! Features
+
+* Convert graphs to Mermaid-friendly diagram syntax
+* Text engine for read-only graph display
+* Includes `graph.to-text` macro for graph-to-text conversion
+* Template support for easy integration with `graph.view` widget
+
+!! Usage
+
+Use the `graph.to-text` macro to render a graph tiddler as text:
+
+```
+<<graph.to-text "$:/graph/MyGraph">>
+```
+
+Or use the Text engine with `graph.view`:
+
+```
+<$graph.view $tiddler="$:/graph/Default" $template="$:/plugins/flibbles/graph-text/templates/text-graph" />
+```
+
+Or choose the engine:
+
+```
+<$let currentTiddler="$:/graph/Default"><$graph $engine=Text/></$set>
+```
+
+!! Dependencies
+
+* TW5-Graph core plugin
