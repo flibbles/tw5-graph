@@ -1,0 +1,52 @@
+title: graph.to-mermaid Macro (Examples)
+
+!! Basic Example with Deity Graph
+
+The Example graph shows all deity tiddlers:
+
+```
+<<graph.to-mermaid "$:/graph/Example">>
+```
+
+<<graph.to-mermaid "$:/graph/Example">>
+
+!! Pantheon Graph
+
+The Pantheon graph is similar but uses a slightly different filter:
+
+```
+<<graph.to-mermaid "$:/graph/Pantheon">>
+```
+
+<<graph.to-mermaid "$:/graph/Pantheon">>
+
+!! Alchemy Graph with Custom Edge Fields
+
+The Alchemy graph uses a custom `relates` field to define edges:
+
+```
+<<graph.to-mermaid "$:/graph/Alchemy">>
+```
+
+<<graph.to-mermaid "$:/graph/Alchemy">>
+
+This graph has:
+
+* `filter: [tag[Alchemy]!is[draft]]`
+* `edges.fields: relates`
+
+!! Introduction Graph
+
+The Introduction graph demonstrates multiple edge fields:
+
+```
+<<graph.to-mermaid "$:/graph/Introduction">>
+```
+
+<<graph.to-mermaid "$:/graph/Introduction">>
+
+This graph uses a complex edges configuration:
+
+* `edges.fields: [all[]] -tags wrote builds-upon`
+
+This creates different types of relationships between the concepts.

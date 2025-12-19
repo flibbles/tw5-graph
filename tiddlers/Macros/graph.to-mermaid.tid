@@ -1,0 +1,29 @@
+title: graph.to-mermaid Macro
+tags: [[Graph Macros]] Macros
+caption: graph.to-mermaid
+
+|!purpose |convert a graph tiddler to Mermaid diagram format |
+|!parameter |<<.value tiddler>> = the title of the graph tiddler (default: `$:/graph/Default`) |
+|!output |Mermaid syntax representing the graph nodes and edges |
+
+The <<.value graph.to-mermaid>> macro converts a graph tiddler into Mermaid diagram syntax. It uses the graph's filter field to discover nodes and edge fields to create connections between them.
+
+!! Usage
+
+```
+<<graph.to-mermaid "$:/graph/MyGraph">>
+```
+
+!! Configuration
+
+The macro respects the following fields in the graph tiddler:
+
+* `filter`: A TiddlyWiki filter expression that returns all node titles
+* `edges.fields`: Space-separated list of field names to extract edges from (default: `tags`)
+
+For example, a graph tiddler might have:
+
+* `filter: Node1 Node2 Node3`
+* `edges.fields: tags customfield`
+
+[[Examples|graph.to-mermaid Macro (Examples)]]
