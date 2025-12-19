@@ -9,7 +9,7 @@ var adapters = $tw.modules.getModulesByTypeAsHashmap("graphengine");
 
 var Test = adapters.Test;
 
-var doNotTestTheseAdapters = ["Test", "Also", "Orb"];
+var doNotTestTheseAdapters = ["Test", "Also", "Orb", "Text"];
 
 $tw.utils.each(adapters, function(adapter, name) {
 

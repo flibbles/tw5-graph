@@ -58,6 +58,11 @@ GraphWidget.render = function(parent, nextSibling) {
 		className += " graph-engine-" + this.graphEngineName.toLowerCase();
 	}
 	this.graphElement.className = className;
+	// Expose the graph tiddler title for engines that need it (e.g., Text read-only engine)
+	var currentTitle = this.getVariable && this.getVariable("currentTiddler");
+	if (currentTitle) {
+		this.graphElement.setAttribute("data-graph-title", currentTitle);
+	}
 	this.graphElement.addEventListener("mousemove", this);
 	this.domNodes.push(this.graphElement);
 	parent.insertBefore(this.graphElement, nextSibling);

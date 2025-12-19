@@ -1,0 +1,7 @@
+caption: Text read-only graph
+title: $:/plugins/flibbles/graph/templates/text-graph
+tags: $:/tags/flibbles/graph/Template
+
+\whitespace trim
+
+<$graph $engine="Text" />

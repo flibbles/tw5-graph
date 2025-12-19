@@ -31,7 +31,6 @@
 
 .doc-example .graph-canvas {
 	border-color: <<colour code-border>>;
-	height: 250px;
 	margin-top: 0.2em;
 	margin-bottom: 0.2em;
 }

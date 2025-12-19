@@ -1,0 +1,11 @@
+title: $:/plugins/flibbles/graph/styles/text.css
+
+.graph-engine-text {
+  min-height: 120px;
+  padding: 8px;
+}
+.graph-engine-text pre {
+  margin: 0;
+  white-space: pre;
+  overflow: auto;
+}

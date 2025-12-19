@@ -5,6 +5,11 @@ Super easy:
 <$doc.demo description="graph.view widget" code="""<$graph.view $tiddler="$:/graph/Default" />
 """ />
 
+If you prefer a read-only, text-based rendering (using the Text engine), you can specify a template that binds the engine:
+
+<$doc.demo description="graph.view with Text engine" code="""<$graph.view $tiddler="$:/graph/Default" $template="$:/plugins/flibbles/graph/templates/text-graph" />
+""" />
+
 You'll need to prepend your graph's name with <<.value $:/graph/>>. That's because it's possible to create graphTiddlers unrelated to the sidebar, but that's a discussion for another time.
 
 You can check out <<.wlink Graph.ViewWidget>> for more options on how to transclude your graphTiddlers, but the default settings are certainly enough for now.
