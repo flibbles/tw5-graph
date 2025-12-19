@@ -4,4 +4,3 @@ plugins/vis-network
 plugins/cytoscape
 plugins/mermaid
 $__StoryList.tid
-/node_modules
