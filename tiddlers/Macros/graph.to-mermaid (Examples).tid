@@ -8,7 +8,9 @@ The Example graph shows all deity tiddlers:
 <<graph.to-mermaid "$:/graph/Example">>
 ```
 
+<pre>
 <<graph.to-mermaid "$:/graph/Example">>
+</pre>
 
 !! Pantheon Graph
 
@@ -18,7 +20,9 @@ The Pantheon graph is similar but uses a slightly different filter:
 <<graph.to-mermaid "$:/graph/Pantheon">>
 ```
 
+<pre>
 <<graph.to-mermaid "$:/graph/Pantheon">>
+</pre>
 
 !! Alchemy Graph with Custom Edge Fields
 
@@ -28,7 +32,9 @@ The Alchemy graph uses a custom `relates` field to define edges:
 <<graph.to-mermaid "$:/graph/Alchemy">>
 ```
 
+<pre>
 <<graph.to-mermaid "$:/graph/Alchemy">>
+</pre>
 
 This graph has:
 
@@ -43,7 +49,9 @@ The Introduction graph demonstrates multiple edge fields:
 <<graph.to-mermaid "$:/graph/Introduction">>
 ```
 
+<pre>
 <<graph.to-mermaid "$:/graph/Introduction">>
+</pre>
 
 This graph uses a complex edges configuration:
 

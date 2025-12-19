@@ -7,10 +7,6 @@ A simple read-only engine that renders the graph as Mermaid text via the
 
 exports.name = "Text";
 
-// Cache macro lookup once per module load
-var macros = $tw.modules.getModulesByTypeAsHashmap("macro");
-var mermaidMacro = macros["graph.to-mermaid"];
-
 // Read-only engine: no interactive properties declared.
 exports.properties = {
 	graph: {},
@@ -38,6 +34,9 @@ exports.init = function(element, objects, options) {
 	this.element = element;
 	this.objects = objects || {};
 	this.wiki = options && options.wiki;
+	// Cache macro lookup
+	var macros = $tw.modules.getModulesByTypeAsHashmap("macro");
+	this.mermaidMacro = macros["graph.to-mermaid"];
 	this.renderOnce();
 };
 
@@ -66,7 +65,7 @@ exports.dispatchEvent = function(params, variables) {
 exports.renderOnce = function() {
 	if (!this.wiki || !this.element) return;
 	var title = findRenderedTiddlerTitle(this.element) || "$:/graph/Default";
-	if (!mermaidMacro || !mermaidMacro.run) {
+	if (!this.mermaidMacro || !this.mermaidMacro.run) {
 		this.element.innerHTML = "Error: graph.to-mermaid macro missing";
 		return;
 	}
@@ -78,6 +77,11 @@ exports.renderOnce = function() {
 			return "";
 		}
 	};
-	var out = mermaidMacro.run.call(context, title);
-	this.element.innerHTML = out;
+	var out = this.mermaidMacro.run.call(context, title);
+	// Always wrap macro output in <pre> for display, using textContent for safety
+	var doc = this.element.ownerDocument || document;
+	var pre = doc.createElement("pre");
+	pre.textContent = out;
+	this.element.innerHTML = "";
+	this.element.appendChild(pre);
 };

@@ -13,23 +13,41 @@ exports.params = [
 ];
 
 /**
- * Escapes special characters in node labels for Mermaid
+ * Escapes Mermaid-illegal characters in node labels
  */
 function escapeLabel(text) {
 	if (!text) return "";
 	// Replace quotes and special characters
-	return text.replace(/"/g, "#quot;").replace(/\[/g, "#91;").replace(/\]/g, "#93;");
+	return text.replace(/"/g, "&quot;").replace(/\[/g, "&#91;").replace(/\]/g, "&#93;");
 }
 
 /**
  * Sanitizes node IDs to be valid Mermaid identifiers
  */
-function sanitizeNodeId(title) {
+function hashString(str) {
+	// Simple FNV-1a hash for short strings
+	var hash = 2166136261;
+	for (var i = 0; i < str.length; i++) {
+		hash ^= str.charCodeAt(i);
+		hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+	}
+	// Convert to unsigned and base36 for compactness
+	return (hash >>> 0).toString(36);
+}
+
+function sanitizeNodeId(title, collisionMap) {
 	if (!title) return "unknown";
 	// Replace special characters with underscores and ensure it starts with a letter
 	var id = title.replace(/[^a-zA-Z0-9_]/g, "_");
 	if (!/^[a-zA-Z]/.test(id)) {
 		id = "n_" + id;
+	}
+	// Collision detection: if this id already used for another title, append a hash
+	if (collisionMap) {
+		if (collisionMap[id] && collisionMap[id] !== title) {
+			id = id + "_" + hashString(title);
+		}
+		collisionMap[id] = title;
 	}
 	return id;
 }
@@ -85,10 +103,11 @@ exports.run = function(tiddler) {
 	// Build Mermaid graph
 	var output = ["graph TD"];
 	
-	// Create a mapping of titles to sanitized IDs
+	// Create a mapping of titles to sanitized IDs, with collision detection
 	var nodeIdMap = {};
+	var idCollisionMap = {};
 	nodes.forEach(function(nodeTitle) {
-		nodeIdMap[nodeTitle] = sanitizeNodeId(nodeTitle);
+		nodeIdMap[nodeTitle] = sanitizeNodeId(nodeTitle, idCollisionMap);
 	});
 	
 	// Add nodes with labels
@@ -137,14 +156,13 @@ exports.run = function(tiddler) {
 						edgeSet.add(edgeKey);
 						// Label edges with the field name (e.g., father, relates, tags)
 						var label = fieldName;
-						// Use HTML entities to keep dashes intact in TW rendering
 						// Mermaid syntax with label: A -->|label| B
-						output.push("    " + sourceId + " &#45;&#45;>|" + escapeLabel(label) + "| " + targetId);
+						output.push("    " + sourceId + " -->|" + escapeLabel(label) + "| " + targetId);
 					}
 				}
 			}, this);
 		}, this);
 	}, this);
 	
-	return "<pre>" + output.join("\n") + "</pre>";
+	return output.join("\n");
 };

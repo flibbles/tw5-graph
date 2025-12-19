@@ -235,4 +235,43 @@ it("uses default graph if no tiddler specified", function() {
 	expect(result).toContain("A");
 });
 
+it("handles node ID collisions by appending hash", function() {
+	wiki.addTiddlers([
+		{title: "Node-A"},
+		{title: "Node.A"},
+		{title: "Node_A"}
+	]);
+	wiki.addTiddler({
+		title: "$:/graph/Test",
+		filter: "Node-A [[Node.A]] [[Node_A]]"
+	});
+	
+	var result = normalize(toMermaid("$:/graph/Test"));
+	
+	expect(result).toContain("graph TD");
+	// All three nodes should appear with different IDs
+	var nodeIdMatches = result.match(/Node_A[^\s\["]*/g);
+	expect(nodeIdMatches).toBeTruthy();
+	// Should have at least 3 unique node IDs (original + hash suffixes)
+	var uniqueIds = new Set(nodeIdMatches);
+	expect(uniqueIds.size).toBeGreaterThanOrEqual(3);
+});
+
+it("returns error for invalid filter syntax", function() {
+	wiki.addTiddler({
+		title: "$:/graph/Test",
+		filter: "[tag[invalid"  // Missing closing bracket
+	});
+	
+	var result = normalize(toMermaid("$:/graph/Test"));
+	
+	// TiddlyWiki filter errors may create special error nodes
+	// Check that either an error message appears or the graph handles it gracefully
+	expect(result).toContain("graph TD");
+	// Filter errors in TW typically result in Filter_error nodes or empty results
+	var hasFilterError = result.includes("Filter_error") || result.includes("Filter error");
+	var hasNoNodes = !result.match(/\[\"/); // No nodes with labels
+	expect(hasFilterError || hasNoNodes).toBe(true);
+});
+
 });
