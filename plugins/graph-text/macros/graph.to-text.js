@@ -38,10 +38,7 @@ function hashString(str) {
 function sanitizeNodeId(title, collisionMap) {
 	if (!title) return "unknown";
 	// Replace special characters with underscores and ensure it starts with a letter
-	var id = title.replace(/[^a-zA-Z0-9_]/g, "_");
-	if (!/^[a-zA-Z]/.test(id)) {
-		id = "n_" + id;
-	}
+	var id = title
 	// Collision detection: if this id already used for another title, append a hash
 	if (collisionMap) {
 		if (collisionMap[id] && collisionMap[id] !== title) {
