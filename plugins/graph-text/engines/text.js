@@ -14,26 +14,11 @@ exports.properties = {
 	edges: {}
 };
 
-function findRenderedTiddlerTitle(element) {
-	try {
-		var el = element;
-		while (el) {
-			if (el.getAttribute) {
-				var graphTitle = el.getAttribute("data-graph-title");
-				if (graphTitle) return graphTitle;
-				var tiddlerTitle = el.getAttribute("data-tiddler-title");
-				if (tiddlerTitle) return tiddlerTitle;
-			}
-			el = el.parentNode;
-		}
-	} catch(e) {}
-	return null;
-}
-
 exports.init = function(element, objects, options) {
 	this.element = element;
 	this.objects = objects || {};
 	this.wiki = options && options.wiki;
+	this.graphTiddler = options && options.graphTiddler;
 	// Cache macro lookup
 	var macros = $tw.modules.getModulesByTypeAsHashmap("macro");
 	this.mermaidMacro = macros["graph.to-text"];
@@ -64,7 +49,8 @@ exports.dispatchEvent = function(params, variables) {
 
 exports.renderOnce = function() {
 	if (!this.wiki || !this.element) return;
-	var title = findRenderedTiddlerTitle(this.element) || "$:/graph/Default";
+	// Use graphTiddler from options, or fallback to default
+	var title = this.graphTiddler || "$:/graph/Default";
 	if (!this.mermaidMacro || !this.mermaidMacro.run) {
 		this.element.innerHTML = "Error: graph.to-text macro missing";
 		return;

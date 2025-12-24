@@ -76,7 +76,7 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.properties = this.refreshProperties() || {};
 		objects.graph = this.typecastProperties(this.properties, "graph");
 		try {
-			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
+			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki, graphTiddler: this.getVariable("currentTiddler")});
 		} catch(e) {
 			// Technically, we should drop this engine without destroying it.
 			// It didn't successfully init, so it's not initialized.

@@ -62,7 +62,9 @@ exports.run = function(tiddler) {
 	// Get the filter field to determine nodes
 	var filterText = graphTiddler.getFieldString("filter");
 	if (!filterText) {
-		return "%%Error: Graph tiddler has no filter field%%";
+		// Debug: log available fields to help diagnose the issue
+		var availableFields = Object.keys(graphTiddler.fields || {});
+		return "%%Error: Graph tiddler '" + tiddler + "' has no filter field. Available fields: " + availableFields.join(", ") + "%%";
 	}
 	
 	// Execute the filter to get all nodes
