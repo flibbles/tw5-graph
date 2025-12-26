@@ -1,6 +1,2 @@
 output
-plugins/orb
-plugins/vis-network
-plugins/cytoscape
-plugins/mermaid
 $__StoryList.tid
