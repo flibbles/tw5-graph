@@ -34,15 +34,15 @@ exports.properties = {
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},
-		hover: {type: "actions", variables: ['x', 'y']},
+		hover: {type: "actions"},
 		blur: {type: "actions"},
-		drag: {type: "actions", variables: ['x', 'y']},
+		drag: {type: "actions"},
 		free: {type: "actions", variables: ['x', 'y']}
 	},
 	edges: {
 		width: {type: "number"},
 		delete: {type: "actions"},
-		hover: {type: "actions", variables: ['x', 'y']},
+		hover: {type: "actions"},
 		blur: {type: "actions"}
 	}
 };
