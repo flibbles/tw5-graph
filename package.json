@@ -1,0 +1,30 @@
+{
+  "name": "graph",
+  "version": "1.6.0",
+  "description": "Lightweight and programmable graphing for Tiddlywiki",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "tiddlywiki --build test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flibbles/tw5-graph.git"
+  },
+  "keywords": [
+    "tiddlywiki5",
+    "tiddlywiki-plugin",
+    "visualization-tools"
+  ],
+  "author": "Flibbles",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/flibbles/tw5-graph/issues"
+  },
+  "homepage": "https://github.com/flibbles/tw5-graph#readme",
+  "dependencies": {
+    "tiddlywiki": "^5.3.8"
+  }
+}
