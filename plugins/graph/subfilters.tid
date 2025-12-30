@@ -12,3 +12,8 @@ edgetypes.functions: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edge
 # This gets you the action context associated with a given graphObjectType, like "nodes" or "edges"
 actioncontext: [all[]] :cache[subfilter{$:/plugins/flibbles/graph/subfilters##actioncontext.internal}]
 actioncontext.internal: [[widget-subclass]modules[]] :filter[moduleproperty[graphObjectType]match<..currentTiddler>] +[moduleproperty[actionContext]jsonget[]]
+
+# This gets you the properties json of the currently active engine
+engine: [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>]
+messages: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##engine}moduleproperty[messages]]
+properties: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##engine}moduleproperty[properties]]

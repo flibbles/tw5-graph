@@ -2,6 +2,9 @@ caption: Responsive
 description: Graphs respond to changes in real time.
 list-before: 
 
+\function showcase.has(category, property) [subfilter{$:/plugins/flibbles/graph/subfilters##properties}jsonextract<category>,<property>]
+\function showcase.default(category, property) [subfilter{$:/plugins/flibbles/graph/subfilters##properties}jsonextract<category>,<property>,[default]match[true]then[yes]else[no]]
+
 <$list variable=type filter="[enlist[graph nodes edges]]">
 
 <$fieldtranscriber state=`$:/state/pantheon/$(type)$` tiddler=<<graph>> field=`graph.$(type)$` type="application/json" />
@@ -14,12 +17,14 @@ list-before:
 * Drag the tiddlers around above. Experience the physics.
 * Also, you add and remove nodes and edges in the graph above using the buttons overlaid on the graph.
 
+<$vars refresh-variable=<<graphengine>>>
+
 |tc-max-width tc-edit-max-width|k
-|!Graph Physics |<$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=yes /> |
+|!Graph Physics |<%if [showcase.has[graph],[physics]] %><$checkbox tiddler="$:/state/pantheon/graph" index=physics checked=yes unchecked=no default=<<showcase.default graph physics>> /><%else%>//Unsupported by <<graphengine>>//<%endif%> |
 |!Color for <<tag Ruler>> tiddlers |<$edit-text class="tc-edit-texteditor tc-edit-fieldeditor" tag=input tiddler="$:/config/flibbles/graph/nodes/stack/ruler" index=color type=color /> |
-|!Node Shape | <$select tiddler="$:/state/pantheon/nodes" index=shape ><$list filter="[[graphengine]modules[]] :filter[moduleproperty[name]match{$:/config/flibbles/graph/engine}] +[moduleproperty[properties]jsonget[nodes],[shape],[values]]"><option><$text text=<<currentTiddler>> /></option></$list></$select> |
+|!Node Shape | <%if [showcase.has[nodes],[shape]] %><$select tiddler="$:/state/pantheon/nodes" index=shape ><$list filter="[[graphengine]modules[]] :filter[moduleproperty[name]match{$:/config/flibbles/graph/engine}] +[moduleproperty[properties]jsonget[nodes],[shape],[values]]"><option><$text text=<<currentTiddler>> /></option></$list></$select><%else%>//Unsupported by <<graphengine>>//<%endif%> |
 |!Father-son Edges |<$checkbox tiddler=<<graph>> field="edges.fields" checked="" unchecked="[all[]] -father" /> |
-|!Smooth Edges  |<$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=yes /> |
+|!Smooth Edges  |<%if [showcase.has[edges],[smooth]] %><$checkbox tiddler="$:/state/pantheon/edges" index=smooth checked=yes unchecked=no default=<<showcase.default edges smooth>>  /><%else%>//Unsupported by <<graphengine>>//<%endif%> |
 
 //All// graph settings are dynamic. And there are many more.
 <$linkcatcher actions="""<$action-setfield $tiddler="$:/state/flibbles/graph/settings" text="$:/plugins/flibbles/graph/ui/Settings/Graphs" /><$action-setfield $tiddler="$:/state/flibbles/graph/settings/graphs" text=<<graph>> /><$action-navigate $to=<<navigateTo>> />""">
