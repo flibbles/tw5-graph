@@ -30,7 +30,7 @@ exports.properties = {
 		hidden: {type: "boolean"},
 		image: {type: "image"},
 		physics: {type: "boolean"},
-		shape: {type: "enum", values: ["box", "circle", "star"]},
+		shape: {type: "enum", values: ["deprecated", "box", "circle", "star"], hidden: ["deprecated"]},
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},
