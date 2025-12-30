@@ -1,5 +1,6 @@
 title: $:/graph/Introduction
 edges.fields: [all[]] -tags wrote builds-upon
+graph.nodes: {"size":"25"}
 filter: [tag[Introduction]]
 type: application/json
 
