@@ -46,7 +46,7 @@ it("works with default popup slot", async function() {
 	var element = widget.parentDomNode.children[0];
 	element.dispatchEvent({type: "mousemove", offsetX: 13, offsetY: 17});
 	// Now we send a hover event through the engine...
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	// Doesn't really matter what it is, only that it's been set
 	expect(wiki.getTiddlerText("State-delay").length).toBeGreaterThan(0);
 	await $tw.test.flushChanges();
@@ -68,7 +68,7 @@ it("works with custom popup slot", async function() {
 	wiki.addTiddler({title: "Target", caption: "Text content"});
 	var text =  "<$graph><$properties.popup $ms=0>\n\n<$node $tiddler=Target/>\n\n<$fill $name=tooltip>\n\n<$tiddler tiddler=<<nodeTiddler>> >\n\n{{!!caption}}";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await doubleFlush();
 	expect(widget.parentDomNode.innerHTML).toContain(expected);
 	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "nodes", id: "Target"});
@@ -81,7 +81,7 @@ it("can be interrupted", async function() {
 	wiki.addTiddler({title: "Target", text: expected});
 	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await doubleFlush();
 	expect(widget.parentDomNode.innerHTML).toContain(expected);
 	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "nodes", id: "Target"});
@@ -96,11 +96,11 @@ it("dragging removes popup and prevents return", async function() {
 	wiki.addTiddler({title: "Target", text: expected});
 	var text =  "<$graph>\n\n<$properties.popup $ms=0 $state=State>\n\n<$node $tiddler=Target/>\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await doubleFlush();
 	// Popup should now exist
 	expect(widget.parentDomNode.innerHTML).toContain(expected);
-	$tw.test.dispatchEvent(wiki, {type: "drag", objectType: "nodes", id: "Target"}, {x: 126, y: 151});
+	$tw.test.dispatchEvent(wiki, {type: "drag", objectType: "nodes", id: "Target"});
 	expect(wiki.tiddlerExists("State")).toBe(false);
 	expect(wiki.tiddlerExists("State-delay")).toBe(false);
 	await $tw.test.flushChanges();
@@ -116,7 +116,7 @@ it("gets decent width and height defaults", async function() {
 	await $tw.test.flushChanges();
 	element.dispatchEvent({type: "mousemove", offsetX: 13, offsetY: 17});
 	// Now we send a hover event through the engine...
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await doubleFlush();
 	var html = widget.parentDomNode.innerHTML;
 	expect(html).toContain("Decent text content");
@@ -133,7 +133,7 @@ it("can customize width and height", async function() {
 	var element = widget.parentDomNode.children[0];
 	element.dispatchEvent({type: "mousemove", offsetX: 13, offsetY: 17});
 	// Now we send a hover event through the engine...
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await doubleFlush();
 	var html = widget.parentDomNode.innerHTML;
 	expect(html).toContain("Text content");
@@ -145,7 +145,7 @@ it("can work on edges too", async function() {
 	var expected = '><p>A==B==AB</p></div>';
 	var text =  "<$graph><$properties.popup $for=edges $ms=0>\n\n<$node $tiddler=A/>\n\n<$node $tiddler=B/>\n\n<$edge $from=A $to=B $id=AB />\n\n<$fill $name=tooltip>\n\n<<fromTiddler>>==<<toTiddler>>==<<id>>";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "edges", id: "AB"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "edges", id: "AB"});
 	await doubleFlush();
 	expect(widget.parentDomNode.innerHTML).toContain(expected);
 	$tw.test.dispatchEvent(wiki, {type: "blur", objectType: "edges", id: "AB"});
@@ -162,7 +162,7 @@ async function testQuadrant(X, Y) {
 	element.offsetHeight = 100;
 	element.dispatchEvent({type: "mousemove", offsetX: X, offsetY: Y});
 	// Now we send a hover event through the engine...
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	// Doesn't really matter what it is, only that it's been set
 	await doubleFlush();
 	return widget.parentDomNode.innerHTML;

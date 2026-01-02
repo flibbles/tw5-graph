@@ -3,7 +3,7 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/enum
 \whitespace trim
 
 <$select index=<<property>> default={{{ [<jsonEntry>jsonget[default]] }}} >
-  <$list variable=enum filter="[<jsonEntry>jsonget[values]]">
+  <$list variable=enum filter="[<jsonEntry>jsonget[values]] -[<jsonEntry>jsonget[hidden]]">
     <option value=<<enum>> >
       <$text text=<<enum>> />
     </option>

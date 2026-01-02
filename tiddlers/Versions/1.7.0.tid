@@ -1,0 +1,3 @@
+created: 0
+
+* Removed unnecessary x and y variables from `hover` and `drag` events. They are unreliable, unneed for core macro widgets, and not something other engines can match parity with.

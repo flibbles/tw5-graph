@@ -1,0 +1,50 @@
+title: ECharts
+tags: Plugins Engines
+builds-upon: Graph
+
+Apache ECharts is a comprehensive visualization library, and an alternative engine for <<.graph>> than [[Vis-Network]]. This library is excellent for displaying data, not only as a graph, but as all sorts of charts, from pie, bar, line charts, to many more.
+
+The plugin that packages echarts for Tiddlywiki ([[source available here|https://github.com/tiddly-gittly/tw-echarts]]) was created by Gk0Wk, and is now maintained by Linonetwo. While it now integrates with <<.graph>>, it also provides widgets of its own to be used independently.
+
+!! Pros
+
+* ECharts provides a lot more functionality than just graphs. Use this engine if you'd like to provide other types of visualizations.
+** //But currently, it's not supported. ECharts integration is still being developed.//
+* As of this writing (Jan 2026), ECharts is actively maintained.
+* The ECharts plugin ships with its own widgets to expose functionality that <<.graph>> doesn't. It can be used independently of <<.graph>>.
+
+!! Cons
+
+* It's big, nearly 1.3Mb, making it nearly twice as large as [[Vis-Network]].
+* Because of its breadth of focus across many types of charts, it is not as focused on graphs. Thus, it's not as feature-rich or polished as an engine that does focus exclusively on graphs, like [[Vis-Network]].
+* ECharts is not designed for interactivity the way that Vis-Network is. For instance, it doesn't support adding or removing edges with its own interface.
+
+! Exclusive Widget
+
+The ECharts plugin includes a `<$echarts>` widget, which allows you to interface directly with the echarts core library through it's properties. For instance:
+
+<$doc.demo
+	description="<$echarts> widget example"
+	code="""
+<$echarts $text="
+option = {
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }
+  ]
+};
+" />
+""" />
+
+This does require you to use the echarts chart configuration directly. Fortunately, it is [[very well documented|https://echarts.apache.org/en/option.html]].
+
+For more information on how to use this widget, visit the [[tw-echarts documentation|https://tiddly-gittly.github.io/tw-echarts/#How%20do%20I%20use%20the%20plugin%3F]].

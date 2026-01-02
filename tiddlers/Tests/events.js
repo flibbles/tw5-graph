@@ -16,15 +16,15 @@ beforeEach(function() {
 });
 
 it('can send events to $property', function() {
-	var event = {objectType: "nodes", id: "target", type: "hover"};
+	var event = {objectType: "nodes", id: "target", type: "free"};
 	var variables ={x: 23, y: 27};
-	var widget = $tw.test.renderText(wiki, "<$graph><$properties hover='<$action-test targetTiddler x y />'><$node $tiddler=target />");
+	var widget = $tw.test.renderText(wiki, "<$graph><$properties free='<$action-test targetTiddler x y />'><$node $tiddler=target />");
 	$tw.test.dispatchEvent(wiki, event, $tw.utils.extend({}, variables));
 	expect($tw.test.actionMethod).toHaveBeenCalledTimes(1);
 	expect($tw.test.actionMethod).toHaveBeenCalledWith({targetTiddler: "target", x: "23", y: "27"});
 	// Change the event type.
-	event.type = "free";
-	$tw.test.dispatchEvent(wiki, event, $tw.utils.extend({}, {x: 3, y:7}));
+	event.type = "drag";
+	$tw.test.dispatchEvent(wiki, event, {});
 	expect($tw.test.actionMethod).not.toHaveBeenCalled();
 });
 

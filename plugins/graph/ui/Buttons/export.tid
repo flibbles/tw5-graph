@@ -3,7 +3,7 @@ caption: {{$:/core/images/export-button}} export graph
 
 \whitespace trim
 
-<%if [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonindexes[]prefix[graph-export-]] %>
+<%if [subfilter{$:/plugins/flibbles/graph/subfilters##messages}jsonindexes[]prefix[graph-export-]] %>
   <$vars state=<<qualify "$:/state/flibbles/graph/popup/export">>
     imageStore="$:/temp/flibbles/graph/export">
     <$button
@@ -21,7 +21,7 @@ caption: {{$:/core/images/export-button}} export graph
     </$button>
     <$reveal state=<<state>> type="popup" position="below" animate="yes">
       <div class="tc-drop-down graph-export-button-dropdown">
-        <$list variable=type filter="[[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>] +[moduleproperty[messages]jsonindexes[]removeprefix[graph-export-]]">
+        <$list variable=type filter="[subfilter{$:/plugins/flibbles/graph/subfilters##messages}jsonindexes[]removeprefix[graph-export-]]">
           <$button class=`tc-btn-invisible graph-export-type-$(type)$`>
             <$action-sendmessage $message=`graph-export-$(type)$`
               targetTiddler=<<imageStore>> />

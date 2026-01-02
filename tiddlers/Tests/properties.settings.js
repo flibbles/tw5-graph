@@ -60,7 +60,7 @@ it("can default templates for popup", async function() {
 		{title: "View", popup: "yes", "popup.ms": "0"}]);
 	var text = "<$let currentTiddler=View>\n\n<$graph>\n\n<$properties.settings>\n\n<$node $tiddler=Target />\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await $tw.test.flushChanges();
 	await $tw.test.flushChanges();
 	var html = widget.parentDomNode.innerHTML;
@@ -76,7 +76,7 @@ it("can manage blank templates for popup", async function() {
 		{title: "View", popup: "yes", "popup.template": "", "popup.ms": "0"}]);
 	var text = "<$let currentTiddler=View>\n\n<$graph>\n\n<$properties.settings>\n\n<$node $tiddler=Target />\n";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await $tw.test.flushChanges();
 	await $tw.test.flushChanges();
 	var html = widget.parentDomNode.innerHTML;
@@ -93,7 +93,7 @@ it("can customize templates for popup", async function() {
 		{title: "View", popup: "yes", "popup.template": "{{!!field}}", "popup.ms": "0"}]);
 	var text = "<$let currentTiddler=View><$graph><$properties.settings><$node $tiddler=Target />";
 	var widget = $tw.test.renderGlobal(wiki, text);
-	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"}, {x: 125, y: 150});
+	$tw.test.dispatchEvent(wiki, {type: "hover", objectType: "nodes", id: "Target"});
 	await $tw.test.flushChanges();
 	await $tw.test.flushChanges();
 	// That </p> makes sure the text is being treated as a block

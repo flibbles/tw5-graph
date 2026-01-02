@@ -118,7 +118,7 @@ tags: $:/tags/Stylesheet
 .graph-engine-button {
 	margin: 1em;
 	width: 7em;
-	height: 8em;
+	height: 124px;
 	border-radius: 1em;
 	vertical-align: top;
 	font-weight: bold;
@@ -129,6 +129,7 @@ tags: $:/tags/Stylesheet
 
 .graph-engine-button .graph-icon {
 	height: 6em;
+	margin-bottom: 4px;
 	align-content: center;
 }
 

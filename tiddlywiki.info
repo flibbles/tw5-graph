@@ -3,7 +3,6 @@
 	"plugins": [
 		"flibbles/relink",
 		"flibbles/relink-fieldnames",
-		"flibbles/vis-network",
 		"tiddlywiki/jasmine",
 		"tiddlywiki/railroad"
 	],
