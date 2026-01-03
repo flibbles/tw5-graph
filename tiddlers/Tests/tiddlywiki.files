@@ -14,6 +14,19 @@
 			}
 		},
 		{
+			"path": "./relink",
+			"filesRegExp": "^.*\\.js$",
+			"isTiddlerFile": true,
+			"fields": {
+				"tags": "$:/tags/test-spec",
+				"title": {
+					"source": "filename",
+					"prefix": "$:/test/relink/"
+				},
+				"type": "application/javascript"
+			}
+		},
+		{
 			"path": "./modules",
 			"filesRegExp": "^.*\\.js$",
 			"isTiddlerFile": true,
