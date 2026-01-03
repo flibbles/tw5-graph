@@ -18,7 +18,7 @@
 			"filesRegExp": "^.*\\.js$",
 			"isTiddlerFile": true,
 			"fields": {
-				"tags": "$:/tags/test-spec",
+				"tags": "$:/tags/relink-test-spec",
 				"title": {
 					"source": "filename",
 					"prefix": "$:/test/relink/"

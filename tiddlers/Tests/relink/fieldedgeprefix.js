@@ -4,6 +4,14 @@ Tests relinking of field edge names in $:/config/flibbles/graph/edges/fields/...
 
 \*/
 
+if (!$tw.wiki.tiddlerExists("$:/plugins/flibbles/relink-fieldnames")) {
+	console.log();
+	var message = "Relink-fieldnames must be installed for this test.";
+	it = function(description, suite) {
+		xit(description, suite).pend(message);
+	};
+}
+
 describe("Relink fieldEdge prefix", function() {
 
 var language = require('$:/plugins/flibbles/relink/js/language.js');
