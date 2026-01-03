@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+    "build": "tiddlywiki --build index",
     "test": "tiddlywiki ++node_modules/tw5-relink/plugins/relink ++node_modules/tw5-relink/plugins/relink-fieldnames --build test"
   },
   "repository": {
