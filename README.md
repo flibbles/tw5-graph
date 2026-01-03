@@ -49,6 +49,17 @@ projects.
 
 ## How to test
 
-Make sure you have `tiddlywiki` available on your PATH. Then from the project root directory, type:
+### With npm
+
+The simplest way is through npm. This will manage all dependencies. From the project's root directory, do the following:
+
+1. Run `npm install` to build a few dependencies.
+2. Run `npm test` to run the tests.
+
+### Without npm
+
+This project is simple enough that you can run the tests without having to deal with npm. If you have tiddlywiki available, all you have to do is run the following from the root directory:
 
 `tiddlywiki --build test`
+
+However, not all tests may run if you don't have _relink_ and _relink-fieldnames_ available on your `TIDDLYWIKI_PLUGIN_PATH` enviroment variable. See the [relink project page](https://github.com/flibbles/tw5-relink) for instructions on how to set that up.
