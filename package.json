@@ -1,5 +1,5 @@
 {
-  "name": "graph",
+  "name": "tw5-graph",
   "version": "1.6.0",
   "description": "Lightweight and programmable graphing for Tiddlywiki",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "tiddlywiki --build test"
+    "test": "tiddlywiki ++node_modules/tw5-relink/plugins/relink ++node_modules/tw5-relink/plugins/relink-fieldnames --build test"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,14 @@
   "bugs": {
     "url": "https://github.com/flibbles/tw5-graph/issues"
   },
+  "files": [
+    "plugins/"
+  ],
   "homepage": "https://github.com/flibbles/tw5-graph#readme",
   "dependencies": {
     "tiddlywiki": "^5.3.8"
+  },
+  "devDependencies": {
+    "tw5-relink": "github:flibbles/tw5-relink"
   }
 }
