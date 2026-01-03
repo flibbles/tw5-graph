@@ -23,7 +23,6 @@
 				"$:/core/templates/html-json-tiddler"
 		],
 		"index": [
-			"--output", "./docs/",
 			"--render",
 				"$:/core/save/offline-external-js",
 				"index.html",
