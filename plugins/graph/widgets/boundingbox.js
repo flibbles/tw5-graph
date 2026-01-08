@@ -53,12 +53,10 @@ BoxWidget.prototype.executeDimensions = function() {
 	var self = this;
 	this.widthFilter = this.wiki.compileFilter(this.getAttribute("width", ""));
 	this.heightFilter = this.wiki.compileFilter(this.getAttribute("height", ""));
-	this.dimensionWidget = this.wiki.makeWidget({tree: [{type: "widget", children: []}]}, {parentWidget: this});
-	this.dimensionWidget.execute();
 	// We set up the widget so it only gets values for these variables
 	// if needed. This keeps down unncessary calls to window and document,
 	// and makes the $graph widget usable on Node, if that ever comes up.
-	var variables = {
+	var variableMethods = {
 		// It may be better to use document.body.clientWidth,
 		// which doesn't consider the scrollbar.
 		windowWidth: function() { return self.window.innerWidth.toString(); },
@@ -66,10 +64,11 @@ BoxWidget.prototype.executeDimensions = function() {
 		boundingLeft: function() { return self.domNode.getBoundingClientRect().left.toString(); },
 		boundingTop: function() { return self.domNode.getBoundingClientRect().top.toString(); },
 	};
-	for (var name in variables) {
-		this.dimensionWidget.setVariable(name);
-		Object.defineProperty(this.dimensionWidget.variables[name], "value", { get: variables[name] });
+	var variables = {};
+	for (var name in variableMethods) {
+		Object.defineProperty(variables, name, { get: variableMethods[name] });
 	}
+	this.dimensionWidget = this.makeFakeWidgetWithVariables(variables);
 };
 
 /**
@@ -104,9 +103,8 @@ BoxWidget.prototype.executeClass = function() {
 };
 
 BoxWidget.prototype.resize = function(event) {
-	var widget = this.dimensionWidget.children[0];
-	var newWidth = this.widthFilter(null, widget)[0] || "";
-	var newHeight = this.heightFilter(null, widget)[0] || "";
+	var newWidth = this.widthFilter(null, this.dimensionWidget)[0] || "";
+	var newHeight = this.heightFilter(null, this.dimensionWidget)[0] || "";
 	var style = this.domNode.style;
 	if (newWidth !== style.width) {
 		style.width = newWidth;
