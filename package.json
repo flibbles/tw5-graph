@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tiddlywiki --build index",
+    "build": "tiddlywiki ++node_modules/tw5-vis-network/plugins/vis-network --build index",
     "test": "tiddlywiki ++node_modules/tw5-relink/plugins/relink ++node_modules/tw5-relink/plugins/relink-fieldnames --build test"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "tiddlywiki": "^5.3.8"
   },
   "devDependencies": {
-    "tw5-relink": "github:flibbles/tw5-relink"
+    "tw5-relink": "github:flibbles/tw5-relink",
+    "tw5-vis-network": "github:flibbles/tw5-vis-network"
   }
 }
