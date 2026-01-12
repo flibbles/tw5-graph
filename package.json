@@ -33,6 +33,6 @@
   },
   "devDependencies": {
     "tw5-relink": "github:flibbles/tw5-relink",
-    "tw5-vis-network": "github:flibbles/tw5-vis-network"
+    "tw5-vis-network": "github:flibbles/tw5-vis-network#v10.5.4"
   }
 }
