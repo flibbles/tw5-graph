@@ -15,7 +15,7 @@ beforeEach(async function() {
 });
 
 it("renders data tiddlers using viewTemplate", function() {
-	var widget = $tw.test.renderText($tw.wiki, "{{$:/config/flibbles/graph/edges/functions/links||$:/core/ui/ViewTemplate/body}}");
+	var widget = $tw.test.renderText(wiki, "{{$:/config/flibbles/graph/edges/functions/links||$:/core/ui/ViewTemplate/body}}");
 	var html = widget.parentDomNode.innerHTML;
 	// Make sure the table renders
 	expect(html).toContain("<table");

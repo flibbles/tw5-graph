@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tiddlywiki ++node_modules/tw5-vis-network/plugins/vis-network ++node_modules/mermaid-tw5/mermaid-tw5/plugins/mermaid-tw5 --build index bundle",
-    "test": "tiddlywiki ++node_modules/tw5-relink/plugins/relink ++node_modules/tw5-relink/plugins/relink-fieldnames --build test"
+    "test": "tiddlywiki ++node_modules/tw5-vis-network/plugins/vis-network ++node_modules/mermaid-tw5/mermaid-tw5/plugins/mermaid-tw5 ++node_modules/tw5-relink/plugins/relink ++node_modules/tw5-relink/plugins/relink-fieldnames --build test"
   },
   "repository": {
     "type": "git",

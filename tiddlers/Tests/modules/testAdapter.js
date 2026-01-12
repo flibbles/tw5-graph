@@ -41,6 +41,8 @@ exports.properties = {
 	},
 	edges: {
 		width: {type: "number"},
+		label: {type: "string"},
+		color: {type: "color"},
 		delete: {type: "actions"},
 		hover: {type: "actions"},
 		blur: {type: "actions"}
