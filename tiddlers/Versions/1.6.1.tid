@@ -1,3 +1,15 @@
-created: 0
+created: 20260112202216615
 
 * Removed unnecessary x and y variables from `hover` and `drag` events. They are unreliable, unneed for core macro widgets, and not something other engines can match parity with.
+* Fixed BoundingBox widget to work correctly under the upcoming TW5.4.0 release.
+* Numerous minor improvements to the documentation
+* Now allowing for hidden enum options that don't show up in a property's dropdown, but are accepted. This is largely to handle deprecated options.
+** Such as how Vis-Network's " " option for arrows.
+* Revamped build process to make it more automatic, and easier for others to get involved. `npm install` and `npm run build` should do all now.
+
+Engine changes
+
+* Mermaid has a text-only option, which was supposed to help with AI consumption, but apparently it doesn't...
+* Vis-Network Deprecated the " " option for arrows. Now uses "no".
+* Added documentation for ECharts, but it's not quite ready to be showcased yet.
+* (#80) vis-network now supports minWidth and maxWidth
