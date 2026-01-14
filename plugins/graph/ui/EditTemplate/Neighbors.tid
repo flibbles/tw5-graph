@@ -2,7 +2,7 @@ caption: Neighbors
 
 \whitespace trim
 
-You can enable popups when hovering over a node.
+You can display all the neighbor nodes associated with the nodes in your graph.
 
 <!-- This uses 1 and 0 as values instead of yes and no, because someday, I
      may allow for deeper depth of neighbors. Those would use 2+ -->
