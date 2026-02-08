@@ -9,8 +9,16 @@ Defines behavior for enum types in graph engine properties.
 exports.name = "enum";
 
 exports.toProperty = function(info, value) {
-	if (info.values.indexOf(value) >= 0) {
-		return value;
+	var values = $tw.utils.parseStringArray(value);
+	if(value === " ") {
+		// Little exception here for backward-compatibleness,
+		// back when I used to allow spaces as values
+		values = [" "];
+	}
+	for (var i = 0; i < values.length; i++) {
+		if (info.values.indexOf(values[i]) >= 0) {
+			return values[i];
+		}
 	}
 	return null;
 };

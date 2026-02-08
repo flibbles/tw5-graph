@@ -19,6 +19,24 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
+it("by default, it only allows first enum", function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A shape='box circle' />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {shape: "box"}});
+});
+
+it("allows enums with spaces", function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A shape='[[big circle]]' />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {shape: "big circle"}});
+});
+
+it("allows a single space enum for back-compat reasons", function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A/><$node $tiddler=B/><$edge $id=AB $from=A $to=B arrows=' ' />");
+	var objects = init.calls.first().args[1];
+	expect(objects.edges).toEqual({AB: {from: "A", to: "B", arrows: " "}});
+});
+
 it("ignores non-existent options", function() {
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A shape=nonexistent />");
 	var objects = init.calls.first().args[1];
