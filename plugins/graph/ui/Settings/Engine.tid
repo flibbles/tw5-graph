@@ -9,7 +9,7 @@ caption: Engine
 
 <div class=graph-engine-button-list>
 
-<$list filter="[[graphengine]modules[]]">
+<$list filter="[[graphengine]modules[]] :sort[all[current]moduleproperty[name]]">
 
 <$let name={{{ [all[current]moduleproperty[name]] }}} >
 

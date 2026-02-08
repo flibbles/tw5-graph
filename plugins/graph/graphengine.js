@@ -26,8 +26,11 @@ exports.get = function(wiki) {
 			return specified;
 		} else {
 			var engineMap = utils.getEngineMap();
-			for (var entry in engineMap) {
-				return entry;
+			var keys = Object.keys(engineMap);
+			if (keys.length > 0) {
+				// We go with the first one by alphabetical order
+				keys.sort();
+				return keys[0];
 			}
 		}
 		return "";
