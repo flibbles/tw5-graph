@@ -30,7 +30,7 @@ exports.properties = {
 		hidden: {type: "boolean"},
 		image: {type: "image"},
 		physics: {type: "boolean"},
-		shape: {type: "enum", values: ["deprecated", "box", "circle", "big circle", "star"], hidden: ["deprecated"]},
+		shape: {type: "enum", values: ["deprecated", "box", "circle", "big circle", "star", " "], hidden: ["deprecated", " "]},
 		x: {type: "number", hidden: true},
 		y: {type: "number", hidden: true},
 		delete: {type: "actions"},
@@ -40,7 +40,7 @@ exports.properties = {
 		free: {type: "actions", variables: ['x', 'y']}
 	},
 	edges: {
-		arrows: {type: "enum", values: [" ", "to", "from"], hidden: [" "], multiple: true},
+		arrows: {type: "enum", values: ["to", "from", "also this", "deprecated"], hidden: ["deprecated"], multiple: true},
 		width: {type: "number"},
 		label: {type: "string"},
 		color: {type: "color"},
