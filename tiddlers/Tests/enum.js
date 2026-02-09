@@ -59,6 +59,20 @@ it("does not show hidden options in Single dropdowns", function() {
 	expect(html).not.toContain("deprecated");
 });
 
+it("Single can have a default value with spaces", function() {
+	var widget = $tw.test.renderText(wiki, "{{$:/plugins/flibbles/graph/ui/ViewTemplate/properties|nodes}}");
+	var select = [];
+	// Dig through the tree and find all select option elements
+	function findSelectElement(root) {
+		if (root.tag === "select") {
+			select.push(root.value);
+		}
+		root.children && root.children.forEach(findSelectElement);
+	};
+	findSelectElement(widget.parentDomNode);
+	expect(select).toEqual(["big circle"]);
+});
+
 /*** Multiple value enums ***/
 
 it("can allow multiple enums when specified", function() {
@@ -74,6 +88,20 @@ it("does not show hidden options in Multiple dropdowns", function() {
 	expect(html).toContain("from");
 	// But make sure deprecated doesn't appear
 	expect(html).not.toContain("deprecated");
+});
+
+it("Multiple can have a default value with spaces", function() {
+	var widget = $tw.test.renderText(wiki, "{{$:/plugins/flibbles/graph/ui/ViewTemplate/properties|edges}}");
+	var selected = [];
+	// Dig through the tree and find all selected option elements
+	function findSelected(root) {
+		if (root.tag === "option" && root.selected) {
+			selected.push(root.value);
+		}
+		root.children && root.children.forEach(findSelected);
+	};
+	findSelected(widget.parentDomNode);
+	expect(selected).toEqual(["to", "also this"]);
 });
 
 });

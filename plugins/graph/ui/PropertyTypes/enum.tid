@@ -6,7 +6,7 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/enum
 	multiple={{{ [<jsonEntry>jsonget[multiple]match[true]else[]] }}}
 	actions="<%if [all[current]getindex<property>match[]] %><$action-setfield $index=<<property>> $value=' '/>"
 	index=<<property>>
-	default={{{ [<jsonEntry>jsonget[default]] }}} >
+	default={{{ [<jsonEntry>jsonget[multiple]match[true]then<jsonEntry>jsonget[default]format:titlelist[]join[ ]] ~[<jsonEntry>jsonget[default]] }}} >
   <$list variable=enum filter="[<jsonEntry>jsonget[values]] -[<jsonEntry>jsonget[hidden]]">
     <option value=<<enum>> >
       <$text text=<<enum>> />
