@@ -1,6 +1,6 @@
 {
   "name": "tw5-graph",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Lightweight and programmable graphing for Tiddlywiki",
   "main": "index.js",
   "directories": {
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "tw5-relink": "github:flibbles/tw5-relink",
-    "tw5-vis-network": "github:flibbles/tw5-vis-network#v10.5.4",
+    "tw5-vis-network": "github:flibbles/tw5-vis-network#v10.5.5",
     "mermaid-tw5": "github:flibbles/mermaid-tw5"
   }
 }

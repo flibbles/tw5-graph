@@ -1,0 +1,11 @@
+created: 20260210033727712
+
+* (#81) Fixed issue where centering button didn't work when used strictly through keyboard shortcuts... or it will be fixed once [[this issue in core|https://github.com/TiddlyWiki/TiddlyWiki5/pull/9649]] is merged.
+* (#82) Support for enums that can take multiple values added
+* Fixed incorrect prompt for Neighbors checkboxes in GraphTiddler settings.
+* Fixed tests to support upcoming TW 5.4.0 plugin sorting changes
+* Fixed demo site to account for upcoming TW 5.4.0 changes to layout
+
+Engine changes
+
+* New version of vis-network which takes advantage of this new multi-value enums to provide for multi-selectable arrows for edges.
