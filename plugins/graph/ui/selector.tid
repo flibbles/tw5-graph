@@ -50,8 +50,8 @@ code-body: yes
 	placeholder="Type something"
 	class="tc-edit-texteditor graph-select"
 	focus=yes
-	inputCancelActions=<<select-cancel-actions>>
-	inputAcceptActions=<<select-accept-actions>>
+	inputCancelActions="<$transclude $variable=select-cancel-actions $fillignore=yes />"
+	inputAcceptActions="<$transclude $variable=select-accept-actions $fillignore=yes />"
 />
 
 <p>
