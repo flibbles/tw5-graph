@@ -3,7 +3,7 @@
 	"title": "$:/plugins/flibbles/graph",
 	"description": "Lightweight and programmable graphing for Tiddlywiki",
 	"author": "Flibbles",
-	"version": "1.6.2",
+	"version": "1.6.3",
 	"stability": "STABILITY_2_STABLE",
 	"core-version": ">=5.3.7",
 	"source": "https://github.com/flibbles/tw5-graph",

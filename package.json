@@ -1,6 +1,6 @@
 {
   "name": "tw5-graph",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Lightweight and programmable graphing for Tiddlywiki",
   "main": "index.js",
   "directories": {
