@@ -60,10 +60,25 @@ Register an object for destruction. It's ready to pass on once its
 isGarbage method returns true;
 */
 exports.registerForGarbageCollection = function(object) {
-	if (!upkeepId) {
-		upkeepId = setInterval(exports.upkeep, 5000);
+	var destroy = object.destroy;
+	if (destroy) {
+		// This object has a destroy method, which means it's probably
+		// a widget in ^v5.4.0 TiddlyWiki, which are capable of
+		// destruction. We'll use that system instead. It's better.
+		object.destroy = function() {
+			// Call the widget core destroy method
+			destroy.apply(object, arguments);
+			// And then our own method
+			object.garbageCollect();
+		};
+	} else {
+		// Otherwise, we'll need to keep tabs on this so we can check
+		// back in occasionally to see if it should be destroyed.
+		if (!upkeepId) {
+			upkeepId = setInterval(exports.upkeep, 5000);
+		}
+		eventualGarbage.push(object);
 	}
-	eventualGarbage.push(object);
 };
 
 exports.upkeep = function() {
