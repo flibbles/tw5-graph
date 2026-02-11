@@ -32,7 +32,7 @@ exports.name = "graph";
 
 exports.constructor = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
-	utils.registerForDestruction(this);
+	utils.registerForGarbageCollection(this);
 	this.window = utils.window();
 };
 
@@ -198,7 +198,7 @@ GraphWidget.refreshColors = function(changedTiddlers) {
 	return changed;
 };
 
-GraphWidget.destroy = function() {
+GraphWidget.garbageCollect = function() {
 	if (this.graphEngine) {
 		this.graphEngine.destroy();
 	}

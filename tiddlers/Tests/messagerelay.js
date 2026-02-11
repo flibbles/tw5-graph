@@ -175,7 +175,7 @@ it("detects when to destroy itself", async function() {
 	while (relayWidget.children.length > 0) {
 		relayWidget = relayWidget.children[0];
 	}
-	var destroy = spyOn(relayWidget, "destroy").and.callThrough();
+	var destroy = spyOn(relayWidget, "garbageCollect").and.callThrough();
 	var check = spyOn(relayWidget, "isGarbage").and.callThrough();
 	await $tw.test.flushChanges();
 	expect(register).toHaveBeenCalled();

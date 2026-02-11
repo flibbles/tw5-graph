@@ -12,7 +12,7 @@ var utils = require("../utils.js");
 
 var BoxWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
-	utils.registerForDestruction(this);
+	utils.registerForGarbageCollection(this);
 	this.resizeInstance = this.resize.bind(this);
 	this.window = utils.window();
 	this.window.addEventListener("resize", this.resizeInstance);
@@ -114,7 +114,7 @@ BoxWidget.prototype.resize = function(event) {
 	}
 };
 
-BoxWidget.prototype.destroy = function() {
+BoxWidget.prototype.garbageCollect = function() {
 	this.window.removeEventListener("resize", this.resizeInstance);
 };
 

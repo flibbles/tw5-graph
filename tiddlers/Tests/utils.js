@@ -15,7 +15,7 @@ test.setSpies = function() {
 		update: spyOn(TestAdapter, "update").and.callThrough(),
 		init: spyOn(TestAdapter, "init").and.callThrough(),
 		destroy: spyOn(TestAdapter, "destroy").and.callThrough(),
-		register: spyOn($tw.test.utils, "registerForDestruction"),
+		register: spyOn($tw.test.utils, "registerForGarbageCollection"),
 		window: spyOn($tw.test.utils, "window").and.returnValue(new test.mock.Window(expect))
 	};
 };

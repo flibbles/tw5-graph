@@ -59,7 +59,7 @@ var upkeepId;
 Register an object for destruction. It's ready to pass on once its
 isGarbage method returns true;
 */
-exports.registerForDestruction = function(object) {
+exports.registerForGarbageCollection = function(object) {
 	if (!upkeepId) {
 		upkeepId = setInterval(exports.upkeep, 5000);
 	}
@@ -73,7 +73,7 @@ exports.upkeep = function() {
 		var object = eventualGarbage[i];
 		if (object.isGarbage()) {
 			eventualGarbage.splice(i, 1);
-			object.destroy();
+			object.garbageCollect();
 		}
 	}
 	// No managed objects. Let's shut down for now.

@@ -17,7 +17,7 @@ var relayed = Object.create(null);
 
 var RelayWidget = function(parseTreeNode, options) {
 	this.initialise(parseTreeNode, options);
-	utils.registerForDestruction(this);
+	utils.registerForGarbageCollection(this);
 };
 
 RelayWidget.prototype = new Widget();
@@ -44,7 +44,7 @@ RelayWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	var changed = false;
 	if (changedAttributes.name) {
-		this.destroy();
+		this.garbageCollect();
 		this.refreshSelf();
 		return true;
 	}
@@ -79,7 +79,7 @@ RelayWidget.prototype.isGarbage = function() {
 	return root !== $tw.rootWidget;
 };
 
-RelayWidget.prototype.destroy = function() {
+RelayWidget.prototype.garbageCollect = function() {
 	if (this.relayName) {
 		var register = this.wiki.relayRegister[this.relayName];
 		for (var i = 0; i < register.length; i++) {
