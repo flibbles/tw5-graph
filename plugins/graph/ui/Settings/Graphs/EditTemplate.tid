@@ -1,5 +1,24 @@
 title: $:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate
 
+\procedure engineSelector()
+\whitespace trim
+<$select field=engine
+	actions="<%if [{!!engine}match[]] %><$action-deletefield $field=engine/>">
+  <option />
+  <$list filter="[{!!engine}!match[]] [subfilter{$:/plugins/flibbles/graph/subfilters##engine.list}moduleproperty[name]]">
+    <%if [{!!title}match[]] ~[subfilter{$:/plugins/flibbles/graph/subfilters##engine.list}moduleproperty[name]match{!!title}] %>
+      <option>
+        <$text text={{!!title}} />
+      </option>
+    <%else%>
+      <option disabled value={{!!title}} class="graph-tiddler-select-warning" >
+        <$text text=`$(currentTiddler)$ (not installed!)` />
+      </option>
+    <%endif%>
+  </$list>
+</$select>
+\end
+
 \procedure templateSelector()
 \whitespace trim
 <$select field=template default={{{ [[$:/tags/flibbles/graph/Template]tagging[]] }}} >
@@ -14,6 +33,11 @@ title: $:/plugins/flibbles/graph/ui/Settings/Graphs/EditTemplate
 \end
 
 ! <$link><$transclude field=caption><$text text={{{ [{!!title}removeprefix[$:/graph/]] }}} /></$transclude></$link>
+
+<%if [[graphengine]modules[]count[]compare:number:gt[1]] %>
+
+Engine: <<engineSelector>>
+<%endif%>
 
 Template: <<templateSelector>>
 

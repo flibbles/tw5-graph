@@ -13,7 +13,11 @@ edgetypes.functions: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##edge
 actioncontext: [all[]] :cache[subfilter{$:/plugins/flibbles/graph/subfilters##actioncontext.internal}]
 actioncontext.internal: [[widget-subclass]modules[]] :filter[moduleproperty[graphObjectType]match<..currentTiddler>] +[moduleproperty[actionContext]jsonget[]]
 
-# This gets you the properties json of the currently active engine
+# Returns the active engine in the current scope
 engine: [[graphengine]modules[]] :filter[moduleproperty[name]match<graphengine>]
+# Returns a list of available engine modules sorted by name
+engine.list: [[graphengine]modules[]] :sort[all[current]moduleproperty[name]]
+# This gets you the messages json of the currently active engine
 messages: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##engine}moduleproperty[messages]]
+# This gets you the properties json of the currently active engine
 properties: :cache[subfilter{$:/plugins/flibbles/graph/subfilters##engine}moduleproperty[properties]]

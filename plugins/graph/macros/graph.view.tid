@@ -1,8 +1,14 @@
 \widget $graph.view($tiddler:"$:/graph/Default", $mode)
 \whitespace trim
-<$parameters $params=viewParams $parseMode=$defaultMode $$template={{{ [<$tiddler>get[template]] ~[[$:/tags/flibbles/graph/Template]tagging[]first[]] }}}>
+<$parameters
+	$params=viewParams
+	$parseMode=$defaultMode
+	$$template={{{ [<$tiddler>get[template]] ~[[$:/tags/flibbles/graph/Template]tagging[]first[]] }}}
+	$$engine={{{ [<$tiddler>get[engine]] ~[<graphengine>] }}} >
 
-<$vars currentTiddler=<<$tiddler>> >
+<$vars
+	currentTiddler=<<$tiddler>>
+	graphengine=<<$engine>> >
 
 <$genesis
 	$type="$transclude"

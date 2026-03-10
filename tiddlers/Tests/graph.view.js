@@ -14,6 +14,55 @@ beforeEach(async function() {
 	await $tw.test.setGlobals(wiki);
 });
 
+/*** $engine ***/
+
+it("uses the global engine if non specified", function() {
+	wiki.addTiddlers([
+		{title: "Target", template: "Template"},
+		{title: "Template", text: "<<graphengine>>"}]);
+	var text = "<$graph.view $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	// "Test" is the default engine specified in renderGlobal
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Test</p>");
+});
+
+it("uses field-specified engine", function() {
+	wiki.addTiddlers([
+		{title: "Target", template: "Template", engine: "Fielded"},
+		{title: "Template", text: "<<graphengine>>"}]);
+	var text = "<$graph.view $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Fielded</p>");
+});
+
+it("ignores blank field-specified engine", function() {
+	wiki.addTiddlers([
+		{title: "Target", template: "Template", engine: ""},
+		{title: "Template", text: "<<graphengine>>"}]);
+	var text = "<$graph.view $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	// "Test" is the default engine specified in renderGlobal
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Test</p>");
+});
+
+it("uses widget-specified engine", function() {
+	wiki.addTiddlers([
+		{title: "Target", template: "Template"},
+		{title: "Template", text: "<<graphengine>>"}]);
+	var text = "<$graph.view $engine=Widgeted $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Widgeted</p>");
+});
+
+it("prefers widget-specified engine over field-specified", function() {
+	wiki.addTiddlers([
+		{title: "Target", template: "Template", engine: "Fielded"},
+		{title: "Template", text: "<<graphengine>>"}]);
+	var text = "<$graph.view $engine=Widgeted $tiddler=Target />\n";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>Widgeted</p>");
+});
+
 /*** $tiddler and $template attributes ***/
 
 it("uses a standard graph if no template specified", function() {
