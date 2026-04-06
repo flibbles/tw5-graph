@@ -33,7 +33,8 @@ exports.toProperty = function(info, value, options) {
 				injectNamespace(svg);
 				// wikitext images may benefit from colors. svg images should too, but let's
 				// not worry about that right now.
-				output.widget.color = options.widget.getColor("nodeColor");
+				var graphWidget = getGraphWidget(options.widget);
+				output.widget.color = graphWidget.getColor("nodeColor");
 				injectStyle(svg, output.widget);
 				output.uri = "data:image/svg+xml," + encodeURIComponent(container.innerHTML);
 			}

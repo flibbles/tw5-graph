@@ -69,7 +69,7 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.refreshProperties() || {};
-		objects.graph = this.typecastProperties(this.properties, "graph");
+		objects.graph = this.typecastProperties(this, "graph");
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
 		} catch(e) {
@@ -156,7 +156,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		if (JSON.stringify(newGraphProperties) !== JSON.stringify(this.properties)) {
 			objects = objects || {};
 			this.properties = newGraphProperties;
-			objects.graph = this.typecastProperties(this.properties, "graph");
+			objects.graph = this.typecastProperties(this, "graph");
 			changed = true;
 		}
 	}
@@ -254,18 +254,19 @@ GraphWidget.traversePropertyWidgets = function(method) {
 	}
 };
 
-GraphWidget.typecastProperties = function(properties, type) {
+GraphWidget.typecastProperties = function(widget, type) {
+	var properties = widget.properties;
 	var engineDefinitions = this.graphEngine.properties;
 	var catalog = (engineDefinitions && engineDefinitions[type]) || {};
-	return this.typecastSet(properties, catalog);
+	return this.typecastSet(properties, catalog, widget);
 };
 
-GraphWidget.typecastSet = function(properties, catalog) {//type, key, value) {
+GraphWidget.typecastSet = function(properties, catalog, widget) {//type, key, value) {
 	var output = Object.create(null);
 	for (var key in properties) {
 		var info = catalog[key];
 		if (info && PropertyTypes[info.type]) {
-			var value = PropertyTypes[info.type].toProperty(info, properties[key], {widget: this});
+			var value = PropertyTypes[info.type].toProperty(info, properties[key], {wiki: widget.wiki, widget: widget});
 			if (value !== null) {
 				output[key] = value;
 			}
@@ -339,7 +340,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 					// Updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = this.typecastProperties(is[id].properties, type);
+					objects[type][id] = this.typecastProperties(is[id], type);
 					is[id].changed = false;
 				}
 			}
@@ -353,7 +354,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = this.typecastProperties(is[id].properties, type);
+				objects[type][id] = this.typecastProperties(is[id], type);
 				is[id].changed = false;
 			}
 		}
@@ -367,7 +368,9 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 GraphWidget.dispatchEvent = function(event) {
 	var messageDef = this.graphEngine.messages && this.graphEngine.messages[event.type];
 	if (messageDef) {
-		var params = this.typecastSet(event.paramObject, messageDef);
+		// TODO: I think I should change this so the widget is the
+		//       messageWidget, not the graph widget.
+		var params = this.typecastSet(event.paramObject, messageDef, this);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}

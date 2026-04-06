@@ -9,12 +9,13 @@ var engineConfig = "$:/config/flibbles/graph/engine";
 test.utils = require("$:/plugins/flibbles/graph/utils.js");
 test.mock = $tw.modules.applyMethods("mocklibrary");
 
-test.setSpies = function() {
-	var TestAdapter = test.utils.getEngineMap().Test.prototype;
+test.setSpies = function(adapterName) {
+	adapterName = adapterName || "Test";
+	var Adapter = test.utils.getEngineMap()[adapterName].prototype;
 	return {
-		update: spyOn(TestAdapter, "update").and.callThrough(),
-		init: spyOn(TestAdapter, "init").and.callThrough(),
-		destroy: spyOn(TestAdapter, "destroy").and.callThrough(),
+		update: spyOn(Adapter, "update").and.callThrough(),
+		init: spyOn(Adapter, "init").and.callThrough(),
+		destroy: spyOn(Adapter, "destroy").and.callThrough(),
 		register: spyOn($tw.test.utils, "registerForGarbageCollection"),
 		window: spyOn($tw.test.utils, "window").and.returnValue(new test.mock.Window(expect))
 	};

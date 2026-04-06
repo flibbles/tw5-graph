@@ -64,6 +64,16 @@ it("handles wikitext that uses macros", function() {
 	expect(objects.nodes.A.image).toContain("LocalBody");
 });
 
+it("handles wikitext that uses internally nested variables", function() {
+	// It doesn't have the svg directly
+	wiki.addTiddler({title: "Image", text: "<svg><text><<local>>"});
+	var widget = $tw.test.renderText(wiki, "\\procedure local() DONOTUSE\n<$graph><$let local=LocalBody><$node $tiddler=A image=Image/>");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes.A.image).toContain("LocalBody");
+	// The outer definition of "local" should not be used
+	expect(objects.nodes.A.image).not.toContain("DONOTUSE");
+});
+
 it("can handle base64 encoded images", function() {
 	var jpgBody = $tw.utils.base64Encode("This isn't actually a jpg body...");
 	var expected = "data:image/jpeg;base64," + jpgBody;

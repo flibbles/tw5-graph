@@ -10,6 +10,9 @@ Mock adapter to test switching adapters.
 exports.name = "Also";
 
 exports.properties = {
+	axes: {
+		categories: {type: "filter"}
+	},
 	nodes: {
 		// We define the coordinates as strings. This tests that $node::$pos will keep coordinates as strings (or whatever) if engines want them that way.
 		x: {type: "string", hidden: true},
