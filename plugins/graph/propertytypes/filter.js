@@ -17,10 +17,7 @@ exports.toProperty = function(info, value, options) {
 	var output = widget.wiki.filterTiddlers(value, widget);
 	widget._graphFilterCache = widget._graphFilterCache || Object.create(null);
 	widget._graphFilterCache[value] = output;
-	if (output.length > 0) {
-		return output;
-	}
-	return null;
+	return output;
 };
 
 exports.refresh = function(info, value, changedTiddlers, widget) {

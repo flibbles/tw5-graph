@@ -258,10 +258,10 @@ GraphWidget.typecastProperties = function(widget, type) {
 	var properties = widget.properties;
 	var engineDefinitions = this.graphEngine.properties;
 	var catalog = (engineDefinitions && engineDefinitions[type]) || {};
-	return this.typecastSet(properties, catalog, widget);
+	return typecastSet(widget, properties, catalog);
 };
 
-GraphWidget.typecastSet = function(properties, catalog, widget) {//type, key, value) {
+function typecastSet(widget, properties, catalog) {//type, key, value) {
 	var output = Object.create(null);
 	for (var key in properties) {
 		var info = catalog[key];
@@ -370,7 +370,7 @@ GraphWidget.dispatchEvent = function(event) {
 	if (messageDef) {
 		// TODO: I think I should change this so the widget is the
 		//       messageWidget, not the graph widget.
-		var params = this.typecastSet(event.paramObject, messageDef, this);
+		var params = typecastSet(this, event.paramObject, messageDef);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}

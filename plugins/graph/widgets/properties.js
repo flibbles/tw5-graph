@@ -44,7 +44,6 @@ Properties.prototype.refresh = function(changedTiddlers) {
 		return true;
 	}
 	if (propertiesChanged(changedAttributes)
-	|| utils.refreshProperties(this.properties, this, this.type, changedTiddlers)
 	|| changedAttributes["$tiddler"]
 	|| changedAttributes["$field"]
 	|| (this.dataTiddler
