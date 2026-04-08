@@ -127,4 +127,20 @@ it("uses scope local to the widget", async function() {
 	expect(objects.nodes).toEqual({A: {color: "#440000"}});
 });
 
+// Two objects with the same ID can result in one getting toProperty'ed, but
+// not the other, which can cause a refresh to fail if toProperty makes stuff
+it("can handle overlapping nodes", async function() {
+	wiki.addTiddler({title: "graph-node-color", text: "#330000"});
+	wiki.addTiddler({title: "Toggle", text: "yes"});
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$properties color=graph-node-color><$node $tiddler=A color=graph-node-color/><%if [{Toggle}match[yes]] %><$node $tiddler=A color=#555555/>");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {color: "#555555"}});
+	// Now change something
+	wiki.addTiddler({title: "Toggle", text: "no"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.nodes).toEqual({A: {color: "#330000"}});
+});
+
 });

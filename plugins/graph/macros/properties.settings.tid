@@ -38,9 +38,7 @@
 
 <%if [{!!neighbors.incoming}] =[{!!neighbors.outgoing}] +[match[1]count[]match[2]] %>
 
-<$wikify name=muted text="<<colour muted-foreground>>">
-
-<$properties color=<<muted>> >
+<$properties color="muted-foreground" >
  
 <$nodes.neighbors
   $filter={{!!filter}}
@@ -49,7 +47,7 @@
   $interedges={{!!neighbors.interedges}}
   $whitelist={{{ [{!!title}get[neighbors.whitelist]] ~"[!is[system]]" }}} />
 
-</$properties></$wikify><%endif%></$let></$properties.stack></$properties></$properties>
+</$properties><%endif%></$let></$properties.stack></$properties></$properties>
 <$properties $tiddler={{!!title}} $field="graph.graph" $for=graph />
 
 </$properties.river></$properties.popup>

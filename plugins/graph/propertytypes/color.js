@@ -30,7 +30,7 @@ exports.toProperty = function(info, value, options) {
 
 exports.refresh = function(info, value, changedTiddlers, widget) {
 	if (value.charAt(0) !== "#") {
-		if (widget.colorWidgets[value].refresh(changedTiddlers)) {
+		if (widget.colorWidgets && widget.colorWidgets[value].refresh(changedTiddlers)) {
 			return true;
 		}
 	}
