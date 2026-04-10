@@ -7,6 +7,7 @@ Widget for creating graphs.
 "use strict";
 
 var utils = require("../../utils.js");
+var Color = require("../../propertytypes/color.js");
 
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 // Let's collect all the possible graph object types. We might need to
@@ -89,10 +90,8 @@ GraphWidget.render = function(parent, nextSibling) {
 Compute the internal state of the widget
 */
 GraphWidget.execute = function() {
-	this.colorWidgets = {};
 	this.graphEngineName = this.getEngineName();
 	this.setVariable("graphengine", this.graphEngineName);
-	this.executeColors();
 	this.mouse = {x: "0", y: "0"};
 	var Engine = utils.getEngine(this.graphEngineName);
 	if (!Engine || this.errorState) {
@@ -113,18 +112,6 @@ GraphWidget.execute = function() {
 		this.knownObjects = {};
 		this.makeChildWidgets();
 		this.graphEngine = new Engine(this.wiki);
-	}
-};
-
-GraphWidget.executeColors = function() {
-	for (var color in graphColors) {
-		this.colorWidgets[color] = this.wiki.makeWidget({
-			tree: [{
-				type: "transclude",
-				attributes: {
-					"$variable": {type: "string", value: "colour"},
-					0: {type: "string", value: graphColors[color]}}
-			}]}, {parentWidget: this});
 	}
 };
 
@@ -190,10 +177,9 @@ GraphWidget.refreshSelf = function() {
 GraphWidget.refreshColors = function(changedTiddlers) {
 	var changed = false;
 	for (var color in graphColors) {
-		if (!this.colorWidgets[color].refresh(changedTiddlers)) {
-			continue;
+		if (Color.refresh(null, graphColors[color], changedTiddlers, this)) {
+			changed = true;
 		}
-		changed = true;
 	}
 	return changed;
 };
@@ -214,10 +200,9 @@ GraphWidget.getEngineName = function() {
 };
 
 GraphWidget.getColor = function(color) {
-	var widget = this.colorWidgets[color];
-	var container = $tw.fakeDocument.createElement("div");
-	widget.render(container, null);
-	return container.textContent;
+	var paletteColor = graphColors[color];
+	var output = Color.toProperty(null, paletteColor, {widget: this});
+	return (paletteColor !== output) && output;
 };
 
 GraphWidget.setCustomProperties = function(properties) {
