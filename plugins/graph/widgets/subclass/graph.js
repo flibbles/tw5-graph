@@ -70,7 +70,9 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.refreshProperties() || {};
+		this.typedProperties = {};
 		objects.graph = this.typecastProperties(this, "graph");
+		this.typedProperties = objects.graph;
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
 		} catch(e) {
@@ -130,7 +132,11 @@ GraphWidget.refresh = function(changedTiddlers) {
 	for (var attribute in changedAttributes) {
 		if (attribute.charAt(0) !== "$") {
 			changed = true;
+			break;
 		}
+	}
+	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
+		changed = true
 	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
@@ -138,12 +144,13 @@ GraphWidget.refresh = function(changedTiddlers) {
 		changed = true;
 	}
 	changed = this.computeParents() || changed;
-	if (changed || this.refreshColors(changedTiddlers)) {
-		var newGraphProperties = this.graphEngine? this.refreshProperties(): Object.create(null);
-		if (JSON.stringify(newGraphProperties) !== JSON.stringify(this.properties)) {
+	if (this.graphEngine && (changed || this.refreshColors(changedTiddlers))) {
+		this.properties = this.graphEngine? this.refreshProperties(): Object.create(null);
+		var newTypecastProperties = this.typecastProperties(this, "graph");
+		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
+			this.typedProperties = newTypecastProperties;
 			objects = objects || {};
-			this.properties = newGraphProperties;
-			objects.graph = this.typecastProperties(this, "graph");
+			objects.graph = this.typedProperties;
 			changed = true;
 		}
 	}

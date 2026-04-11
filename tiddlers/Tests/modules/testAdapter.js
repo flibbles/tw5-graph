@@ -20,7 +20,8 @@ exports.properties = {
 		navigation: {type: "boolean", default: false},
 		addNode: {type: "actions", variables: ['x', 'y']},
 		addEdge: {type: "actions", variables: ['fromTiddler', 'toTiddler']},
-		doubleclick: {type: "actions", variables: ['x', 'y']}
+		doubleclick: {type: "actions", variables: ['x', 'y']},
+		border: {type: "color"}
 	},
 	nodes: {
 		actions: {type: "actions", expected: true},

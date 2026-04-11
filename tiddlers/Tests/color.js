@@ -33,6 +33,22 @@ it("empty string does not create a dummy widget", function() {
 	expect(objects.nodes).toEqual({A: {}});
 });
 
+it("updates correctly on graph objects", async function() {
+	wiki.addTiddler({title: "graph-border", text: "#ffffff"});
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, prefix + "<$graph border=graph-border />");
+	// We'll have made one dummy widget for this
+	expect(makeWidget).toHaveBeenCalled();
+	makeWidget.calls.reset();
+	expect(init.calls.first().args[1].graph).toEqual({border: "#ffffff"});
+	// And if we change it, that gets detected
+	wiki.addTiddler({title: "graph-border", text: "#ff0000"});
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0]).toEqual({graph: {border: "#ff0000"}});
+	// Let's make sure we're using the dummy widgets we already have
+	expect(makeWidget).not.toHaveBeenCalled();
+});
+
 it("works with #xxxxxx color format", async function() {
 	wiki.addTiddler({title: "Elsewise", text: "this"});
 	await $tw.test.flushChanges();
