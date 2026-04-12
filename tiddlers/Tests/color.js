@@ -78,17 +78,35 @@ it("works with palette colors", async function() {
 	expect(makeWidget).not.toHaveBeenCalled();
 });
 
-it("can switch to palette colors", async function() {
-	wiki.addTiddler({title: "graph-node-color", text: "#330000"});
-	wiki.addTiddler({title: "Color", text: "#aa0000"});
+it("can switch to palette colors not named as CSS colors", async function() {
 	await $tw.test.flushChanges();
-	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$node $tiddler=A color={{Color}} />");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {color: "#aa0000"}});
+	// We have a non-color value which doesn't match a palette color, nothing.
+	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$node $tiddler=A color=notacolor />");
+	expect(init.calls.first().args[1].nodes).toEqual({A: {}});
+	// If we change it so such a palette color exists
+	wiki.addTiddler({title: "notacolor", text: "#aa0000"});
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({A: {color: "#aa0000"}});
+	// If we change it to a color, it detects and updates
+	update.calls.reset();
+	wiki.deleteTiddler("notacolor");
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({A: {}});
+});
+
+it("can switch to palette colors named as CSS colors", async function() {
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$node $tiddler=A color=red />");
+	expect(init.calls.first().args[1].nodes).toEqual({A: {color: "red"}});
 	// And if we change it, that gets detected
-	wiki.addTiddler({title: "Color", text: "graph-node-color"});
+	wiki.addTiddler({title: "red", text: "#222222"});
 	await $tw.test.flushChanges();
-	expect(objects.nodes).toEqual({A: {color: "#330000"}});
+	expect(update.calls.first().args[0].nodes).toEqual({A: {color: "#222222"}});
+	// If we change it to a color, it detects and updates
+	update.calls.reset();
+	wiki.deleteTiddler("red");
+	await $tw.test.flushChanges();
+	expect(update.calls.first().args[0].nodes).toEqual({A: {color: "red"}});
 });
 
 it("can switch from palette colors", async function() {
@@ -111,22 +129,22 @@ it("can switch from palette colors", async function() {
 
 it("works with css color names", async function() {
 	await $tw.test.flushChanges();
-	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$node $tiddler=A color=brickred />");
+	var widget = $tw.test.renderText(wiki, prefix + "<$graph><$node $tiddler=A color=red />");
 	var objects = init.calls.first().args[1];
 	// We'll have made one dummy widget for this
 	expect(makeWidget).toHaveBeenCalled();
 	makeWidget.calls.reset();
-	expect(objects.nodes).toEqual({A: {color: "brickred"}});
+	expect(objects.nodes).toEqual({A: {color: "red"}});
 	// And if we change it, that gets detected
-	wiki.addTiddler({title: "brickred", text: "#770000"});
+	wiki.addTiddler({title: "red", text: "#770000"});
 	await $tw.test.flushChanges();
 	expect(objects.nodes).toEqual({A: {color: "#770000"}});
 	// Let's make sure we're using the dummy widgets we already have
 	expect(makeWidget).not.toHaveBeenCalled();
 	// Let's switch back to blank
-	wiki.deleteTiddler("brickred");
+	wiki.deleteTiddler("red");
 	await $tw.test.flushChanges();
-	expect(objects.nodes).toEqual({A: {color: "brickred"}});
+	expect(objects.nodes).toEqual({A: {color: "red"}});
 	expect(makeWidget).not.toHaveBeenCalled();
 });
 
