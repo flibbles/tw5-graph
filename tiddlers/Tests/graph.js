@@ -100,9 +100,10 @@ it("detects when to destroy itself", async function() {
 	expect(destroy).toHaveBeenCalled();
 });
 
-/*** color palette ***/
+/*** auto-properties ***/
 
 it('sends style update if palette changes', async function() {
+	// In Test, the nodeColor property is tied to graph-node-color palette
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
 	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph/>')
 	await $tw.test.flushChanges();
@@ -145,15 +146,11 @@ it('can update colors and other graph settings together', async function() {
 	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff", value: "#0000ff"}});
 });
 
-it("conveys graph, node, and font colors to the engines", async function() {
-	// All three of these are used, at least by vis-network
-	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
-	wiki.addTiddler({title: "graph-font-color", text: "#00ff00"});
-	wiki.addTiddler({title: "graph-background", text: "#0000ff"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph />')
-	await $tw.test.flushChanges();
+it("can allow for auto-properties to be overridden", function() {
+	wiki.addTiddler({title: "graph-node-color", text: "#aaaaaa"});
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph nodeColor=#ff0000 />')
 	var objects = onlyCallOf(init)[1];
-	expect(objects).toEqual({graph: {nodeColor: "#ff0000", fontColor: "#00ff00", graphColor: "#0000ff"}});
+	expect(objects).toEqual({graph: {nodeColor: "#ff0000"}});
 });
 
 /*** $engine attribute ***/
@@ -162,6 +159,7 @@ it("uses first available engine if none specified", function() {
 	var First = function() {};
 	First.prototype.init = function(){};
 	First.prototype.render = function(){};
+	First.prototype.properties = {};
 	spyOn($tw.test.utils, "getEngineMap").and.returnValue({anything: First});
 	var alsoInit = spyOn(First.prototype, "init");
 	var text = wiki.renderText("text/html", "text/vnd.tiddlywiki", "<$graph>=<<graphengine>>=")

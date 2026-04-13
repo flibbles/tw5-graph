@@ -7,7 +7,6 @@ Widget for creating graphs.
 "use strict";
 
 var utils = require("../../utils.js");
-var Color = require("../../propertytypes/color.js");
 
 var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 // Let's collect all the possible graph object types. We might need to
@@ -19,14 +18,6 @@ $tw.modules.forEachModuleOfType("widget-subclass", function(title, module) {
 		GraphObjectTypes[module.graphObjectType] = module;
 	}
 });
-
-var graphColors = {
-	nodeColor: "graph-node-color",
-	fontColor: "graph-font-color",
-	// We pass along the background too, even though it's probably covered
-	// by CSS. Some engines might need this for other coloring effects.
-	graphColor: "graph-background"
-};
 
 exports.baseClass = "graphobject";
 exports.name = "graph";
@@ -144,7 +135,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		changed = true;
 	}
 	changed = this.computeParents() || changed;
-	if (this.graphEngine && (changed || this.refreshColors(changedTiddlers))) {
+	if (this.graphEngine && changed) {
 		this.properties = this.graphEngine? this.refreshProperties(): Object.create(null);
 		var newTypecastProperties = this.typecastProperties(this, "graph");
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
@@ -181,16 +172,6 @@ GraphWidget.refreshSelf = function() {
 	this.render(this.parentDomNode, nextSibling);
 };
 
-GraphWidget.refreshColors = function(changedTiddlers) {
-	var changed = false;
-	for (var color in graphColors) {
-		if (Color.refresh(null, graphColors[color], changedTiddlers, this)) {
-			changed = true;
-		}
-	}
-	return changed;
-};
-
 GraphWidget.garbageCollect = function() {
 	if (this.graphEngine) {
 		this.graphEngine.destroy();
@@ -207,12 +188,12 @@ GraphWidget.getEngineName = function() {
 };
 
 GraphWidget.setCustomProperties = function(properties) {
-	for (var name in graphColors) {
-		var paletteColor = graphColors[name];
-		var output = Color.toProperty(null, paletteColor, {widget: this});
-		var color = (paletteColor !== output) && output;
-		if (color) {
-			properties[name] = color;
+	var catalog = this.graphEngine.properties.graph;
+	for (var name in catalog) {
+		var property = catalog[name];
+		// It's hidden, and it has a default, so this is an auto-fill property
+		if (property.hidden && property.default) {
+			properties[name] = property.default;
 		}
 	}
 };

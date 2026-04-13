@@ -13,8 +13,14 @@ exports.properties = {
 	graph: {
 		focus: {type: "actions", expected: true},
 		blur: {type: "actions", expected: true},
-		drop: {type: "actions", variables: ["dropTiddler"]},
 		zoom: {type: "boolean", expected: true},
+		// The following are not expected in deployed engines,
+		// but if any of the following actions are present, we
+		// do make sure the engine matches the way this adapter
+		// defines it.
+		// This applies to nodes and edges too.
+		nodeColor: {type: "color", default: "graph-node-color", hidden: true},
+		drop: {type: "actions", variables: ["dropTiddler"]},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},
 		navigation: {type: "boolean", default: false},
@@ -26,8 +32,9 @@ exports.properties = {
 	nodes: {
 		actions: {type: "actions", expected: true},
 		color: {type: "color", expected: true},
-		size: {type: "number", min: 0},
 		label: {type: "string", expected: true},
+		// Below properties are not expected, but actions are matched
+		size: {type: "number", min: 0},
 		hidden: {type: "boolean"},
 		image: {type: "image", color: "graph-node-color"},
 		physics: {type: "boolean"},
