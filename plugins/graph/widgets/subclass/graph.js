@@ -206,15 +206,11 @@ GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine") || this.getVariable("graphengine");
 };
 
-GraphWidget.getColor = function(color) {
-	var paletteColor = graphColors[color];
-	var output = Color.toProperty(null, paletteColor, {widget: this});
-	return (paletteColor !== output) && output;
-};
-
 GraphWidget.setCustomProperties = function(properties) {
 	for (var name in graphColors) {
-		var color = this.getColor(name);
+		var paletteColor = graphColors[name];
+		var output = Color.toProperty(null, paletteColor, {widget: this});
+		var color = (paletteColor !== output) && output;
 		if (color) {
 			properties[name] = color;
 		}

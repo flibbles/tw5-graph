@@ -275,4 +275,17 @@ it("can inject colors", async function() {
 	expect(objects.nodes.A.image).toContain(encodeURIComponent("fill:#0000ff"));
 });
 
+it("does not inject node colors into edges", function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var AlsoSpies = $tw.test.spyOnAdapter("Also");
+	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
+	wiki.addTiddler({title: "graph-node-color", text: "#00bfab"});
+	wiki.addTiddler({title: "Image", text: svg});
+	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph $engine=Also><$node $tiddler=A/><$node $tiddler=B/><$edge $id=AB $from=A $to=B image=Image/>");
+	var objects = AlsoSpies.init.calls.first().args[1];
+	expect(objects.edges.AB.image).toContain("circle");
+	// The node color does not show up anywhere
+	expect(objects.edges.AB.image).not.toContain("00bfab");
+});
+
 });

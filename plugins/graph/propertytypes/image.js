@@ -6,22 +6,25 @@ Defines images types, and manages fetching a url from titles.
 
 "use strict";
 
+var Color = require("./color.js");
+
 exports.name = "image";
 
 exports.type = "title";
 
 exports.toProperty = function(info, value, options) {
-	var tiddler = options.widget.wiki.getTiddler(value);
+	var widget = options.widget;
+	var tiddler = widget.wiki.getTiddler(value);
 	if (!tiddler) {
 		// It does not appear to be a real tiddler,
 		// so let's treat it like a real URL.
 		return value;
 	}
-	var cache = options.widget.wiki.getGlobalCache("graph-image", function() {
+	var cache = widget.wiki.getGlobalCache("graph-image", function() {
 		return Object.create(null);
 	});
 	if (!cache[value]) {
-		var output = getTiddlerUri(value, options.widget);
+		var output = getTiddlerUri(value, widget);
 		if (output.uri === undefined && output.widget) {
 			var container = $tw.fakeDocument.createElement("div");
 			output.widget.render(container, null);
@@ -31,11 +34,12 @@ exports.toProperty = function(info, value, options) {
 				output.uri = null;
 			} else {
 				injectNamespace(svg);
-				// wikitext images may benefit from colors. svg images should too, but let's
-				// not worry about that right now.
-				var graphWidget = getGraphWidget(options.widget);
-				output.widget.color = graphWidget.getColor("nodeColor");
-				injectStyle(svg, output.widget);
+				// wikitext images may benefit from colors.
+				// svg images should too, but let's not worry about that now.
+				if (info.color) {
+					output.widget.color = Color.toProperty(null, info.color, {widget: output.widget});
+					injectStyle(svg, output.widget);
+				}
 				output.uri = "data:image/svg+xml," + encodeURIComponent(container.innerHTML);
 			}
 		}
@@ -48,31 +52,21 @@ exports.refresh = function(info, value, changedTiddlers, widget) {
 	if (changedTiddlers[value]) {
 		return true;
 	}
-	var graphWidget = getGraphWidget(widget);
-	var tiddler = graphWidget.wiki.getTiddler(value);
+	var tiddler = widget.wiki.getTiddler(value);
 	if (tiddler) {
-		var output = getTiddlerUri(value, graphWidget);
+		var output = getTiddlerUri(value, widget);
 		if (output.widget && output.widget.refresh(changedTiddlers)) {
 			output.uri = undefined;
 			return true;
 		}
 	}
 	// Now we need to check whether the color for this image has changed
-	if (output && output.widget) {
-		var newColor = graphWidget.getColor("nodeColor");
-		if (newColor !== output.widget.color) {
-			output.color = newColor;
-			return true;
-		}
+	if (output
+	&& output.widget
+	&& Color.refresh(null, info.color || "", changedTiddlers, output.widget)) {
+		return true;
 	}
 	return false;
-};
-
-function getGraphWidget(widget) {
-	while (widget && !widget.getColor) {
-		widget = widget.parentWidget;
-	}
-	return widget;
 };
 
 function getTiddlerUri(title, widget) {
@@ -87,7 +81,8 @@ function getTiddlerUri(title, widget) {
 			typeInfo = $tw.config.contentTypeInfo[type] || {},
 			deserializerType = typeInfo.deserializerType || type;
 		if(text) {
-			// Render the appropriate element for the image type by looking up the encoding in the content type info
+			// Render the appropriate element for the image type by
+			// looking up the encoding in the content type info
 			var encoding = typeInfo.encoding || "utf8";
 			if (encoding === "base64") {
 				// .pdf .png .jpg etc.
@@ -99,7 +94,7 @@ function getTiddlerUri(title, widget) {
 		} else if(_canonical_uri) {
 			output.uri = _canonical_uri;
 		} else {
-			// This must be a lazily loaded tiddler. We don't suppor those yet.
+			// This must be a lazily loaded tiddler. We don't support those yet.
 			output.uri = null;
 		}
 	} else {

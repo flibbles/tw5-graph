@@ -18,6 +18,9 @@ exports.properties = {
 		x: {type: "string", hidden: true},
 		y: {type: "string", hidden: true},
 		z: {type: "string", hidden: true}
+	},
+	edges: {
+		image: {type: "image"}
 	}
 };
 exports.init = function(element, objects) {

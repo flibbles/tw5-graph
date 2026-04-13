@@ -29,7 +29,7 @@ exports.properties = {
 		size: {type: "number", min: 0},
 		label: {type: "string", expected: true},
 		hidden: {type: "boolean"},
-		image: {type: "image"},
+		image: {type: "image", color: "graph-node-color"},
 		physics: {type: "boolean"},
 		shape: {type: "enum", default: "big circle", values: ["deprecated", "box", "circle", "big circle", "star", " "], hidden: ["deprecated", " "]},
 		x: {type: "number", hidden: true},
