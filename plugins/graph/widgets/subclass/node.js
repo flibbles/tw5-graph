@@ -42,3 +42,8 @@ NodeWidget.setCustomProperties = function(properties) {
 		}
 	}
 };
+
+NodeWidget.isDisqualified = function() {
+	// Nodes must have non-empty IDs. If empty, this node should be pruned.
+	return !this.id;
+};

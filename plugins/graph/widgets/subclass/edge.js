@@ -45,3 +45,11 @@ EdgeWidget.setCustomProperties = function(properties) {
 		properties.to = this.toTiddler;
 	}
 };
+
+EdgeWidget.isDisqualified = function(objects) {
+	// Edges are not legal if there aren't corresponding nodes for its
+	// to and from.
+	return !objects.nodes
+	|| !objects.nodes[this.fromTiddler]
+	|| !objects.nodes[this.toTiddler];
+};

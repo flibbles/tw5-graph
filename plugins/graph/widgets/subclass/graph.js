@@ -267,26 +267,13 @@ GraphWidget.findGraphObjects = function() {
 };
 
 function withholdObjects(objects) {
-	// Blank nodes get filtered
-	if (objects.nodes) {
-		for (var id in objects.nodes) {
-			if (!id) {
-				objects.nodes[id] = undefined;
-				// This can only happen once
-				break;
-			}
-		}
-	}
-	// Special handling for edge trimming
-	if (objects.edges) {
-		for (var id in objects.edges) {
-			var edge = objects.edges[id];
-			// This could probably be done above when deleting nulls
-			if (!objects.nodes
-			|| !objects.nodes[edge.fromTiddler]
-			|| !objects.nodes[edge.toTiddler]) {
-				// It must be trimmed
-				objects.edges[id] = undefined;
+	for (var groupName in objects) {
+		var type = GraphObjectTypes[groupName];
+		if (type || type.graphObjectType !== "graph") {
+			for (var id in objects[groupName]) {
+				if (objects[groupName][id].isDisqualified(objects)) {
+					objects[groupName][id] = undefined;
+				}
 			}
 		}
 	}

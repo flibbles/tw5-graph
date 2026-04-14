@@ -53,6 +53,10 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 	return false;
 };
 
+// By default, an object widget is always legal.
+// Specific types can define their own reasons why objects should be filtered.
+ObjectWidget.prototype.isDisqualified = function() { return false; };
+
 ObjectWidget.prototype.refreshProperties = function() {
 	var newProperties = Object.create(null);
 	this.setCustomProperties(newProperties);
