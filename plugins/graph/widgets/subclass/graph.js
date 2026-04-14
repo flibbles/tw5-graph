@@ -259,13 +259,18 @@ GraphWidget.findGraphObjects = function() {
 			newObjects[type][widget.id] = widget;
 		}
 	}
-	// Special handling for edge trimming
+	// Prune any objects which shouldn't be passed along
 	withholdObjects(newObjects);
 	var prevObjects = this.knownObjects;
 	this.knownObjects = newObjects;
 	return this.getDifferences(prevObjects, newObjects);
 };
 
+/**
+ * Checking for objects that should be pruned must take place after all
+ * objects have been collected. Some object types, like edge, need to know
+ * what other objects are present to know if they're valid or not.
+ */
 function withholdObjects(objects) {
 	for (var groupName in objects) {
 		var type = GraphObjectTypes[groupName];
@@ -355,7 +360,7 @@ GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 		var object = category && category[graphEvent.id];
 		if (object) {
 			variables = variables || {};
-			// We let the graph object assign some state, such as the id of the
+			// We let the graph object assign some state,such as the id of the
 			// targeted node, or the nodes of the targeted edge.
 			var module = GraphObjectTypes[object.graphObjectType];
 			if (module) {
@@ -378,6 +383,8 @@ GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 
 GraphWidget.handleEvent = function(event) {
 	// Must be a mousemove, because that's the only one we signed up for.
+	// All we do is remember the mouse position if we need it later for
+	// graph events.
 	this.mouse.x = event.offsetX;
 	this.mouse.y = event.offsetY;
 };
