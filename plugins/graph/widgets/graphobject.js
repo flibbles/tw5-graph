@@ -21,7 +21,7 @@ ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.execute();
 	this.computeParents();
 	this.renderChildren(parent, nextSibling);
-	this.properties = this.refreshProperties();
+	this.properties = this.computeProperties();
 	// We're new, so we're changed. Announce ourselves when asked.
 	this.changed = true;
 };
@@ -43,7 +43,7 @@ ObjectWidget.prototype.refresh = function(changedTiddlers) {
 	}
 	if (possibleChanges) {
 		this.execute();
-		this.properties = this.refreshProperties();
+		this.properties = this.computeProperties();
 		this.changed = true;
 	}
 	return this.refreshChildren(changedTiddlers) || this.changed;
@@ -57,7 +57,10 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 // Specific types can define their own reasons why objects should be filtered.
 ObjectWidget.prototype.isDisqualified = function() { return false; };
 
-ObjectWidget.prototype.refreshProperties = function() {
+/**
+ * Computes the properties for this object and returns them in an object.
+ */
+ObjectWidget.prototype.computeProperties = function() {
 	var newProperties = Object.create(null);
 	this.setCustomProperties(newProperties);
 	for (var key in this.attributes) {

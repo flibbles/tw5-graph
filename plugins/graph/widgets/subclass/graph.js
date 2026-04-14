@@ -60,7 +60,7 @@ GraphWidget.render = function(parent, nextSibling) {
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		var objects = this.findGraphObjects() || {};
-		this.properties = this.refreshProperties() || {};
+		this.properties = this.computeProperties();
 		this.typedProperties = {};
 		objects.graph = this.typecastProperties(this, "graph");
 		this.typedProperties = objects.graph;
@@ -136,7 +136,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 	}
 	changed = this.computeParents() || changed;
 	if (this.graphEngine && changed) {
-		this.properties = this.graphEngine? this.refreshProperties(): Object.create(null);
+		this.properties = this.computeProperties();
 		var newTypecastProperties = this.typecastProperties(this, "graph");
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
 			this.typedProperties = newTypecastProperties;
