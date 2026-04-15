@@ -59,7 +59,8 @@ GraphWidget.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
-		var objects = this.findGraphObjects() || {};
+		var _prevObjects = this.findGraphObjects();
+		var objects = this.getDifferences(_prevObjects, this.knownObjects) || {};
 		this.properties = this.computeProperties();
 		this.typedProperties = {};
 		objects.graph = typecastProperties(this, this.properties, this.getCatalog("graph"));
@@ -131,7 +132,8 @@ GraphWidget.refresh = function(changedTiddlers) {
 	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
-		objects = this.findGraphObjects();
+		var _prevObjects = this.findGraphObjects();
+		objects = this.getDifferences(_prevObjects, this.knownObjects);
 		changed = true;
 	}
 	changed = this.computeParents() || changed;
@@ -260,7 +262,7 @@ GraphWidget.findGraphObjects = function() {
 	curateObjects(newObjects);
 	var prevObjects = this.knownObjects;
 	this.knownObjects = newObjects;
-	return this.getDifferences(prevObjects, newObjects);
+	return prevObjects;
 };
 
 /**
