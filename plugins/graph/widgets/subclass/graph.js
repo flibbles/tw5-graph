@@ -59,8 +59,8 @@ GraphWidget.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
-		var _prevObjects = this.findGraphObjects();
-		var objects = this.getDifferences(_prevObjects, this.knownObjects) || {};
+		this.knownObjects = findGraphObjects(this);
+		var objects = this.getDifferences({}, this.knownObjects) || {};
 		this.properties = this.computeProperties();
 		this.typedProperties = {};
 		objects.graph = typecastProperties(this, this.properties, this.getCatalog("graph"));
@@ -132,8 +132,9 @@ GraphWidget.refresh = function(changedTiddlers) {
 	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
-		var _prevObjects = this.findGraphObjects();
-		objects = this.getDifferences(_prevObjects, this.knownObjects);
+		var prevObjects = this.knownObjects;
+		this.knownObjects = findGraphObjects(this);
+		objects = this.getDifferences(prevObjects, this.knownObjects);
 		changed = true;
 	}
 	changed = this.computeParents() || changed;
@@ -246,9 +247,9 @@ function typecastProperties(widget, properties, catalog) {
 	return output;
 };
 
-GraphWidget.findGraphObjects = function() {
+function findGraphObjects(graphWidget) {
 	var newObjects = {};
-	var iterator = new utils.WidgetIterator(this),
+	var iterator = new utils.WidgetIterator(graphWidget),
 		results;
 	while (!(results = iterator.next()).done) {
 		var widget = results.value;
@@ -260,9 +261,7 @@ GraphWidget.findGraphObjects = function() {
 	}
 	// Prune any objects which shouldn't be passed along
 	curateObjects(newObjects);
-	var prevObjects = this.knownObjects;
-	this.knownObjects = newObjects;
-	return prevObjects;
+	return newObjects;
 };
 
 /**
