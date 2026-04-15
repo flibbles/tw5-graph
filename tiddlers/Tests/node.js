@@ -13,9 +13,10 @@ beforeEach(function() {
 	({window, init, update} = $tw.test.setSpies());
 });
 
-it("empty-string graph attributes do not count", function() {
-	var widget = $tw.test.renderText(wiki, "<$node $tiddler=N yes=5 no={{missing}} />");
-	expect($tw.test.fetchGraphObjects(widget)).toEqual({nodes: {N: {yes: "5"}}});
+it("empty-string attributes do not count", function() {
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N yes=5 no={{missing}} />");
+	var objects = $tw.test.latestEngine.objects;
+	expect(objects.nodes).toEqual({N: {yes: "5"}});
 });
 
 /*** $tiddler ***/

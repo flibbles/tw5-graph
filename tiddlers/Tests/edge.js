@@ -24,9 +24,9 @@ function onlyCallOf(spy) {
 };
 
 it("empty-string graph attributes do not count", function() {
-	var widget = $tw.test.renderText(wiki, "<$edge $from=N yes=5 no={{missing}} />");
-	var edgeObjects = $tw.test.fetchGraphObjects(widget).edges;
-	expect(Object.values(edgeObjects)).toEqual([{from: "N", yes: "5"}]);
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N/><$node $tiddler=M/><$edge $from=N $to=M yes=5 no={{missing}} />");
+	var objects = $tw.test.latestEngine.objects;
+	expect(Object.values(objects.edges)).toEqual([{from: "N", to: "M", yes: "5"}]);
 });
 
 it("ignores bad numbers for number properties", function() {

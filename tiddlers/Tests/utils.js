@@ -125,22 +125,3 @@ function createEvent(type) {
 		return {type: type};
 	}
 };
-
-test.fetchGraphObjects = function(widget) {
-	var objects = {};
-	var searchChildren = function(children) {
-		for (var i = 0; i < children.length; i++) {
-			var widget = children[i];
-			var type = widget.graphObjectType;
-			if (type && widget.changed) {
-				objects[type] = objects[type] || Object.create(null);
-				objects[type][widget.id] = widget.properties;
-			}
-			if (widget.children) {
-				searchChildren(widget.children);
-			}
-		}
-	};
-	searchChildren([widget]);
-	return objects;
-};
