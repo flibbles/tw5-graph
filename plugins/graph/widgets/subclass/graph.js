@@ -62,7 +62,7 @@ GraphWidget.render = function(parent, nextSibling) {
 		var objects = this.findGraphObjects() || {};
 		this.properties = this.computeProperties();
 		this.typedProperties = {};
-		objects.graph = this.typecastProperties(this, "graph");
+		objects.graph = typecastProperties(this, this.properties, this.getCatalog("graph"));
 		this.typedProperties = objects.graph;
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
@@ -137,7 +137,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 	changed = this.computeParents() || changed;
 	if (this.graphEngine && changed) {
 		this.properties = this.computeProperties();
-		var newTypecastProperties = this.typecastProperties(this, "graph");
+		var newTypecastProperties = typecastProperties(this, this.properties, this.getCatalog("graph"));
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
 			this.typedProperties = newTypecastProperties;
 			objects = objects || {};
@@ -223,14 +223,12 @@ GraphWidget.traversePropertyWidgets = function(method) {
 	}
 };
 
-GraphWidget.typecastProperties = function(widget, type) {
-	var properties = widget.properties;
-	var engineDefinitions = this.graphEngine.properties;
-	var catalog = (engineDefinitions && engineDefinitions[type]) || {};
-	return typecastSet(widget, properties, catalog);
+GraphWidget.getCatalog = function(type) {
+	var definitions = this.graphEngine.properties;
+	return (definitions && definitions[type]) || Object.create(null);
 };
 
-function typecastSet(widget, properties, catalog) {//type, key, value) {
+function typecastProperties(widget, properties, catalog) {
 	var output = Object.create(null);
 	for (var key in properties) {
 		var info = catalog[key];
@@ -247,7 +245,6 @@ function typecastSet(widget, properties, catalog) {//type, key, value) {
 };
 
 GraphWidget.findGraphObjects = function() {
-	var self = this;
 	var newObjects = {};
 	var iterator = new utils.WidgetIterator(this),
 		results;
@@ -260,7 +257,7 @@ GraphWidget.findGraphObjects = function() {
 		}
 	}
 	// Prune any objects which shouldn't be passed along
-	withholdObjects(newObjects);
+	curateObjects(newObjects);
 	var prevObjects = this.knownObjects;
 	this.knownObjects = newObjects;
 	return this.getDifferences(prevObjects, newObjects);
@@ -271,14 +268,19 @@ GraphWidget.findGraphObjects = function() {
  * objects have been collected. Some object types, like edge, need to know
  * what other objects are present to know if they're valid or not.
  */
-function withholdObjects(objects) {
+function curateObjects(objects) {
 	for (var groupName in objects) {
 		var type = GraphObjectTypes[groupName];
 		if (type || type.graphObjectType !== "graph") {
-			for (var id in objects[groupName]) {
-				if (objects[groupName][id].isDisqualified(objects)) {
-					objects[groupName][id] = undefined;
+			var index = 0;
+			var group = objects[groupName];
+			for (var id in group) {
+				if (group[id].isDisqualified(objects)) {
+					group[id] = undefined;
+				} else {
+					group[id].index = index;
 				}
+				++index;
 			}
 		}
 	}
@@ -289,6 +291,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 	for (var type in prevObjects) {
 		var was = prevObjects[type];
 		var is = newObjects[type];
+		var catalog = this.getCatalog(type);
 		for (var id in was) {
 			if (was[id]) {
 				if (!is || !is[id]) {
@@ -301,7 +304,7 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 					// Updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = this.typecastProperties(is[id], type);
+					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
 					is[id].changed = false;
 				}
 			}
@@ -310,12 +313,13 @@ GraphWidget.getDifferences = function(prevObjects, newObjects) {
 	for (var type in newObjects) {
 		var was = prevObjects? prevObjects[type]: undefined;
 		var is = newObjects[type];
+		var catalog = this.getCatalog(type);
 		for (var id in is) {
 			if (is[id] && (!was || !was[id])) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = this.typecastProperties(is[id], type);
+				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
 				is[id].changed = false;
 			}
 		}
@@ -331,7 +335,7 @@ GraphWidget.dispatchEvent = function(event) {
 	if (messageDef) {
 		// TODO: I think I should change this so the widget is the
 		//       messageWidget, not the graph widget.
-		var params = typecastSet(this, event.paramObject, messageDef);
+		var params = typecastProperties(this, event.paramObject, messageDef);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}
