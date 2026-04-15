@@ -188,7 +188,7 @@ GraphWidget.getEngineName = function() {
 };
 
 GraphWidget.setCustomProperties = function(properties) {
-	var catalog = this.graphEngine.properties.graph;
+	var catalog = this.getCatalog("graph");
 	for (var name in catalog) {
 		var property = catalog[name];
 		// It's hidden, and it has a default, so this is an auto-fill property
@@ -279,8 +279,8 @@ function curateObjects(objects) {
 					group[id] = undefined;
 				} else {
 					group[id].index = index;
+					++index;
 				}
-				++index;
 			}
 		}
 	}
