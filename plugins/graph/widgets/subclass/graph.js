@@ -60,10 +60,10 @@ GraphWidget.render = function(parent, nextSibling) {
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		this.knownObjects = findGraphObjects(this);
-		var objects = this.getDifferences({}, this.knownObjects) || {};
+		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
 		this.properties = this.computeProperties();
 		this.typedProperties = {};
-		objects.graph = typecastProperties(this, this.properties, this.getCatalog("graph"));
+		objects.graph = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
 		this.typedProperties = objects.graph;
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
@@ -134,13 +134,13 @@ GraphWidget.refresh = function(changedTiddlers) {
 		// Children have changed. Look for changed nodes and edges.
 		var prevObjects = this.knownObjects;
 		this.knownObjects = findGraphObjects(this);
-		objects = this.getDifferences(prevObjects, this.knownObjects);
+		objects = getDifferences(this.graphEngine, prevObjects, this.knownObjects);
 		changed = true;
 	}
 	changed = this.computeParents() || changed;
 	if (this.graphEngine && changed) {
 		this.properties = this.computeProperties();
-		var newTypecastProperties = typecastProperties(this, this.properties, this.getCatalog("graph"));
+		var newTypecastProperties = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
 			this.typedProperties = newTypecastProperties;
 			objects = objects || {};
@@ -191,7 +191,7 @@ GraphWidget.getEngineName = function() {
 };
 
 GraphWidget.setCustomProperties = function(properties) {
-	var catalog = this.getCatalog("graph");
+	var catalog = getCatalog(this.graphEngine, "graph");
 	for (var name in catalog) {
 		var property = catalog[name];
 		// It's hidden, and it has a default, so this is an auto-fill property
@@ -224,108 +224,6 @@ GraphWidget.traversePropertyWidgets = function(method) {
 		method(ptr.value);
 		ptr = ptr.next;
 	}
-};
-
-GraphWidget.getCatalog = function(type) {
-	var definitions = this.graphEngine.properties;
-	return (definitions && definitions[type]) || Object.create(null);
-};
-
-function typecastProperties(widget, properties, catalog) {
-	var output = Object.create(null);
-	for (var key in properties) {
-		var info = catalog[key];
-		if (info && PropertyTypes[info.type]) {
-			var value = PropertyTypes[info.type].toProperty(info, properties[key], {wiki: widget.wiki, widget: widget});
-			if (value !== null) {
-				output[key] = value;
-			}
-		} else {
-			output[key] = properties[key];
-		}
-	}
-	return output;
-};
-
-function findGraphObjects(graphWidget) {
-	var newObjects = {};
-	var iterator = new utils.WidgetIterator(graphWidget),
-		results;
-	while (!(results = iterator.next()).done) {
-		var widget = results.value;
-		var type = widget.graphObjectType;
-		if (type && type !== "graph") {
-			newObjects[type] = newObjects[type] || Object.create(null);
-			newObjects[type][widget.id] = widget;
-		}
-	}
-	// Prune any objects which shouldn't be passed along
-	curateObjects(newObjects);
-	return newObjects;
-};
-
-/**
- * Checking for objects that should be pruned must take place after all
- * objects have been collected. Some object types, like edge, need to know
- * what other objects are present to know if they're valid or not.
- */
-function curateObjects(objects) {
-	for (var groupName in objects) {
-		var type = GraphObjectTypes[groupName];
-		if (type || type.graphObjectType !== "graph") {
-			var index = 0;
-			var group = objects[groupName];
-			for (var id in group) {
-				if (group[id].isDisqualified(objects)) {
-					group[id] = undefined;
-				} else {
-					group[id].index = index;
-					++index;
-				}
-			}
-		}
-	}
-};
-
-GraphWidget.getDifferences = function(prevObjects, newObjects) {
-	var objects = null
-	for (var type in prevObjects) {
-		var was = prevObjects[type];
-		var is = newObjects[type];
-		var catalog = this.getCatalog(type);
-		for (var id in was) {
-			if (was[id]) {
-				if (!is || !is[id]) {
-					// It Was, and no longer Is. Flag for deletion
-					objects = objects || {};
-					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = null;
-				} else if (is[id].changed || is[id] !== was[id]) {
-					// It changed, or is another instance of the same ID.
-					// Updated it.
-					objects = objects || {};
-					objects[type] = objects[type] || Object.create(null);
-					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
-					is[id].changed = false;
-				}
-			}
-		}
-	}
-	for (var type in newObjects) {
-		var was = prevObjects? prevObjects[type]: undefined;
-		var is = newObjects[type];
-		var catalog = this.getCatalog(type);
-		for (var id in is) {
-			if (is[id] && (!was || !was[id])) {
-				// It has been added. Add it.
-				objects = objects || {};
-				objects[type] = objects[type] || Object.create(null);
-				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
-				is[id].changed = false;
-			}
-		}
-	}
-	return objects;
 };
 
 /**
@@ -392,4 +290,105 @@ GraphWidget.handleEvent = function(event) {
 	// graph events.
 	this.mouse.x = event.offsetX;
 	this.mouse.y = event.offsetY;
+};
+function getCatalog(graphEngine, type) {
+	var definitions = graphEngine.properties;
+	return (definitions && definitions[type]) || Object.create(null);
+};
+
+function typecastProperties(widget, properties, catalog) {
+	var output = Object.create(null);
+	for (var key in properties) {
+		var info = catalog[key];
+		if (info && PropertyTypes[info.type]) {
+			var value = PropertyTypes[info.type].toProperty(info, properties[key], {wiki: widget.wiki, widget: widget});
+			if (value !== null) {
+				output[key] = value;
+			}
+		} else {
+			output[key] = properties[key];
+		}
+	}
+	return output;
+};
+
+function findGraphObjects(graphWidget) {
+	var newObjects = {};
+	var iterator = new utils.WidgetIterator(graphWidget),
+		results;
+	while (!(results = iterator.next()).done) {
+		var widget = results.value;
+		var type = widget.graphObjectType;
+		if (type && type !== "graph") {
+			newObjects[type] = newObjects[type] || Object.create(null);
+			newObjects[type][widget.id] = widget;
+		}
+	}
+	// Prune any objects which shouldn't be passed along
+	curateObjects(newObjects);
+	return newObjects;
+};
+
+/**
+ * Checking for objects that should be pruned must take place after all
+ * objects have been collected. Some object types, like edge, need to know
+ * what other objects are present to know if they're valid or not.
+ */
+function curateObjects(objects) {
+	for (var groupName in objects) {
+		var type = GraphObjectTypes[groupName];
+		if (type || type.graphObjectType !== "graph") {
+			var index = 0;
+			var group = objects[groupName];
+			for (var id in group) {
+				if (group[id].isDisqualified(objects)) {
+					group[id] = undefined;
+				} else {
+					group[id].index = index;
+					++index;
+				}
+			}
+		}
+	}
+};
+
+function getDifferences(graphEngine, prevObjects, newObjects) {
+	var objects = null
+	for (var type in prevObjects) {
+		var was = prevObjects[type];
+		var is = newObjects[type];
+		var catalog = getCatalog(graphEngine, type);
+		for (var id in was) {
+			if (was[id]) {
+				if (!is || !is[id]) {
+					// It Was, and no longer Is. Flag for deletion
+					objects = objects || {};
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = null;
+				} else if (is[id].changed || is[id] !== was[id]) {
+					// It changed, or is another instance of the same ID.
+					// Updated it.
+					objects = objects || {};
+					objects[type] = objects[type] || Object.create(null);
+					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
+					is[id].changed = false;
+				}
+			}
+		}
+	}
+	for (var type in newObjects) {
+		var was = prevObjects? prevObjects[type]: undefined;
+		var is = newObjects[type];
+		var catalog = getCatalog(graphEngine, type);
+		for (var id in is) {
+			if (is[id] && (!was || !was[id])) {
+				// It has been added. Add it.
+				objects = objects || {};
+				objects[type] = objects[type] || Object.create(null);
+				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
+				is[id].changed = false;
+			}
+		}
+	}
+	return objects;
 };
