@@ -118,51 +118,55 @@ GraphWidget.refresh = function(changedTiddlers) {
 		this.refreshSelf();
 		return true;
 	}
-	var changed = false;
+	var selfChanged = false, childrenChanged = false;
 	var objects;
 	for (var attribute in changedAttributes) {
 		if (attribute.charAt(0) !== "$") {
-			changed = true;
+			selfChanged = true;
 			break;
 		}
 	}
 	if (this.refreshChildren(changedTiddlers)) {
+		childrenChanged = true;
+	}
+	if (!this.graphEngine && (selfChanged || childrenChanged)) {
+		// At this point, we know widgets have literally changed.
+		// If we're in an error state, we can refresh self now, because
+		// all properties would have to be regenerated anyway.
+		this.refreshSelf();
+		return true;
+	}
+	// From here on, we now try to narrow down which properties changed,
+	// because we can update instead of full refresh. Updates only bother
+	// with changed properties.
+	if (childrenChanged) {
 		// Children have changed. Look for changed nodes and edges.
 		var prevObjects = this.knownObjects;
 		this.knownObjects = findGraphObjects(this);
 		objects = getDifferences(this.graphEngine, prevObjects, this.knownObjects);
-		changed = true;
 	}
-	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
-		changed = true
-	}
-	changed = this.computeParents() || changed;
-	if (this.graphEngine && changed) {
+	selfChanged = this.computeParents() || selfChanged;
+	if (selfChanged
+	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.properties = this.computeProperties();
 		var newTypecastProperties = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
 			this.typedProperties = newTypecastProperties;
 			objects = objects || {};
 			objects.graph = newTypecastProperties;
-			changed = true;
 		}
 	}
-	if (changed) {
-		if (!this.graphEngine) {
-			// We were in an error state. Maybe we won't be after refreshing.
+	if (objects) {
+		try {
+			this.graphEngine.update(objects);
+		} catch (e) {
+			// Something went wrong. Rebuild this widget as an error displayer
+			console.error(e);
+			this.errorState = e.message || e.toString();
 			this.refreshSelf();
-		} else if (objects) {
-			try {
-				this.graphEngine.update(objects);
-			} catch (e) {
-				// Something went wrong. Rebuild this widget as an error displayer
-				console.error(e);
-				this.errorState = e.message || e.toString();
-				this.refreshSelf();
-			}
 		}
 	}
-	return changed;
+	return selfChanged || childrenChanged;
 };
 
 GraphWidget.refreshSelf = function() {
