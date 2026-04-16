@@ -150,11 +150,9 @@ GraphWidget.refresh = function(changedTiddlers) {
 	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.properties = this.computeProperties();
 		var newTypecastProperties = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
-		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
-			this.typedProperties = newTypecastProperties;
-			objects = objects || {};
-			objects.graph = newTypecastProperties;
-		}
+		this.typedProperties = newTypecastProperties;
+		objects = objects || {};
+		objects.graph = newTypecastProperties;
 	}
 	if (objects) {
 		try {
