@@ -62,7 +62,6 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.knownObjects = findGraphObjects(this);
 		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
 		this.properties = this.computeProperties();
-		this.typedProperties = {};
 		objects.graph = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
 		this.typedProperties = objects.graph;
 		try {
@@ -127,15 +126,15 @@ GraphWidget.refresh = function(changedTiddlers) {
 			break;
 		}
 	}
-	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
-		changed = true
-	}
 	if (this.refreshChildren(changedTiddlers)) {
 		// Children have changed. Look for changed nodes and edges.
 		var prevObjects = this.knownObjects;
 		this.knownObjects = findGraphObjects(this);
 		objects = getDifferences(this.graphEngine, prevObjects, this.knownObjects);
 		changed = true;
+	}
+	if (utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
+		changed = true
 	}
 	changed = this.computeParents() || changed;
 	if (this.graphEngine && changed) {
@@ -144,7 +143,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		if (JSON.stringify(newTypecastProperties) !== JSON.stringify(this.typedProperties)) {
 			this.typedProperties = newTypecastProperties;
 			objects = objects || {};
-			objects.graph = this.typedProperties;
+			objects.graph = newTypecastProperties;
 			changed = true;
 		}
 	}
