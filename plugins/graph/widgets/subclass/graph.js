@@ -364,13 +364,13 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = null;
-				} else if (is[id].changed || is[id] !== was[id]) {
+				} else if (!is[id].properties || is[id] !== was[id]) {
 					// It changed, or is another instance of the same ID.
 					// Updated it.
+					is[id].properties = is[id].computeProperties();
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
-					is[id].changed = false;
 				}
 			}
 		}
@@ -382,10 +382,10 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 		for (var id in is) {
 			if (is[id] && (!was || !was[id])) {
 				// It has been added. Add it.
+				is[id].properties = is[id].computeProperties();
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
 				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
-				is[id].changed = false;
 			}
 		}
 	}

@@ -58,6 +58,7 @@ it("$pos respects engine settings for coordinates", function() {
 it("$pos treats 0 not as falsey, and still triggers refresh", async function() {
 	// setting to 0,0 was not properly updating. Turns out it was a Vis issue.
 	wiki.addTiddler({title: "Store", text: "5,7"});
+	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=N $pos={{Store}} />\n");
 	expect(init.calls.first().args[1].nodes).toEqual({N: {x: 5, y: 7}});
 	wiki.addTiddler({title: "Store", text: "0,0"});

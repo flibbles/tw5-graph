@@ -21,25 +21,24 @@ ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.execute();
 	this.computeParents();
 	this.renderChildren(parent, nextSibling);
-	this.properties = this.computeProperties();
-	// We're new, so we're changed. Announce ourselves when asked.
-	this.changed = true;
 };
 
 ObjectWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
 	// Did our parents experience a change to their properties?
 	if (this.computeParents()
-	// Did our own properties change obviously?
+	// Did our own property attribute change obviously?
 	|| $tw.utils.count(changedAttributes) > 0
+	// Were the properties cleared because they were stale?
+	|| !this.properties
 	// maybe properties changed covertly... (expensive)
 	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.execute();
-		this.properties = this.computeProperties();
-		this.changed = true;
+		// They'll need to be refreshed
+		this.properties = null;
 	}
 	// Then we give our children a chance to refresh too
-	return this.refreshChildren(changedTiddlers) || this.changed;
+	return this.refreshChildren(changedTiddlers) || !this.properties;
 };
 
 ObjectWidget.prototype.allowActionPropagation = function() {
