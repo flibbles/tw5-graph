@@ -27,6 +27,8 @@ it("filters out nodes with empty-string ids", async function() {
 	expect(init.calls.first().args[1].nodes).toEqual({present: {}});
 	wiki.addTiddler({title: "ID", text: "added"});
 	await $tw.test.flushChanges();
+	// present should not be refreshed, even though it's got a new index
+	// because the TestAdapter does not track indexes
 	expect(update.calls.first().args[0].nodes).toEqual({added: {}});
 	// Now blank it again and make sure it removes correctly
 	update.calls.reset();

@@ -28,24 +28,17 @@ ObjectWidget.prototype.render = function(parent, nextSibling) {
 
 ObjectWidget.prototype.refresh = function(changedTiddlers) {
 	var changedAttributes = this.computeAttributes();
-	// Did our parents experience a change?
-	var possibleChanges = this.computeParents();
-	// Did our own properties change?
-	for (var attribute in changedAttributes) {
-		possibleChanges = true;
-	}
-	// No properties have overtly changed, but maybe they changed covertly...
-	if (!possibleChanges && utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
-		possibleChanges = true;
-		// We short-circuit this because we have a property that said it's for
-		// sure different.
-		this.changed = true;
-	}
-	if (possibleChanges) {
+	// Did our parents experience a change to their properties?
+	if (this.computeParents()
+	// Did our own properties change obviously?
+	|| $tw.utils.count(changedAttributes) > 0
+	// maybe properties changed covertly... (expensive)
+	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.execute();
 		this.properties = this.computeProperties();
 		this.changed = true;
 	}
+	// Then we give our children a chance to refresh too
 	return this.refreshChildren(changedTiddlers) || this.changed;
 };
 

@@ -63,7 +63,6 @@ GraphWidget.render = function(parent, nextSibling) {
 		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
 		this.properties = this.computeProperties();
 		objects.graph = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
-		this.typedProperties = objects.graph;
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
 		} catch(e) {
@@ -150,7 +149,6 @@ GraphWidget.refresh = function(changedTiddlers) {
 	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.properties = this.computeProperties();
 		var newTypecastProperties = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
-		this.typedProperties = newTypecastProperties;
 		objects = objects || {};
 		objects.graph = newTypecastProperties;
 	}
