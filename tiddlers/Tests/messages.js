@@ -77,6 +77,15 @@ it("can convert declared parameters", function() {
 	expect(method).toHaveBeenCalledWith("graph-test", {number: 4});
 });
 
+it("evaluates parameters using messageWidget context", function() {
+	var event = {objectType: "nodes", id: "target", type: "actions"};
+	var text = "\\procedure inner() inner wrong!\n\\procedure outer() outer wrong!\n<$graph><$vars outer=B><$node $tiddler=target actions='<$vars inner=C><$action-sendmessage $message=graph-test filterParam=\"A [<outer>] [<inner>]\" />' />";
+	var widget = $tw.test.renderText(wiki, text);
+	var method = spyOn($tw.test, "actionMethod");
+	$tw.test.dispatchEvent(wiki, event);
+	expect(method).toHaveBeenCalledWith("graph-test", {filterParam: ["A", "B", "C"]});
+});
+
 it("undeclared parameters are passed as-is", function() {
 	var event = {objectType: "nodes", id: "target", type: "actions"};
 	var text = "<$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test undeclared=25 />' />";

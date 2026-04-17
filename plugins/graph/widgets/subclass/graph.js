@@ -233,7 +233,7 @@ GraphWidget.dispatchEvent = function(event) {
 	if (messageDef) {
 		// TODO: I think I should change this so the widget is the
 		//       messageWidget, not the graph widget.
-		var params = typecastProperties(this, event.paramObject, messageDef);
+		var params = typecastProperties(event.widget, event.paramObject, messageDef);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}
@@ -367,9 +367,9 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 				} else if (!is[id].properties || is[id] !== was[id]) {
 					// It changed, or is another instance of the same ID.
 					// Updated it.
-					is[id].properties = is[id].computeProperties();
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
+					is[id].properties = is[id].computeProperties();
 					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
 				}
 			}
@@ -382,9 +382,9 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 		for (var id in is) {
 			if (is[id] && (!was || !was[id])) {
 				// It has been added. Add it.
-				is[id].properties = is[id].computeProperties();
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
+				is[id].properties = is[id].computeProperties();
 				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
 			}
 		}

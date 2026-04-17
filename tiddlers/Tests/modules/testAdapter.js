@@ -64,7 +64,8 @@ exports.messages = {
 	"graph-export-svg+xml": { targetTiddler: {type: "string"} },
 	"graph-export-unknowntype": { targetTiddler: {type: "string"} },
 	"graph-test": {
-		number: {type: "number"}
+		number: {type: "number"},
+		filterParam: {type: "filter"}
 	},
 };
 
