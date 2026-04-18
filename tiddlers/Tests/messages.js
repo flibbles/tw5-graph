@@ -86,6 +86,24 @@ it("evaluates parameters using messageWidget context", function() {
 	expect(method).toHaveBeenCalledWith("graph-test", {filterParam: ["A", "B", "C"]});
 });
 
+it("evaluated parameters update appropriately", async function() {
+	var event = {objectType: "nodes", id: "target", type: "actions"};
+	wiki.addTiddler({title: "Target", text: "first"});
+	var text = "<$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test filterParam=\"A [{Target}]\" />' />";
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, text);
+	var method = spyOn($tw.test, "actionMethod");
+	$tw.test.dispatchEvent(wiki, event);
+	expect(method).toHaveBeenCalledWith("graph-test", {filterParam: ["A", "first"]});
+	// Now we change the value and make sure the message has the new value
+	method.calls.reset();
+	wiki.addTiddler({title: "Target", text: "second"});
+	await $tw.test.flushChanges();
+	$tw.test.dispatchEvent(wiki, event);
+	expect(method).toHaveBeenCalledWith("graph-test", {filterParam: ["A", "second"]});
+
+});
+
 it("undeclared parameters are passed as-is", function() {
 	var event = {objectType: "nodes", id: "target", type: "actions"};
 	var text = "<$graph><$node $tiddler=target actions='<$action-sendmessage $message=graph-test undeclared=25 />' />";
