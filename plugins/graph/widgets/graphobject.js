@@ -45,13 +45,24 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 	return false;
 };
 
-// By default, an object widget is always legal.
-// Specific types can define their own reasons why objects should be filtered.
+/*
+By default, an object widget is always legal.
+Specific types can define their own reasons why objects should be filtered.
+*/
 ObjectWidget.prototype.isDisqualified = function() { return false; };
 
-/**
- * Computes the properties for this object and returns them in an object.
- */
+/*
+Calculates and stores the properties raw values in the object.
+Then returns the evaluated property values to be used by the engine.
+*/
+ObjectWidget.prototype.calculatePropertyValues = function(rules) {
+	this.properties = this.computeProperties();
+	return utils.typecastProperties(this.properties, rules, this);
+};
+
+/*
+Computes the properties for this object and returns them in an object.
+*/
 ObjectWidget.prototype.computeProperties = function() {
 	var newProperties = Object.create(null);
 	this.setCustomProperties(newProperties);

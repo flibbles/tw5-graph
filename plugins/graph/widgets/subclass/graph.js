@@ -60,8 +60,7 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
 		this.knownObjects = findGraphObjects(this);
 		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
-		this.properties = this.computeProperties();
-		objects.graph = utils.typecastProperties(this.properties, getCatalog(this.graphEngine, "graph"), this);
+		objects.graph = this.calculatePropertyValues(getCatalog(this.graphEngine, "graph"));
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
 		} catch(e) {
@@ -146,8 +145,8 @@ GraphWidget.refresh = function(changedTiddlers) {
 	selfChanged = this.computeParents() || selfChanged;
 	if (selfChanged
 	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
-		this.properties = this.computeProperties();
-		var newTypecastProperties = utils.typecastProperties(this.properties, getCatalog(this.graphEngine, "graph"), this);
+		var rules = getCatalog(this.graphEngine, "graph");
+		var newTypecastProperties = this.calculatePropertyValues(rules);
 		objects = objects || {};
 		objects.graph = newTypecastProperties;
 	}
@@ -350,8 +349,7 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 					// Updated it.
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
-					is[id].properties = is[id].computeProperties();
-					objects[type][id] = utils.typecastProperties(is[id].properties, catalog, is[id]);
+					objects[type][id] = is[id].calculatePropertyValues(catalog);
 				}
 			}
 		}
@@ -365,8 +363,7 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 				// It has been added. Add it.
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
-				is[id].properties = is[id].computeProperties();
-				objects[type][id] = utils.typecastProperties(is[id].properties, catalog, is[id]);
+				objects[type][id] = is[id].calculatePropertyValues(catalog);
 			}
 		}
 	}
