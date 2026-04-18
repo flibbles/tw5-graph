@@ -8,7 +8,6 @@ Widget for creating graphs.
 
 var utils = require("../../utils.js");
 
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 // Let's collect all the possible graph object types. We might need to
 // reference their base classes later.
 var GraphObjectTypes = {};
@@ -231,8 +230,6 @@ GraphWidget.traversePropertyWidgets = function(method) {
 GraphWidget.dispatchEvent = function(event) {
 	var messageDef = this.graphEngine.messages && this.graphEngine.messages[event.type];
 	if (messageDef) {
-		// TODO: I think I should change this so the widget is the
-		//       messageWidget, not the graph widget.
 		var params = utils.typecastProperties(event.paramObject, messageDef, event.widget);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;

@@ -71,6 +71,21 @@ exports.typecastProperties = function(properties, definitions, widget) {
 	return output;
 };
 
+exports.getParentProperties = function(widget, type) {
+	// For now, we hard-stop at the graph. We don't take properties outside
+	// We may some day, but for now, support for that would be frought with
+	// complications
+	while (widget.parentWidget && widget.graphObjectType !== "graph") {
+		widget = widget.parentWidget;
+		if (widget.graphPropertiesWidget && widget.type === type) {
+			return widget;
+		}
+	};
+	return null;
+};
+
+/*** Destructor methods ***/
+
 // Aren't we all eventually garbage?
 var eventualGarbage = [];
 var upkeepId;
@@ -78,6 +93,10 @@ var upkeepId;
 /*
 Register an object for destruction. It's ready to pass on once its
 isGarbage method returns true;
+
+object requirements:
+.garbageCollect()
+.isGarbage() => true/false
 */
 exports.registerForGarbageCollection = function(object) {
 	var destroy = object.destroy;
@@ -118,18 +137,7 @@ exports.upkeep = function() {
 	}
 };
 
-exports.getParentProperties = function(widget, type) {
-	// For now, we hard-stop at the graph. We don't take properties outside
-	// We may some day, but for now, support for that would be frought with
-	// complications
-	while (widget.parentWidget && widget.graphObjectType !== "graph") {
-		widget = widget.parentWidget;
-		if (widget.graphPropertiesWidget && widget.type === type) {
-			return widget;
-		}
-	};
-	return null;
-};
+/*** Widget Iterator ***/
 
 exports.WidgetIterator = function(root) {
 	this.stack = [];
