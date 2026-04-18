@@ -43,7 +43,11 @@ NodeWidget.setCustomProperties = function(properties) {
 	}
 };
 
-NodeWidget.isDisqualified = function() {
+NodeWidget.curate = function(objects, rules, index) {
+	if (rules.index && this.index !== index) {
+		this.index = index;
+		this.properties = null;
+	}
 	// Nodes must have non-empty IDs. If empty, this node should be pruned.
 	return !this.id;
 };

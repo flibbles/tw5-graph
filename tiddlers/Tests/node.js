@@ -98,4 +98,6 @@ it("prefers explicit axis values over $pos", function() {
 	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {x: 13, y: 7.5}});
 });
 
+/*** $index ***/
+
 });

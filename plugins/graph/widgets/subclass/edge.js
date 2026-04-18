@@ -46,7 +46,7 @@ EdgeWidget.setCustomProperties = function(properties) {
 	}
 };
 
-EdgeWidget.isDisqualified = function(objects) {
+EdgeWidget.curate = function(objects) {
 	// Edges are not legal if there aren't corresponding nodes for its
 	// to and from.
 	return !objects.nodes

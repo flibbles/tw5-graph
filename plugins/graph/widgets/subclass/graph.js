@@ -58,8 +58,7 @@ GraphWidget.render = function(parent, nextSibling) {
 	// Render and recenter the view
 	if(this.graphEngine) {
 		this.graphEngine.onevent = GraphWidget.handleGraphEvent.bind(this);
-		this.knownObjects = findGraphObjects(this);
-		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
+		var objects = this.computeGraphObjects() || {};
 		objects.graph = this.calculatePropertyValues(getCatalog(this.graphEngine, "graph"));
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
@@ -99,7 +98,7 @@ GraphWidget.execute = function() {
 		this.makeChildWidgets([{type: "element", tag: "span", children: [{type: "text", text: message}]}]);
 		this.graphEngine = undefined;
 	} else {
-		this.knownObjects = {};
+		this.graphObjects = null;
 		this.makeChildWidgets();
 		this.graphEngine = new Engine(this.wiki);
 	}
@@ -137,10 +136,9 @@ GraphWidget.refresh = function(changedTiddlers) {
 	// because we can update instead of full refresh. Updates only bother
 	// with changed properties.
 	if (childrenChanged) {
-		// Children have changed. Look for changed nodes and edges.
-		var prevObjects = this.knownObjects;
-		this.knownObjects = findGraphObjects(this);
-		objects = getDifferences(this.graphEngine, prevObjects, this.knownObjects);
+		// Children have changed. Look for changed nodes and edges
+		// and evaluate their properties
+		objects = this.computeGraphObjects();
 	}
 	selfChanged = this.computeParents() || selfChanged;
 	if (selfChanged
@@ -254,7 +252,7 @@ GraphWidget.handleGraphEvent = function(graphEvent, variables) {
 		}
 		this.catchGraphEvent(graphEvent, this, variables);
 	} else {
-		var category = this.knownObjects[graphEvent.objectType];
+		var category = this.graphObjects[graphEvent.objectType];
 		var object = category && category[graphEvent.id];
 		if (object) {
 			variables = variables || {};
@@ -286,6 +284,17 @@ GraphWidget.handleEvent = function(event) {
 	this.mouse.x = event.offsetX;
 	this.mouse.y = event.offsetY;
 };
+
+GraphWidget.computeGraphObjects = function() {
+	var prevObjects = this.graphObjects || {};
+	var newObjects = findGraphObjects(this);
+	// Prune any objects which shouldn't be passed along
+	curateObjects(newObjects, this.graphEngine.properties);
+	var evaluated =  getDifferences(this.graphEngine, prevObjects, newObjects);
+	this.graphObjects = newObjects;
+	return evaluated;
+};
+
 function getCatalog(graphEngine, type) {
 	var definitions = graphEngine.properties;
 	return (definitions && definitions[type]) || Object.create(null);
@@ -303,8 +312,6 @@ function findGraphObjects(graphWidget) {
 			newObjects[type][widget.id] = widget;
 		}
 	}
-	// Prune any objects which shouldn't be passed along
-	curateObjects(newObjects);
 	return newObjects;
 };
 
@@ -313,17 +320,17 @@ function findGraphObjects(graphWidget) {
  * objects have been collected. Some object types, like edge, need to know
  * what other objects are present to know if they're valid or not.
  */
-function curateObjects(objects) {
+function curateObjects(objects, catalog) {
 	for (var groupName in objects) {
 		var type = GraphObjectTypes[groupName];
-		if (type || type.graphObjectType !== "graph") {
+		if (type && type.graphObjectType !== "graph") {
 			var index = 0;
 			var group = objects[groupName];
+			var rules = catalog[type.graphObjectType];
 			for (var id in group) {
-				if (group[id].isDisqualified(objects)) {
+				if (group[id].curate(objects, rules, index)) {
 					group[id] = undefined;
 				} else {
-					group[id].index = index;
 					++index;
 				}
 			}

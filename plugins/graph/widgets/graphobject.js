@@ -46,10 +46,12 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 };
 
 /*
-By default, an object widget is always legal.
-Specific types can define their own reasons why objects should be filtered.
+This is an opportunity for a graphObject to evaluate itself in relation with
+all other collected graph objects, as well as knowing its own relative index.
+It can use this opportunity to flag itself as needing refreshing, or
+return true to indicate it should be pruned away as an illegal object.
 */
-ObjectWidget.prototype.isDisqualified = function() { return false; };
+ObjectWidget.prototype.curate = function(objects, index) { return false; };
 
 /*
 Calculates and stores the properties raw values in the object.
