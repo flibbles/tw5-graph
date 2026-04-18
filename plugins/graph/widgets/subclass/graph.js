@@ -62,7 +62,7 @@ GraphWidget.render = function(parent, nextSibling) {
 		this.knownObjects = findGraphObjects(this);
 		var objects = getDifferences(this.graphEngine, {}, this.knownObjects) || {};
 		this.properties = this.computeProperties();
-		objects.graph = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
+		objects.graph = utils.typecastProperties(this.properties, getCatalog(this.graphEngine, "graph"), this);
 		try {
 			this.graphEngine.init(this.graphElement, objects, {wiki: this.wiki});
 		} catch(e) {
@@ -148,7 +148,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 	if (selfChanged
 	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
 		this.properties = this.computeProperties();
-		var newTypecastProperties = typecastProperties(this, this.properties, getCatalog(this.graphEngine, "graph"));
+		var newTypecastProperties = utils.typecastProperties(this.properties, getCatalog(this.graphEngine, "graph"), this);
 		objects = objects || {};
 		objects.graph = newTypecastProperties;
 	}
@@ -233,7 +233,7 @@ GraphWidget.dispatchEvent = function(event) {
 	if (messageDef) {
 		// TODO: I think I should change this so the widget is the
 		//       messageWidget, not the graph widget.
-		var params = typecastProperties(event.widget, event.paramObject, messageDef);
+		var params = utils.typecastProperties(event.paramObject, messageDef, event.widget);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}
@@ -295,22 +295,6 @@ function getCatalog(graphEngine, type) {
 	return (definitions && definitions[type]) || Object.create(null);
 };
 
-function typecastProperties(widget, properties, catalog) {
-	var output = Object.create(null);
-	for (var key in properties) {
-		var info = catalog[key];
-		if (info && PropertyTypes[info.type]) {
-			var value = PropertyTypes[info.type].toProperty(info, properties[key], {wiki: widget.wiki, widget: widget});
-			if (value !== null) {
-				output[key] = value;
-			}
-		} else {
-			output[key] = properties[key];
-		}
-	}
-	return output;
-};
-
 function findGraphObjects(graphWidget) {
 	var newObjects = {};
 	var iterator = new utils.WidgetIterator(graphWidget),
@@ -370,7 +354,7 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 					objects = objects || {};
 					objects[type] = objects[type] || Object.create(null);
 					is[id].properties = is[id].computeProperties();
-					objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
+					objects[type][id] = utils.typecastProperties(is[id].properties, catalog, is[id]);
 				}
 			}
 		}
@@ -385,7 +369,7 @@ function getDifferences(graphEngine, prevObjects, newObjects) {
 				objects = objects || {};
 				objects[type] = objects[type] || Object.create(null);
 				is[id].properties = is[id].computeProperties();
-				objects[type][id] = typecastProperties(is[id], is[id].properties, catalog);
+				objects[type][id] = utils.typecastProperties(is[id].properties, catalog, is[id]);
 			}
 		}
 	}

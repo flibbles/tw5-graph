@@ -51,6 +51,26 @@ exports.refreshProperties = function(properties, widget, type, changedTiddlers) 
 	return false;
 };
 
+/*
+Takes an object of properties and converts them into values ready to be passed
+to the engine, using the catalog and widget as the context to define them.
+*/
+exports.typecastProperties = function(properties, definitions, widget) {
+	var output = Object.create(null);
+	for (var key in properties) {
+		var rule = definitions[key];
+		if (rule && PropertyTypes[rule.type]) {
+			var value = PropertyTypes[rule.type].toProperty(rule, properties[key], {wiki: widget.wiki, widget: widget});
+			if (value !== null) {
+				output[key] = value;
+			}
+		} else {
+			output[key] = properties[key];
+		}
+	}
+	return output;
+};
+
 // Aren't we all eventually garbage?
 var eventualGarbage = [];
 var upkeepId;
