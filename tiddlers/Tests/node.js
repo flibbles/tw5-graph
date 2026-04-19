@@ -124,17 +124,19 @@ it("does refresh indices when index are tracked", async function() {
 	spies.testRules("nodes", {
 		index: {type: "number", hidden: true}
 	});
+	wiki.addTiddler({title: "Nodes", text: "A"});
 	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$list filter='[enlist{Nodes}]'><$node/></$list><$node $tiddler=N $pos={{Store}} />\n");
-	expect(spies.init.calls.first().args[1].nodes).toEqual({N: {index: 0}});
-	wiki.addTiddler({title: "Nodes", text: "A"});
+	expect(spies.init.calls.first().args[1].nodes).toEqual({A: {index: 0}, N: {index: 1}});
+	wiki.addTiddler({title: "Nodes", text: "A B"});
 	await $tw.test.flushChanges();
 	expect(spies.update).toHaveBeenCalled();
 	// N does reappear with a new index
 	var objects = spies.update.calls.first().args[0];
 	expect(objects).toEqual({nodes: {
-		A: {index: 0},
-		N: {index: 1}}});
+		// A does not update, because its index did not change
+		B: {index: 1},
+		N: {index: 2}}});
 });
 
 });
