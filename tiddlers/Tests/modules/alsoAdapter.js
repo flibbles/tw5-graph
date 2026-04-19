@@ -9,26 +9,12 @@ Mock adapter to test switching adapters.
 
 exports.name = "Also";
 
-exports.properties = {
-	axes: {
-		categories: {type: "filter"}
-	},
-	edges: {
-		image: {type: "image"}
-	}
-};
+exports.properties = { };
 
 Object.defineProperty(exports.properties, "nodes", {
 	enumerable: true,
 	configurable: true,
-	get() { return {
-		// We define the coordinates as strings.
-		// This tests that $node::$pos will keep coordinates as
-		// strings (or whatever) if engines want them that way.
-		x: {type: "string", hidden: true},
-		y: {type: "string", hidden: true},
-		z: {type: "string", hidden: true}
-	};}
+	get() { return { }}
 });
 
 exports.init = function(element, objects) {

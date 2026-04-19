@@ -23,7 +23,10 @@ test.spyOnAdapter = function(adapterName) {
 		properties: Adapter.properties,
 		update: spyOn(Adapter, "update").and.callThrough(),
 		init: spyOn(Adapter, "init").and.callThrough(),
-		destroy: spyOn(Adapter, "destroy").and.callThrough()
+		destroy: spyOn(Adapter, "destroy").and.callThrough(),
+		testRules: function(category, returnValue) {
+			spyOnProperty(this.properties, category, "get").and.returnValue(returnValue);
+		}
 	};
 };
 

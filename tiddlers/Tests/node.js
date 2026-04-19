@@ -50,9 +50,17 @@ it("gets coordinates from $pos attribute", function() {
 });
 
 it("$pos respects engine settings for coordinates", function() {
-	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=N $pos='0,,five' />");
-	// The important thing here is that the numbers are strings, because the AlsoEngine does not describe x or y as numbers.
-	expect($tw.test.latestEngine.objects.nodes).toEqual({N: {x: '0', z: 'five'}});
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", {
+		x: {type: "string", hidden: true},
+		y: {type: "number", hidden: true},
+		z: {type: "string", hidden: true}
+	});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=N $pos='0,0,five' />");
+	// The important thing here is that the numbers are strings,
+	// because the AlsoEngine does not describe x or y as numbers.
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes).toEqual({N: {x: '0', y: 0, z: 'five'}});
 });
 
 it("$pos treats 0 not as falsey, and still triggers refresh", async function() {
@@ -113,7 +121,7 @@ it("does not refresh indices when index not tracked", async function() {
 
 it("does refresh indices when index are tracked", async function() {
 	var spies = $tw.test.spyOnAdapter("Also");
-	spyOnProperty(spies.properties, "nodes", "get").and.returnValue({
+	spies.testRules("nodes", {
 		index: {type: "number", hidden: true}
 	});
 	await $tw.test.flushChanges();
@@ -123,7 +131,7 @@ it("does refresh indices when index are tracked", async function() {
 	await $tw.test.flushChanges();
 	expect(spies.update).toHaveBeenCalled();
 	// N does reappear with a new index
-	var objects = spies.update.calls.first().args[0]
+	var objects = spies.update.calls.first().args[0];
 	expect(objects).toEqual({nodes: {
 		A: {index: 0},
 		N: {index: 1}}});
