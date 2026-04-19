@@ -31,7 +31,16 @@ NodeWidget.execute = function() {
 	this.makeChildWidgets();
 };
 
-NodeWidget.setCustomProperties = function(properties) {
+NodeWidget.curate = function(objects, rules, index) {
+	if (rules.index && this.index !== index) {
+		this.index = index;
+		this.properties = null;
+	}
+	// Nodes must have non-empty IDs. If empty, this node should be pruned.
+	return !this.id;
+};
+
+NodeWidget.setCustomProperties = function(properties, rules) {
 	if (this.pos) {
 		var points = this.pos.split(",");
 		var count = Math.min(points.length, axes.length);
@@ -41,13 +50,7 @@ NodeWidget.setCustomProperties = function(properties) {
 			}
 		}
 	}
-};
-
-NodeWidget.curate = function(objects, rules, index) {
-	if (rules.index && this.index !== index) {
-		this.index = index;
-		this.properties = null;
+	if (this.index !== undefined) {
+		properties.index = this.index;
 	}
-	// Nodes must have non-empty IDs. If empty, this node should be pruned.
-	return !this.id;
 };

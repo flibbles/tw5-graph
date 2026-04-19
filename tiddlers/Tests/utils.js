@@ -20,6 +20,7 @@ test.spyOnAdapter = function(adapterName) {
 	adapterName = adapterName || "Test";
 	var Adapter = test.utils.getEngineMap()[adapterName].prototype;
 	return {
+		properties: Adapter.properties,
 		update: spyOn(Adapter, "update").and.callThrough(),
 		init: spyOn(Adapter, "init").and.callThrough(),
 		destroy: spyOn(Adapter, "destroy").and.callThrough()

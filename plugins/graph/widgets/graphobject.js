@@ -58,16 +58,16 @@ Calculates and stores the properties raw values in the object.
 Then returns the evaluated property values to be used by the engine.
 */
 ObjectWidget.prototype.calculatePropertyValues = function(rules) {
-	this.properties = this.computeProperties();
+	this.properties = this.computeProperties(rules);
 	return utils.typecastProperties(this.properties, rules, this);
 };
 
 /*
 Computes the properties for this object and returns them in an object.
 */
-ObjectWidget.prototype.computeProperties = function() {
+ObjectWidget.prototype.computeProperties = function(rules) {
 	var newProperties = Object.create(null);
-	this.setCustomProperties(newProperties);
+	this.setCustomProperties(newProperties, rules);
 	for (var key in this.attributes) {
 		if (key.charAt(0) !== "$") {
 			var value = this.attributes[key];

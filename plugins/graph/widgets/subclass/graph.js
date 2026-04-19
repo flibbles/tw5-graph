@@ -185,10 +185,9 @@ GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine") || this.getVariable("graphengine");
 };
 
-GraphWidget.setCustomProperties = function(properties) {
-	var catalog = getCatalog(this.graphEngine, "graph");
-	for (var name in catalog) {
-		var property = catalog[name];
+GraphWidget.setCustomProperties = function(properties, rules) {
+	for (var name in rules) {
+		var property = rules[name];
 		// It's hidden, and it has a default, so this is an auto-fill property
 		if (property.hidden && property.default) {
 			properties[name] = property.default;

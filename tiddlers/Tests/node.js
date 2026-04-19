@@ -100,4 +100,33 @@ it("prefers explicit axis values over $pos", function() {
 
 /*** $index ***/
 
+it("does not refresh indices when index not tracked", async function() {
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "<$graph><$list filter='[enlist{Nodes}]'><$node/></$list><$node $tiddler=N $pos={{Store}} />\n");
+	expect(init.calls.first().args[1].nodes).toEqual({N: {}});
+	wiki.addTiddler({title: "Nodes", text: "A"});
+	await $tw.test.flushChanges();
+	expect(update).toHaveBeenCalled();
+	// N does not reappear
+	expect(update.calls.first().args[0]).toEqual({nodes: {A: {}}});
+});
+
+it("does refresh indices when index are tracked", async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spyOnProperty(spies.properties, "nodes", "get").and.returnValue({
+		index: {type: "number", hidden: true}
+	});
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$list filter='[enlist{Nodes}]'><$node/></$list><$node $tiddler=N $pos={{Store}} />\n");
+	expect(spies.init.calls.first().args[1].nodes).toEqual({N: {index: 0}});
+	wiki.addTiddler({title: "Nodes", text: "A"});
+	await $tw.test.flushChanges();
+	expect(spies.update).toHaveBeenCalled();
+	// N does reappear with a new index
+	var objects = spies.update.calls.first().args[0]
+	expect(objects).toEqual({nodes: {
+		A: {index: 0},
+		N: {index: 1}}});
+});
+
 });
