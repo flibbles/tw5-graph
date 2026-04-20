@@ -139,4 +139,14 @@ it("does refresh indices when index are tracked", async function() {
 		N: {index: 2}}});
 });
 
+it("resists javascript object member sorting", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { index: {type: "number", hidden: true} });
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$list filter='A 2 1'><$node/>\n");
+	expect(spies.init.calls.first().args[1].nodes).toEqual({
+		A: {index: 0},
+		2: {index: 1},
+		1: {index: 2}});
+});
+
 });

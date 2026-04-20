@@ -285,10 +285,12 @@ GraphWidget.handleEvent = function(event) {
 };
 
 GraphWidget.computeGraphObjects = function() {
-	var prevObjects = this.graphObjects || {};
-	var newObjects = findGraphObjects(this);
+	var prevObjects = this.graphObjects || {},
+		widgetInfo = findGraphObjects(this),
+		newObjects = widgetInfo.objects,
+		order = widgetInfo.order;
 	// Prune any objects which shouldn't be passed along
-	curateObjects(newObjects, this.graphEngine.properties);
+	curateObjects(newObjects, order, this.graphEngine.properties);
 	var evaluated =  getDifferences(this.graphEngine, prevObjects, newObjects);
 	this.graphObjects = newObjects;
 	return evaluated;
@@ -301,6 +303,7 @@ function getCatalog(graphEngine, type) {
 
 function findGraphObjects(graphWidget) {
 	var newObjects = {};
+	var discoveryOrder = {};
 	var iterator = new utils.WidgetIterator(graphWidget),
 		results;
 	while (!(results = iterator.next()).done) {
@@ -309,9 +312,13 @@ function findGraphObjects(graphWidget) {
 		if (type && type !== "graph") {
 			newObjects[type] = newObjects[type] || Object.create(null);
 			newObjects[type][widget.id] = widget;
+			// We've got to recall the order that we found the widgets in
+			// storing them in objects doesn't work, because that sorts oddly
+			discoveryOrder[type] = discoveryOrder[type] || [];
+			discoveryOrder[type].push(widget);
 		}
 	}
-	return newObjects;
+	return {objects: newObjects, order: discoveryOrder};
 };
 
 /**
@@ -319,16 +326,18 @@ function findGraphObjects(graphWidget) {
  * objects have been collected. Some object types, like edge, need to know
  * what other objects are present to know if they're valid or not.
  */
-function curateObjects(objects, catalog) {
+function curateObjects(objects, orders, catalog) {
 	for (var groupName in objects) {
 		var type = GraphObjectTypes[groupName];
 		if (type && type.graphObjectType !== "graph") {
-			var index = 0;
 			var group = objects[groupName];
+			var order = orders[groupName];
 			var rules = catalog[type.graphObjectType];
-			for (var id in group) {
-				if (group[id].curate(objects, rules, index)) {
-					group[id] = undefined;
+			var index = 0;
+			for (var i = 0; i < order.length; i++) {
+				var object = order[i];
+				if (object.curate(objects, rules, index)) {
+					group[object.id] = undefined;
 				} else {
 					++index;
 				}
