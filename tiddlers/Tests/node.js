@@ -119,6 +119,24 @@ it("does not refresh indices when index not tracked", async function() {
 	expect(update.calls.first().args[0]).toEqual({nodes: {A: {}}});
 });
 
+it("does not waste indices on pruned nodes", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { index: {type: "number", hidden: true} });
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A/><$node $tiddler=''/><$node $tiddler=C/>");
+	expect(spies.init.calls.first().args[1].nodes).toEqual({
+		A: {index: 0},
+		C: {index: 1}});
+});
+
+it("uses last instance of duplicate objects for index", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { index: {type: "number", hidden: true} });
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$list filter='=A =B =A'><$node/>\n");
+	expect(spies.init.calls.first().args[1].nodes).toEqual({
+		B: {index: 0},
+		A: {index: 1}});
+});
+
 it("does refresh indices when index are tracked", async function() {
 	var spies = $tw.test.spyOnAdapter("Also");
 	spies.testRules("nodes", {

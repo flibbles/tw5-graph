@@ -314,9 +314,12 @@ function findGraphObjects(graphWidget) {
 			newObjects[type][widget.id] = widget;
 			// We've got to recall the order that we found the widgets in
 			// storing them in objects doesn't work, because that sorts oddly
-			discoveryOrder[type] = discoveryOrder[type] || [];
-			discoveryOrder[type].push(widget);
+			discoveryOrder[type] = discoveryOrder[type] || new $tw.utils.LinkedList();
+			discoveryOrder[type].pushTop(widget.id);
 		}
+	}
+	for (var type in discoveryOrder) {
+		discoveryOrder[type] = discoveryOrder[type].toArray();
 	}
 	return {objects: newObjects, order: discoveryOrder};
 };
@@ -335,9 +338,9 @@ function curateObjects(objects, orders, catalog) {
 			var rules = catalog[type.graphObjectType];
 			var index = 0;
 			for (var i = 0; i < order.length; i++) {
-				var object = order[i];
-				if (object.curate(objects, rules, index)) {
-					group[object.id] = undefined;
+				var id = order[i];
+				if (group[id].curate(objects, rules, index)) {
+					group[id] = undefined;
 				} else {
 					++index;
 				}
