@@ -14,64 +14,74 @@ beforeEach(function() {
 });
 
 it("can handle a raw svg", function() {
-	var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 128 128" version="1.1">\n\t<circle cx="64" cy="64" r="64" />\n</svg>';
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
+	var svg = '<svg height="22px" version="1.1" viewBox="0 0 128 128" width="22px" xmlns="http://www.w3.org/2000/svg">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
 	wiki.addTiddler({title: "Image", type: "image/svg+xml", text: svg});
-	var parser = wiki.parseText("image/svg+xml", svg);
-	var url = parser.tree[0].attributes.src.value;
-	url = url.replace("svg+xml,", "svg+xml;utf8,");
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {image: url}});
+	var expected = "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {img: expected}});
 });
 
 it("can handle wikitext svg with xmlns", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '\\parameters (size:22pt)\n<svg width=<<size>> height=<<size>> viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><circle cx=64 cy=64 r=64 />';
 	var compiled = '<svg height="22pt" viewBox="0 0 128 128" width="22pt" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" r="64"></circle></svg>';
 	var expected = "data:image/svg+xml," + encodeURIComponent(compiled);
 	wiki.addTiddler({title: "Image", text: svg});
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {image: expected}});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {img: expected}});
 });
 
 it("can handle wikitext svg without xmlns", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '\\parameters (size:22pt)\n<svg width=<<size>> height=<<size>> viewBox="0 0 128 128"><circle cx=64 cy=64 r=64 />';
 	var compiled = '<svg height="22pt" viewBox="0 0 128 128" width="22pt" xmlns="http://www.w3.org/2000/svg"><circle cx="64" cy="64" r="64"></circle></svg>';
 	var expected = "data:image/svg+xml," + encodeURIComponent(compiled);
 	wiki.addTiddler({title: "Image", text: svg});
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes).toEqual({A: {image: expected}});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes).toEqual({A: {img: expected}});
 });
 
 it("can handle wikitext svg that only indirectly contains <svg", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the svg directly
 	wiki.addTiddler({title: "Source", text: "<svg><text>TextBody"});
 	wiki.addTiddler({title: "Image", text: "{{Source}}"});
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes.A.image).toContain("svg+xml");
-	expect(objects.nodes.A.image).toContain("TextBody");
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("svg+xml");
+	expect(objects.nodes.A.img).toContain("TextBody");
 });
 
 it("handles wikitext that uses macros", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the svg directly
 	wiki.addTiddler({title: "Image", text: "<svg><text><<local>>"});
-	var widget = $tw.test.renderText(wiki, "\\procedure local() LocalBody\n<$graph><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes.A.image).toContain("LocalBody");
+	var widget = $tw.test.renderText(wiki, "\\procedure local() LocalBody\n<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("LocalBody");
 });
 
 it("handles wikitext that uses internally nested variables", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the svg directly
 	wiki.addTiddler({title: "Image", text: "<svg><text><<local>>"});
-	var widget = $tw.test.renderText(wiki, "\\procedure local() DONOTUSE\n<$graph><$let local=LocalBody><$node $tiddler=A image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes.A.image).toContain("LocalBody");
+	var widget = $tw.test.renderText(wiki, "\\procedure local() DONOTUSE\n<$graph $engine=Also><$let local=LocalBody><$node $tiddler=A img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("LocalBody");
 	// The outer definition of "local" should not be used
-	expect(objects.nodes.A.image).not.toContain("DONOTUSE");
+	expect(objects.nodes.A.img).not.toContain("DONOTUSE");
 });
 
 it("can handle base64 encoded images", function() {
@@ -96,13 +106,15 @@ it("can use shadow tiddlers", function() {
 });
 
 it("caches wikitext svg", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128"><circle cx=64 cy=64 r=64 />';
 	wiki.addTiddler({title: "Image", text: svg});
 	var render = spyOn(wiki, "parseTiddler").and.callThrough();
-	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image/><$node $tiddler=B image=Image/>");
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes.A.image).toContain("svg+xml");
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/><$node $tiddler=B img=Image/>");
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("svg+xml");
 	expect(render).toHaveBeenCalledTimes(1);
 });
 
@@ -187,24 +199,34 @@ it("detects indirect changes in wikitext svg", async function() {
 	expect(newUri).toContain("A-changed");
 });
 
-// We're good about preserving the widget, but do we need the widget to render
-// over and over?
+// We're good about preserving the parse tree, but do we need the
+// internal transclude widget to render over and over?
+// Yes. Yes we do.
 it("caches wikitext svg without need for repeated rendering", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	// For this test, we will use a custom property with no color properties
+	// We'll test for those separately.
+	spies.testRules("nodes", {
+		img: {type: "image"}
+	});
 	wiki.addTiddler({title: "Source", text: 'Content'});
 	// We have a transclusion in here, because it's easy to detect rendering
 	// that has a transclusion in it by watching wiki.renderTiddler
 	wiki.addTiddler({title: "Image", text: '<svg><text>{{Source}}'});
-	var render = spyOn(wiki, "parseTiddler").and.callThrough();
-	var widget = $tw.test.renderText(wiki, `<$graph>
-	  <$node $tiddler=A image=Image/>
-	  <$node $tiddler=B image=Image/>
-	  <$node $tiddler=C image=Image/>
-	  <$node $tiddler=D image=Image/>`);
-	var objects = init.calls.first().args[1];
-	expect(objects.nodes.A.image).toContain("svg+xml");
-	expect(objects.nodes.A.image).toContain("Content");
-	// Once by the image, once for the transclusion in the image
-	expect(render).toHaveBeenCalledTimes(2);
+	var oldParse = wiki.parseTiddler;
+	var render = spyOn(wiki, "parseTiddler").and.callFake(function() {
+		return oldParse.apply(this, arguments);
+	});//callThrough();
+	var widget = $tw.test.renderText(wiki, `<$graph $engine=Also>
+	  <$node $tiddler=A img=Image/>
+	  <$node $tiddler=B img=Image/>
+	  <$node $tiddler=C img=Image/>
+	  <$node $tiddler=D img=Image/>`);
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("svg+xml");
+	expect(objects.nodes.A.img).toContain("Content");
+	// Once by the image, four times for the transclusion in the image
+	expect(render).toHaveBeenCalledTimes(5);
 });
 
 it("ignores non svg wikitext tiddlers", function() {
@@ -225,25 +247,16 @@ it("can handle actual URIs", function() {
 // We make sure of this, or else it's effectively a memory leak--creating
 // caches for all sorts of non-existent tiddlers that will never clear.
 it("caches nothing with URIs", async function() {
-	var cache = "graph-image";
 	wiki.addTiddler({title: "Image", text: "<svg><text>Local"});
 	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, `<$graph>
 	  <$node $tiddler=A image=Image/>
-	  <$node $tiddler=B image=First/>
-	  <$node $tiddler=C image=Second/>`);
+	  <$node $tiddler=B image=Remote/>`);
 	var nodes = init.calls.first().args[1].nodes;
 	expect(nodes.A.image).toContain("Local");
-	expect(nodes.B.image).toBe("First");
-	expect(wiki.getCacheForTiddler("Image", cache, function() { return "Wrong"; })).not.toBe("Wrong");
-	expect(wiki.getCacheForTiddler("First", cache, function() { return "Right"; })).toBe("Right");
-	// Now change something and make sure things still correctly.
-	wiki.addTiddler({title: "Anything", text: "Irrelevant"});
-	await $tw.test.flushChanges();
-	expect(wiki.getCacheForTiddler("Image", cache, function() { return "Wrong"; })).not.toBe("Wrong");
-	// We have to test the second url link, because the first got cached just
-	// by checking if it's cached, kinda like a quantum partical that way.
-	expect(wiki.getCacheForTiddler("Second", cache, function() { return "Also Right"; })).toBe("Also Right");
+	expect(nodes.B.image).toBe("Remote");
+	expect(wiki.caches.Image).not.toBeUndefined();
+	expect(wiki.caches.Remote).toBeUndefined();
 });
 
 it("can handle canonical URIs", function() {
@@ -259,12 +272,28 @@ it("can handle canonical URIs", function() {
 
 /*** Colors ***/
 
-it("can inject colors", async function() {
+it("can inject colors into wiki images", async function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
 	var expected = encodeURIComponent("<style>:root{fill:#00ff00;}</style><circle");
 	wiki.addTiddler({title: "graph-node-color", text: "#00ff00"});
 	wiki.addTiddler({title: "Image", text: svg});
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph><$node $tiddler=A image=Image/>");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes.A.image).toContain(expected);
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
+	await $tw.test.flushChanges();
+	objects = update.calls.first().args[0];
+	expect(objects.nodes.A.image).toContain(encodeURIComponent("fill:#0000ff"));
+});
+
+it("can inject colors into xml images", async function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 128 128" version="1.1">\n\t<circle cx="64" cy="64" r="64" />\n</svg>';
+	var expected = encodeURIComponent('<svg height="22px" version="1.1" viewBox="0 0 128 128" width="22px" xmlns="http://www.w3.org/2000/svg"><style>:root{fill:#00ff00;}</style>\n\t<circle');
+	wiki.addTiddler({title: "graph-node-color", text: "#00ff00"});
+	wiki.addTiddler({title: "Image", type: "image/svg+xml", text: svg});
 	await $tw.test.flushChanges();
 	var widget = $tw.test.renderText(wiki, "\\procedure colour(name) <$transclude $tiddler=<<name>> />\n<$graph><$node $tiddler=A image=Image/>");
 	var objects = init.calls.first().args[1];

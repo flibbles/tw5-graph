@@ -13,98 +13,122 @@ exports.name = "image";
 exports.type = "title";
 
 exports.toProperty = function(info, value, options) {
-	var widget = options.widget;
-	var tiddler = widget.wiki.getTiddler(value);
-	if (!tiddler) {
-		// It does not appear to be a real tiddler,
-		// so let's treat it like a real URL.
+	var parentWidget = options.widget;
+	var wiki = parentWidget.wiki;
+	var widget = parentWidget.imageWidget;
+	if (!wiki.tiddlerExists(value) && !wiki.isShadowTiddler(value)) {
+		// It's a tiddler. It must be a literal link to an external source.
 		return value;
 	}
-	var cache = widget.wiki.getGlobalCache("graph-image", function() {
-		return Object.create(null);
-	});
-	if (!cache[value]) {
-		var output = getTiddlerUri(value, widget);
-		if (output.uri === undefined && output.widget) {
-			var container = $tw.fakeDocument.createElement("div");
-			output.widget.render(container, null);
-			var svg = findSVGElement(container);
-			if (!svg) {
-				// Not an image as far as we can tell. Ignore the input.
-				output.uri = null;
-			} else {
-				injectNamespace(svg);
-				// wikitext images may benefit from colors.
-				// svg images should too, but let's not worry about that now.
-				if (info.color) {
-					output.widget.color = Color.toProperty(null, info.color, {widget: output.widget});
-					injectStyle(svg, output.widget);
-				}
-				output.uri = "data:image/svg+xml," + encodeURIComponent(container.innerHTML);
-			}
-		}
-		cache[value] = output;
+	if (!widget) {
+		var parser = wiki.getCacheForTiddler(value, "graphImageParser", function() {
+			return getImageParser(value, wiki);
+		});
+		widget = wiki.makeWidget(parser, {parentWidget: parentWidget});
+		widget.typeInfo = parser.typeInfo;
+		parentWidget.imageWidget = widget;
 	}
-	return cache[value].uri;
+	if (!widget.uri) {
+		var widget = parentWidget.imageWidget;
+		var container = $tw.fakeDocument.createElement("div");
+		var typeInfo = widget.typeInfo;
+		var url, svg;
+		widget.render(container, null);
+		if (!widget.typeInfo) {
+			// Probably just a literal link to an external image
+			url = container.innerHTML;
+		} else if (typeInfo.encoding === "base64") {
+			// .pdf .png .jpg etc.
+			url = "data:" + (typeInfo.deserializerType || "utf8") + ";base64," + container.innerHTML;
+		} else if (svg = findSVGElement(container)) {
+			// wikitext-based SVG?
+			//data = "data:" + deserializerType + ";" + encoding + "," + encodeURIComponent(text);
+			injectNamespace(svg);
+			if (info.color) {
+				widget.color = Color.toProperty(null, info.color, {widget: widget});
+				injectStyle(svg, widget);
+			}
+			var encoding = "";
+			if(wiki.isImageTiddler(value)) {
+				encoding = ";utf8";
+			}
+			url = "data:image/svg+xml" + encoding + "," + encodeURIComponent(container.innerHTML);
+		} else {
+			url = null;
+		}
+		widget.url = url;
+	}
+	return parentWidget.imageWidget.url;
 };
 
 exports.refresh = function(info, value, changedTiddlers, widget) {
 	if (changedTiddlers[value]) {
+		widget.imageWidget = undefined;
 		return true;
 	}
-	var tiddler = widget.wiki.getTiddler(value);
-	if (tiddler) {
-		var output = getTiddlerUri(value, widget);
-		if (output.widget && output.widget.refresh(changedTiddlers)) {
-			output.uri = undefined;
-			return true;
-		}
+	if (!widget.imageWidget) {
+		return true;
+	}
+	if (widget.imageWidget.refresh(changedTiddlers)) {
+		widget.imageWidget.uri = undefined;
+		return true;
 	}
 	// Now we need to check whether the color for this image has changed
-	if (output
-	&& output.widget
-	&& Color.refresh(null, info.color || "", changedTiddlers, output.widget)) {
+	if (Color.refresh(null, info.color || "", changedTiddlers, widget.imageWidget)) {
 		return true;
 	}
 	return false;
 };
 
-function getTiddlerUri(title, widget) {
-	var wiki = widget.wiki;
-	var tiddler = wiki.getTiddler(title);
-	var output = {};
+function getImageParser(title, wiki) {
+	var parser;
+	var typeInfo;
+	// Check if it is an image tiddler
 	if(wiki.isImageTiddler(title)) {
-		// Check if it is an image tiddler
-		var type = tiddler.fields.type,
+		var tiddler = wiki.getTiddler(title),
+			type = tiddler.fields.type,
 			text = tiddler.fields.text,
-			_canonical_uri = tiddler.fields._canonical_uri,
-			typeInfo = $tw.config.contentTypeInfo[type] || {},
-			deserializerType = typeInfo.deserializerType || type;
+			data;
+		typeInfo = $tw.config.contentTypeInfo[type] || {};
 		if(text) {
-			// Render the appropriate element for the image type by
-			// looking up the encoding in the content type info
 			var encoding = typeInfo.encoding || "utf8";
 			if (encoding === "base64") {
-				// .pdf .png .jpg etc.
-				output.uri = "data:" + deserializerType + ";base64," + text;
+				parser = { tree: [{
+					type: "text",
+					attributes: { text: {type: "string", value: text} }
+				}]};
 			} else {
-				// .svg .tid .xml etc.
-				output.uri = "data:" + deserializerType + ";" + encoding + "," + encodeURIComponent(text);
+				// It's an xml svg probably. We still need to parse it into
+				// a DOM tree for manipulation.
+				parser = wiki.parseText("text/vnd.tiddlywiki", text, {parseAsInline: true});
 			}
-		} else if(_canonical_uri) {
-			output.uri = _canonical_uri;
+			//deserializerType = typeInfo.deserializerType || type;
+			// Render the appropriate element for the image type by
+			// looking up the encoding in the content type info
+		} else if(tiddler.fields._canonical_uri) {
+			parser = {
+				tree: [{
+					type: "text",
+					attributes: { text: {type: "string", value: tiddler.fields._canonical_uri} }
+			}]};
+			// It's a link. We don't need to describe type info
+			typeInfo = null;
 		} else {
 			// This must be a lazily loaded tiddler. We don't support those yet.
-			output.uri = null;
+			text = null;
 		}
-	} else {
+	} else if (wiki.tiddlerExists(title) || wiki.isShadowTiddler(title)) {
 		// We assume it is wikitext trying to make an svg
-		output.widget = wiki.getCacheForTiddler(title, "graph-image", function() {
-			var parser = wiki.parseTiddler(title, {parseAsInline: true});
-			return wiki.makeWidget(parser, {parentWidget: widget});
-		});
+		parser = wiki.parseTiddler(title, {parseAsInline: true});
+		typeInfo = $tw.config.contentTypeInfo["image/svg+xml"];
+	} else {
+		parser = { tree: [{
+			type: "text",
+			attributes: { text: {type: "string", value: title} }
+		}]};
 	}
-	return output;
+	parser.typeInfo = typeInfo;
+	return parser;
 };
 
 function findSVGElement(element) {
