@@ -16,9 +16,10 @@ beforeEach(function() {
 it("can handle a raw svg", function() {
 	var spies = $tw.test.spyOnAdapter("Also");
 	spies.testRules("nodes", { img: {type: "image"} });
-	var svg = '<svg height="22px" version="1.1" viewBox="0 0 128 128" width="22px" xmlns="http://www.w3.org/2000/svg">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
+	var svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="22px" height="22px" viewBox="0 0 128 128">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
+	var compiled = '<svg height="22px" version="1.1" viewBox="0 0 128 128" width="22px" xmlns="http://www.w3.org/2000/svg">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
+	var expected = "data:image/svg+xml;utf8," + encodeURIComponent(compiled);
 	wiki.addTiddler({title: "Image", type: "image/svg+xml", text: svg});
-	var expected = "data:image/svg+xml;utf8," + encodeURIComponent(svg);
 	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
 	var objects = spies.init.calls.first().args[1];
 	expect(objects.nodes).toEqual({A: {img: expected}});
