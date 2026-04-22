@@ -101,7 +101,9 @@ function getImageParser(title, wiki) {
 				// It's an xml svg probably. We still need to parse it into
 				// a DOM tree for manipulation.
 				text = text.replace(/^<\?[^?]*\?>/, "");
-				parser = wiki.parseText("text/vnd.tiddlywiki", "\\rules only html\n" + text, {parseAsInline: true});
+				// Also remove DOCTYPE declarations
+				text = text.replace(/^\s*<!DOCTYPE\s[^>]*>/, "");
+				parser = wiki.parseText("text/vnd.tiddlywiki", "\\rules only html commentinline commentblock\n" + text, {parseAsInline: true});
 			}
 			//deserializerType = typeInfo.deserializerType || type;
 			// Render the appropriate element for the image type by

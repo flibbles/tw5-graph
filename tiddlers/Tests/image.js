@@ -16,7 +16,14 @@ beforeEach(function() {
 it("can handle a raw svg", function() {
 	var spies = $tw.test.spyOnAdapter("Also");
 	spies.testRules("nodes", { img: {type: "image"} });
-	var svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="22px" height="22px" viewBox="0 0 128 128">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
+	var svg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- This is a comment which shouldn't mess up anything -->
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="22px" height="22px" viewBox="0 0 128 128">
+	<circle cx="64" cy="64" r="64" /><!-- Inline comment -->
+</svg>`;
 	var compiled = '<svg height="22px" version="1.1" viewBox="0 0 128 128" width="22px" xmlns="http://www.w3.org/2000/svg">\n\t<circle cx="64" cy="64" r="64"></circle>\n</svg>';
 	var expected = "data:image/svg+xml;utf8," + encodeURIComponent(compiled);
 	wiki.addTiddler({title: "Image", type: "image/svg+xml", text: svg});
