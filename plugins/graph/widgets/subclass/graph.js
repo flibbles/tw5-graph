@@ -226,7 +226,10 @@ GraphWidget.traversePropertyWidgets = function(method) {
 GraphWidget.dispatchEvent = function(event) {
 	var messageDef = this.graphEngine.messages && this.graphEngine.messages[event.type];
 	if (messageDef) {
-		var params = utils.typecastProperties(event.paramObject, messageDef, event.widget);
+		// We create a propertyHolder out of the widget.
+		var message = Object.assign(Object.create(event.widget), utils.propertyHolder);
+		message.properties = event.paramObject;
+		var params = utils.typecastProperties(message, messageDef);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}

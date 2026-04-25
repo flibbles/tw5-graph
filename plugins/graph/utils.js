@@ -55,20 +55,30 @@ exports.refreshProperties = function(properties, widget, type, changedTiddlers) 
 Takes an object of properties and converts them into values ready to be passed
 to the engine, using the catalog and widget as the context to define them.
 */
-exports.typecastProperties = function(properties, definitions, widget) {
+exports.typecastProperties = function(propertyHolder, definitions) {
 	var output = Object.create(null);
-	for (var key in properties) {
-		var rule = definitions[key];
-		if (rule && PropertyTypes[rule.type]) {
-			var value = PropertyTypes[rule.type].toProperty(rule, properties[key], {wiki: widget.wiki, widget: widget});
-			if (value !== null) {
-				output[key] = value;
-			}
-		} else {
-			output[key] = properties[key];
+	propertyHolder.definitions = definitions;
+	for (var key in propertyHolder.properties) {
+		var value = propertyHolder.evaluateProperty(key);
+		if (value !== null) {
+			output[key] = value;
 		}
 	}
 	return output;
+};
+
+exports.propertyHolder = {
+	evaluateProperty: function(propertyName) {
+		var rule = this.definitions[propertyName],
+			raw = this.properties[propertyName],
+			value;
+		if (rule && PropertyTypes[rule.type]) {
+			 value = PropertyTypes[rule.type].toProperty(rule, raw, {wiki: this.wiki, widget: this});
+		} else {
+			value = raw || null;
+		}
+		return value;
+	}
 };
 
 exports.getParentProperties = function(widget, type) {

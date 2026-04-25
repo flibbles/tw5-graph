@@ -149,6 +149,20 @@ function findSVGElement(element) {
 	return null;
 };
 
+function getStyle(info, objectWidget) {
+	if (!info.style) {
+		return "";
+	}
+	var styleParts = [];
+	for (var attribute in info.style) {
+		var key = info.style[attribute];
+		var styleValue = objectWidget.getPropertyValue(key);
+		// probably "fill:color", but any kind of css styling is allowed.
+		styleParts.push(attribute + ":" + styleValue + ";");
+	}
+	return ":root{" + styleParts.join("") + "}";
+};
+
 function injectNamespace(svg) {
 	// wikitext svg does not need namespacing, but data URIs do
 	svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");

@@ -14,6 +14,9 @@ var ObjectWidget = function(parseTreeNode, options) {};
 
 ObjectWidget.prototype = new Widget();
 
+// Graph object widgets are a type of property holder.
+Object.assign(ObjectWidget.prototype, utils.propertyHolder);
+
 ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
 	this.parentPropertiesWidget = utils.getParentProperties(this, this.graphObjectType);
@@ -59,7 +62,7 @@ Then returns the evaluated property values to be used by the engine.
 */
 ObjectWidget.prototype.calculatePropertyValues = function(rules) {
 	this.properties = this.computeProperties(rules);
-	return utils.typecastProperties(this.properties, rules, this);
+	return utils.typecastProperties(this, rules);
 };
 
 /*
