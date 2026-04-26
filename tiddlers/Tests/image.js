@@ -280,6 +280,10 @@ it("can handle canonical URIs", function() {
 
 /*** Colors ***/
 
+// TODO: Image specifies a color that has no value or default, shouldn't crash
+// TODO: Image specifies a color that does not exist as a property??
+// TODO: Doesn't bother checking style properties for refresh if not needed
+
 it("can inject colors into wiki images", async function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
@@ -325,7 +329,22 @@ it("does not inject colors if none describe in rule", function() {
 	var objects = AlsoSpies.init.calls.first().args[1];
 	expect(objects.nodes.A.img).toContain("circle");
 	// The node color does not show up anywhere
-	expect(objects.nodes.A.img).not.toContain("00bfab");
+	expect(objects.nodes.A.img).not.toContain("style");
+});
+
+it("can take color from colors assigned to same object", async function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var svg = '<svg viewBox="0 0 128 128"><circle/>';
+	var expected = encodeURIComponent("<style>:root{fill:#030303;}</style><circle");
+	wiki.addTiddler({title: "Image", text: svg});
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, "<$graph><$node $tiddler=A image=Image color=#030303 />");
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes.A.image).toContain(expected);
+	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
+	await $tw.test.flushChanges();
+	expect(update).not.toHaveBeenCalled();
+	// TODO: Test when the color literally is changed maybe?
 });
 
 });

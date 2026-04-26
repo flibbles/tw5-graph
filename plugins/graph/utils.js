@@ -72,13 +72,32 @@ exports.propertyHolder = {
 		var rule = this.definitions[propertyName],
 			raw = this.properties[propertyName],
 			value;
+		if (raw === undefined) {
+			raw = rule.default;
+		}
 		if (rule && PropertyTypes[rule.type]) {
 			 value = PropertyTypes[rule.type].toProperty(rule, raw, {wiki: this.wiki, widget: this});
 		} else {
 			value = raw || null;
 		}
 		return value;
+	},
+	refreshProperty: function(propertyName, changedTiddlers) {
+		var rule = this.definitions[propertyName];
+		if (rule) {
+			var type = PropertyTypes[rule.type],
+				raw = this.properties[propertyName];
+			if (raw === undefined) {
+				raw = rule.default;
+			}
+			if (type
+			&& type.refresh(rule, raw, changedTiddlers, this)) {
+				return true;
+			}
+		}
+		return false;
 	}
+
 };
 
 exports.getParentProperties = function(widget, type) {

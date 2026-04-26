@@ -31,12 +31,12 @@ exports.properties = {
 	},
 	nodes: {
 		actions: {type: "actions", expected: true},
-		color: {type: "color", expected: true},
+		color: {type: "color", default: "graph-node-color", expected: true},
 		label: {type: "string", expected: true},
 		// Below properties are not expected, but actions are matched
 		size: {type: "number", min: 0},
 		hidden: {type: "boolean"},
-		image: {type: "image", color: "graph-node-color"},
+		image: {type: "image", style: {fill: "color"}},
 		physics: {type: "boolean"},
 		shape: {type: "enum", default: "big circle", values: ["deprecated", "box", "circle", "big circle", "star", " "], hidden: ["deprecated", " "]},
 		x: {type: "number", hidden: true},

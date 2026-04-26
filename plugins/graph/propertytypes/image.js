@@ -44,10 +44,8 @@ exports.toProperty = function(info, value, options) {
 			// wikitext-based SVG?
 			//data = "data:" + deserializerType + ";" + encoding + "," + encodeURIComponent(text);
 			injectNamespace(svg);
-			if (info.color) {
-				widget.color = Color.toProperty(null, info.color, {widget: widget});
-				injectStyle(svg, widget);
-			}
+			var style = getStyle(info, parentWidget);
+			injectStyle(svg, style);
 			var encoding = "";
 			if(wiki.isImageTiddler(value)) {
 				encoding = ";utf8";
@@ -73,11 +71,9 @@ exports.refresh = function(info, value, changedTiddlers, widget) {
 		widget.imageWidget.uri = undefined;
 		return true;
 	}
-	// Now we need to check whether the color for this image has changed
-	if (Color.refresh(null, info.color || "", changedTiddlers, widget.imageWidget)) {
-		return true;
-	}
-	return false;
+	// Now we need to check whether any property-dependent styles for the
+	// image have changed.
+	return refreshStyle(info, widget, changedTiddlers);
 };
 
 function getImageParser(title, wiki) {
@@ -156,11 +152,21 @@ function getStyle(info, objectWidget) {
 	var styleParts = [];
 	for (var attribute in info.style) {
 		var key = info.style[attribute];
-		var styleValue = objectWidget.getPropertyValue(key);
+		var styleValue = objectWidget.evaluateProperty(key);
 		// probably "fill:color", but any kind of css styling is allowed.
 		styleParts.push(attribute + ":" + styleValue + ";");
 	}
 	return ":root{" + styleParts.join("") + "}";
+};
+
+function refreshStyle(info, objectWidget, changedTiddlers) {
+	for (var attribute in info.style) {
+		var key = info.style[attribute];
+		if (objectWidget.refreshProperty(key, changedTiddlers)) {
+			return true;
+		}
+	}
+	return false;
 };
 
 function injectNamespace(svg) {
@@ -168,10 +174,10 @@ function injectNamespace(svg) {
 	svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 };
 
-function injectStyle(svg, widget) {
-	if (widget.color) {
-		var style = $tw.fakeDocument.createElement("style");
-		style.textContent = ":root{fill:" + widget.color + ";}";
-		svg.insertBefore(style, svg.children[0]);
+function injectStyle(svg, style) {
+	if (style) {
+		var styleElement = $tw.fakeDocument.createElement("style");
+		styleElement.textContent = style;
+		svg.insertBefore(styleElement, svg.children[0]);
 	}
 };
