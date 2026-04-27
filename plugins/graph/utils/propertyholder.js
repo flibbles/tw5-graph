@@ -58,6 +58,7 @@ Holder.refreshProperty = function(propertyName, changedTiddlers) {
 			raw = rule.default;
 		}
 		if (type
+		&& type.refresh
 		&& type.refresh(rule, raw, changedTiddlers, this)) {
 			return true;
 		}

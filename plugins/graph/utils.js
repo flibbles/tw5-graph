@@ -33,21 +33,10 @@ exports.getEngine = function(name) {
 Checks if any property in an object needs to check for refresh, and returns
 true if any do need to refresh.
 */
-exports.refreshProperties = function(properties, widget, type, changedTiddlers) {
-	var engineName = widget.getVariable("graphengine");
-	var engine = Engines[engineName];
-	if (engine) {
-		var propInfos = engine.prototype.properties[type];
-		if (propInfos) {
-			for (var name in properties) {
-				var info = propInfos[name];
-				var type = PropertyTypes[info && info.type];
-				if (type && type.refresh) {
-					if (type.refresh(info, properties[name], changedTiddlers, widget)) {
-						return true;
-					}
-				}
-			}
+exports.refreshProperties = function(widget, changedTiddlers) {
+	for (var name in widget.properties) {
+		if (widget.refreshProperty(name, changedTiddlers)) {
+			return true;
 		}
 	}
 	return false;

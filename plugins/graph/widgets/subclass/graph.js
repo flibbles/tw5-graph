@@ -141,8 +141,7 @@ GraphWidget.refresh = function(changedTiddlers) {
 		objects = this.computeGraphObjects();
 	}
 	selfChanged = this.computeParents() || selfChanged;
-	if (selfChanged
-	|| utils.refreshProperties(this.properties, this, this.graphObjectType, changedTiddlers)) {
+	if (selfChanged || utils.refreshProperties(this, changedTiddlers)) {
 		var rules = getCatalog(this.graphEngine, "graph");
 		var newTypecastProperties = this.calculatePropertyValues(rules);
 		objects = objects || {};
