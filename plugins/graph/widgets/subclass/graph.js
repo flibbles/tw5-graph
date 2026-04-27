@@ -228,8 +228,7 @@ GraphWidget.dispatchEvent = function(event) {
 	if (messageDef) {
 		// We create a propertyHolder out of the widget.
 		var message = Object.assign(Object.create(event.widget), utils.propertyHolder);
-		message.properties = event.paramObject;
-		var params = utils.typecastProperties(message, messageDef);
+		var params = message.evaluateProperties(event.paramObject, messageDef);
 		if (this.graphEngine.handleMessage(event, params) === false) {
 			return false;
 		}

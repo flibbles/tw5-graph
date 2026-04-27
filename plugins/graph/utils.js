@@ -51,23 +51,27 @@ exports.refreshProperties = function(properties, widget, type, changedTiddlers) 
 	return false;
 };
 
-/*
-Takes an object of properties and converts them into values ready to be passed
-to the engine, using the catalog and widget as the context to define them.
-*/
-exports.typecastProperties = function(propertyHolder, definitions) {
-	var output = Object.create(null);
-	propertyHolder.definitions = definitions;
-	for (var key in propertyHolder.properties) {
-		var value = propertyHolder.evaluateProperty(key);
-		if (value !== null) {
-			output[key] = value;
-		}
-	}
-	return output;
-};
-
 exports.propertyHolder = {
+	/*
+	Takes an object of properties and converts them into values ready to be passed
+	to the engine, using the catalog and widget as the context to define them.
+	*/
+	evaluateProperties: function(properties, definitions) {
+		var output = Object.create(null);
+		// We set the definition and properties to the holder,
+		// because some properties may need to evaluate others
+		// and the holder will need to remember its rules and properties
+		// to do that nested evaluation without passing it around
+		this.definitions = definitions;
+		this.properties = properties;
+		for (var key in this.properties) {
+			var value = this.evaluateProperty(key);
+			if (value !== null) {
+				output[key] = value;
+			}
+		}
+		return output;
+	},
 	evaluateProperty: function(propertyName) {
 		var rule = this.definitions[propertyName],
 			value = this.properties[propertyName];
