@@ -35,7 +35,7 @@ ObjectWidget.prototype.refresh = function(changedTiddlers) {
 	// Were the properties cleared because they were stale?
 	|| !this.properties
 	// maybe properties changed covertly... (expensive)
-	|| utils.refreshProperties(this, changedTiddlers)) {
+	|| this.refreshProperties(changedTiddlers)) {
 		this.execute();
 		// They'll need to be refreshed
 		this.properties = null;

@@ -14,7 +14,7 @@ var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 /*
 Takes an object of properties and converts them into values ready to be passed
-to the engine, using the catalog and widget as the context to define them.
+to the engine, using the catalog and this as the context to define them.
 */
 Holder.evaluateProperties = function(properties, definitions) {
 	var output = Object.create(null);
@@ -47,6 +47,19 @@ Holder.evaluateProperty = function(propertyName) {
 		}
 	}
 	return value;
+};
+
+/*
+Checks if any property in the holder needs to check for refresh, and returns
+true if any do need to refresh.
+*/
+Holder.refreshProperties = function(changedTiddlers) {
+	for (var name in this.properties) {
+		if (this.refreshProperty(name, changedTiddlers)) {
+			return true;
+		}
+	}
+	return false;
 };
 
 Holder.refreshProperty = function(propertyName, changedTiddlers) {

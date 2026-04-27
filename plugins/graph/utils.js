@@ -10,7 +10,6 @@ Utility methods used by the graphing widgets.
 "use strict";
 
 var Engines = $tw.modules.createClassesFromModules("graphengine");
-var PropertyTypes = $tw.modules.getModulesByTypeAsHashmap("graphpropertytype");
 
 $tw.modules.applyMethods("graphutils", exports);
 
@@ -27,19 +26,6 @@ exports.getEngineMap = function() {
 exports.getEngine = function(name) {
 	var engineMap = exports.getEngineMap();
 	return engineMap[name] || null;
-};
-
-/*
-Checks if any property in an object needs to check for refresh, and returns
-true if any do need to refresh.
-*/
-exports.refreshProperties = function(widget, changedTiddlers) {
-	for (var name in widget.properties) {
-		if (widget.refreshProperty(name, changedTiddlers)) {
-			return true;
-		}
-	}
-	return false;
 };
 
 exports.getParentProperties = function(widget, type) {
