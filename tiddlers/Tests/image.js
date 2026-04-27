@@ -58,6 +58,19 @@ it("can handle wikitext svg without xmlns", function() {
 	expect(objects.nodes).toEqual({A: {img: expected}});
 });
 
+it("treats wikitext svg as inline", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", { img: {type: "image"} });
+	var svg = '<svg><circle/>';
+	wiki.addTiddler({title: "Image", text: "<svg><circle/>"});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/>");
+	var img = spies.init.calls.first().args[1].nodes.A.img;
+	expect(img).toContain("circle");
+	// These would only show up if we did block parsing
+	expect(img).not.toContain("div");
+	expect(img).not.toContain("span");
+});
+
 it("can handle wikitext svg that only indirectly contains <svg", function() {
 	var spies = $tw.test.spyOnAdapter("Also");
 	spies.testRules("nodes", { img: {type: "image"} });
