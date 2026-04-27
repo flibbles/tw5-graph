@@ -15,7 +15,7 @@ var ObjectWidget = function(parseTreeNode, options) {};
 ObjectWidget.prototype = new Widget();
 
 // Graph object widgets are a type of property holder.
-Object.assign(ObjectWidget.prototype, utils.propertyHolder);
+Object.assign(ObjectWidget.prototype, utils.PropertyHolder);
 
 ObjectWidget.prototype.render = function(parent, nextSibling) {
 	this.parentDomNode = parent;
