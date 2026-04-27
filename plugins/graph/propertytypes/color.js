@@ -13,7 +13,7 @@ exports.name = "color";
 exports.toProperty = function(info, value, options) {
 	// If it starts with #, we don't have to bother trying to find palette
 	// colors. This is 99% of the time, so worth the optimization.
-	if (value.charAt(0) === "#") {
+	if (value == null || value.charAt(0) === "#") {
 		return value;
 	}
 	var widget = options.widget;

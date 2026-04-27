@@ -153,10 +153,12 @@ function getStyle(info, objectWidget) {
 	for (var attribute in info.style) {
 		var key = info.style[attribute];
 		var styleValue = objectWidget.evaluateProperty(key);
-		// probably "fill:color", but any kind of css styling is allowed.
-		styleParts.push(attribute + ":" + styleValue + ";");
+		if (styleValue) {
+			// probably "fill:color", but any kind of css styling is allowed.
+			styleParts.push(attribute + ":" + styleValue + ";");
+		}
 	}
-	return ":root{" + styleParts.join("") + "}";
+	return styleParts.length > 0? ":root{" + styleParts.join("") + "}": "";
 };
 
 function refreshStyle(info, objectWidget, changedTiddlers) {

@@ -70,15 +70,16 @@ exports.typecastProperties = function(propertyHolder, definitions) {
 exports.propertyHolder = {
 	evaluateProperty: function(propertyName) {
 		var rule = this.definitions[propertyName],
-			raw = this.properties[propertyName],
-			value;
-		if (raw === undefined) {
-			raw = rule.default;
-		}
-		if (rule && PropertyTypes[rule.type]) {
-			 value = PropertyTypes[rule.type].toProperty(rule, raw, {wiki: this.wiki, widget: this});
-		} else {
-			value = raw || null;
+			value = this.properties[propertyName];
+		if (rule) {
+			if (value === undefined) {
+				value = rule.default;
+			}
+			if (rule && PropertyTypes[rule.type]) {
+				 value = PropertyTypes[rule.type].toProperty(rule, value, {wiki: this.wiki, widget: this});
+			} else {
+				value = value || null;
+			}
 		}
 		return value;
 	},

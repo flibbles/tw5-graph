@@ -280,10 +280,6 @@ it("can handle canonical URIs", function() {
 
 /*** Colors ***/
 
-// TODO: Image specifies a color that has no value or default, shouldn't crash
-// TODO: Image specifies a color that does not exist as a property??
-// TODO: Doesn't bother checking style properties for refresh if not needed
-
 it("can inject colors into wiki images", async function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128">\n\n<circle/>\n';
@@ -332,6 +328,33 @@ it("does not inject colors if none describe in rule", function() {
 	expect(objects.nodes.A.img).not.toContain("style");
 });
 
+it("does not inject color into non-xml, nor refresh", async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", {
+		img: {type: "image", style: {fill: "color"}},
+		color: {type: "color", default: "graph-node-color"}
+	});
+	var jpgBody = $tw.utils.base64Encode("This isn't actually a jpg body...");
+	var expected = "data:image/jpeg;base64," + jpgBody;
+	wiki.addTiddler({title: "graph-node-color", text: "#00ff00"});
+	wiki.addTiddler({title: "Image.jpg", type: "image/jpeg", text: jpgBody});
+	wiki.addTiddler({title: "Image.svg", text: '<svg><circle/>'});
+	var text = `\\procedure colour(name) <$transclude $tiddler=<<name>> />
+		<$graph $engine=Also>
+			<$node $tiddler=jpg img=Image.jpg />
+			<$node $tiddler=svg img=Image.svg />`
+	await $tw.test.flushChanges();
+	var widget = $tw.test.renderText(wiki, text);
+	var objects = spies.init.calls.first().args[1];
+	expect(objects.nodes.svg.img).toContain("00ff00");
+	expect(objects.nodes.jpg.img).toContain(jpgBody);
+	wiki.addTiddler({title: "graph-node-color", text: "#112233"});
+	await $tw.test.flushChanges();
+	objects = spies.update.calls.first().args[0];
+	expect(objects.nodes.svg.img).toContain("112233");
+	expect(objects.nodes.jpg).toBeUndefined();
+});
+
 it("can take color from colors assigned to same object", async function() {
 	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
 	var svg = '<svg viewBox="0 0 128 128"><circle/>';
@@ -345,6 +368,39 @@ it("can take color from colors assigned to same object", async function() {
 	await $tw.test.flushChanges();
 	expect(update).not.toHaveBeenCalled();
 	// TODO: Test when the color literally is changed maybe?
+});
+
+it("can specify color properties that aren't set", function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var AlsoSpies = $tw.test.spyOnAdapter("Also");
+	AlsoSpies.testRules("nodes", {
+		img: {type: "image", style: {fill: "color"}},
+		color: {type: "color"}
+	});
+	wiki.addTiddler({title: "Image", text: '<svg><circle/>'});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/><$node $tiddler=B img=Image color=#00ff00 />");
+	var objects = AlsoSpies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("circle");
+	// The node color does not show up anywhere
+	expect(objects.nodes.A.img).not.toContain("style");
+	// B should have a style though
+	expect(objects.nodes.B.img).toContain("00ff00");
+});
+
+it("can specify color properties that aren't defined", function() {
+	// It doesn't have the xmlns declaration, because wikitext wouldn't need it.
+	var AlsoSpies = $tw.test.spyOnAdapter("Also");
+	AlsoSpies.testRules("nodes", {
+		img: {type: "image", style: {fill: "color"}}
+	});
+	wiki.addTiddler({title: "Image", text: '<svg><circle/>'});
+	var widget = $tw.test.renderText(wiki, "<$graph $engine=Also><$node $tiddler=A img=Image/><$node $tiddler=B img=Image color=passedAsIs />");
+	var objects = AlsoSpies.init.calls.first().args[1];
+	expect(objects.nodes.A.img).toContain("circle");
+	// The node color does not show up anywhere
+	expect(objects.nodes.A.img).not.toContain("style");
+	// B should have a style though
+	expect(objects.nodes.B.img).toContain("passedAsIs");
 });
 
 });
