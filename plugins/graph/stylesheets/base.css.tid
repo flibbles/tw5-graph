@@ -228,9 +228,14 @@ table.graph-property td {
 	padding: 4px;
 }
 
-.graph-property-input-color input[type='color'] {
-	height: 24px;
+table.graph-property td.graph-property-input-color {
+	display: flex;
+	gap: 4px;
 	width: 100%;
+}
+
+table.graph-property td.graph-property-input-color input {
+	flex: 1;
 }
 
 table.graph-property .graph-property-input-number {
