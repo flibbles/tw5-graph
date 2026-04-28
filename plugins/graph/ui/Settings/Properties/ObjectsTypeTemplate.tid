@@ -31,14 +31,14 @@ title: $:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate
     <%endif%>
   </$fill>
   <$fill $name=button>
-    <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
+    <$view tiddler=<<currentTab>> field=caption><$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} /></$view>
   </$fill>
   <$fill $name=body>
 
 <$let currentTiddler=<<currentTab>>
       currentCategory={{{ [all[current]removeprefix<configPrefix>split[/]nth[]] }}} >
 
-! <$link><$text text={{{ [all[current]removeprefix<configPrefix>removeprefix<currentCategory>removeprefix[/]] }}} /></$link>
+! <$link><$view field=caption><$text text={{{ [all[current]removeprefix<configPrefix>removeprefix<currentCategory>removeprefix[/]] }}} /></$view></$link>
 
 {{||$:/core/ui/ViewTemplate/body}}
 </$let>
