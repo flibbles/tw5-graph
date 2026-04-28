@@ -54,6 +54,18 @@ it("passes edge settings to internal $edges.typed", function() {
 	expect(widget.parentDomNode.textContent).toBe("A-C-");
 });
 
+it("can take properties for neighbors", function() {
+	wiki.addTiddlers([
+		{title: "View", filter: "root", "neighbors.outgoing": "1", "neighbors.incoming": "1"},
+		{title: "root", list: "neighbor"},
+		{title: "neighbor"},
+		{title: "$:/config/flibbles/graph/nodes/neighbors/1", type: "application/json", text: JSON.stringify({test: "pass"})}]);
+	var text = "\\procedure currentTiddler() View\n\\widget $node.default() <$node/>\n<$graph><$properties.settings><$node $tiddler=root/>";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	var objects = init.calls.first().args[1];
+	expect(objects.nodes).toEqual({root: {}, neighbor: {test: "pass"}});
+});
+
 it("can default templates for popup", async function() {
 	wiki.addTiddlers([
 		{title: "Target", field: "Field Popup", text: "! Text Header"},
@@ -85,7 +97,6 @@ it("can manage blank templates for popup", async function() {
 	// but not have unnecessary paragraph breaks.
 	expect(html).not.toContain("</p>");
 });
-
 
 it("can customize templates for popup", async function() {
 	wiki.addTiddlers([

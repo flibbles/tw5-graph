@@ -38,7 +38,7 @@
 
 <%if [{!!neighbors.incoming}] =[{!!neighbors.outgoing}] +[match[1]count[]match[2]] %>
 
-<$properties color="muted-foreground" >
+<$properties $tiddler="$:/config/flibbles/graph/nodes/neighbors/1" >
  
 <$nodes.neighbors
   $filter={{!!filter}}

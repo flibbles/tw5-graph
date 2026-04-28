@@ -1,0 +1,3 @@
+title: $:/plugins/flibbles/graph/presettypes/nodes/neighbors
+
+"neighbor" properties are applied to neighbors exposed in a Graph Tiddler with Neighbors enabled.
