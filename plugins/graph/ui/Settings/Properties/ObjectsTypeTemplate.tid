@@ -17,16 +17,18 @@ title: $:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate
 	orderFilter="[<currentGroup>addprefix<presetPrefix>get[orderable]match[yes]then<currentGroup>addprefix<configPrefix>]"
 >
   <$fill $name=addButton>
-    <$button class="group-tab-new">
-      {{$:/core/images/new-button}}
-      <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
-        <$vars newTitle=`$(groupPrefix)$$(selection)$`>
-          <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
-          <$action-setfield $tiddler=<<tabsState>> text=<<newTitle>> />
-        </$vars>
-      </$action-modal>
-      <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
-    </$button>
+    <%if [<currentGroup>addprefix<presetPrefix>get[fixed]else[no]!match[yes]] %>
+      <$button class="group-tab-new">
+        {{$:/core/images/new-button}}
+        <$action-modal $tiddler="$:/plugins/flibbles/graph/ui/Modals/NewPropertySet">
+          <$vars newTitle=`$(groupPrefix)$$(selection)$`>
+            <$action-createtiddler $basetitle=<<newTitle>> type="application/json" />
+            <$action-setfield $tiddler=<<tabsState>> text=<<newTitle>> />
+          </$vars>
+        </$action-modal>
+        <$action-sendmessage $message=tm-focus-selector $param="input.graph-select" />
+      </$button>
+    <%endif%>
   </$fill>
   <$fill $name=button>
     <$text text={{{ [<currentTab>removeprefix<groupPrefix>] }}} />
