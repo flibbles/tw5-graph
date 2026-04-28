@@ -11,10 +11,12 @@ exports.name = "Also";
 
 exports.properties = { };
 
-Object.defineProperty(exports.properties, "nodes", {
-	enumerable: true,
-	configurable: true,
-	get() { return { }}
+["graph", "nodes"].forEach(function(category) {
+	Object.defineProperty(exports.properties, category, {
+		enumerable: true,
+		configurable: true,
+		get() { return { }}
+	});
 });
 
 exports.init = function(element, objects) {

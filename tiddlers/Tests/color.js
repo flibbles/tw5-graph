@@ -177,4 +177,36 @@ it("can handle overlapping nodes", async function() {
 	expect(objects.nodes).toEqual({A: {color: "#330000"}});
 });
 
+// Having a color cache from unrelated properties may cause a crash on refresh
+// if only those unrelated properties are cached.
+it("won't crash if trying to read non-existent color", async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		color: {type: "color"},
+		test: {type: "test"}
+	});
+	var w = $tw.test.renderText(wiki, "<$graph $engine=Also test=color />");
+	expect(spies.init).toHaveBeenCalled();
+	wiki.addTiddler({title: "Literally anything at all"});
+	await $tw.test.flushChanges();
+	expect(spies.update).not.toHaveBeenCalled();
+});
+
+// Having a color cache from unrelated properties may cause a crash on refresh
+// if only those unrelated properties are cached.
+// This can happen with images refreshing colors they may not have initialized.
+it("won't crash from a shared color cache", async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		color: {type: "color", default: "blue"},
+		other: {type: "color"},
+		test: {type: "test", only: "refresh"}
+	});
+	var w = $tw.test.renderText(wiki, "<$graph $engine=Also other=red test=color />");
+	expect(spies.init).toHaveBeenCalled();
+	wiki.addTiddler({title: "Literally anything at all"});
+	await $tw.test.flushChanges();
+	expect(spies.update).not.toHaveBeenCalled();
+})
+
 });
