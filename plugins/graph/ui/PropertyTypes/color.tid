@@ -2,9 +2,7 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/color
 
 \whitespace trim
 
-<$edit-text
-	tag=input
-	type=color
+<$edit-color
 	class="tc-edit-texteditor tc-edit-fieldeditor"
 	default={{{ [<jsonEntry>jsonget[default]] }}}
 	index=<<property>>
