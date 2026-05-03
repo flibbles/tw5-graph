@@ -187,8 +187,9 @@ GraphWidget.getEngineName = function() {
 GraphWidget.setCustomProperties = function(properties, rules) {
 	for (var name in rules) {
 		var property = rules[name];
-		// It's hidden, and it has a default, so this is an auto-fill property
-		if (property.hidden && property.default) {
+		// It's flagged to always be sent. Send along the default value.
+		// It may be overridden momentarily.
+		if (property.always) {
 			properties[name] = property.default;
 		}
 	}

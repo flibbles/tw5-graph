@@ -19,7 +19,6 @@ exports.properties = {
 		// do make sure the engine matches the way this adapter
 		// defines it.
 		// This applies to nodes and edges too.
-		nodeColor: {type: "color", default: "graph-node-color", hidden: true},
 		drop: {type: "actions", variables: ["dropTiddler"]},
 		physics: {type: "boolean", default: true},
 		hierarchy: {type: "string", default: true},

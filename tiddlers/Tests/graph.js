@@ -103,30 +103,38 @@ it("detects when to destroy itself", async function() {
 /*** auto-properties ***/
 
 it('sends style update if palette changes', async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		nodeColor: {type: "color", always: true, default: "graph-node-color"},
+	});
 	// In Test, the nodeColor property is tied to graph-node-color palette
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph/>')
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph $engine=Also/>')
 	await $tw.test.flushChanges();
-	var initialObjects = onlyCallOf(init)[1];
+	var initialObjects = onlyCallOf(spies.init)[1];
 	expect(initialObjects).toEqual({graph: {nodeColor: "#ff0000"}});
 	// Now we make a change
 	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
-	var newObjects = onlyCallOf(update)[0];
+	var newObjects = onlyCallOf(spies.update)[0];
 	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff"}});
 });
 
 it('sends style and node updates together', async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		nodeColor: {type: "color", always: true, default: "graph-node-color"},
+	});
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph><$node $tiddler=N label={{graph-node-color}} />')
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$">#000000</$transclude>\n<$graph $engine=Also><$node $tiddler=N label={{graph-node-color}} />')
 	await $tw.test.flushChanges();
-	var initialObjects = onlyCallOf(init)[1];
+	var initialObjects = onlyCallOf(spies.init)[1];
 	expect(Object.keys(initialObjects)).toEqual(["nodes", "graph"]);
 	expect(initialObjects.graph.nodeColor).toBe("#ff0000");
 	// Now we make a change
 	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
-	var newObjects = onlyCallOf(update)[0];
+	var newObjects = onlyCallOf(spies.update)[0];
 	// We test this way instead of toEqualing the whole thing because more
 	// colors may be added later.
 	expect(Object.keys(newObjects)).toEqual(["nodes", "graph"]);
@@ -135,13 +143,17 @@ it('sends style and node updates together', async function() {
 });
 
 it('can update colors and other graph settings together', async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		nodeColor: {type: "color", always: true, default: "graph-node-color"},
+	});
 	wiki.addTiddler({title: "graph-node-color", text: "#ff0000"});
-	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph value={{graph-node-color}} />')
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph $engine=Also value={{graph-node-color}} />')
 	await $tw.test.flushChanges();
 	// Now we make a change
 	wiki.addTiddler({title: "graph-node-color", text: "#0000ff"});
 	await $tw.test.flushChanges();
-	var newObjects = onlyCallOf(update)[0];
+	var newObjects = onlyCallOf(spies.update)[0];
 	// colors may be added later.
 	expect(newObjects).toEqual({graph: {nodeColor: "#0000ff", value: "#0000ff"}});
 });
