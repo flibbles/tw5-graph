@@ -5,8 +5,8 @@ title: $:/plugins/flibbles/graph/ui/PropertyTypes/number
 <$let
 	increment={{{ [<jsonEntry>jsonget[increment]else[1]] }}}
 	default={{{ [<jsonEntry>jsonget[default]else[0]] }}}
-	min={{{ [<jsonEntry>jsonget[min]] ~[<increment>multiply[-25]add<default>] }}}
-	max={{{ [<jsonEntry>jsonget[max]] ~[<increment>multiply[50]add<min>] }}}
+	min={{{ [<jsonEntry>jsonget[min]else[0]] }}}
+	max={{{ [<jsonEntry>jsonget[max]] ~[<increment>multiply[100]add<min>] }}}
 >
 <$range index=<<property>>
 	min=<<min>>

@@ -1,0 +1,32 @@
+Every property that makes up a [[Graph Object]], that <<.graph>> sends to underlying graph engines, is of a particular type. This type defines what sort of input controls are displayed to users to modify properties in a property table, and it determines how <<.graph>> will process and transform a property before passing it along to an engine.
+
+Every engine defines its accepted properties and the type of each properties using an `exports.properties` object inside of its [[graphengine Module]]. This object is a json structure which defines a catelog of property definitions for every kind of [[Graph Object]] that engine accepts. For instance:
+
+```json
+exports.properties = {
+	graph: {
+		focus: {type: "actions"}
+	},
+	nodes: {
+		x: {type: "number"},
+		y: {type: "number"},
+		color: {type: "color", default: "graph-node-color"}
+	}
+};
+```
+
+This is a simple property type definition. The engine is declaring that its root graph object can take an action property called <<.prop focus>>, while every node object accepts an <<.prop x>> and <<.prop y>> number, and also a color-type property aptly named <<.prop color>>. This color has a default value of <<.value graph-node-color>> which gets reflected in its corresponding color input control.
+
+This is an incredibly simple example. Most engines will declare many more properties than this, for more types of graph objects, and each property definition accepts settings in its definition which control how its inputs are rendered, and how property values may be transformed before being passed to the engine.
+
+All property type definitions accept the following settings:
+
+|!Setting |!Description |
+|type |Required. This specifies what type a property is. See below for the list of available types. |
+|default |This is a default value which any input controls will initially reflect, such as the initial value for a number slider. |
+|hidden |If true, this property will not get reflected in property tables for input, but this property can still be inputted manually in [[Property Sets]] or as widget attributes. (default: <<.value false>>) |
+|always |If true, <<.graph>> will always send the default value for a property if no other value is set. Has no effect if no default value is specified (default: <<.value false>>) |
+
+The following property types are available for engines to use:
+
+<<list-links "[tag[Property Types]]">>

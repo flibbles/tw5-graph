@@ -15,7 +15,7 @@ If a tiddler is removed from the graph, it is ''not'' deleted from your wiki.
 
 The contents of this widget are rendered for every list-item described inside the specified field. If you do not supply a content, then by default, it will create a node for every list-item.
 
-|!Attribute | !Description |
+|!Attribute |!Description |
 |$tiddler |Name of a tiddler whose field this widget will look to (defaults to the currentTiddler) |
 |$field |Name of a field to read and write to |
 |$variable |Name for a varaible in which the title of each listed tiddler is stored. Defaults to <<.var currentTiddler>> |
