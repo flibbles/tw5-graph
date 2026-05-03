@@ -30,6 +30,8 @@ tags: $:/tags/Stylesheet
 	white-space: nowrap;
 	overflow: hidden;
 	min-height: 2em;
+	text-align: left;
+	direction: rtl;
 }
 
 .graph-modal-tiddler-breadcrumbs svg {

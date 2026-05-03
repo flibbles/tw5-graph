@@ -4,7 +4,7 @@ title: $:/plugins/flibbles/graph/ui/Modals/TiddlerHeader
 
 <div class=graph-modal-tiddler-breadcrumbs>
   <$linkcatcher actions="<$action-listops $tiddler='$:/state/flibbles/graph/modal' $subfilter='+[allafter:include<navigateTo>]' />" >
-    <$list filter="[list[$:/state/flibbles/graph/modal]]" join="{{$:/core/images/left-arrow}}">
+    <$list filter="[list[$:/state/flibbles/graph/modal]reverse[]]" join="{{$:/core/images/right-arrow}}">
       <%if [list[$:/state/flibbles/graph/modal]first[]match{!!title}] %>
         ''<$text text={{!!title}} />''
       <%else%>
