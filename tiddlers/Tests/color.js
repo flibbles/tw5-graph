@@ -209,4 +209,17 @@ it("won't crash from a shared color cache", async function() {
 	expect(spies.update).not.toHaveBeenCalled();
 })
 
+// Found a crash. Even if this only happens if an engine is made wrong
+it("no crash with default non-string", function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("graph", {
+		color: {type: "color", always: true, default: 0},
+		font: {type: "color", always: true, default: "#0"}
+	});
+	// In Test, the nodeColor property is tied to graph-node-color palette
+	$tw.test.renderText(wiki, "<$graph $engine=Also />")
+	var initialObjects = spies.init.calls.first().args[1];
+	expect(initialObjects).toEqual({graph: {font: "#0"}});
+});
+
 });
