@@ -174,6 +174,8 @@ it("handles auto-properties at lowest priority", async function() {
 	spies.testRules("nodes", {
 		x: {type: "number", always: true, default: 0},
 		y: {type: "number", always: true, default: 0},
+		// Without defaults, it's ignored
+		z: {type: "number", always: true},
 		// ensure autoproperties can evaluate if they're complex types
 		font: {type: "color", always: true, default: "graph-font-color"}
 	});
