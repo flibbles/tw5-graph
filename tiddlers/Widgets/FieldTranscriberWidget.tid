@@ -24,10 +24,7 @@ The content of the <<.wid fieldtranscriber>> widget is rendered as normal, with 
 
 Fieldtranscriber supports a few types.
 
-;text/plain
-: This is the default type. When transcribing to a plaintext field, <<.wid fieldtranscriber>> will transcribe the contents between body and field as-is. It will preserve all whitespace, even newline characters.
-;application/json
-: When transcribing json, the <<.wid fieldtranscriber>> will pretty-print the state body, as it would be in any json data tiddler, but it will strip all whitespace from the corresponding json field. If either the field or text is corrupted, it transcribes `{}` to the corresponding destination.
+<dl><$list filter="[tag[FieldTranscriber Types]]"><dt>{{!!caption}}</dt><dd>{{!!text}}</dd></$list></dl>
 
 Any unknown types get treated as <<.value text/plain>>.
 

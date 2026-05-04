@@ -1,0 +1,3 @@
+caption: applications/x-tiddler-filter
+
+<<.wid fieldtranscriber>> will collapse multi-line filters in the state body into a single line for the field, using double-spaces to indicate newlines. This won't necessarily perfectly preserve your multi-line filters, but it will come close. If any filter operands have newlines, then the filter field will be forced to have newlines too.

@@ -1,0 +1,4 @@
+caption: text/plain
+list-before: 
+
+This is the default type. When transcribing to a plaintext field, <<.wid fieldtranscriber>> will transcribe the contents between body and field as-is. It will preserve all whitespace, even newline characters.
