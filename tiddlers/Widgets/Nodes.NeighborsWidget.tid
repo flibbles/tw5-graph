@@ -49,7 +49,7 @@ Currently, this widget does not support rendering neighbors of neighbors. Trying
     <$node label={{!!title}} shape="star"/>
     <$edges.typed />
   </$list>
-  <$properties color=<<colour muted-foreground>> >
+  <$properties color="muted-foreground" >
     <$nodes.neighbors $filter="[tag[$:/Rat Pack]]"/>
   </$properties>
 </$graph>""">
@@ -65,7 +65,7 @@ Notice how we've accidentally overridden some of the Rat Pack with their neighbo
 	content="""<$graph>
   <$list filter="[tag[$:/Rat Pack]]">
     <$node label={{!!title}} shape="star" />
-    <$properties color=<<colour muted-foreground>> >
+    <$properties color="muted-foreground" >
       <$nodes.neighbors $filter="[<currentTiddler>]"/>
     </$properties>
     <$edges.typed />

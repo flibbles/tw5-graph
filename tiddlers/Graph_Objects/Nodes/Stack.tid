@@ -17,7 +17,7 @@ Because order matters.
 
 If two or more stack node types would change the same property on a node, then the one farther down in the stack take priority.
 
-You can manage the order of the stack by going to the <$link.stack>Node Stack Configuration page</$link.stack> and dragging the vertical tabs along the left-hand side to whatever order you want.
+You can manage the order of the stack by going to the <$link.stack>Node Stack Configuration page</$link.stack> and dragging the vertical tabs in the <<.value Stack>> group along the left-hand side to whatever order you want.
 
 Here is a transclusion of that Properties tab.
 

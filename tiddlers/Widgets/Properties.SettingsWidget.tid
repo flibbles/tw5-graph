@@ -8,8 +8,8 @@ The <<.wid properties.settings>> widget applies properties to a [[GraphTiddler]]
 
 * It makes the graph behave appropriately depending on whether it's in the sidebar, or shown in your story river.
 * It provides variables to inner content that correspond to how the graphTiddler's edge types are configured.
-* It renders neighbor nodes for your graph's nodes, if the graphTiddler is configured to do so, and it styles those nodes.
-* It applies the stack of node configuration to your graph's nodes.
+* It renders [[neighbor nodes|Neighbors]] for your graph's nodes, if the graphTiddler is configured to do so, and it styles those nodes according to how you've configured neighbors in <<.graph>> settings.
+* It applies the [[stack of node configuration|Stack NodeType]] to your graph's nodes.
 * It applies popups to the nodes if the graphTiddler is configured to do so.
 ** It does not apply popups to edges or other graph object types since that behavior is heavily case-dependent.
 
