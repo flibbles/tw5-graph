@@ -240,13 +240,17 @@ table.graph-property td.graph-property-input-color input {
 
 table.graph-property .graph-property-input-number {
 	display: flex;
+	gap: 2px;
+	width: 100%;
 }
 
 table.graph-property .graph-property-input-number input {
 	flex-grow: 1;
+	width: 60%;
 }
 
 table.graph-property .graph-property-input-number span {
+	flex: 1;
 	margin-left: 5px;
 	min-width: 2em;
 	vertical-align: top;
