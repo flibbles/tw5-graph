@@ -15,6 +15,20 @@
 
 \widget $doc.note() ''Note:''&#32;<$slot $name=ts-raw />
 
+
+\widget $.action-navigatesettings(tab)
+<$parameters $params=extra>
+	<$action-navigate $to="$:/plugins/flibbles/graph/settings"/>
+	<$action-setfield
+		$tiddler="$:/state/flibbles/graph/settings"
+		text=`$:/plugins/flibbles/graph/ui/Settings/$(tab)$`/>
+	<$list variable=value filter="[<extra>jsonindexes[]!match[tab]]">
+		<$action-setfield
+			$tiddler=`$:/state/flibbles/graph/settings/$(value)$`
+			text={{{ [<extra>jsonget<value>] }}} />
+\end
+
+
 \procedure .wlink(to) <$link to=<<to>> ><$transclude $variable=.wid _={{{ [<to>get[caption]] }}} /></$link>
 
 \relink .wlink to

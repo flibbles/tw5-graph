@@ -5,6 +5,10 @@ tags: Concepts
 
 For most templates, showing neighbors is a customizable feature through a [[GraphTiddler]]'s settings. If you're making graphs through wikitext, check out <<.wlink Nodes.NeighborsWidget>> for discovering and creating links to and from neighbors.
 
+!!! Customizing Neighbors' Appearance
+
+By default, neighbors displayed in GraphTiddlers are styled using the muted foreground color of the current TiddlyWiki palette, but you can style them however you want by going to the <$linkcatcher actions="<$.action-navigatesettings tab=Properties properties=nodes />"><$link>node properties settings</$link></$linkcatcher>. Under the Neighbors tab group, select <<.value All>>.
+
 !!! TiddlyMap
 
 [[TiddlyMap]] also had a concept neighbors were as as the neighborhood. It had getNeighbors as a function.

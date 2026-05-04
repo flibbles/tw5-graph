@@ -9,6 +9,6 @@ caption: Properties
 <$transclude $variable=tabs
 	tabsList="[function[.tabs]]"
 	default=<<default>>
-	state="$:/state/graph/settings/"
+	explicitState="$:/state/flibbles/graph/settings/properties"
 	template="$:/plugins/flibbles/graph/ui/Settings/Properties/ObjectsTypeTemplate"
 />

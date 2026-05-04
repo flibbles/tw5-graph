@@ -1,11 +1,9 @@
 \widget $link.stack()
 \whitespace trim
 <$linkcatcher actions="""
-    <$action-navigate $to=<<navigateTo>> />
-    <$action-setfield $tiddler="$:/state/graph/settings/--216283713" text=nodes/>
-    <$action-setfield $tiddler="$:/state/flibbles/graph/settings" text={{$:/plugins/flibbles/graph/ui/Settings/Properties!!title}} />
+    <$.action-navigatesettings tab=Properties properties=nodes />
 """>
-  <$link to="$:/plugins/flibbles/graph/settings">
+  <$link>
     <$slot $name=ts-raw />
 \end
 
