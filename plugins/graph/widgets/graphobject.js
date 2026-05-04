@@ -85,8 +85,16 @@ ObjectWidget.prototype.computeProperties = function(rules) {
 			newProperties[name] = property.default;
 		}
 	}
+	// Then we travel down and set properties based on containing
+	// $property widgets.
+	for (var i = this.applicableParents.length-1; i >= 0; i--) {
+		var widget = this.applicableParents[i];
+		for (var property in widget.properties) {
+			newProperties[property] = widget.properties[property];
+		}
+	}
 	// Then object types get a chance to set properties based on
-	// own unique rules.
+	// their own unique rules.
 	this.setCustomProperties(newProperties, rules);
 	// Then we set properties based on explicit attributes
 	// on this object. These take highest priority.
@@ -95,18 +103,6 @@ ObjectWidget.prototype.computeProperties = function(rules) {
 			var value = this.attributes[key];
 			if (value) {
 				newProperties[key] = this.attributes[key];
-			}
-		}
-	}
-	// Then we travel up and set properties based on containing
-	// $property widgets, but only if the corresponding property
-	// hasn't already been set.
-	// TODO: I don't think this works with auto-properties correctly
-	for (var i = 0; i < this.applicableParents.length; i++) {
-		var widget = this.applicableParents[i];
-		for (var property in widget.properties) {
-			if (!Object.hasOwnProperty.call(newProperties, property)) {
-				newProperties[property] = widget.properties[property];
 			}
 		}
 	}
