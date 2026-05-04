@@ -49,6 +49,12 @@ ObjectWidget.prototype.allowActionPropagation = function() {
 };
 
 /*
+Can be overriden to allow object types to set properties based on rules
+and behaviors specific to that typeA.
+*/
+ObjectWidget.prototype.setCustomProperties = function(properties, rules) {};
+
+/*
 This is an opportunity for a graphObject to evaluate itself in relation with
 all other collected graph objects, as well as knowing its own relative index.
 It can use this opportunity to flag itself as needing refreshing, or
@@ -69,7 +75,21 @@ Computes the properties for this object and returns them in an object.
 */
 ObjectWidget.prototype.computeProperties = function(rules) {
 	var newProperties = Object.create(null);
+	// First, we set any auto-properties, so that anything else
+	// will have the opportunity to override them.
+	for (var name in rules) {
+		var property = rules[name];
+		// It's flagged to always be sent to the engine.
+		// Send along the default value. It may be overridden momentarily.
+		if (property.always) {
+			newProperties[name] = property.default;
+		}
+	}
+	// Then object types get a chance to set properties based on
+	// own unique rules.
 	this.setCustomProperties(newProperties, rules);
+	// Then we set properties based on explicit attributes
+	// on this object. These take highest priority.
 	for (var key in this.attributes) {
 		if (key.charAt(0) !== "$") {
 			var value = this.attributes[key];
@@ -78,6 +98,10 @@ ObjectWidget.prototype.computeProperties = function(rules) {
 			}
 		}
 	}
+	// Then we travel up and set properties based on containing
+	// $property widgets, but only if the corresponding property
+	// hasn't already been set.
+	// TODO: I don't think this works with auto-properties correctly
 	for (var i = 0; i < this.applicableParents.length; i++) {
 		var widget = this.applicableParents[i];
 		for (var property in widget.properties) {

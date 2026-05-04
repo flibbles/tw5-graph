@@ -184,17 +184,6 @@ GraphWidget.getEngineName = function() {
 	return this.getAttribute("$engine") || this.getVariable("graphengine");
 };
 
-GraphWidget.setCustomProperties = function(properties, rules) {
-	for (var name in rules) {
-		var property = rules[name];
-		// It's flagged to always be sent to the engine.
-		// Set to the default value. It may be overridden momentarily.
-		if (property.always) {
-			properties[name] = property.default;
-		}
-	}
-};
-
 /**
  * This overrides a graphobject method so we're looking inward instead of
  * upward for properties that apply to this widget.

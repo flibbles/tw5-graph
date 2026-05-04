@@ -167,4 +167,24 @@ it("resists javascript object member sorting", function() {
 		1: {index: 2}});
 });
 
+/*** auto-properties ***/
+
+it('sends style update if palette changes', async function() {
+	var spies = $tw.test.spyOnAdapter("Also");
+	spies.testRules("nodes", {
+		font: {type: "color", always: true, default: "graph-font-color"},
+	});
+	// In Test, the nodeColor property is tied to graph-node-color palette
+	wiki.addTiddler({title: "graph-font-color", text: "#bbcc00"});
+	var widgetNode = $tw.test.renderText(wiki, '\\define colour(name) <$transclude $tiddler="$name$"/>\n<$graph $engine=Also><$node $tiddler=A />')
+	await $tw.test.flushChanges();
+	var initialObjects = spies.init.calls.first().args[1];
+	expect(initialObjects.nodes).toEqual({A: {font: "#bbcc00"}});
+	// Now we make a change
+	wiki.addTiddler({title: "graph-font-color", text: "#0000ff"});
+	await $tw.test.flushChanges();
+	var newObjects = spies.update.calls.first().args[0];
+	expect(newObjects.nodes).toEqual({A: {font: "#0000ff"}});
+});
+
 });
