@@ -1,0 +1,9 @@
+"Filter" property types take a string value, which will be parsed as a filter, and the results will be passed to the engine as an array. Any filter which isn't an empty string will be interpretted and returned, even if it produces zero results.
+
+!! Context
+
+Filter properties are interpretted with the context of every individual [[graph object widget|Graph Objects]] they are attached to, even if they're attached to a widget because of a parent <<.wlink PropertiesWidget>>.
+
+!! Settings
+
+String properties have no extra settings besides [[those allowed by all properties|Property Types]].

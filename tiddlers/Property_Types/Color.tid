@@ -1,0 +1,32 @@
+\procedure table()
+\whitespace trim
+<table>
+  <$list variable=key
+    filter="[[$:/plugins/flibbles/graph]plugintiddlers[]removeprefix[$:/config/DefaultColourMappings/]]">
+    <$wikify name=resolved text=`<<colour "$(key)$">>`>
+      <tr>
+        <td>
+          <div class="tc-swatch" style=`background-color: $(resolved)$;` />
+        </td>
+        <td><<key>>
+\end
+
+In property settings tables, "Color" property types provide a browser-specific color selector to choose a color.
+
+When inputting values manually as a widget attribute, these properties accept several types of inputs:
+
+!! CSS-viable strings
+
+Strings such as <<.value #ff0000>>, <<.value "rgb(255,0,0)">>, or <<.value LightSalmon>>. <<.graph>> will make sure that the value is legal, or it will ignore the property value.
+
+!! Palette color keys
+
+You can supply the name of a TiddlyWiki palette color, such at `tiddler-foreground`, and <<.graph>> will take care of passing along the corresponding color value.
+
+<<.graph>> introduces several new palette colors which are particularly relevant, which engines may want to make use of as default colors for defined properties.
+
+<$transclude $variable=table mode=inline />
+
+! Settings
+
+Color properties have no extra settings besides [[those allowed by all properties|Property Types]].

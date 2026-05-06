@@ -1,0 +1,19 @@
+"Enum" properties accept a fixed set of options, and provides a dropdown when working with a property settings table. If the user inputs a string which does not appear in the predesignated list, <<.graph>> ignores the value.
+
+```
+exports.properties = {
+	nodes: {
+		shape: {type: "enum", values: ["circle", "square", "star"}
+	}
+};
+```
+
+In this example, nodes will accept a <<.prop shape>> property which accepts three values. In graph property tables, <<.graph>> will provide a dropdown with three choices.
+
+!Settings
+
+|!Setting |!Description |
+|>|[[settings allowed by all properties|Property Types]] |
+|values |Required. An array of strings that are legal values for this property. |
+|multiple |If true, the dropdown will allow selecting multiple options, and manually inputted values will be parsed as a [[title lists|https://tiddlywiki.com/#Title%20List]], and an array will be passed to the engine. (default: <<.value false>>) |
+

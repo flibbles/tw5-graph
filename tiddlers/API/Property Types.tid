@@ -17,7 +17,9 @@ exports.properties = {
 
 This is a simple property type definition. The engine is declaring that its root graph object can take an action property called <<.prop focus>>, while every node object accepts an <<.prop x>> and <<.prop y>> number, and also a color-type property aptly named <<.prop color>>. This color has a default value of <<.value graph-node-color>> which gets reflected in its corresponding color input control.
 
-This is an incredibly simple example. Most engines will declare many more properties than this, for more types of graph objects, and each property definition accepts settings in its definition which control how its inputs are rendered, and how property values may be transformed before being passed to the engine.
+! Common Property Definition Settings
+
+Most engines will declare many more properties than above, for more types of graph objects, and each property definition accepts settings in its definition which control how its inputs are rendered, and how property values may be transformed before being passed to the engine.
 
 All property type definitions accept the following settings:
 

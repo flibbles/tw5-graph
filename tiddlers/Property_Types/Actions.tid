@@ -1,0 +1,52 @@
+\procedure table()
+\whitespace trim
+<table>
+  <tr><th>Graph Object</th><th>Context variables</th></tr>
+  <$list variable=module filter="[[widget-subclass]modules[]] :filter[moduleproperty[baseClass]match[graphobject]]" >
+    <%if [tag[Graph Objects]] :filter[<module>moduleproperty[prototype]jsonget[graphObjectType]titlecase[]match{!!caption}] %>
+      <tr>
+        <td>
+          <$link to=<<condition>> ><$view tiddler=<<condition>> field=caption /></$link>
+        </td>
+        <td>
+          <$list variable=setting filter="[<module>moduleproperty[actionContext]jsonget[]]" join="<br>" emptyMessage="//(none)//">
+            <$transclude $variable=".var" _=<<setting>> />
+\end
+
+"Actions" property types are an engine's way of indicating a possible event it might fire for a particular [[Graph Object|Graph Objects]]. For instance, a common actions property all engines should have:
+
+```json
+exports.properties = {
+	nodes: {
+		actions: {type: "actions"}
+	}
+};
+```
+
+This indicates that every node in a graph can have an aptly-named `actions` property, which is an "actions" type. The value of it should be a wikitext string of action widgets to be invoked when that event is triggered.
+
+The "actions" property is the default behavior that should occur when a node is //interacted with//, which may mean double-clicking in some engines, like [[Vis-Network]], or may be a single click in some engines like [[Mermaid]].
+
+! What gets sent to the engine
+
+When an "actions" property is assigned a value, all that <<.graph>> sends to the engine is a boolean <<.value true>> value to indicate that the corresponding graph object is prepared to invoke something if that event should trigger upon it. <<.graph>> takes care of invoking the actual value as a wikitext string. Here's an example:
+
+```html
+<$node actions="<$navigate to=<<nodeTiddler>> />" />
+```
+
+The underlying engine will get `actions=true` in the property object. If it invokes the action on that node, then <<.graph>> will invoke the <<.wid navigate>> widget.
+
+! Context variables
+
+Notice the <<.var nodeTiddler>> variable used in the example above. That was defined by <<.graph>> before invoking the action string.
+
+Every type of graph object may have some context variables it will define for the action string's benefit. In this case <<.var nodeTiddler>> indicates the tiddler of the current node being invoked.
+
+<$transclude $variable=table mode=inline />
+
+! Settings
+
+|!Setting |!Description |
+|>|[[settings allowed by all properties|Property Types]] |
+|variables |An array of variable names which will be defined during action invocation. |

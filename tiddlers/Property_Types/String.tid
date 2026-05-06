@@ -1,0 +1,5 @@
+"String" property types are the simplest type, and the default. Whatever value an attribute is set to, it's passed to the engine as-is as a javascript string.
+
+Unless it's blank, in which case it's ignored.
+
+String properties have no extra settings besides [[those allowed by all properties|Property Types]].

@@ -1,0 +1,15 @@
+"Boolean" property types are converted to javascript's <<.val true>> or <<.val false>> before being passed to the underlying graphing engine. The definition objects declared by the engines accept the following settings:
+
+The following attribute values will be converted into <<.val false>>:
+
+<ul>
+<$list filter="no false 0 n f">
+<li>
+<$transclude $variable=".value" _={{!!title}} />
+</li>
+</$list>
+</ul>
+
+Every other non-empty string will be considered true. Empty strings get ignored, and no value will be passed.
+
+Boolean properties have no extra settings besides [[those allowed by all properties|Property Types]].

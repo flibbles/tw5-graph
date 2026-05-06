@@ -2,8 +2,8 @@
 
 |!Setting |!Description |
 |>|[[settings allowed by all properties|Property Types]] |
-|increment |Sets step value of the range slider. Should be positive. (default: `1`) |
-|min |Sets the minimum allowed value in the range slider (default: `0`) |
-|max |Sets the maximum allowed value in the range slider (default: `min + increment * 100`) |
+|increment |Sets step value of the range slider. Should be positive. (default: <<.value 1>>) |
+|min |Sets the minimum allowed value in the range slider (default: <<.value 0>>) |
+|max |Sets the maximum allowed value in the range slider (default: <<.value "min + increment * 100">>) |
 
 The settings only affect how the number slider is configured in property configuration tables. min and max does not constrain values if users write in.

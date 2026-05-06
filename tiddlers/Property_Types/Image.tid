@@ -1,0 +1,33 @@
+"Image" properties will said image urls to the engine based in the property's value.
+
+!! Values
+
+You can specify an actual url or local address, and <<.graph>> will pass that along to the engine as is.
+
+However, more likely, you'll want to specify a tiddler in your project. <<.graph>> will convert it into a data url and pass that along.
+
+!! Settings
+
+|!Setting |!Description |
+|>|[[settings allowed by all properties|Property Types]] |
+|style |An object of keys are style properties, and whose values are the names of other properties attached to this object type. To be injected into SVG. |
+
+!! Style injection
+
+If the tiddler you specify is an <<.value image/svg+xml>> tiddler, or a wikitext tiddler which evaluates to an SVG image, then <<.graph>> will inject style information into it based on this properties settings. Take this example:
+
+```
+exports.properties = {
+	nodes: {
+		icon: {type: "image", style: {fill: "color", stroke: "borderColor"}},
+		color: {type: "color", default: "graph-node-color"},
+		borderColor: {type: "color"}
+	}
+};
+```
+
+The <<.prop icon>> property can accept any URL, but if passed an SVG tiddler, it will inject style into the SVG to affect its rendering. In this case, it will take whatever value has been assigned to <<.prop color>> for each node as a <<.value fill>>, and it will use the node's <<.prop borderColor>> value for stroke styling.
+
+If no <<.prop color>> was specified for any given node, the default will be passed along instead, which in this case would be the value for the palette color <<.value graph-node-color>>.
+
+This is very useful to color your SVG individually for all your graph objects, but you can use style for other property types too, maybe <<.value stroke-width>> might point to a <<.prop borderWidth>> property...
