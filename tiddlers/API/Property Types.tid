@@ -1,5 +1,7 @@
 Every property that makes up a [[Graph Object]], that <<.graph>> sends to underlying graph engines, is of a particular type. This type defines what sort of input controls are displayed to users to modify properties in a property table, and it determines how <<.graph>> will process and transform a property before passing it along to an engine.
 
+If you are looking into writing a [[graphengine Module]] yourself, this documentation should be helpful, as there are many tricks and features to property type definitions.
+
 Every engine defines its accepted properties and the type of each properties using an `exports.properties` object inside of its [[graphengine Module]]. This object is a json structure which defines a catelog of property definitions for every kind of [[Graph Object]] that engine accepts. For instance:
 
 ```json

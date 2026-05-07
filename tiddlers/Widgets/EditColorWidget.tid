@@ -1,0 +1,31 @@
+title: EditColorWidget
+tags: Widgets [[Core Widgets]]
+field: alert-highlight
+caption: edit-color
+
+! Introduction
+
+The <<.wid edit-color>> widget is a specialize form of the [[$edit-text widget|https://tiddlywiki.com/#EditTextWidget]].
+
+```
+<$edit-color .../>
+```
+
+Is equivalent to
+
+```
+<$edit-text tag=input type=color ... />
+```
+
+with the added benefit that <<.wid edit-color>> can show the correct color if its corresponding edit field specifies a palette-color.
+
+! Content and Attributes
+
+It supports all of the same attributes and contents as <<.wid edit-text>>, except for <<.attr type>> and <<.attr tag>>, because those are hardcoded.
+
+! Examples
+
+Here is a simple example. The text box and the <<.wid edit-color>> widget point to the same field. It starts as a palette color, but can be changed either with the color picker, or by typing in anything else.
+
+<$doc.demo description="EditColor" code="""<$edit-color field="field" />
+<$edit-text field="field" />""" />
