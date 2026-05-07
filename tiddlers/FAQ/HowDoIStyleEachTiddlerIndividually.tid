@@ -1,0 +1,31 @@
+title: How do I style each tiddler individually?
+tags: FAQ
+
+Maybe you want custom labels for each node, or you want to change its color based on a field value. For cases like these and many others, styling nodes using [[the node stack|Stack NodeType]] isn't going to work. Your styling needs to be more dynamic.
+
+There are a couple ways:
+
+!! Overriding <<.wid node.default>>
+
+All templates and graph widgets use <<.wlink Node.DefaultWidget>> to render each individual node. You can take advantage of that. Because <<.wlink Node.DefaultWidget>> is a macro widget (i.e. defined with `\widget` pragma), you can override it with whatever you want.
+
+So let's say I want a [[GraphTiddler]] to render its nodes with a different sizes, For example, let's render the <$linkcatcher actions="""<$action-setfield $tiddler="$:/config/flibbles/graph/sidebar" text="$:/graph/Pantheon" />"""><$link>Pantheon example graph</$link></$linkcatcher> with each God larger depending on how many children they have:
+
+<$doc.demo description="SizedPantheon" code="""\widget $node.default()
+<$node label={{!!title}}
+	$pos=<<pos>>
+	size={{{ [father{!!title}count[]multiply[5]add[10]] }}} />
+\end
+
+<$graph.view $tiddler="$:/graph/Pantheon" />
+""" />
+
+This overrides <<.wlink Node.DefaultWidget>> for a single rendering, which can be useful, but you can also override <<.wlink Node.DefaultWidget>> globally, even for the sidebar, by putting your override in a tiddler with the <<tag $:/tags/Global>> tag.
+
+Make sure to look at the documentation of <<.wlink Node.DefaultWidget>> before overriding it. It does some important custom styling already for each node which you might not want to drop (such as with <<.prop color>>, <<.prop image>>, and <<.prop label>>).
+
+The <<.wlink Node.DefaultWidget>> documentation also has an example of how to use an override to customize labeling.
+
+!! Making your own template
+
+This is more for the [[Bottom-Up user|Bottom-Up Tutorial]] of <<.graph>>, who aren't afraid to write their own [[Graph Templates]]. If you're using the [[core widgets|Widgets]] to make your own graphs, then you'll have absolute control over how every single one of your nodes renders. If you're not afraid to write some wikitext, head on over to the [[Bottom-Up Tutorial]]!
