@@ -1,4 +1,4 @@
-"Number" property types are converted to javascript numbers before being passed to the underlying graphing engine. The definition objects declared by the engines accept the following settings:
+The "number" property types are converted to javascript numbers before being passed to the underlying graphing engine. The definition objects declared by the engines accept the following settings:
 
 |!Setting |!Description |
 |>|[[settings allowed by all properties|Property Types]] |

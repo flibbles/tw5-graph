@@ -11,7 +11,7 @@
         <td><<key>>
 \end
 
-In property settings tables, "Color" property types provide a browser-specific color selector to choose a color.
+In property settings tables, "color" property types provide a browser-specific color selector to choose a color.
 
 When inputting values manually as a widget attribute, these properties accept several types of inputs:
 

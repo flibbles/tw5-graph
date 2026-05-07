@@ -1,4 +1,4 @@
-"Image" properties will said image urls to the engine based in the property's value.
+The "image" properties will send image urls to the engine derived from the property's value.
 
 !! Values
 

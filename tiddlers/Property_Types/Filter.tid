@@ -1,4 +1,4 @@
-"Filter" property types take a string value, which will be parsed as a filter, and the results will be passed to the engine as an array. Any filter which isn't an empty string will be interpretted and returned, even if it produces zero results.
+The "filter" property types take a string value, which will be parsed as a filter, and the results will be passed to the engine as an array. Any filter which isn't an empty string will be interpretted and returned, even if it produces zero results.
 
 !! Context
 

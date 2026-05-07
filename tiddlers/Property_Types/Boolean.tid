@@ -1,4 +1,4 @@
-"Boolean" property types are converted to javascript's <<.val true>> or <<.val false>> before being passed to the underlying graphing engine. The definition objects declared by the engines accept the following settings:
+The "boolean" property types are converted to javascript's <<.val true>> or <<.val false>> before being passed to the underlying graphing engine. The definition objects declared by the engines accept the following settings:
 
 The following attribute values will be converted into <<.val false>>:
 
