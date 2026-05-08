@@ -16,7 +16,7 @@ Another line of tabs! The choices are <<.tab edges>> and <<.tab nodes>>. Let's l
 Let's get to work.
 
 # First, let's change the style of the <<.field tags>> edges. Click on "tags" along the side. You'll see a fresh panel of properties, along with a quick description of what a "fields-edge" is.
-#* Click the <$button class=tc-btn-invisible>{{$:/core/images/delete-button}}</$button> button to get rid of the <<.value tagged with>> label. We don't need all that clutter. Default edges like this are only labeled like this by default to help you get oriented while adjusting to <<.graph>>.
+#* Click the <$button class=tc-btn-invisible>{{$:/core/images/delete-button}}</$button> button to get rid of the <<.value "tagged with">> label. We don't need all that clutter. Default edges like this are only labeled like this by default to help you get oriented while adjusting to <<.graph>>.
 # Next, you might remember that we added our own custom field to the "edges, fields" textbox. <$doc.inhouse>For the demo, that was <<.field slayed>>.</$doc.inhouse> Since it didn't have a corresponding edge-type, those edges had no special styling.
 #* Let's click the <$button class=tc-btn-invisible>{{$:/core/images/new-button}}</$button> button in the "Fields" grouping to create a new field-edge type, and when prompted, type in your field name <$doc.inhouse>(<<.field slayed>> in the demo's case)</$doc.inhouse>. Now we have a new type to style.
 #* Set <<.prop stroke>> to <<.value dashed>>, and you'll see all your tag fields update. That should be good enough for now.
