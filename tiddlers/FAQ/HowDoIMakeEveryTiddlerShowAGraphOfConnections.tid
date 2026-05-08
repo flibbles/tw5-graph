@@ -1,5 +1,4 @@
 title: How do I make every open tiddler show a graph of its connections
-tags: FAQ
 
 You want every open tiddler in your story river to have a graph at the bottom, or maybe in its TiddlerInfo panel, which shows all of the graph's links, tags, transcludes, etc... both coming and going.
 

@@ -1,5 +1,4 @@
 title: How do I style certain sets of tiddlers differently?
-tags: FAQ
 
 Maybe you want all tiddlers with the <<tag Event>> tag to be represented with square nodes. Maybe you want all tiddlers that don't actually exist to be colored red.
 

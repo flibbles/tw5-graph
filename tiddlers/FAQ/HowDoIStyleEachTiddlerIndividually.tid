@@ -1,5 +1,4 @@
 title: How do I style each tiddler individually?
-tags: FAQ
 
 Maybe you want custom labels for each node, or you want to change its color based on a field value. For cases like these and many others, styling nodes using [[the node stack|Stack NodeType]] isn't going to work. Your styling needs to be more dynamic.
 

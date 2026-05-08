@@ -1,0 +1,12 @@
+{
+	"directories": [
+		{
+			"path": ".",
+			"filesRegExp": "^.*\\.tid$",
+			"isTiddlerFile": true,
+			"fields": {
+				"tags": "FAQ"
+			}
+		}
+	]
+}
