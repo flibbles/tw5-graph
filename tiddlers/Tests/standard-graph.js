@@ -55,7 +55,7 @@ it("filters draft nodes out", function() {
 	wiki.addTiddlers([
 		view({filter: "[!is[system]]"}),
 		{title: "Node"},
-		{title: "Draft of 'Node'", "draft.of": "Node", "draft.title": "Node"}]);
+		$tw.test.draft({title: "Node"})]);
 	var widget = $tw.test.renderGlobal(wiki, `{{${title}||${standardGraph}}}`);
 	var nodes = init.calls.first().args[1].nodes;
 	expect(Object.keys(nodes)).toEqual(["Node"]);

@@ -88,6 +88,14 @@ test.flushChanges = function(ms) {
 	});
 };
 
+test.draft = function(tiddlerFields) {
+	var title = tiddlerFields.title;
+	return Object.assign(
+		{"draft.of": title, "draft.title": title},
+		tiddlerFields,
+		{title: `Draft of '${title}'`});
+};
+
 var testResolve;
 
 test.actionMethod = function(attributes) {

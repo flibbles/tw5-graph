@@ -1,4 +1,4 @@
-\widget $nodes.neighbors($filter, $fields:'[all[]]', $functions:'[all[]]', $interedges, $whitelist:'[!is[system]]')
+\widget $nodes.neighbors($filter, $fields:'[all[]]', $functions:'[all[]]', $interedges, $whitelist:'[!is[system]!is[draft]]')
 
 <!-- None of these \procedures are \functions because that mucks with caching. -->
 \procedure filter.cached() [{!!title}] :cache[all[tiddlers]subfilter<$filter>]

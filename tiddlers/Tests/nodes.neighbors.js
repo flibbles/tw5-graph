@@ -132,6 +132,17 @@ it("can whitelist out system tiddlers by default", function() {
 	expect(widget.parentDomNode.innerHTML).toBe("<p>A-B-</p>");
 });
 
+it("can whitelist out draft tiddlers by default", function() {
+	wiki.addTiddlers([
+		{title: "A", tags: "home"}, {title: "B"},
+		$tw.test.draft({title: "A", tags: "home"}),
+		$tw.test.draft({title: "B"}),
+		{title: "home", tags: "B [[Draft of 'B']]"}]);
+	var text = "<$nodes.neighbors $filter='home'>{{!!title}}-";
+	var widget = $tw.test.renderGlobal(wiki, text);
+	expect(widget.parentDomNode.innerHTML).toBe("<p>A-B-</p>");
+});
+
 it("can whitelist out custom tiddlers", function() {
 	wiki.addTiddlers([
 		{title: "A", tags: "home node"}, {title: "B", tags: "node"},
