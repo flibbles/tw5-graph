@@ -2,7 +2,7 @@
 \whitespace trim
 <table>
   <tr><th>Graph Object</th><th>Context variables</th></tr>
-  <$list variable=module filter="[[widget-subclass]modules[]] :filter[moduleproperty[baseClass]match[graphobject]]" >
+  <$list variable=module filter="[enlist[widget-subclass]modules[]] :filter[moduleproperty[baseClass]match[graphobject]]" >
     <%if [tag[Graph Objects]] :filter[<module>moduleproperty[prototype]jsonget[graphObjectType]titlecase[]match{!!caption}] %>
       <tr>
         <td>
