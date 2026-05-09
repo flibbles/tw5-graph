@@ -1,0 +1,22 @@
+created: ???
+
+The release comes with an overhaul of how colors and images are managed within the framework. This also overhauled how properties are handled under the hood.
+
+* ''Upgrading require and update of your vis-network version as well'' as this includes a few backward incompatible changes.
+* Color property types now support specifying palette colors (like <<.value tiddler-background>>) instead of only hex or css colors (like <<.value #abcdef>> or <<.value lightBlue>>). This allows custom coloring to be palette specific. Which might not be terribly useful to end users, but...
+* Changed the way default graph background and node colors are sent to the engines. Instead of sending <<.prop graphColor>>, <<.prop nodeColor>>, and <<.prop edgeColor>> to engines without prompting, engines must now describe those colors in their properties using the `always=true` property, and <<.graph>> will send whatever is requested.
+** It's a breaking change, but it should greatly improve the ability for engine plugins to update independently of <<.graph>> going forward, as well as improve general flexibility.
+** Currently, the `always` flag only works for the [[Graph GraphObject]].
+* Changed color inputs so you can also type in a color value. Useful if you want to specify a palette color, or a css color.
+* Created the <<wlink edit-color>> widget
+* Introduced the `Neighbors` node group, which allows you to customize how neighbors appear in your graphs, rather than forcing you to the default background color.
+* Improved colors in svg node icons
+** They can inherit the colors of the nodes on a node-to-node basis, provide all new sorts of possiblities
+** `image/svg+xml` tiddlers that are used as icons are able to customize their color now too, instead of just wikitext tiddlers that evaluated into svg.
+* Introduced a specially handled `index` property for nodes, which is currently hidden and undocumented, but should be extremely useful for the upcoming ECharts engine.
+* Introduced `filter` property type, which allows arrays of dynamic information to be sent to engines. Will be very useful for ECharts.
+* Improved property handling of messages, so it can handle filters, colors, and images too, if an engine has use of that.
+* Changed the navigation breadcrumb used in fullscreen's modal display of tiddlers to go from left to right, the more traditional and intuitive direction.
+* Made several minor changes to support the upcoming TiddlyWiki v5.4.x releases.
+** This includes conditionally supporting the new widget destruction methods, instead of the homebrewed garbage collection <<.graph>> used, which was always a bit of a hack.
+* Fixed issue where default neighbors whitelist would allow drafts. Nobody wants that.
